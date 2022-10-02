@@ -15,14 +15,15 @@
              
         <thead>
                 <tr class="table-success">
-                <th scope="col">Serial </th>
+                
 
                     <th scope="col">নাম   </th>
-                    <th scope="col">বর্তমান দায়িত্ব   </th>
+                    <th scope="col">বর্তমান অধিক্ষেত্র  </th>
                     <th scope="col">অতিরিক্ত দায়িত্ব   </th>
                     
                     <th scope="col">প্রয়োজনীয়  কাগজপত্র  </th>
-                     
+                    <th scope="col">Delete  </th>
+                    <th scope="col">Send  </th>
                 </tr>
             </thead>
             <tbody>

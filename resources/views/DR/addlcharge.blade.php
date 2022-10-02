@@ -48,7 +48,7 @@
                  <td>
                  
                 
-                <label > Upload </label>
+                
                 <input type="file" name="avatar">
                  
                 
