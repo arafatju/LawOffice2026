@@ -391,11 +391,25 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
     return view('DR.chargedash',compact('draftdata'));
 
     }
+    public function insertaction(array $data){
+        DB::table('action')->insert([
+            'district' => $data["district"],
+            'mobile' => $data["mobile"],
+            'status'=>$data["status"],
+             'time'=>date("Y-m-d H:i:s", strtotime('now')),
+            'action'=>$data["action"],
+            'id_user'=>$data["iduser"],
+            'id_admin'=>$data["idadmin"],
+             
+             
+        ]);
+          
+    }
     public function dashboard()
     {   
         if(Auth::check()){
 
-                
+                // ->orWhere('name', 'John')
                
                
                return view('DR.dashboard');
