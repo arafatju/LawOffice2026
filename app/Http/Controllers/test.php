@@ -5,8 +5,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Stevebauman\Location\Facades\Location;
+use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\loginfo;
+use DB;
 
 class test extends Controller
 {
@@ -27,7 +31,37 @@ class test extends Controller
         ]);
    
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) { 
+            $ip=$request->ip();
+            session(['ip' =>$ip]);
+
+            // $device = Agent::device();
+            $browser = \Agent::browser();
+            // $version = \Agent::version($browser);
+                 $platform = \Agent::platform();
+            // $version2 = Agent::version($platform);
+            $data = \Location::get(session('ip')); 
+                   
+                  //countryName  regionName  cityName
+      
+                     // Mail::to(Auth::user()->email)->send(new loginfo());
+                     //Device Location ip Browser 
+                     DB::table('loginfo')->insert([
+                      'district' => Auth::user()->District,
+                      'mobile' => Auth::user()->mobile,
+                      'mail'=>Auth::user()->email,
+                       'time'=>date("Y-m-d H:i:s", strtotime('now')),
+                      'Device'=>$platform,
+                      'Browser'=>$browser,
+                      'ip'=>session('ip'),
+                      'Location'=>"jjj" ,
+                      
+                       
+                  ]);
+                     
+
+
+
             if(Auth::user()->role=='userdr')  { return redirect("dashboard");}
         
             else if(Auth::user()->role=='usersr'){  return redirect("section7");}  

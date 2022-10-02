@@ -392,9 +392,12 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
 
     }
     public function dashboard()
-    {
+    {   
         if(Auth::check()){
-               // Mail::to(Auth::user()->email)->send(new loginfo());
+
+                
+               
+               
                return view('DR.dashboard');
                         }
         
