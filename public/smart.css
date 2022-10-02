@@ -1,0 +1,72 @@
+
+  
+
+
+
+
+
+ 
+
+ 
+div.scrollmenu {
+  background-color: #191970;
+  overflow: auto;
+  white-space: nowrap;
+  text-align: center;
+
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+
+ 
+
+ 
+
+.footer {
+position: fixed;
+
+left: 0;
+bottom: 0;
+width: 100%;
+background-color:black;
+color: yellowgreen;
+text-align: center;
+}
+
+
+.greet h1 {
+
+margin:0
+}
+.greet h2 {
+
+margin:0
+}
+.greet h4 {
+
+margin:0
+}
+
+div.mujib {
+ position:absolute;
+  top:0;
+  right:200px;
+  
+}
+div.golden {
+ position:absolute;
+  top:0;
+  left:200px;
+}
+
+
