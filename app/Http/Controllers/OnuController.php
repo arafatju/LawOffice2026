@@ -197,6 +197,7 @@ class OnuController extends Controller
                     $jela=session('jela');
                      $person=DB::table($table)
                             ->select('*')
+                            ->where('Y','=',session('citycop'))
                             ->where('U','=',$jela)
                              ->where('A','=',$list23)
                             ->get();
@@ -219,7 +220,8 @@ class OnuController extends Controller
          public function onucityward(Request $request){
           
             $thana=$request->input('corporation');
-         
+            session(['citycop' =>$thana]);
+
                      $nametable = session('table');
                      $jela=session('jela') ;            
                      $vt=session('religion');
