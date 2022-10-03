@@ -58,6 +58,19 @@ class infoimp extends Controller
             'heading'=>$heading,
             'bortoman'=>$bortoman,
         ]);
+        $last = DB::table('activityedit')->latest()->first();
+
+        DB::table('action')->insert([
+            'district' => Auth::user()->District,
+            'mobile' => Auth::user()->mobile,
+            'status'=> "Draft",
+             'time'=>date("Y-m-d H:i:s", strtotime('now')),
+            'action'=>"Edit",
+            'id_user'=>$last->id,
+            'id_admin'=>"New",
+             
+             
+        ]);
 
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
         $person=DB::table($nametable)

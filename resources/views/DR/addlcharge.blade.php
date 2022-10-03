@@ -43,7 +43,7 @@
                 <input type="text" name="charge">  
                 <input type="hidden" name="name" value="{{ $data->D}}"> 
                 <input type="hidden" name="bortoman" value="{{ $data->A}}" > 
-            
+              
                 </td>
                  <td>
                  
