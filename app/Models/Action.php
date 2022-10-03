@@ -9,5 +9,6 @@ class Action extends Model
 {
     use HasFactory;
     protected $table = 'action';
+    public $timestamps = false;
 
 }

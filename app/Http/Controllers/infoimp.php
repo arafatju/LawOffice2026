@@ -58,7 +58,7 @@ class infoimp extends Controller
             'heading'=>$heading,
             'bortoman'=>$bortoman,
         ]);
-        $last = DB::table('activityedit')->latest()->first();
+        $last = DB::table('activityedit')->latest('id','desc')->first();
 
         DB::table('action')->insert([
             'district' => Auth::user()->District,
@@ -133,7 +133,25 @@ class infoimp extends Controller
         ->where('status','=','Draft')
         ->where('district','=',Auth::user()->District)
         ->paginate(20);
-
+       
+        $test=DB::table('activityedit')
+        ->select('*')
+        ->where('status','=','Forwarded')
+        ->where('district','=',Auth::user()->District)
+        ->get();
+        foreach($test as $test3){
+        DB::table('action')->insert([
+            'district' => Auth::user()->District,
+            'mobile' => Auth::user()->mobile,
+            'status'=> "Forwarded",
+             'time'=>date("Y-m-d H:i:s", strtotime('now')),
+            'action'=>"Edit",
+            'id_user'=>$test3->id,
+            'id_admin'=> $test3->id,
+             
+             
+        ]);
+    }
     return view('DR.dataone',compact('draftdata'));
 
      }
@@ -262,7 +280,24 @@ $request->avatar->move(public_path('upload/kazi/papers/'), $imageName);
        'avatar'=>$imageName,
         
    ]);
-           return redirect("deldashboard");
+   $last = DB::table('activitydel')->latest('id','desc')->first();
+    
+   DB::table('action')->insert([
+    'district' => Auth::user()->District,
+    'mobile' => Auth::user()->mobile,
+    'status'=> "Draft",
+     'time'=>date("Y-m-d H:i:s", strtotime('now')),
+    'action'=>"Delete",
+    'id_user'=>$last->id,
+    'id_admin'=> "New",
+     
+     
+]);
+   
+   
+   
+   
+   return redirect("deldashboard");
 
    }
    
@@ -300,7 +335,19 @@ $request->avatar->move(public_path('upload/kazi/papers/'), $imageName);
     DB::table('activitydel')
     ->where('id','=',decrypt($id))
     ->update(['status' => 'Forwarded' ]);
-
+    
+    
+    DB::table('action')->insert([
+     'district' => Auth::user()->District,
+     'mobile' => Auth::user()->mobile,
+     'status'=> "Forwarded",
+      'time'=>date("Y-m-d H:i:s", strtotime('now')),
+     'action'=>"Delete",
+     'id_user'=>decrypt($id),
+     'id_admin'=> decrypt($id),
+      
+      
+ ]);
     $draftdata=DB::table('activitydel')
     ->where('status','=','Draft')
     ->paginate(20);
@@ -368,6 +415,20 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
                'sector'=>$request->charge,
                 
            ]);
+           $last = DB::table('activitycharge')-> latest('id','desc')->first();
+    
+   DB::table('action')->insert([
+    'district' => Auth::user()->District,
+    'mobile' => Auth::user()->mobile,
+    'status'=> "Draft",
+     'time'=>date("Y-m-d H:i:s", strtotime('now')),
+    'action'=>"Additionalcharge",
+    'id_user'=>$last->id,
+    'id_admin'=> "New",
+     
+     
+]);
+           
           return redirect("chargedash");
     }
 
@@ -397,27 +458,25 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
         DB::table('activitycharge')
         ->where('id','=',decrypt($id))
         ->update(['status' => 'Forwarded' ]);
-    
+     
+        DB::table('action')->insert([
+         'district' => Auth::user()->District,
+         'mobile' => Auth::user()->mobile,
+         'status'=> "Forwarded",
+          'time'=>date("Y-m-d H:i:s", strtotime('now')),
+         'action'=>"Additionalcharge",
+         'id_user'=>decrypt($id),
+         'id_admin'=> decrypt($id),
+          
+          
+     ]);
         $draftdata=DB::table('activitycharge')
         ->where('status','=','Draft')
         ->paginate(20);
     return view('DR.chargedash',compact('draftdata'));
 
     }
-    public function insertaction(array $data){
-        DB::table('action')->insert([
-            'district' => $data["district"],
-            'mobile' => $data["mobile"],
-            'status'=>$data["status"],
-             'time'=>date("Y-m-d H:i:s", strtotime('now')),
-            'action'=>$data["action"],
-            'id_user'=>$data["iduser"],
-            'id_admin'=>$data["idadmin"],
-             
-             
-        ]);
-          
-    }
+     
     public function dashboard()
     {   
         if(Auth::check()){

@@ -78,8 +78,19 @@ class test extends Controller
             'password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
 
          ]);
-           
+        // $ip=$request->ip();
+ 
+         
+         //$browser = \Agent::browser();
+          
+        
+        
+        // $dataloc = \Location::get($ip); 
+
         $data = $request->all();
+         
+       
+
         $check = $this->create($data);
         Auth::login($check);
 
@@ -96,7 +107,7 @@ class test extends Controller
       // $version = Agent::version($browser);
      //  $platform = Agent::platform();
       // $version2 = Agent::version($platform);
-     $platform="ff";
+      $platform = \Agent::platform();
       
         return User::create([
         'name' => $data['name'],

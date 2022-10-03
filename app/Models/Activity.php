@@ -9,5 +9,6 @@ class Activity extends Model
 {
     use HasFactory;
     protected $table = 'activityedit';
+    public $timestamps = false;
 
 }
