@@ -12,11 +12,9 @@
  <div class="row mt-4"style="padding: 2rem 2rem;">
     <div class="col ">
         <div class="card  text-center text-white" style="background-color:#CD6155;padding:2rem 0 rem;">
-            <div class="card-header">
-            তথ্য সংশোধন 
-            </div>
+             
             <div class="card-body">
-            
+            তথ্য সংশোধন 
             </div>
             <div class="card-footer">
               <a class="btn btn-dark" role="button" href="{{route('dataone')}}">Click</a>
@@ -25,11 +23,9 @@
     </div>
     <div class="col">
         <div class="card   text-center text-white" style="background-color:green;" >
-            <div class="card-header">
-            তথ্য মুছুন  
-            </div>
+            
             <div class="card-body">
-           
+            তথ্য মুছুন 
 
             </div>
             <div class="card-footer">
@@ -40,11 +36,9 @@
     </div>
     <div class="col">
         <div class="card  text-center" style="background-color:Olive;color:white;">
-            <div class="card-header">
-            অতিরিক্ত দায়িত্ব 
-            </div>
+            
             <div class="card-body">
-             
+            অতিরিক্ত দায়িত্ব 
             </div>
             <div class="card-footer">
             <a class="btn btn-dark" role="button" href="{{route('chargedash')}}">Click</a>
@@ -54,12 +48,10 @@
     </div>
     <div class="col">
         <div class="card  text-center" style="background-color:purple;color:white;">
-            <div class="card-header">
-            নতুন নিয়োগ  
-            </div>
+             
             <div class="card-body">
            
-
+            নতুন নিয়োগ  
             </div>
             <div class="card-footer">
             <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
@@ -68,31 +60,29 @@
         </div>
     </div>
 
+ 
+<div class="col">
+        <div class="card  text-center" style="background-color:purple;color:white;">
+             
+            <div class="card-body">
+            মামলা সঙ্ক্রান্ত 
+
+            </div>
+            <div class="card-footer">
+            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
+
+             </div>
+        </div>
+     
+
 </div> 
 <div class="col">
         <div class="card  text-center" style="background-color:purple;color:white;">
-            <div class="card-header">
-             মামলা সঙ্ক্রান্ত 
-            <div class="card-body">
+           
+          
             
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
-
-             </div>
-        </div>
-    </div>
-
-</div> 
-<div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
-            <div class="card-header">
-              ছবি 
-            </div>
             <div class="card-body">
-            Log info:0 
-            Draft info:0
-            Edit info: 0
+            ছবি 
 
             </div>
             <div class="card-footer">
@@ -100,9 +90,10 @@
 
              </div>
         </div>
-    </div>
+    
 
 </div> 
+</div>
 <div class="row  justify-content-center align-items-center " >
 
 <div class="col-md-6 col-md-offset-4 ">

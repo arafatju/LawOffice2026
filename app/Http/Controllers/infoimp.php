@@ -477,7 +477,7 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
 
     }
      public function beforedata(){
-        return view('beforedata');
+        return view('DR.beforedata');
      }
     public function dashboard()
     {   
