@@ -96,6 +96,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/chargesend/{id}', [infoimp::class, 'chargesend'])->name('chargesend'); 
 
     Route::get('/chargedash', [infoimp::class, 'chargedash'])->name('chargedash'); 
+    Route::get('/beforedata', [infoimp::class, 'beforedata'])->name('beforedata'); 
 
       
 });

@@ -476,7 +476,9 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
     return view('DR.chargedash',compact('draftdata'));
 
     }
-     
+     public function beforedata(){
+        return view('beforedata');
+     }
     public function dashboard()
     {   
         if(Auth::check()){
