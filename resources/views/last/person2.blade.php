@@ -239,7 +239,7 @@
        echo '১৭.চাকুরী';
 
        @endphp    </td>	
-                         <td>{{$row1->W}}  </td> </tr> 
+                         <td>{{$row1->W}},{{$row1->X}}   </td> </tr> 
                         
                          <tr>
 		<td >@php

@@ -29,7 +29,7 @@
                                             
        			 
              
-            <th style="text-align:center">  ইউনিয়ন  </th> 
+            <th style="text-align:center">  ওয়ার্ড  </th> 
             
             
              
