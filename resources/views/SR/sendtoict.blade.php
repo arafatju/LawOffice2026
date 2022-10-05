@@ -17,7 +17,7 @@
             তথ্য সংশোধন 
             </div>
             <div class="card-footer">
-              <a class="btn btn-dark" role="button" href="{{route('dataone')}}">Click</a>
+              <a class="btn btn-dark" role="button" href="{{route('editme')}}">Click</a>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('deldashboard')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('deleteme')}}">Click</a>
 
             </div>
         </div>
@@ -41,7 +41,7 @@
             অতিরিক্ত দায়িত্ব 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('chargedash')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('chargegiven')}}">Click</a>
  
             </div>
         </div>
@@ -54,7 +54,7 @@
             নতুন নিয়োগ  
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('newentry')}}">Click</a>
 
              </div>
         </div>
@@ -69,7 +69,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('mamlajhamela')}}">Click</a>
 
              </div>
         </div>
@@ -82,7 +82,7 @@
           
             
             <div class="card-body">
-            ছবি 
+            লগ ইনফো  
 
             </div>
             <div class="card-footer">
