@@ -23,7 +23,7 @@
                     
                     <th scope="col">এন আই  ডি </th>
                     <th scope="col">Action  </th>
- 
+                    <th scope="col">তথ্য ঠিক আছে    </th>
                 </tr>
             </thead>
             <tbody>
@@ -35,15 +35,14 @@
                     <td>{{ $data->after }}</td>
                     <td>{{ $data->nid }}</td>
                      
-                    <td>  <a class="btn btn-danger" role="button" href="{{route('deleteme',encrypt($data->id))}}"> Delete </a>
+                    <td>  <a class="btn btn-danger" role="button" href="{{route('delme',encrypt($data->id))}}"> Delete </a>
+ </td>        <td>         <a class="btn btn-primary" role="button" href="{{route('draftict')}}"> তথ্য ঠিক আছে   </a>
  </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex justify-content-center">
-        <a class="btn btn-primary" role="button" href="{{route('finalchange')}}"> Send  </a>
-</div>
+         
         {{-- Pagination --}}
         <div class="d-flex justify-content-center">
             {!! $draftdata->links() !!}

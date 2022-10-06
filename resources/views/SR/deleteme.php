@@ -26,7 +26,7 @@
                     
                     
 <th scope="col">Delete </th>
-<th scope="col"> Send </th>
+<th scope="col"> ok  </th>
                 </tr>
             </thead>
             <tbody>
@@ -40,14 +40,14 @@
                      <td>  <a href="{{asset('/upload/kazi/papers/'.$data->avatar)}}"   >view</a>
    </td>
                  <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('deliddr',encrypt($data->id))}}"> Delete </a>
+                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delinfo',encrypt($data->id))}}"> Delete </a>
  
                 
                 
                 
                 </td>
                 <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delsend',encrypt($data->id))}}"> Send </a>
+                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delmesend',encrypt($data->id))}}"> Send </a>
  
                 
                 

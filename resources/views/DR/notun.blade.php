@@ -3,8 +3,8 @@
  
  
   
-  
-  
+ 
+               
       
  
   
@@ -12,76 +12,100 @@
 
  
 <div class="container mt-5">
+<form enctype="multipart/form-data" action="/notuninfo" method="POST">
+                @csrf
         <table class="table table-bordered mb-5">
            
                  
                  
            
-                @foreach($person as $row1)
+               
 
 
 		    
       	
         
 		<tr  >
-		<td > 
+		        <td > 
       
-    @php
-     echo '১.নাম';
+                         @php
+                        echo '১.নাম';
 
-       @endphp
+                         @endphp
     
-      </td>	
-		 
-	 
-	 
-				 
-						 <td  >  {{$row1->D}} </td> <td>   </td>  </tr> 
+                 </td>	
+		        <td>    <input type="text" name="name">  
+                </td>  
+        </tr> 
 
-				 <tr>
-		<td >  @php
+		<tr>
+		         <td >  @php
  
-        echo '২.পিতার নাম';
+                         echo '২.পিতার নাম';
 
-       @endphp
-     </td>	
-                         <td> {{$row1->E}} </td> <td>    </td> </tr> 
+                         @endphp
+                 </td>	
+                          
+                 <td>     <input type="text" name="father">  
+                </td> 
+        </tr> 
                                            
-                         <tr>
-		<td > @php
+        <tr>
+		        <td > @php
  
-       echo  '৩.মাতার নাম';
-
-       @endphp   </td>	
-                         <td>{{$row1->F}}  </td> <td>   </td></tr> 
+                        echo  '৩.মাতার নাম';
+                        @endphp   
+                </td>	
+                <td>     
+                    <input type="text" name="mother"> 
+                </td>
+        </tr> 
                         
-                         <tr>
+        <tr>
 		
-                         <tr>
-		<td > @php
+        <tr>
+		        <td > @php
  
-       echo  '৪.উপজেলা ';
+                    echo  '৪.উপজেলা ';
 
-       @endphp   </td>	
-                         <td>{{$row1->F}}  </td> <td>   </td></tr> 
+                    @endphp   
+                </td>	
+                          
+                <td>   
+                    <select name="upojela" >
+                    @foreach($upojela as $row1)
+                    <option>{{$row1->B}} </option>
+                    @endforeach
+                    </select>
+
+                </td>
+            </tr> 
                         
-                         <tr>
-                         <tr>
-		<td > @php
+                          
+            <tr>
+		        <td > @php
  
        echo  '৫.পৌরসভা';
 
        @endphp   </td>	
-                         <td>{{$row1->F}}  </td> <td>   </td></tr> 
+                         <td><select name="pourosova" >
+                         @foreach($pourosova as $row1)    
+                         <option>{{$row1->B}} </option>
+                         @endforeach  
+                            </select>  </td>  </tr> 
                         
-                         <tr>
+                         
                          <tr>
 		<td > @php
  
        echo  '৬.সিটি কর্পোরেশন';
 
        @endphp   </td>	
-                         <td>{{$row1->F}}  </td> <td>   </td></tr> 
+                         <td><select name="city" >
+                         @foreach($city as $row1)   
+                         <option> {{$row1->Y}}</option>
+                         @endforeach
+                            </select> </td>  </tr> 
                         
                          <tr>
         
@@ -92,7 +116,7 @@
        echo '৭.অধিক্ষেত্র ';
 
        @endphp   </td>	
-                         <td> {{$row1->A}} </td> <td>    </td></tr>
+                         <td> <input type="text" name="area"> </td>  </tr>
                         
                          <tr>
 		<td > @php
@@ -101,7 +125,7 @@
 
        @endphp   </td>	
                          <td>                             
-                          {{$row1->G}};
+                         <input type="text" name="dob"> 
                            
                            
                         
@@ -117,7 +141,7 @@
 	 
 	 
 				 
-						 <td>  {{$row1->I}} </td> <td>    </td> </tr> 
+						 <td> <input type="text" name="education">  </td>  </tr> 
 
 				 <tr>
 		<td > @php
@@ -125,8 +149,8 @@
        echo '১১.মোবাইল';
 
        @endphp </td>	
-                         <td>   {{$row1->M}}
-                          </td> <td>    </td></tr> 
+                         <td>   <input type="text" name="mobile"> 
+                          </td>  </tr> 
                                            
                          <tr>
 		<td > @php
@@ -135,7 +159,7 @@
        echo '১২.ই মেইল';
 
        @endphp   </td>	
-                         <td>{{$row1->N}}  </td> <td>   </td></tr> 
+                         <td><input type="text" name="email">  </td> </tr> 
                         
                          <tr>
 		<td > @php
@@ -144,7 +168,7 @@
        echo '১৩.এনআইডি';
 
        @endphp   </td>	
-                         <td>   {{$row1->H }} </td> <td>  </td></tr>
+                         <td>  <input type="text" name="nid"> </td>  </tr>
                         
                          <tr>
 		<td > @php
@@ -153,9 +177,9 @@
        echo '১৪.লাইসেন্স প্রাপ্তির স্মারক';
 
        @endphp  </td>	
-                         <td> {{ $row1->O}}
+                         <td> <input type="text" name="dategot"> 
                            
-                           </td> <td>    </td></tr> 
+                           </td>  </tr> 
                          <tr>
 		<td > @php
     
@@ -168,9 +192,9 @@
 	 
 				 
 						 <td>   
-                          {{$row1->Z}}
+                         <input type="text" name="datelicense"> 
                            
-                          </td> <td>   </td> </tr> 
+                          </td>   </tr> 
 
 				 <tr>
 		<td > @php
@@ -178,7 +202,7 @@
        echo '১৬.লাইসেন্স স্থায়ী না অস্থায়ী';
 
        @endphp </td>	
-                         <td> {{$row1->P}} </td><td>   </td> </tr> 
+                         <td> <input type="text" name="statuslicense">  </td>  </tr> 
                                            
                          <tr>
 		<td > @php
@@ -186,106 +210,131 @@
        echo '১৭.জেলা রেজিস্ট্রার বরাবর যোগদানের তারিখ';
 
        @endphp  </td>	
-                         <td>  {{$row1->Q}}
+                         <td>  <input type="text" name="join"> 
                            
-                           </td> <td>   </td></tr> 
+                           </td>  </tr> 
                         
                          <tr>
 		<td > @php
  
-       echo '১৪.ইনডেন্ট পাশের তারিখ';
+       echo '১৮.ইনডেন্ট পাশের তারিখ';
 
        @endphp  </td>	
-                         <td>    {{$row1->R}}
+                         <td>   <input type="text" name="indent"> 
                            
-                          </td><td>    </td> </tr>
+                          </td>  </tr>
                         
                          <tr>
 		<td > @php
  
-       echo '১৫.লাইসেন্স গেজেট  প্রকাশের তারিখ';
+       echo '১৯.লাইসেন্স গেজেট  প্রকাশের তারিখ';
 
        @endphp   </td>	
-                         <td>  {{ $row1->S}}
+                         <td>  <input type="text" name="gazetdate"> 
                            
                           </td>
-                          <td>   </td> </tr> 
+                          </tr> 
                      
                          <tr>
 		<td >@php
  
-       echo '১৬.বয়স ৬৭ বছর পূর্তিতে লাইসেন্স অবসানের তারিখ';
+       echo '২০.বয়স ৬৭ বছর পূর্তিতে লাইসেন্স অবসানের তারিখ';
 
        @endphp  </td>	
-                         <td>   {{$row1->V}}
+                         <td>  <input type="text" name="expired"> 
                             
-                          </td><td>   </td> </tr> 
+                          </td>  </tr> 
                                            
                          <tr>
 		<td > @php
     $kk=$loop->iteration;
 
-       echo '১৭.চাকুরী';
+       echo '২১.চাকুরী';
 
        @endphp    </td>	
-                         <td>{{$row1->W}}  </td> <td>   </td></tr> 
+                         <td><select  name="jobdo">  
+                            <option> </option>
+                            </select>
+                         </td> 
+                        
+        </tr> 
                         
                         
-                         <tr>
-		<td > @php
+        <tr>
+		            <td > @php
  
-       echo  '৩.প্রতিষ্ঠানের নাম';
+                    echo  '২২.প্রতিষ্ঠানের নাম';
 
-       @endphp   </td>	
-                         <td>{{$row1->F}}  </td> <td>   </td></tr> 
+                    @endphp   
+                    </td>	
+                    <td> <input type="text" name="jobname">   </td>  </tr> 
                         
-                         <tr>
+                         
                         
                          <tr>
 
             
 		<td >@php
  
-       echo '১৮.স্থায়ী ঠিকানা ';
+       echo '২৩.স্থায়ী ঠিকানা ';
 
        @endphp    </td>	
-                         <td>    {{$row1->J}}
+                         <td>   <input type="text" name="permanent"> 
                            
-                           </td><td>  </td> </tr>
+                           </td>  </tr>
                         
                          <tr>
 		<td >@php
  
-       echo '১৯.কার্যালয়ের ঠিকানা'; 
+       echo '২৪.কার্যালয়ের ঠিকানা'; 
 
        @endphp    </td>	
-                         <td>  {{$row1->L}}
+                         <td>  <input type="text" name="office"> 
                             
-                           </td><td>    </td> </tr> 
+                           </td>  </tr> 
 
 
+         
 
+                           <tr>
+		<td >@php
+ 
+       echo '২৫.বর্তমান ঠিকানা'; 
 
+       @endphp    </td>	
+                         <td>  <input type="text" name="present"> 
+                            
+                           </td>  </tr> 
 
+                           <tr>
+		<td >@php
+ 
+       echo '২৬.ধর্ম  '; 
 
+       @endphp    </td>	
+                         <td>  <select name="religion">
+                            <option> Islam </option>
+                            <option> Hindu </option>
+                            <option> Special </option>
+                                </select>
+                            
+                           </td>  </tr> 
 
+               <tr> 
+                        <td> Draft
+                        </td>
+                        <td>     
+                 <input type="submit" class=" btn btn-sm btn-primary">
+         
+                        </td>
 
-
-
-
-
-
-
-
-
-
-
+                </tr>
 
 
                 
-                @endforeach
+         
              
         </table>
-        
+        </form>
     </div>
   @endsection

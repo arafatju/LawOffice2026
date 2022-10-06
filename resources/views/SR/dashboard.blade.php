@@ -21,7 +21,7 @@
 
            </div>
            <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{route('showkazi')}}">Click</a>
+           <a class="btn btn-dark" role="button" href="{{route('verificationinfo')}}">Click</a>
 
             </div>
        </div>
@@ -35,7 +35,7 @@
 
            </div>
            <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{route('showkazi')}}">Click</a>
+           <a class="btn btn-dark" role="button" href="{{route('sendtoict')}}">Click</a>
 
             </div>
        </div>

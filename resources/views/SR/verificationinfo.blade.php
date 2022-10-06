@@ -17,7 +17,7 @@
             তথ্য সংশোধন 
             </div>
             <div class="card-footer">
-              <a class="btn btn-dark" role="button" href="{{route('dataone')}}">Click</a>
+              <a class="btn btn-dark" role="button" href="{{route('editme')}}">Click</a>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('deldashboard')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('deleteme')}}">Click</a>
 
             </div>
         </div>
