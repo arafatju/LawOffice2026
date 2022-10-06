@@ -14,7 +14,7 @@
  
         <div class="card w-75 text-center mx-auto " style="margin-top:7%;" >
             <div class="card-header">
-            ঢাকা
+            তথ্য সংশোধন  
             </div>
             <div class="card-body">
             <form method="POST" action="{{ route('draftdetails') }}">
@@ -26,7 +26,7 @@
                 <table class="table">
                  <tr>
                 
-                 <td> 
+                 <td>  বর্তমান তথ্য ({{$id2}} )
                 </td>
                 @foreach($person as $pp)
                 <td>{{ $pp->$kk}}
@@ -36,7 +36,7 @@
                  @endforeach
                 </tr>
                 <tr>
-                <td>{{$id2}}
+                <td>সংশোধিত তথ্য 
                 </td>
                 <td> <input   type="text" class="form-control " name="changed"  >
 
