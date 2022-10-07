@@ -18,10 +18,8 @@
                 
 
                     <th scope="col">নাম   </th>
-                    <th scope="col">পিতার নাম   </th>
-                    <th scope="col">মাতার নাম   </th>
                     
-                    <th scope="col">মোবাইল </th>
+                    <th scope="col">অধিক্ষেত্র</th>
                     <th scope="col">Delete  </th>
                     <th scope="col">Send  </th>
                     <th scope="col">Details  </th>

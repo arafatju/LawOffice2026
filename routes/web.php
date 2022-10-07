@@ -98,6 +98,8 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/chargedash', [infoimp::class, 'chargedash'])->name('chargedash'); 
     Route::get('/beforedata', [infoimp::class, 'beforedata'])->name('beforedata'); 
 
+    Route::post('/notuninfo', [infoimp::class, 'notuninfo'])->name('notuninfo'); 
+
       
 });
 

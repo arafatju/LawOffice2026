@@ -479,6 +479,99 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
      public function beforedata(){
         return view('DR.beforedata');
      }
+     public function notuninfo(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'father' => 'required|string',
+            'mother' =>  'required|string' ,
+            'area' => 'required|string' ,
+            'mobile' => 'required|string',
+            'nid' =>  'required|string' ,
+            'dob' => 'required|string' ,
+            'education' => 'required|string',
+            'email' =>  'required|string' ,
+            'dategot' => 'required|string' ,
+            'datelicense' => 'required|string',
+            'statuslicense' =>  'required|string' ,
+            'join' => 'required|string' ,
+            'indent' => 'required|string' ,
+            'gazetdate' => 'required|string',
+            'expired' =>  'required|string' ,
+            'jobdo' => 'required|string' ,
+            'permanent' => 'required|string' ,
+            'office' => 'required|string',
+            'present' =>  'required|string' ,
+            'religion' => 'required|string' ,
+            'jobname' => 'required|string' ,
+            
+        ]);
+          DB::table(session('tabledr'))->insert([
+            'A' => $request->area  ,
+            'B' => $request->upojela  ,
+            'C'=> 'kk'   ,
+             'D'=> $request->name  ,
+            'E'=> $request->father   ,
+            'F'=>  $request->mother ,
+            'G'=>  $request->dob ,
+            'H' => $request->nid  ,
+            'I' =>   $request->education,
+            'J'=>   $request->permanent ,
+             'K'=>  $request->present ,
+            'L'=>  $request->office  ,
+            'M'=>   $request->mobile,
+            'N'=>   $request->email,
+            'O' =>   $request->dategot,
+            'P' =>  $request->statuslicense ,
+            'Q'=>   $request->Q ,
+             'R'=>  $request->indent ,
+            'S'=>   $request->gazetdate ,
+            'T'=>   $request->religion,
+            'U'=>  "draft",
+            'V' => $request->expired,
+            'W'=> $request->jobdo,
+            'X'=> $request->jobname,
+            'Y'=> $request->pourosova,
+            'Z'=>$request->datelicense ,
+             
+        ]);
+
+
+        DB::table('activitynew')->insert([
+            'district' => Auth::user()->District,
+            'mobile' => Auth::user()->mobile,
+            'status'=> "Draft",
+             'time'=>date("Y-m-d H:i:s", strtotime('now')),
+            'name'=>$request->name,
+            'area'=>$request->area,
+              
+             
+        ]);
+        
+        $last = DB::table('activitynew')-> latest('id','desc')->first();
+
+        DB::table('action')->insert([
+            'district' => Auth::user()->District,
+            'mobile' => Auth::user()->mobile,
+            'status'=> "Draft",
+             'time'=>date("Y-m-d H:i:s", strtotime('now')),
+            'action'=>"NewEntry",
+            'id_user'=>$last->id,
+            'id_admin'=> "New",
+             
+             
+        ]);
+        
+
+        return redirect("notundashboard");
+     }
+     public function notundashboard(){
+                     
+            $draftdata=DB::table('activitynew')
+                        ->select('*')
+                        ->where('district','=',Auth::user()->District)
+                        ->get();
+                return view('notundashboard',compact('draftdata'));
+     }
     public function dashboard()
     {   
         if(Auth::check()){
