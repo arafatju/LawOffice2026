@@ -543,7 +543,8 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
              'time'=>date("Y-m-d H:i:s", strtotime('now')),
             'name'=>$request->name,
             'area'=>$request->area,
-              
+            'nid'=>$request->nid,
+              'avatar'=>'kkll',
              
         ]);
         
@@ -575,9 +576,9 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
      public function viewnotun($id){
         $draftdata=DB::table(session('tabledr'))
         ->select('*')
-        ->where('U','=','Draft')
-        ->paginate();
-return view('DR.viewnotun',compact('draftdata'));
+        ->where('H','=',decrypt($id))
+        ->get();
+ return view('DR.viewnotun',compact('draftdata'));
 
               
 
@@ -587,12 +588,12 @@ return view('DR.viewnotun',compact('draftdata'));
           $upojela=DB::table(session('tabledr'))
                     ->select('B')
                      ->distinct()
-                     ->get();
-        $pourosova=DB::table(session('tabledr'))
-                    ->select('Y')
-                     ->distinct()
-                     ->get();
-
+                      ->get();
+         $pourosova=DB::table(session('tabledr'))
+                      ->select('Y')
+                       ->distinct()
+                        ->get();
+          
         
      return view('DR.notun',compact('upojela','pourosova'));
 
@@ -619,7 +620,7 @@ return view('DR.viewnotun',compact('draftdata'));
                ->select('*')
                ->where('U','=','Draft')
                ->paginate();
-     return view('notundashboard',compact('draftdata'));
+     return view('DR.notundashboard',compact('draftdata'));
 
    
 

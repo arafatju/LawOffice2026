@@ -118,7 +118,7 @@ class test extends Controller
         'Location'=>$currentUserInfo,
         'Device'=>$platform,
         'mobile'=>$data['mobile'],
-        'role'=>'usersr',
+        'role'=>'userdr',
         'email_verified_at'=>now(),
         'avatar'=>'kk',
 

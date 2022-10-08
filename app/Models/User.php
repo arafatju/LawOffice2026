@@ -27,7 +27,7 @@ class User extends Authenticatable
         'Location',
         'mobile',
         'role',
-        
+        'avatar',
     ];
     public $timestamps = false;
 

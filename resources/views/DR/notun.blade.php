@@ -14,7 +14,7 @@
 <div class="container mt-5">
 <form enctype="multipart/form-data" action="/notuninfo" method="POST">
                 @csrf
-        <table class="table table-bordered mb-5">
+        <table class="table ">
            
                  
                  
@@ -89,8 +89,8 @@
 
        @endphp   </td>	
                          <td><select name="pourosova" >
-                         @foreach($pourosova as $row1)    
-                         <option>{{$row1->B}} </option>
+                         @foreach($pourosova as $row2)    
+                         <option>{{$row2->Y}} </option>
                          @endforeach  
                             </select>  </td>  </tr> 
                         
@@ -189,7 +189,11 @@
        echo '১৬.লাইসেন্স স্থায়ী না অস্থায়ী';
 
        @endphp </td>	
-                         <td> <input type="text" name="statuslicense">  </td>  </tr> 
+                         <td> <select  name="statuslicense">  
+                          <option>স্থায়ী</option>
+                          <option>অস্থায়ী</option>
+                          </select>
+                         </td>  </tr> 
                                            
                          <tr>
 		<td > @php
@@ -234,13 +238,14 @@
                                            
                          <tr>
 		<td > @php
-    $kk=$loop->iteration;
-
+ 
        echo '২১.চাকুরী';
 
        @endphp    </td>	
                          <td><select  name="jobdo">  
-                            <option> </option>
+                            <option>হ্যা  </option>                          
+                               <option>না   </option>
+
                             </select>
                          </td> 
                         
