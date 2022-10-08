@@ -11,6 +11,7 @@
 
  
 <div class="container mt-5">
+    
         <table class="table table-bordered mb-5">
              
         <thead>
@@ -92,8 +93,7 @@
                 
                 </td>
                 <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('viewnotun',encrypt($data->H))}}"> View </a>
- 
+  
                 
                 
                 

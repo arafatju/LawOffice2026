@@ -102,7 +102,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/notundashboard', [infoimp::class, 'notundashboard'])->name('notundashboard'); 
     Route::get('/delnotun/{id}', [infoimp::class, 'delnotun'])->name('delnotun'); 
     Route::get('/sendnotun/{id}', [infoimp::class, 'sendnotun'])->name('sendnotun'); 
-    Route::get('/viewnotun/{id}', [infoimp::class, 'viewnotun'])->name('viewnotun'); 
+    Route::get('/notunone', [infoimp::class, 'notunone'])->name('notunone'); 
     Route::get('/notun', [infoimp::class, 'notun'])->name('notun'); 
 
 
@@ -115,6 +115,8 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::post('/profilesr', [infoimp::class, 'profilesr'])->name('profilesr'); 
     
     Route::get('/verifychange', [infoimp::class, 'verifychange'])->name('verifychange'); 
+    Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
+    Route::get('/sendtoict', [infoimp::class, 'sendtoict'])->name('sendtoict'); 
 
 
 });

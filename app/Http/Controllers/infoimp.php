@@ -583,7 +583,14 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
               
 
     }
+public function notunone(){
+    $draftdata=DB::table(session('tabledr'))
+    ->select('*')
+    ->where('U','=','Draft')
+    ->paginate();
+return view('DR.notundashboard',compact('draftdata'));
 
+}
     public function notun(){
           $upojela=DB::table(session('tabledr'))
                     ->select('B')
@@ -601,7 +608,7 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
     public function sendnotun($id){
                DB::table(session('tabledr'))
                ->where('H','=',decrypt($id))
-               ->update(['U' => 'Forwarded' ]);
+               ->update(['U' => 'For' ]);
 
                $draftdata=DB::table(session('tabledr'))
                ->select('*')

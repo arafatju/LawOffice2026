@@ -12,9 +12,18 @@
 
  
 <div class="container mt-5">
-<form enctype="multipart/form-data" action="/notuninfo" method="POST">
+
+<div class="d-flex justify-content-end p-1">
+<a class="btn btn-outline-primary" role="button" href="{{route('notunone')}}"> ড্যাশবোর্ড  </a>
+     
+</div>
+
+<div class="d-flex justify-content-center">
+
+
+<form enctype="multipart/form-data" action="/notuninfo" method="POST" >
                 @csrf
-        <table class="table ">
+        <table class="table " style="width:100%;">
            
                  
                  
@@ -22,7 +31,10 @@
                
 
 
-		    
+<thead>
+<h1>
+নতুন নিবন্ধকের  তথ্য পূরণ করুন </h1>
+</thead>
       	
         
 		<tr  >
@@ -34,7 +46,7 @@
                          @endphp
     
                  </td>	
-		        <td>    <input type="text" name="name">  
+		        <td>    <input type="text" class="form-control" name="name">  
                 </td>  
         </tr> 
 
@@ -46,7 +58,7 @@
                          @endphp
                  </td>	
                           
-                 <td>     <input type="text" name="father">  
+                 <td>     <input type="text" class="form-control" name="father">  
                 </td> 
         </tr> 
                                            
@@ -57,7 +69,7 @@
                         @endphp   
                 </td>	
                 <td>     
-                    <input type="text" name="mother"> 
+                    <input type="text" class="form-control"name="mother"> 
                 </td>
         </tr> 
                         
@@ -72,7 +84,7 @@
                 </td>	
                           
                 <td>   
-                    <select name="upojela" >
+                    <select name="upojela" class="form-control">
                     @foreach($upojela as $row1)
                     <option>{{$row1->B}} </option>
                     @endforeach
@@ -88,7 +100,7 @@
        echo  '৫.পৌরসভা/সিটি কর্পোরেশন';
 
        @endphp   </td>	
-                         <td><select name="pourosova" >
+                         <td><select name="pourosova" class="form-control">
                          @foreach($pourosova as $row2)    
                          <option>{{$row2->Y}} </option>
                          @endforeach  
@@ -328,5 +340,6 @@
              
         </table>
         </form>
+ </div>
     </div>
   @endsection

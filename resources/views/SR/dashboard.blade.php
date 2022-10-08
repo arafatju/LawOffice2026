@@ -10,9 +10,9 @@
  @section('content')
  <div class="row  justify-content-center align-items-center " >
 
-<div class="col-md-6 col-md-offset-4 ">
+<div class="col"style="padding: 2rem 2rem;">
 
-<div class="card  text-center" style="background-color:purple;color:white;">
+<div class="card w-75 text-center" style="background-color:purple;color:white;">
            
           
             
@@ -24,9 +24,10 @@
            <a class="btn btn-dark" role="button" href="{{route('verificationinfo')}}">Click</a>
 
             </div>
-       </div>
-
-       <div class="card  text-center" style="background-color:purple;color:white;">
+</div>
+</div>
+<div class="col">
+       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
            
           
             
@@ -42,5 +43,5 @@
 
 
 </div>
- </div> 
+</div> 
  @endsection
