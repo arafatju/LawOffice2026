@@ -13,7 +13,7 @@
  
 <div class="container mt-5">
 <div class="d-flex justify-content-end p-1">
-<a class="btn btn-outline-primary" role="button" href="{{route('finalchange')}}"> নতুন নিয়োগ </a>
+<a class="btn btn-outline-primary" role="button" href="{{route('notun')}}"> নতুন নিয়োগ </a>
 <a class="btn btn-outline-primary" role="button" href="{{route('finalchange')}}"> মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
     
 </div>

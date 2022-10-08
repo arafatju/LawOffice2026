@@ -120,6 +120,7 @@ class test extends Controller
         'mobile'=>$data['mobile'],
         'role'=>'usersr',
         'email_verified_at'=>now(),
+        'avatar'=>'kk',
 
       ]);
     }    

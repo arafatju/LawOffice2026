@@ -103,6 +103,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/delnotun/{id}', [infoimp::class, 'delnotun'])->name('delnotun'); 
     Route::get('/sendnotun/{id}', [infoimp::class, 'sendnotun'])->name('sendnotun'); 
     Route::get('/viewnotun/{id}', [infoimp::class, 'viewnotun'])->name('viewnotun'); 
+    Route::get('/notun', [infoimp::class, 'notun'])->name('notun'); 
 
 
 });

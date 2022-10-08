@@ -582,6 +582,21 @@ return view('DR.viewnotun',compact('draftdata'));
               
 
     }
+
+    public function notun(){
+          $upojela=DB::table(session('tabledr'))
+                    ->select('B')
+                     ->distinct()
+                     ->get();
+        $pourosova=DB::table(session('tabledr'))
+                    ->select('Y')
+                     ->distinct()
+                     ->get();
+
+        
+     return view('DR.notun',compact('upojela','pourosova'));
+
+    }
     public function sendnotun($id){
                DB::table(session('tabledr'))
                ->where('H','=',decrypt($id))
