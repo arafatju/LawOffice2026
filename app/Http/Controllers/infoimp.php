@@ -566,12 +566,49 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
      }
      public function notundashboard(){
                      
-            $draftdata=DB::table('activitynew')
+            $draftdata=DB::table(session('tabledr'))
                         ->select('*')
-                        ->where('district','=',Auth::user()->District)
-                        ->get();
-                return view('notundashboard',compact('draftdata'));
+                        ->where('U','=','Draft')
+                        ->paginate();
+                return view('DR.notundashboard',compact('draftdata'));
      }
+     public function viewnotun($id){
+        $draftdata=DB::table(session('tabledr'))
+        ->select('*')
+        ->where('U','=','Draft')
+        ->paginate();
+return view('DR.viewnotun',compact('draftdata'));
+
+              
+
+    }
+    public function sendnotun($id){
+               DB::table(session('tabledr'))
+               ->where('H','=',decrypt($id))
+               ->update(['U' => 'Forwarded' ]);
+
+               $draftdata=DB::table(session('tabledr'))
+               ->select('*')
+               ->where('U','=','Draft')
+               ->paginate();
+     return view('DR.notundashboard',compact('draftdata'));
+
+
+    }
+    public function delnotun($id){
+               DB::table(session('tabledr'))
+               ->where('H','=',decrypt($id))
+               ->where('U','=','Draft')
+               ->delete();
+     $draftdata=DB::table(session('tabledr'))
+               ->select('*')
+               ->where('U','=','Draft')
+               ->paginate();
+     return view('notundashboard',compact('draftdata'));
+
+   
+
+    }
     public function dashboard()
     {   
         if(Auth::check()){

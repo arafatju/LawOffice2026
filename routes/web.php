@@ -99,8 +99,12 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/beforedata', [infoimp::class, 'beforedata'])->name('beforedata'); 
 
     Route::post('/notuninfo', [infoimp::class, 'notuninfo'])->name('notuninfo'); 
+    Route::get('/notundashboard', [infoimp::class, 'notundashboard'])->name('notundashboard'); 
+    Route::get('/delnotun/{id}', [infoimp::class, 'delnotun'])->name('delnotun'); 
+    Route::get('/sendnotun/{id}', [infoimp::class, 'sendnotun'])->name('sendnotun'); 
+    Route::get('/viewnotun/{id}', [infoimp::class, 'viewnotun'])->name('viewnotun'); 
 
-      
+
 });
 
 Route::middleware(['auth', 'user-access:usersr'])->group(function () {

@@ -85,7 +85,7 @@
             <tr>
 		        <td > @php
  
-       echo  '৫.পৌরসভা';
+       echo  '৫.পৌরসভা/সিটি কর্পোরেশন';
 
        @endphp   </td>	
                          <td><select name="pourosova" >
@@ -96,19 +96,6 @@
                         
                          
                          <tr>
-		<td > @php
- 
-       echo  '৬.সিটি কর্পোরেশন';
-
-       @endphp   </td>	
-                         <td><select name="city" >
-                         @foreach($city as $row1)   
-                         <option> {{$row1->Y}}</option>
-                         @endforeach
-                            </select> </td>  </tr> 
-                        
-                         <tr>
-        
         
         
                          <td > @php
