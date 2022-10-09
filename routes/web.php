@@ -135,6 +135,11 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/lastentry', [infoimp::class, 'lastentry'])->name('lastentry'); 
     Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
     Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
+    Route::get('/admin', [infoimp::class, 'admin'])->name('admin'); 
+    Route::get('/admindash', [infoimp::class, 'admindash'])->name('admindash'); 
+    Route::get('/profilear', [infoimp::class, 'profilear'])->name('profilear'); 
+    Route::get('/publish/{name}/{id}', [infoimp::class, 'publish'])->name('publish'); 
+    Route::get('/admindel/{name}/{id}', [infoimp::class, 'admindel'])->name('admindel'); 
 
     Route::get('/loguser', [infoimp::class, 'loguser'])->name('loguser'); 
 

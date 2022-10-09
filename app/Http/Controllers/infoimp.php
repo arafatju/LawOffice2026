@@ -726,7 +726,23 @@ public function lastedit(){
     return view('lastedit',compact('draftdata'));
 
 }
-
+public function admin(){
+    return view('AR.user');
+}
+public function admindash(){
+    return view('AR.dashboard');
+}
+public function profilear(Request $request){
+    if ($request->hasFile('avatar')){
+        $avatar=$request->file('avatar');
+        $filename=time().'.'.$avatar->getClientOriginalExtension();
+        Image::make($avatar)->resize(300,300)->save(public_path('/upload/SR/'.$filename));
+        $user=Auth::user();
+        $user->avatar=$filename;
+        $user->save();
+    }
+    return view('AR.dashboard');
+}
 public function lastentry(){
 
     $draftdata=DB::table('activitynew')
@@ -736,8 +752,52 @@ public function lastentry(){
 
 }
 
+public function publish(Request $request){
+    $name=$request->name;
+    $id=decrypt($request->id);
+     $district=DB::table($name)
+              ->where('id','=',$id)
+              ->first();
+    if($name=='activityedit'&& $district->status=='ok'){
+        $nametable = (new ConverterController)->name2table($district->district);
+           DB::table($nametable)->where('H','=',$district->nid)->update([$district->colname => $district->after ]);
 
 
+    }
+
+    else if($name=='activitydel'&& $district->status=='ok'){
+        $nametable = (new ConverterController)->name2table($district->district);
+           DB::table($nametable)->where('H','=',$district->nid)->delete();
+
+
+    }
+    else if($name=='activitycharge'&& $district->status=='ok'){
+        $nametable = (new ConverterController)->name2table($district->district);
+         $ready=$district->bortoman.' এবং '.$district->sector.'অতিরিক্ত দায়িত্ব ';  
+        DB::table($nametable)->where('H','=',$district->nid)->update(['A' => $ready ]);
+
+
+    }
+    else if($name=='activitynew'&& $district->status=='ok'){
+        $nametable = (new ConverterController)->name2table($district->district);
+         DB::table($nametable)->where('H','=',$district->nid)->update(['U' => $district->district]);
+
+
+    }
+
+  return view('AR.dashboard');
+}
+public function admindel(Request $request){
+    $tablenn=$request->name;
+    $id=decrypt($request->id);
+  DB::table($tablenn)
+  ->where('id','=',$id)
+  ->delete();
+  return view('AR.dashboard');
+
+
+
+}
 
 
 

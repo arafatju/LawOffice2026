@@ -1,4 +1,4 @@
-@extends('appinfosr')
+@extends('common.appinfoar')
  
  
   
@@ -9,108 +9,51 @@
   
  @section('content')
 
- <div class="row mt-4"style="padding: 2rem 2rem;">
-    <div class="col ">
-        <div class="card  text-center text-white" style="background-color:#CD6155;padding:2rem 0 rem;">
-             
-            <div class="card-body">
-            তথ্য সংশোধন 
-            </div>
-            <div class="card-footer">
-              <a class="btn btn-dark" role="button" href="{{route('dataone')}}">Click</a>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card   text-center text-white" style="background-color:green;" >
-            
-            <div class="card-body">
-            তথ্য মুছুন 
-
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('deldashboard')}}">Click</a>
-
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card  text-center" style="background-color:Olive;color:white;">
-            
-            <div class="card-body">
-            অতিরিক্ত দায়িত্ব 
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('chargedash')}}">Click</a>
  
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
-             
-            <div class="card-body">
+<div class="container mt-5">
+        <table class="table table-bordered mb-5">
            
-            নতুন নিয়োগ  
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
+        <thead>
+                <tr class="table-success">
+                <th scope="col">Serial </th>
+                <th scope="col">জেলা    </th>
 
-             </div>
+                    <th scope="col">ফিল্ড   </th>
+                    <th scope="col">বর্তমান তথ্য  </th>
+                    <th scope="col">সংশোধিত  তথ্য  </th>
+                    
+                    <th scope="col">এন আই  ডি </th>
+                    <th scope="col">Action  </th>
+                    <th scope="col">তথ্য ঠিক আছে    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($draftdata as $data)
+                <tr>
+                    <th scope="row">{{$loop->iteration}}</th>
+                    <td> {{ $data->district }} </td>
+
+                    <td> {{ $data->heading }} </td>
+                    <td>{{ $data->bortoman }}</td>
+                    <td>{{ $data->after }}</td>
+                    <td>{{ $data->nid }}</td>
+ 
+                <td>  <a class="btn btn-danger" role="button" href="{{route('admindel',['name'=>'activityedit','id'=>encrypt($data->id)])}}"> Delete </a>
+ </td>        <td>  <a class="btn btn-danger" role="button" href="{{route('publish',['name'=>'activityedit','id'=>encrypt($data->id)])}}"> publish </a>
+       </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+         
+        {{-- Pagination --}}
+        <div class="d-flex justify-content-center">
+            {!! $draftdata->links() !!}
         </div>
     </div>
-
- 
-<div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
-             
-            <div class="card-body">
-            মামলা সঙ্ক্রান্ত 
-
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
-
-             </div>
-        </div>
+  @endsection
      
-
-</div> 
-<div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
+                 
            
-          
-            
-            <div class="card-body">
-            ছবি 
+                
 
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('showkazi')}}">Click</a>
-
-             </div>
-        </div>
-    
-
-</div> 
-</div>
-<div class="row  justify-content-center align-items-center " >
-
-<div class="col-md-6 col-md-offset-4 ">
-        <div class="card   text-left" >
-            <div class="card-header">
-            নির্দেশনবলী
-            </div>
-            <div class="card-body">
-          <div class="row"> <h5>১। ড্রাফট এ ক্লিক করলে আপনার সম্পুরন জেলার তথ্য পাবেন  </h5>  </div>
-          <div class="row"> <h5> ২। সেখান থেকে সংশোধন ডিলিট ছবি সংযজন অতিরিক্ত  দায়িত্ব প্রদান ইত্যাদি অপশন পাবেন </h5> </br> </div>
-          <div class="row"> <h5> ৩।  যে কোন সংশোধনের সময় সবার আগে আপনাকে ড্রাফট করতে হবে । </h5> </br> </div> 
-          <div class="row"> <h5> ৪।  এরপরে সেন্ড বাটনে ক্লিক করলে সেটা বিচার শাখা ৭ এ যাবে  </h5> </br> </div>  
-          <div class="row"> <h5> ৫।  কারও পাসওয়ার্ড ভুলে গেলে নতুন করে নিবন্ধন করবেন এবং আমাকে জানাবেন । বের হওয়ার আগে অবশ্যই লগআউট করবেন । যদি কেও ভুলে জান সে ক্ষেত্রে পিসি রিস্টার্ট দিয়ে ১০ মিনিট পরে খুলবেন   </h5> </br> </div>   
-            </div>
-             
-        </div>
-    </div>
-
-</div> 
- @endsection
