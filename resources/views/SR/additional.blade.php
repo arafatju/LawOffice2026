@@ -36,20 +36,9 @@
                    
                      <td>  <a href="{{asset('/upload/kazi/papers/'.$data->avatar)}}"   >view</a>
    </td>
-                 <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delicharge',encrypt($data->id))}}"> Delete </a>
- 
-                
-                
-                
-                </td>
-                <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('chargesend',encrypt($data->id))}}"> তথ্য ঠিক  আছে  </a>
- 
-                
-                
-                
-                </td>
+   <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',activitycharge,encrypt($data->id))}}"> Delete </a>
+ </td>        <td>         <a class="btn btn-primary" role="button" href="{{route('overallverification',activitycharge,encrypt($data->id)}}"> তথ্য ঠিক আছে   </a>
+ </td>
                 </tr>
                 @endforeach
             </tbody>

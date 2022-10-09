@@ -632,6 +632,77 @@ return view('DR.notundashboard',compact('draftdata'));
    
 
     }
+    public function verificationinfo(){
+        return view('SR.verificationinfo');
+
+    }
+    public function sendtoict(){
+        return view('SR.sendtoict');
+    }
+    public function overalldel(Request $request){
+          $tablenn=$request->name;
+          $id=decrypt($request->id);
+        DB::table($tablenn)
+        ->where('id','=',$id)
+        ->delete();
+        return view('SR.verificationinfo');
+
+
+
+    }
+
+    public function editme(){
+        $draftdata=DB::table('activityedit')
+                  ->select('*')
+                  ->where('status','=','Forwarded')
+                  ->paginate();
+    return view('SR.editme',compact('draftdata'));
+
+
+    }
+
+    public function additional(){
+        $draftdata=DB::table('activitycharge')
+                  ->select('*')
+                  ->where('status','=','Forwarded')
+                  ->paginate();
+    return view('SR.additional',compact('draftdata'));
+
+
+    }
+
+    public function deletesr(){
+        $draftdata=DB::table('activitydel')
+                  ->select('*')
+                  ->where('status','=','Forwarded')
+                  ->paginate();
+    return view('SR.deleteme',compact('draftdata'));
+
+
+    }
+    public function newentry(){
+        $draftdata=DB::table('activitynew')
+                  ->select('*')
+                  ->where('status','=','For')
+                  ->paginate();
+    return view('SR.newentry',compact('draftdata'));
+
+
+    }
+    
+       
+    public function overallverification(Request $request){
+        $tablenn=$request->name;
+        $id=decrypt($request->id);
+      DB::table($tablenn)
+      ->where('id','=',$id)
+      ->update(['status' => 'ok' ]);
+      return view('SR.verificationinfo');
+
+
+
+  }
+
     public function dashboard()
     {   
         if(Auth::check()){

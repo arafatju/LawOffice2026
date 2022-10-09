@@ -35,8 +35,8 @@
                     <td>{{ $data->after }}</td>
                     <td>{{ $data->nid }}</td>
                      
-                    <td>  <a class="btn btn-danger" role="button" href="{{route('delme',encrypt($data->id))}}"> Delete </a>
- </td>        <td>         <a class="btn btn-primary" role="button" href="{{route('draftict')}}"> তথ্য ঠিক আছে   </a>
+                    <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',activityedit,encrypt($data->id))}}"> Delete </a>
+ </td>        <td>         <a class="btn btn-primary" role="button" href="{{route('overallverification',activityedit,encrypt($data->id)}}"> তথ্য ঠিক আছে   </a>
  </td>
                 </tr>
                 @endforeach

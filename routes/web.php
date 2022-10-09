@@ -113,7 +113,14 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/section7', [infoimp::class, 'section7'])->name('section7'); 
     Route::get('/usersr', [infoimp::class, 'usersr'])->name('usersr'); 
     Route::post('/profilesr', [infoimp::class, 'profilesr'])->name('profilesr'); 
+    Route::get('/overalldel/{$name}/{$id}', [infoimp::class, 'overalldel'])->name('overalldel'); 
+    Route::get('/overallverification/{$name}/{$id}', [infoimp::class, 'overallverification'])->name('overallverification'); 
     
+    Route::get('/editme', [infoimp::class, 'editme'])->name('editme'); 
+    Route::get('/additional', [infoimp::class, 'additional'])->name('additional'); 
+    Route::get('/deletesr', [infoimp::class, 'deletesr'])->name('deletesr'); 
+    Route::get('/newentry', [infoimp::class, 'newentry'])->name('newentry'); 
+     
     Route::get('/verifychange', [infoimp::class, 'verifychange'])->name('verifychange'); 
     Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
     Route::get('/sendtoict', [infoimp::class, 'sendtoict'])->name('sendtoict'); 
