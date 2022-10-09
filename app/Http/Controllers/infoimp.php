@@ -702,6 +702,44 @@ return view('DR.notundashboard',compact('draftdata'));
 
 
   }
+public function lastcharge(){
+
+      $draftdata=DB::table('activitycharge')
+      ->where('status','=','ok')
+      ->paginate();
+      return view('lastcharge',compact('draftdata'));
+
+}
+public function lastdelete(){
+
+    $draftdata=DB::table('activitydel')
+    ->where('status','=','ok')
+    ->paginate();
+    return view('lastdelete',compact('draftdata'));
+
+}
+public function lastedit(){
+
+    $draftdata=DB::table('activityedit')
+    ->where('status','=','ok')
+    ->paginate();
+    return view('lastedit',compact('draftdata'));
+
+}
+
+public function lastentry(){
+
+    $draftdata=DB::table('activitynew')
+    ->where('status','=','ok')
+    ->paginate();
+    return view('lastentry',compact('draftdata'));
+
+}
+
+
+
+
+
 
     public function dashboard()
     {   

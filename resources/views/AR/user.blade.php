@@ -1,6 +1,6 @@
 
 
-@extends('common.appinfosr')
+@extends('common.appinfoar')
  
  
   
@@ -16,7 +16,7 @@
         <div class="col-md-10 col-offset-1">
             <img src="upload/SR/{{Auth::user()->avatar}}" class="rounded-circle" style="width:150px;height:150px;float:left;boarder-radius:50%;"/>
             <h2> {{Auth::user()->name}}'s Profile</h2>
-            <form enctype="multipart/form-data" action="/profilesr" method="POST">
+            <form enctype="multipart/form-data" action="/profilear" method="POST">
                 @csrf
                 <label > Upload </label>
                 <input type="file" name="avatar">

@@ -127,3 +127,19 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
 
 
 });
+
+Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
+    Route::get('/lastcharge', [infoimp::class, 'lastcharge'])->name('lastcharge'); 
+    Route::get('/lastdelete', [infoimp::class, 'lastdelete'])->name('lastdelete'); 
+    Route::get('/lastedit', [infoimp::class, 'lastedit'])->name('lastedit'); 
+    Route::get('/lastentry', [infoimp::class, 'lastentry'])->name('lastentry'); 
+    Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
+    Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
+
+    Route::get('/loguser', [infoimp::class, 'loguser'])->name('loguser'); 
+
+
+
+});
+
+    
