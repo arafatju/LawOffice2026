@@ -1,4 +1,4 @@
-@extends('appinfosr')
+@extends('common.appinfosr')
  
  
   
@@ -29,7 +29,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('deleteme')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('deletesr')}}">Click</a>
 
             </div>
         </div>
@@ -61,38 +61,7 @@
     </div>
 
  
-<div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
-             
-            <div class="card-body">
-            মামলা সঙ্ক্রান্ত 
-
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('mamlajhamela')}}">Click</a>
-
-             </div>
-        </div>
-     
-
-</div> 
-<div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
-           
-          
-            
-            <div class="card-body">
-            ছবি 
-
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('showkazi')}}">Click</a>
-
-             </div>
-        </div>
-    
-
-</div> 
+  
 </div>
 <div class="row  justify-content-center align-items-center " >
 
