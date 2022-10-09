@@ -39,10 +39,12 @@
                     
                      <td>  <a href="{{asset('/upload/kazi/papers/'.$data->avatar)}}"   >view</a>
    </td>
-   <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',activitydel,encrypt($data->id))}}"> Delete </a>
- </td>        <td>         <a class="btn btn-primary" role="button" href="{{route('overallverification',activitydel,encrypt($data->id)}}"> তথ্য ঠিক আছে   </a>
- </td>
-                </tr>
+   
+   <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',['name'=>'activitydel','id'=>encrypt($data->id)])}}"> Delete </a>
+ </td>        <td>  <a class="btn btn-danger" role="button" href="{{route('overallverification',['name'=>'activitydel','id'=>encrypt($data->id)])}}"> তথ্য ঠিক আছে  </a>
+       </td>
+
+</tr>
                 @endforeach
             </tbody>
         </table>

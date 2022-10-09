@@ -16,6 +16,7 @@
         <thead>
                 <tr class="table-success">
                 <th scope="col">Serial </th>
+                <th scope="col">জেলা    </th>
 
                     <th scope="col">ফিল্ড   </th>
                     <th scope="col">বর্তমান তথ্য  </th>
@@ -30,14 +31,16 @@
                 @foreach($draftdata as $data)
                 <tr>
                     <th scope="row">{{$loop->iteration}}</th>
+                    <td> {{ $data->district }} </td>
+
                     <td> {{ $data->heading }} </td>
                     <td>{{ $data->bortoman }}</td>
                     <td>{{ $data->after }}</td>
                     <td>{{ $data->nid }}</td>
-                     
-                    <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',activityedit,encrypt($data->id))}}"> Delete </a>
- </td>        <td>         <a class="btn btn-primary" role="button" href="{{route('overallverification',activityedit,encrypt($data->id))}}"> তথ্য ঠিক আছে   </a>
- </td>
+ 
+                    <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',['name'=>'activityedit','id'=>encrypt($data->id)])}}"> Delete </a>
+ </td>        <td>  <a class="btn btn-danger" role="button" href="{{route('overallverification',['name'=>'activityedit','id'=>encrypt($data->id)])}}"> তথ্য ঠিক আছে  </a>
+       </td>
                 </tr>
                 @endforeach
             </tbody>

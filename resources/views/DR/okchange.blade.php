@@ -13,9 +13,19 @@
  
 <div class="container mt-5">
 <div class="d-flex justify-content-end p-1">
+<a class="btn btn-outline-primary" role="button" href="{{route('dataone')}}"> ড্রাফট এডিট </a>
+<a class="btn btn-outline-primary" role="button" href="{{route('showkazi')}}"> ড্রাফট ছবি  </a>
+<a class="btn btn-outline-primary" role="button" href="{{route('chargedash')}}"> ড্রাফট অতিরক্ত দায়িত্ব   </a>
+
+<a class="btn btn-outline-primary" role="button" href="{{route('deldashboard')}}"> ড্রাফট ডিলিট  </a>
+<a class="btn btn-outline-primary" role="button" href="{{route('notundashboard')}}"> ড্রাফট নতুন নিয়োগ   </a>
+</div>
+
+<div class="d-flex justify-content-end p-1">
+
+
 <a class="btn btn-outline-primary" role="button" href="{{route('notun')}}"> নতুন নিয়োগ </a>
-<a class="btn btn-outline-primary" role="button" href="{{route('finalchange')}}"> মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
-    
+<a class="btn btn-outline-primary" role="button" > মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
 </div>
  
         <table class="table table-bordered mb-5">
