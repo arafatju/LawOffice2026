@@ -124,6 +124,7 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/verifychange', [infoimp::class, 'verifychange'])->name('verifychange'); 
     Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
     Route::get('/sendtoict', [infoimp::class, 'sendtoict'])->name('sendtoict'); 
+    Route::get('/notunview/{name}/{id}', [infoimp::class, 'notunview'])->name('notunview'); 
 
 
 });

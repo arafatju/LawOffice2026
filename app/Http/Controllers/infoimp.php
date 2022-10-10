@@ -609,7 +609,27 @@ return view('DR.notundashboard',compact('draftdata'));
                DB::table(session('tabledr'))
                ->where('H','=',decrypt($id))
                ->update(['U' => 'For' ]);
-
+             
+               DB::table('activitynew')
+               ->where('H','=',decrypt($id))
+               ->update(['status' => 'Forwarded' ]);
+          $ggt=DB::table('activitynew')
+                ->where('H','=',decrypt($id))
+                ->first();
+            
+               DB::table('action')->insert([
+                'district' => Auth::user()->District,
+                'mobile' => Auth::user()->mobile,
+                'status'=> "Forwarded",
+                 'time'=>date("Y-m-d H:i:s", strtotime('now')),
+                'action'=>"NewEntry",
+                'id_user'=>$ggt->id,
+                'id_admin'=> $ggt->id, 
+                 
+                 
+            ]);
+             
+              
                $draftdata=DB::table(session('tabledr'))
                ->select('*')
                ->where('U','=','Draft')
@@ -623,6 +643,8 @@ return view('DR.notundashboard',compact('draftdata'));
                ->where('H','=',decrypt($id))
                ->where('U','=','Draft')
                ->delete();
+
+            
      $draftdata=DB::table(session('tabledr'))
                ->select('*')
                ->where('U','=','Draft')
@@ -683,13 +705,25 @@ return view('DR.notundashboard',compact('draftdata'));
     public function newentry(){
         $draftdata=DB::table('activitynew')
                   ->select('*')
-                  ->where('status','=','For')
+                  ->where('status','=','Forwarded')
                   ->paginate();
     return view('SR.newentry',compact('draftdata'));
 
 
     }
-    
+    public function notunview(Request $request){
+        $tablenn=$request->name;
+        $id=decrypt($request->id);
+        $ggth=DB::table($tablenn)
+        ->where('nid','=',$id)
+        ->first();
+        $nametable = (new ConverterController)->name2table($ggth->district);
+      $draftdata=DB::table($nametable)
+        ->where('H','=',$id)
+        ->get();
+    return view('SR.notunview',compact('draftdata'));
+
+    }
        
     public function overallverification(Request $request){
         $tablenn=$request->name;
