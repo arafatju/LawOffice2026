@@ -724,7 +724,20 @@ return view('DR.notundashboard',compact('draftdata'));
     return view('SR.notunview',compact('draftdata'));
 
     }
-       
+ public function adminnotunview(Request $request){
+
+    $tablenn=$request->name;
+    $id=decrypt($request->id);
+    $ggth=DB::table($tablenn)
+    ->where('nid','=',$id)
+    ->first();
+    $nametable = (new ConverterController)->name2table($ggth->district);
+  $draftdata=DB::table($nametable)
+    ->where('H','=',$id)
+    ->get();
+return view('AR.adminnotunview',compact('draftdata'));
+
+ }
     public function overallverification(Request $request){
         $tablenn=$request->name;
         $id=decrypt($request->id);
@@ -736,12 +749,13 @@ return view('DR.notundashboard',compact('draftdata'));
 
 
   }
+  
 public function lastcharge(){
 
       $draftdata=DB::table('activitycharge')
       ->where('status','=','ok')
       ->paginate();
-      return view('lastcharge',compact('draftdata'));
+      return view('AR.lastcharge',compact('draftdata'));
 
 }
 public function lastdelete(){
@@ -749,7 +763,7 @@ public function lastdelete(){
     $draftdata=DB::table('activitydel')
     ->where('status','=','ok')
     ->paginate();
-    return view('lastdelete',compact('draftdata'));
+    return view('AR.lastdelete',compact('draftdata'));
 
 }
 public function lastedit(){
@@ -757,7 +771,7 @@ public function lastedit(){
     $draftdata=DB::table('activityedit')
     ->where('status','=','ok')
     ->paginate();
-    return view('lastedit',compact('draftdata'));
+    return view('AR.lastedit',compact('draftdata'));
 
 }
 public function admin(){
@@ -782,7 +796,7 @@ public function lastentry(){
     $draftdata=DB::table('activitynew')
     ->where('status','=','ok')
     ->paginate();
-    return view('lastentry',compact('draftdata'));
+    return view('AR.lastentry',compact('draftdata'));
 
 }
 

@@ -39,8 +39,8 @@
                     <td>{{ $data->nid }}</td>
                     <td>  <a class="btn btn-danger" role="button" href="{{route('notunview',['name'=>'activitynew','id'=>encrypt($data->nid)])}}"> view </a>
  </td> 
-                    <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',['name'=>'activityedit','id'=>encrypt($data->id)])}}"> Delete </a>
- </td>        <td>  <a class="btn btn-danger" role="button" href="{{route('overallverification',['name'=>'activityedit','id'=>encrypt($data->id)])}}"> তথ্য ঠিক আছে  </a>
+                    <td>  <a class="btn btn-danger" role="button" href="{{route('overalldel',['name'=>'activitynew','id'=>encrypt($data->id)])}}"> Delete </a>
+ </td>        <td>  <a class="btn btn-danger" role="button" href="{{route('overallverification',['name'=>'activitynew','id'=>encrypt($data->id)])}}"> তথ্য ঠিক আছে  </a>
        </td>
                 </tr>
                 @endforeach

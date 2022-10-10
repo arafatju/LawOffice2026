@@ -125,7 +125,7 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
     Route::get('/sendtoict', [infoimp::class, 'sendtoict'])->name('sendtoict'); 
     Route::get('/notunview/{name}/{id}', [infoimp::class, 'notunview'])->name('notunview'); 
-
+    
 
 });
 
@@ -141,9 +141,12 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/profilear', [infoimp::class, 'profilear'])->name('profilear'); 
     Route::get('/publish/{name}/{id}', [infoimp::class, 'publish'])->name('publish'); 
     Route::get('/admindel/{name}/{id}', [infoimp::class, 'admindel'])->name('admindel'); 
-
+    Route::get('/adminnotunview/{name}/{id}', [infoimp::class, 'adminnotunview'])->name('adminnotunview'); 
     Route::get('/loguser', [infoimp::class, 'loguser'])->name('loguser'); 
+    Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
+    Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
 
+ 
 
 
 });
