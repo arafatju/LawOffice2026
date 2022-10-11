@@ -846,9 +846,34 @@ public function admindel(Request $request){
 
 
 }
+public function loguser(){
+    $draftdata=DB::table('loginfo')->select('*')->orderby('time','DESC')->paginate();
+    return view('AR.loguser',compact('draftdata'));
+}
 
+public function userinfo(){
+    $draftdata= DB::table('users')->select('*')->paginate();
+    return view('AR.userinfo',compact('draftdata'));
+}
+public function picinfo(){
+    $draftdata= DB::table('kazipicture')->select('*')->paginate();
+    return view('AR.picinfo',compact('draftdata'));
 
+}
 
+public function rolechange(Request $request){
+
+    $jela=$request->district;
+    $mail=$request->email;
+    $mobile=$request->mobile;
+
+    DB::table('users')->where('District','=',$jela)
+    ->where('email','=',$mail)
+    ->where('mobile','=',$mobile)
+    ->update(['role' => "userdr"]);
+    $draftdata= DB::table('users')->select('*')->paginate();
+    return view('AR.userinfo',compact('draftdata'));
+}
     public function dashboard()
     {   
         if(Auth::check()){

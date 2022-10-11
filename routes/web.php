@@ -145,7 +145,8 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/loguser', [infoimp::class, 'loguser'])->name('loguser'); 
     Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
     Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
-
+    Route::get('/rolechange/{district}/{mobile}/{email}', [infoimp::class, 'rolechange'])->name('rolechange'); 
+   
  
 
 
