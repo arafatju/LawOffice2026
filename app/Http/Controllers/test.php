@@ -121,7 +121,8 @@ class test extends Controller
         'role'=>'userdr',
         'email_verified_at'=>now(),
         'avatar'=>'kk',
-
+        'id'=>'nnn',
+  
       ]);
     }    
    

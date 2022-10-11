@@ -28,6 +28,7 @@ class User extends Authenticatable
         'mobile',
         'role',
         'avatar',
+        'id',
     ];
     public $timestamps = false;
 
