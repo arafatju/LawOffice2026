@@ -221,18 +221,20 @@ $path = public_path('upload/kazi/picture/');
 
    public function changepicture(Request $request){
     $request->validate([
-        'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:100',
     ]);
-
+    $fft=DB::table(session('tabledr'))
+          ->where('H','=',session('NID'))
+          ->first();
     $imageName = session('NID').'.'.$request->avatar->extension();  
     $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
     DB::table('kazipicture')->insert([
         'district' => Auth::user()->District,
         'nid'=>session('NID'),
         'picture'=>$imageName,
-        'father'=>'fff',
-        'mother'=>'kkk',
-        'name'=>'ppkk',
+        'father'=>$fft->E,
+        'mother'=>$fft->F,
+        'name'=>$fft->D,
     ]);
         return redirect("showkazi");
 
@@ -364,9 +366,9 @@ return view('DR.deldashboard',compact('draftdata'));
         $draftdata=DB::table('kazipicture')
         ->select('picture')
         ->where('nid','=',session('NID'))
-        ->get();
+        ->first();
           
-        
+       unlink("upload/kazi/picture/".$draftdata->picture);
  
 
 $imageName = session('NID').'.'.$request->avatar->extension();  
@@ -874,7 +876,9 @@ public function rolechange(Request $request){
     $draftdata= DB::table('users')->select('*')->paginate();
     return view('AR.userinfo',compact('draftdata'));
 }
-    public function dashboard()
+    
+ 
+public function dashboard()
     {   
         if(Auth::check()){
 

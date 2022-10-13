@@ -84,9 +84,7 @@
                             </div>
                         </div>
                       
-                        <div class="row mb-3">  <div class="col-md-6 form-control text-center">
-                        {{_('সর্ব মোট ৮ অক্ষর এবং অবশ্যই একটি বড় একটি ছোট এক্লটি নাম্বার একটি বিশেষ অক্ষর থাকতে হবে ')}} </label>
-                        </div></div>
+                       
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('পাসওয়ার্ড') }}</label>
 
@@ -94,10 +92,9 @@
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                    <span class="text-danger">{{ $message }}</span>
+                             @enderror
+                                
                             </div>
                         </div>
 

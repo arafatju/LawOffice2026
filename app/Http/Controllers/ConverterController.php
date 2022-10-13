@@ -67,6 +67,8 @@ class ConverterController extends Controller
       public static function bangladate11($date11){
       if(!empty($date11)){
 		$hh=session('jela');
+	//	$dt = Carbon::parse($date11);$currentDate=$dt->format('l j  F Y ');  
+
 		$my_url = "সিলেট জয়পুরহাট হবিগঞ্জ ভোলা নরসিংদী বরগুনা বাগেরহাট সিরাজগঞ্জ মেহেরপুর শরীয়তপুর জামালপুর ফরিদপুর কক্সবাজার পটুয়াখালী রাজবাড়ী নেত্রকোণা  মাগুরা ঝিনাইদহ ";
 		if (preg_match("/".$hh."/", $my_url))
 		{

@@ -49,7 +49,7 @@
             Cancelled:0
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('obostha')}}">Click</a>
  
             </div>
         </div>

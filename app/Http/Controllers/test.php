@@ -77,7 +77,11 @@ class test extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
 
-         ]);
+        ]);
+        
+        
+        
+        
         // $ip=$request->ip();
  
          
