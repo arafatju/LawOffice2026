@@ -145,7 +145,7 @@ class infoimp extends Controller
             'mobile' => Auth::user()->mobile,
             'status'=> "Forwarded",
              'time'=>date("Y-m-d H:i:s", strtotime('now')),
-            'action'=>"Edit",
+            'action'=>"তথ্য সংশোধন (ফিল্ডঃ-".$test3->heading.","."তথ্য-".$test3->after.")",
             'id_user'=>$test3->id,
             'id_admin'=> $test3->id,
              
@@ -337,14 +337,16 @@ $request->avatar->move(public_path('upload/kazi/papers/'), $imageName);
     DB::table('activitydel')
     ->where('id','=',decrypt($id))
     ->update(['status' => 'Forwarded' ]);
-    
+    $kkt= DB::table('activitydel')
+        ->where('id','=',decrypt($id))
+        ->first();
     
     DB::table('action')->insert([
      'district' => Auth::user()->District,
      'mobile' => Auth::user()->mobile,
      'status'=> "Forwarded",
       'time'=>date("Y-m-d H:i:s", strtotime('now')),
-     'action'=>"Delete",
+     'action'=>"তথ্য মুছা ফেলুন (".$kkt->nid.")",
      'id_user'=>decrypt($id),
      'id_admin'=> decrypt($id),
       
@@ -460,13 +462,17 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
         DB::table('activitycharge')
         ->where('id','=',decrypt($id))
         ->update(['status' => 'Forwarded' ]);
-     
+        $rrt=DB::table('activitycharge')
+        ->where('id','=',decrypt($id))
+        ->first();
+
+
         DB::table('action')->insert([
          'district' => Auth::user()->District,
          'mobile' => Auth::user()->mobile,
          'status'=> "Forwarded",
           'time'=>date("Y-m-d H:i:s", strtotime('now')),
-         'action'=>"Additionalcharge",
+         'action'=>"অতিরিক্ত দায়িত্ব (".$rrt->name.",".$rrt->sector.")",
          'id_user'=>decrypt($id),
          'id_admin'=> decrypt($id),
           
@@ -557,7 +563,7 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
             'mobile' => Auth::user()->mobile,
             'status'=> "Draft",
              'time'=>date("Y-m-d H:i:s", strtotime('now')),
-            'action'=>"NewEntry",
+            'action'=>"নতুন  তথ্য(".$request->name.")" ,
             'id_user'=>$last->id,
             'id_admin'=> "New",
              
@@ -624,7 +630,7 @@ return view('DR.notundashboard',compact('draftdata'));
                 'mobile' => Auth::user()->mobile,
                 'status'=> "Forwarded",
                  'time'=>date("Y-m-d H:i:s", strtotime('now')),
-                'action'=>"NewEntry",
+                'action'=>$ggt->action,
                 'id_user'=>$ggt->id,
                 'id_admin'=> $ggt->id, 
                  
@@ -782,6 +788,9 @@ public function admin(){
 public function admindash(){
     return view('AR.dashboard');
 }
+public function Newuser(){
+    return view('Newok.Newuser');
+}
 public function profilear(Request $request){
     if ($request->hasFile('avatar')){
         $avatar=$request->file('avatar');
@@ -849,8 +858,22 @@ public function admindel(Request $request){
 
 }
 public function loguser(){
-    $draftdata=DB::table('loginfo')->select('*')->orderby('time','DESC')->paginate();
+    $draftdata=DB::table('loginfo')->select('*')
+    ->where('mobile','=',Auth::user()->mobile)
+    ->orderby('time','DESC')->paginate();
     return view('AR.loguser',compact('draftdata'));
+}
+public function srloguser(){
+    $draftdata=DB::table('loginfo')->select('*')
+    ->where('mobile','=',Auth::user()->mobile)
+    ->orderby('time','DESC')->paginate();
+    return view('SR.loguser',compact('draftdata'));
+}
+public function drloguser(){
+    $draftdata=DB::table('loginfo')->select('*')
+    ->where('mobile','=',Auth::user()->mobile)
+    ->orderby('time','DESC')->paginate();
+    return view('DR.loguser',compact('draftdata'));
 }
 
 public function userinfo(){
@@ -876,7 +899,26 @@ public function rolechange(Request $request){
     $draftdata= DB::table('users')->select('*')->paginate();
     return view('AR.userinfo',compact('draftdata'));
 }
-    
+public function userstatus(){
+      $draftdata=DB::table('action')->select('*')->where('district','=',session('districtdr'))
+               ->where('status','=','Forwarded')
+               ->orwhere('status','=','ok')
+                ->orderby('time','DESC')->paginate();
+       return view('userstatus',compact(draftdata));
+}
+public function adminstatus(){
+    $draftdata=DB::table('action')->select('*')
+                ->where('status','=','ok')
+                  ->orwhere('status','=','updated')     
+              ->orderby('time','DESC')->paginate();
+     return view('userstatus',compact(draftdata));
+}
+public function admin2status(){
+    $draftdata=DB::table('action')->select('*')
+                    
+              ->orderby('time','DESC')->paginate();
+     return view('userstatus',compact(draftdata));
+}
  
 public function dashboard()
     {   

@@ -66,6 +66,9 @@ class test extends Controller
         
             else if(Auth::user()->role=='usersr'){  return redirect("section7");}  
         }
+        else if(Auth::user()->role=='useradmin') { return redirec("admindash") ; }
+
+        else if(Auth::user()->role=='user') { return redirec("Newuser") ; }
   
         return redirect("login")->withSuccess('Login details are not valid');
     }
@@ -122,7 +125,7 @@ class test extends Controller
         'Location'=>$currentUserInfo,
         'Device'=>$platform,
         'mobile'=>$data['mobile'],
-        'role'=>'userdr',
+        'role'=>'user',
         'email_verified_at'=>now(),
         'avatar'=>'kk',
         'id'=>'nnn',

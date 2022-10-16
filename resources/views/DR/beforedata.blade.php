@@ -65,11 +65,26 @@
         <div class="card  text-center" style="background-color:purple;color:white;">
              
             <div class="card-body">
-            মামলা সঙ্ক্রান্ত 
+           loginfo
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('drloguser')}}">Click</a>
+
+             </div>
+        </div>
+     
+
+</div> 
+<div class="col">
+        <div class="card  text-center" style="background-color:purple;color:white;">
+             
+            <div class="card-body">
+           Present status
+
+            </div>
+            <div class="card-footer">
+            <a class="btn btn-dark" role="button" href="{{route('userstatus')}}">Click</a>
 
              </div>
         </div>

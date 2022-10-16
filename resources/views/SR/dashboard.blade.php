@@ -43,5 +43,42 @@
 
 
 </div>
+
+<div class="col">
+       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
+           
+          
+            
+           <div class="card-body">
+          Status 
+
+           </div>
+           <div class="card-footer">
+           <a class="btn btn-dark" role="button" href="{{route('adminstatus')}}">Click</a>
+
+            </div>
+       </div>
+
+
+</div>
+
+<div class="col">
+       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
+           
+          
+            
+           <div class="card-body">
+        Loginfo
+
+           </div>
+           <div class="card-footer">
+           <a class="btn btn-dark" role="button" href="{{route('srloguser')}}">Click</a>
+
+            </div>
+       </div>
+
+
+</div>
+
 </div> 
  @endsection

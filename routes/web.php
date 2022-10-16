@@ -104,6 +104,8 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/sendnotun/{id}', [infoimp::class, 'sendnotun'])->name('sendnotun'); 
     Route::get('/notunone', [infoimp::class, 'notunone'])->name('notunone'); 
     Route::get('/notun', [infoimp::class, 'notun'])->name('notun'); 
+    Route::get('/drloguser', [infoimp::class, 'drloguser'])->name('drloguser'); 
+    Route::get('/userstatus', [infoimp::class, 'userstatus'])->name('userstatus'); 
 
 
 });
@@ -125,7 +127,9 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
     Route::get('/sendtoict', [infoimp::class, 'sendtoict'])->name('sendtoict'); 
     Route::get('/notunview/{name}/{id}', [infoimp::class, 'notunview'])->name('notunview'); 
-    
+    Route::get('/srloguser', [infoimp::class, 'srloguser'])->name('srloguser'); 
+    Route::get('/adminstatus', [infoimp::class, 'adminstatus'])->name('adminstatus'); 
+
 
 });
 
@@ -146,10 +150,14 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
     Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
     Route::get('/rolechange/{district}/{mobile}/{email}', [infoimp::class, 'rolechange'])->name('rolechange'); 
-   
+    Route::get('/admin2status', [infoimp::class, 'admin2status'])->name('admin2status'); 
+
  
 
 
 });
 
-    
+Route::middleware(['auth', 'user-access:user'])->group(function () {
+    Route::get('/Newuser', [infoimp::class, 'Newuser'])->name('Newuser'); 
+
+});
