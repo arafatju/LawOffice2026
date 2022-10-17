@@ -12,7 +12,8 @@ class CountryController extends Controller
    public function motamot(){
       return view('motamot');
      }
-     public function details(){
-      return view('details');
+     public function details($id){
+      $bivag=$id;
+      return view('details',compact('bivag'));
      }
 }

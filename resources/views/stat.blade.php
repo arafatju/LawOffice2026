@@ -21,7 +21,7 @@
             মোট বিবাহ নিবন্ধকের সংখ্যা:১২৯৫  
             </div>
             <div class="card-footer">
-              <a class="btn btn-dark" role="button" href="{{route('details')}}">বিস্তারিত</a>
+              <a class="btn btn-dark" role="button" href="{{route('details','ঢাকা')}}">বিস্তারিত</a>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-dark" role="button" href="{{route('details','ময়মনসিংহ')}}">বিস্তারিত</a>
 
             </div>
         </div>
@@ -50,7 +50,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-dark" role="button" href="{{route('details','সিলেট')}}">বিস্তারিত</a>
  
             </div>
         </div>
@@ -65,7 +65,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-dark" role="button" href="{{route('details','রাজশাহী')}}">বিস্তারিত</a>
 
              </div>
         </div>
@@ -85,7 +85,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-success" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-success" role="button" href="{{route('details','খুলনা')}}">বিস্তারিত</a>
 
             </div>
         </div>
@@ -100,7 +100,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-success" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-success" role="button" href="{{route('details','বরিশাল')}}">বিস্তারিত</a>
 
             </div>
         </div>
@@ -115,7 +115,7 @@
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-success" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-success" role="button" href="{{route('details','রংপুর')}}">বিস্তারিত</a>
 
             </div>
         </div>
@@ -130,7 +130,7 @@
            
             </div>
             <div class="card-footer">
-            <a class="btn btn-success" role="button" href="{{route('details')}}">বিস্তারিত</a>
+            <a class="btn btn-success" role="button" href="{{route('details','চট্টগ্রাম')}}">বিস্তারিত</a>
 
             </div>
         </div>

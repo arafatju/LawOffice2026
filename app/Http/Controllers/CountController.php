@@ -125,5 +125,44 @@ class CountController extends Controller
                 return $number;
 
     }
+	public static function allcount($name){
+        $nametable = (new ConverterController)->name2table($name);
+         
+         $number=DB::table($nametable)
+                ->where('U','=',$name)
+                ->count();
+			return $number;
+			
+			}
 
+	public static function muslim($name){
+		$nametable = (new ConverterController)->name2table($name);
+
+			$number=DB::table($nametable)
+			->where('U','=',$name)
+			->where('T','<>','Hindu')
+			->where('T','<>','Special')
+			->count();
+         return $number;
+		}
+		public static function hindu($name){
+	  $nametable = (new ConverterController)->name2table($name);
+			$number=DB::table($nametable)
+			->where('U','=',$name)
+			->where('T','=','Hindu')
+			->count();
+			return $number;
+
+		}
+		public static function special($name){
+			$nametable = (new ConverterController)->name2table($name);
+			$number=DB::table($nametable)
+			->where('U','=',$name)
+			->where('T','=','Special')
+			->count();
+			return $number;
+		}
+                
+
+    
 }

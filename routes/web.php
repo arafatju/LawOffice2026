@@ -46,7 +46,7 @@ Route::post('/onuperson2', [App\Http\Controllers\OnuController::class, 'onuperso
 Route::post('/onuperson3', [App\Http\Controllers\OnuController::class, 'onuperson3'])->name('onuperson3');
 Route::get('/stat', [App\Http\Controllers\CountryController::class, 'stat'])->name('stat');
 Route::get('/motamot', [App\Http\Controllers\CountryController::class, 'motamot'])->name('motamot');
-Route::get('/details', [App\Http\Controllers\CountryController::class, 'details'])->name('details');
+Route::get('/details/{id}', [App\Http\Controllers\CountryController::class, 'details'])->name('details');
 
  Route::get('/login', [App\Http\Controllers\infoimp::class, 'index'])->name('login');
 Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])->name('registration');
