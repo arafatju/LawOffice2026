@@ -42,9 +42,9 @@
             }
         </style>
 
-<div class="mujib"> <img src="{{asset('mujib.png')}}"  style="width:50px;height:50px;"/>  </div> 
+<div class="mujib "> <img src="{{asset('mujib.png')}}"  style="width:20px;height:20px;"/>  </div> 
 
-<div class="golden"> <img src="{{asset('golden.png')}}"  style="width:50px;height:50px;"/>  </div>
+<div class="golden "> <img src="{{asset('golden.png')}}"  style="width:20px;height:20px;"/>  </div>
     
     <div class="greet">
 <h4 align="center"><img src="{{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
@@ -67,41 +67,27 @@
     </style>
  
 <body style="margin-bottom:5%;">
+<div class="scrollmenu">
+<a href="{{route('hhome')}}">বিবাহ নিবন্ধকগণের তথ্য</a>
+  <a href="{{route('onu')}}">তথ্য অনুসন্ধান</a>
+  <a href="{{route('stat')}}">এক নজরে সারা দেশ</a>
+  <a href="{{route('motamot')}}">মতামত এবং পরামর্শ</a>
+  <a href="#" onclick="printDiv()"> প্রিন্ট 
+    
+    
+  </a>
+</div>
 
-<nav class="navbar navbar-custom navbar-expand-sm navbar-light  " style="height:50px;z-index:1">
-    <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"> </span> </button>
-
-    <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
-    <ul class="navbar-nav navbar-brand    w-100" style="padding-left:24%;   ">
-        <li class="nav-item active ">
-        <a href="{{route('hhome')}}" class="nav-link navbar-brand">বিবাহ নিবন্ধকগণের তথ্য</a>
-        </li>
-        <li class="nav-item active">
-        <a href="{{route('onu')}}" class="nav-link navbar-brand"> তথ্য অনুসন্ধান</a>
-        </li>
-        
-        <li class="nav-item active">
-        <a href="{{route('stat')}}" class="nav-link navbar-brand">এক নজরে সারা দেশ</a>
-        </li>
-        <li class="nav-item active">
-        <a href="{{route('motamot')}}" class="nav-link navbar-brand">মতামত এবং পরামর্শ</a>
-        </li>
-        </ul>
-        </div>
-</nav>
- 
  
         <div class="container ">
             @yield('content')
         </div>
-        
-    </body>
-    <div class="footer  ">
+        <div class="footer  ">
   <p style="font-size:15px;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
   কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ  </p>
 </div>
+    </body>
+   
 </html>
 
 

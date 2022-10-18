@@ -1,9 +1,11 @@
 
   
-
-
-
-
+html { height: 100%; }
+body {
+    min-height:100%; 
+    position:relative; 
+    padding-bottom:[footer-height] 
+}
 
  
 
@@ -33,11 +35,9 @@ div.scrollmenu a:hover {
  
 
 .footer {
-position: fixed;
-
-left: 0;
-bottom: 0;
-width: 100%;
+  position: absolute; 
+  left: 0 ; right: 0; bottom: 0; 
+  height:[footer-height];
 background-color:black;
 color: yellowgreen;
 text-align: center;
@@ -60,13 +60,13 @@ margin:0
 div.mujib {
  position:absolute;
   top:0;
-  right:200px;
+  right:5%;
   
 }
 div.golden {
  position:absolute;
   top:0;
-  left:200px;
+  left:1%;
 }
 
 

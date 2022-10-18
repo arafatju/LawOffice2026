@@ -97,7 +97,7 @@ public function person($odhi){
 			->select('*')
 			->where('U','=',$jela)
 			->where('B','=',$thana)
-			->where('A','=',$odhi)
+			->where('A','=',decrypt($odhi))
 			->get();
     
 	return view('last.person',compact('person'));
@@ -112,7 +112,7 @@ public function person($odhi){
 					->select('*')
 					->where('U','=',$jela)
 					->where('Y','=',$pourosova)
-					->where('A','=',$odhi)
+					->where('A','=',decrypt($odhi))
 					->get();
 		
 			return view('last.person2',compact('person'));
@@ -128,7 +128,7 @@ public function person($odhi){
  					$person=DB::table($table)
 							->select('*')
 							->where('Y','=',$city)
- 							->where('A','=',$odhi)
+ 							->where('A','=',decrypt($odhi))
 							->get();
 				
 					return view('last.person3',compact('person'));
