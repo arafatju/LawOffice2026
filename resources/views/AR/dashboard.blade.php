@@ -82,11 +82,28 @@
           
             
             <div class="card-body">
-            ব্যবহারকারী  ইনফো  
+            Pending ব্যবহারকারী  ইনফো  
 
             </div>
             <div class="card-footer">
             <a class="btn btn-dark" role="button" href="{{route('userinfo')}}">Click</a>
+
+             </div>
+        </div>
+    
+
+</div> 
+<div class="col">
+        <div class="card  text-center" style="background-color:purple;color:white;">
+           
+          
+            
+            <div class="card-body">
+          Active  ব্যবহারকারী  ইনফো  
+
+            </div>
+            <div class="card-footer">
+            <a class="btn btn-dark" role="button" href="{{route('pendinguser')}}">Click</a>
 
              </div>
         </div>

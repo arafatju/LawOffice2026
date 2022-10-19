@@ -152,7 +152,9 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/rolechange/{district}/{mobile}/{email}', [infoimp::class, 'rolechange'])->name('rolechange'); 
     Route::get('/admin2status', [infoimp::class, 'admin2status'])->name('admin2status'); 
 
- 
+    Route::get('/pendinguser', [infoimp::class, 'pendinguser'])->name('pendinguser'); 
+
+    Route::get('/deluser/{id}', [infoimp::class, 'deluser'])->name('deluser'); 
 
 
 });

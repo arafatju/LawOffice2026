@@ -877,8 +877,20 @@ public function drloguser(){
 }
 
 public function userinfo(){
-    $draftdata= DB::table('users')->select('*')->paginate();
+    $draftdata= DB::table('users')->select('*')->where('role','=','user')->paginate();
     return view('AR.userinfo',compact('draftdata'));
+}
+public function pendinguser(){
+    $draftdata= DB::table('users')->select('*')->where('role','=','userdr')
+    ->orwhere('role','=','useradmin')
+    ->orwhere('role','=','usersr')
+     ->paginate();
+    return view('AR.pendinguser',compact('draftdata'));
+}
+public function deluser($id){
+
+    DB::table('users')->where('mobile','=',$id)->delete();
+    return view('AR.dashboard');
 }
 public function picinfo(){
     $draftdata= DB::table('kazipicture')->select('*')->paginate();

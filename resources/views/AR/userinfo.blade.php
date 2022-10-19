@@ -45,12 +45,14 @@
                     <td>{{ $data->email }}</td> 
                     <td>{{ $data->mobile }}</td>
                     <td>{{ $data->email_verified_at }}</td>
-
+                 
                     <td>{{ $data->role }}</td>
                      <td>  <img src="/upload/DR/{{$data->avatar}}" class="rounded-circle" style="width:32px;height:32px;boarder-radius:50%;"/>
    </td>
    <td>  <a class="btn btn-danger" role="button" href="{{route('rolechange',['district'=>$data->District ,'mobile'=>$data->mobile ,'email'=>$data->email])}}"> Change </a>
        </td>
+       <td>  <a class="btn btn-danger" role="button" href="{{route('deluser',$data->mobile)}}"> Delete </a>
+ </td>
                 </tr>
                 @endforeach
             </tbody>
