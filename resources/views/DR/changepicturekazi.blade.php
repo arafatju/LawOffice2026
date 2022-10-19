@@ -17,7 +17,7 @@
              <h2> {{Auth::user()->name}}'s Profile</h2>
             <form enctype="multipart/form-data" action="/updatepicturekazi" method="POST">
                 @csrf
-                <label > Upload </label>
+                <label > ছবি অবশ্যই ১০০ kb অথবা এর কম হতে হবে । এর বেশি হলে আপলোড হবে না ।  </label>
                 <input type="file" name="avatar">
                  <input type="submit" class="pull-right btn btn-sm btn-primary">
             </form>

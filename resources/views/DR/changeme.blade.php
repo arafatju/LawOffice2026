@@ -24,7 +24,15 @@
                     <input type="hidden" class="form-control " name="colheading" value="{{$id2}}">
                        
                 <table class="table">
-                 <tr>
+                <thead>
+                <tr>
+                    <th colspan="2">
+                    বিবাহ নিবন্ধগনের তথ্য সংশোধন আবেদন
+                    </th>
+                </tr>
+                </thead>
+                
+                <tr>
                 
                  <td>  বর্তমান তথ্য ({{$id2}} )
                 </td>

@@ -11,10 +11,18 @@
 
  
 <div class="container mt-5">
-@foreach($draftdata as $data)
+
  
         <table class="table table-bordered mb-5">
-             
+        <thead>
+                <tr>
+                    <th colspan="8">
+                    বিবাহ নিবন্ধগনের নতুন তথ্য  
+                    </th>
+                </tr>
+                </thead>
+
+                @foreach($draftdata as $data)
  
                 <tr class="table-success">
                 
@@ -45,7 +53,7 @@
 
                     
                 
-             
+                    @endforeach
                  
                 
                 
@@ -58,7 +66,7 @@
              
           
         </table>
-        @endforeach
+  
          
     </div>
   @endsection

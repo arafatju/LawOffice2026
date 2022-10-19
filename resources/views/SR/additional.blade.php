@@ -12,7 +12,13 @@
  
 <div class="container mt-5">
         <table class="table table-bordered mb-5">
-             
+        <thead>
+                <tr>
+                    <th colspan="7">
+                    বিবাহ নিবন্ধগনের  অতিরিক্ত দায়িত্ব প্রদান 
+                    </th>
+                </tr>
+                </thead>       
         <thead>
                 <tr class="table-success">
                 

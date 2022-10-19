@@ -29,7 +29,15 @@
 </div>
  
         <table class="table table-bordered mb-5">
-            <thead>
+        <thead>
+                <tr>
+                    <th colspan="10">
+                    বিবাহ নিবন্ধগনের তথ্য সংশোধন আবেদন
+                    </th>
+                </tr>
+                </thead> 
+        
+        <thead>
                 <tr class="table-success">
                 <th scope="col">Serial </th>
 

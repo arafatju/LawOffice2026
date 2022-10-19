@@ -15,7 +15,13 @@
         <table class="table table-bordered mb-5">
            
                  
-                 
+        <thead>
+                <tr>
+                    <th colspan="3">
+                    বিবাহ নিবন্ধগনের তথ্য সংশোধন আবেদন
+                    </th>
+                </tr>
+                </thead>       
            
                 @foreach($person as $row1)
 

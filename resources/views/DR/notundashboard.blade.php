@@ -17,7 +17,13 @@
  <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('sendnotun',encrypt($data->H))}}"> Send </a>
 </div>
         <table class="table table-bordered mb-5">
-             
+        <thead>
+                <tr>
+                    <th colspan="2">
+                    বিবাহ নিবন্ধগনের নতুন তথ্য  
+                    </th>
+                </tr>
+                </thead>   
  
                 <tr class="table-success">
                 

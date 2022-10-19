@@ -12,7 +12,13 @@
  
 <div class="container mt-5">
         <table class="table table-bordered mb-5">
-           
+        <thead>
+                <tr>
+                    <th colspan="8">
+                   Log info 
+                    </th>
+                </tr>
+                </thead>   
         <thead>
                 <tr class="table-success">
                 <th scope="col">Serial </th>
