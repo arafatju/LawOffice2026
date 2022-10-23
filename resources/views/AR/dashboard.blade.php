@@ -128,7 +128,7 @@
 
 </div>
 <div class="col">
-       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
+       <div class="card  text-center" style="background-color:royalblue;color:white;">
            
           
             
@@ -138,6 +138,24 @@
            </div>
            <div class="card-footer">
            <a class="btn btn-dark" role="button" href="{{route('admin2status')}}">Click</a>
+
+            </div>
+       </div>
+
+
+</div>
+
+<div class="col">
+       <div class="card  text-center" style="background-color:royalblue;color:white;">
+           
+          
+            
+           <div class="card-body">
+          Picture info 
+
+           </div>
+           <div class="card-footer">
+           <a class="btn btn-dark" role="button" href="{{route('allpic')}}">Click</a>
 
             </div>
        </div>

@@ -134,7 +134,13 @@ class CountController extends Controller
 			return $number;
 			
 			}
+    public static function piccount($name){
 
+		$number=DB::table('kazipicture')
+		        ->where('district','=',$name)
+				->count();
+				return $number;	
+	}
 	public static function muslim($name){
 		$nametable = (new ConverterController)->name2table($name);
 

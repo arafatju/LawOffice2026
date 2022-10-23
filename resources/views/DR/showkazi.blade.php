@@ -41,7 +41,7 @@
                     <td>{{ $data->mother }}</td>
                     <td>{{ $data->nid }}</td>
                      
-                    <td>  <img src="/upload/kazi/picture/{{$data->picture}}" class="rounded-circle" style="width:32px;height:32px;boarder-radius:50%;"/>
+                    <td> <a href="/upload/kazi/picture/{{$data->picture}}"   > <img src="/upload/kazi/picture/{{$data->picture}}" class="rounded-circle" style="width:32px;height:32px;boarder-radius:50%;"/></a>
    </td>
                  <td>
                  <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('changepicturekazi',encrypt($data->nid))}}"> ছবি  পরিবর্তন </a>

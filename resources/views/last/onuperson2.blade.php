@@ -1,6 +1,6 @@
  
 
-@extends('kazi')
+@extends('common.kazi')
  
  
   

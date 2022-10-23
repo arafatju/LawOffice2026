@@ -148,13 +148,14 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/adminnotunview/{name}/{id}', [infoimp::class, 'adminnotunview'])->name('adminnotunview'); 
     Route::get('/loguser', [infoimp::class, 'loguser'])->name('loguser'); 
     Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
-    Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
+    Route::get('/picinfo/{id}', [infoimp::class, 'picinfo'])->name('picinfo'); 
     Route::get('/rolechange/{district}/{mobile}/{email}', [infoimp::class, 'rolechange'])->name('rolechange'); 
     Route::get('/admin2status', [infoimp::class, 'admin2status'])->name('admin2status'); 
 
     Route::get('/pendinguser', [infoimp::class, 'pendinguser'])->name('pendinguser'); 
 
     Route::get('/deluser/{id}', [infoimp::class, 'deluser'])->name('deluser'); 
+    Route::get('/allpic', [infoimp::class, 'allpic'])->name('allpic'); 
 
 
 });

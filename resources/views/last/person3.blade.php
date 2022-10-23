@@ -1,7 +1,7 @@
 
 
 
-@extends('kazi2')
+@extends('common.kazi2')
  
  
   

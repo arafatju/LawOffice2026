@@ -226,7 +226,7 @@ $path = public_path('upload/kazi/picture/');
     $fft=DB::table(session('tabledr'))
           ->where('H','=',session('NID'))
           ->first();
-    $imageName = session('NID').'.'.$request->avatar->extension();  
+    $imageName = 'kazipic'.session('NID').'.'.$request->avatar->extension();  
     $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
     DB::table('kazipicture')->insert([
         'district' => Auth::user()->District,
@@ -373,7 +373,7 @@ return view('DR.deldashboard',compact('draftdata'));
        unlink("upload/kazi/picture/".$draftdata->picture);
  
 
-$imageName = session('NID').'.'.$request->avatar->extension();  
+$imageName = 'kazipic'.session('NID').'.'.$request->avatar->extension();  
 $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
             DB::table('kazipicture')
                 ->where('nid','=',session('NID'))
@@ -402,7 +402,7 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
         ->where('H','=',session('NID'))
         ->get()->pluck('A');
            
-        $imageName = "pp".time().session('NID').'.'.$request->avatar->extension();  
+        $imageName = "adlpapers".time().session('NID').'.'.$request->avatar->extension();  
         $request->avatar->move(public_path('upload/kazi/papers/'), $imageName);
              
         
@@ -892,8 +892,8 @@ public function deluser($id){
     DB::table('users')->where('mobile','=',$id)->delete();
     return view('AR.dashboard');
 }
-public function picinfo(){
-    $draftdata= DB::table('kazipicture')->select('*')->paginate();
+public function picinfo($id){
+    $draftdata= DB::table('kazipicture')->select('*')->where('district','=',$id)->paginate();
     return view('AR.picinfo',compact('draftdata'));
 
 }
@@ -916,22 +916,29 @@ public function userstatus(){
                ->where('status','=','Forwarded')
                ->orwhere('status','=','ok')
                 ->orderby('time','DESC')->paginate();
-       return view('userstatus',compact(draftdata));
+       return view('DR.userstatus',compact('draftdata'));
 }
 public function adminstatus(){
     $draftdata=DB::table('action')->select('*')
                 ->where('status','=','ok')
                   ->orwhere('status','=','updated')     
               ->orderby('time','DESC')->paginate();
-     return view('userstatus',compact(draftdata));
+     return view('SR.userstatus',compact('draftdata'));
 }
 public function admin2status(){
     $draftdata=DB::table('action')->select('*')
                     
               ->orderby('time','DESC')->paginate();
-     return view('userstatus',compact(draftdata));
+     return view('AR.userstatus',compact('draftdata'));
 }
- 
+ public function allpic(){
+         
+          $draftdata=DB::table('kazipicture')
+                      ->select('district')
+                      ->distinct()
+                      ->paginate();
+    return view('AR.allpic',compact('draftdata'));
+ }
 public function dashboard()
     {   
         if(Auth::check()){
