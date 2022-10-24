@@ -571,7 +571,7 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
         ]);
         
 
-        return redirect("notundashboard");
+        return redirect("DR.notundashboard");
      }
      public function notundashboard(){
                      
@@ -908,8 +908,11 @@ public function rolechange(Request $request){
     ->where('email','=',$mail)
     ->where('mobile','=',$mobile)
     ->update(['role' => "userdr"]);
-    $draftdata= DB::table('users')->select('*')->paginate();
-    return view('AR.userinfo',compact('draftdata'));
+    $draftdata= DB::table('users')->select('*')->where('role','=','userdr')
+    ->orwhere('role','=','useradmin')
+    ->orwhere('role','=','usersr')
+     ->paginate();
+    return view('AR.pendinguser',compact('draftdata'));
 }
 public function userstatus(){
       $draftdata=DB::table('action')->select('*')->where('district','=',session('districtdr'))
