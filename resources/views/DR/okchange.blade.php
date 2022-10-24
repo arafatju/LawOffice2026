@@ -27,6 +27,39 @@
 <a class="btn btn-outline-primary" role="button" href="{{route('notun')}}"> নতুন নিয়োগ </a>
 <a class="btn btn-outline-primary" role="button" > মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
 </div>
+<div class="d-flex justify-content-end p-1">
+<form action="{{route('')}}" method="POST" accept-charset="UTF-8" role="form">
+                             @csrf
+@foreach ($upojela as $district1)   <select name="sector"  id="office" class="form-control ">
+                                <option>  {{ $district1->B}} </option>
+                                </select>
+                              
+                     @endforeach   
+                     <input type="hidden" name="category" value="upojela"> 
+                     <input class="btn btn-sm btn-primary  " type="submit" value="upojela"> 
+</form>
+<form action="{{route('')}}" method="POST" accept-charset="UTF-8" role="form">
+                             @csrf
+@foreach ($pourosova as $district2)   <select name="sector"    class="form-control ">
+                                <option>  {{ $district2->Y}} </option>
+                                </select>
+                              
+                     @endforeach    
+                     <input type="hidden" name="category" value="pourosova"> 
+                     <input class="btn btn-sm btn-primary  " type="submit" value="pourosova"> 
+</form>
+<form action="{{route('')}}" method="POST" accept-charset="UTF-8" role="form">
+                             @csrf
+@foreach ($city as $district3)   <select name="sector"  id="office" class="form-control ">
+                                <option>  {{ $district3->Y}} </option>
+                                </select>
+                              
+                     @endforeach    
+                     <input type="hidden" name="category" value="citycorporation"> 
+                     <input class="btn btn-sm btn-primary  " type="submit" value="citycorporation"> 
+</form>
+</div>
+
  
         <table class="table table-bordered mb-5">
         <thead>
