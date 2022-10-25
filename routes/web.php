@@ -63,10 +63,11 @@ All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
-  
+    
     Route::get('/dashboard', [infoimp::class, 'dashboard'])->name('dashboard'); 
     Route::post('/profile', [infoimp::class, 'profile'])->name('profile'); 
     Route::get('/picturekazi/{id}', [infoimp::class, 'picturekazi'])->name('picturekazi'); 
+    Route::post('/thanakoi', [infoimp::class, 'thanakoi'])->name('thanakoi'); 
 
     Route::get('/user', [infoimp::class, 'user'])->name('user'); 
     Route::get('/okchange', [infoimp::class, 'okchange'])->name('okchange'); 

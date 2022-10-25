@@ -73,12 +73,13 @@ class infoimp extends Controller
         ]);
 
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
-        $person=DB::table($nametable)
-                ->paginate(20);
+        //$person=DB::table($nametable)
+              //  ->paginate(20);
         
         session(['tabledr' =>$nametable]);
         session(['districtdr' =>Auth::user()->District]);
-        return view('DR.okchange',compact('person'));
+        //return view('DR.okchange',compact('person'));
+        return redirect("dataone");
      }
 
 
@@ -168,13 +169,84 @@ class infoimp extends Controller
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
         $person=DB::table($nametable)
                 ->paginate(20);
+        $upojela=DB::table($nametable)
+                ->select('B')
+                ->where('U','=',Auth::user()->District)
+                ->where('Y','=',NULL)
+                ->distinct()
+                ->get();
+
+
+        $pourosova=DB::table($nametable)
+                ->select('Y')
+                ->where('U','=',Auth::user()->District)
+                ->where('Y','not regexp','কর্পোরেশন')
+                ->distinct()
+                ->get();
+
+        $citycorporation=DB::table($nametable)
+                            ->select('Y')
+                            ->where('U','=',Auth::user()->District)
+                            ->where('Y','regexp','কর্পোরেশন')
+                            ->distinct()
+                            ->get();
         
         session(['tabledr' =>$nametable]);
         session(['districtdr' =>Auth::user()->District]);
-        return view('DR.okchange',compact('person'));
+        return view('DR.okchange',compact('person','upojela','pourosova','citycorporation'));
        
         
      }
+
+    public function thanakoi(Request $request){
+        $nametable = (new ConverterController)->name2table(Auth::user()->District);
+
+      if($request->category=='upojela'){
+         $person=DB::table($nametable)
+                ->select('*')
+                ->where('U','=',Auth::user()->District)
+                ->where('B','=',$request->sector)
+                ->paginate(20);
+      }
+      else if($request->category=='pourosova'){
+        $person=DB::table($nametable)
+        ->select('*')
+        ->where('U','=',Auth::user()->District)
+        ->where('Y','=',$request->sector)
+        ->paginate(20);
+      }
+      else if($request->category=='citycorporation'){
+        $person=DB::table($nametable)
+                ->select('*')
+                ->where('U','=',Auth::user()->District)
+                ->where('Y','=',$request->sector)
+                ->paginate(20);
+      }
+      $upojela=DB::table($nametable)
+      ->select('B')
+      ->where('U','=',Auth::user()->District)
+      ->where('Y','=',NULL)
+      ->distinct()
+      ->get();
+
+
+$pourosova=DB::table($nametable)
+      ->select('Y')
+      ->where('U','=',Auth::user()->District)
+      ->where('Y','not regexp','কর্পোরেশন')
+      ->distinct()
+      ->get();
+
+$citycorporation=DB::table($nametable)
+                  ->select('Y')
+                  ->where('U','=',Auth::user()->District)
+                  ->where('Y','regexp','কর্পোরেশন')
+                  ->distinct()
+                  ->get();
+
+                  return view('DR.okchange',compact('person','upojela','pourosova','citycorporation'));
+
+    }
      public function picturekazi($id){
 
 $path = public_path('upload/kazi/picture/');
@@ -915,7 +987,7 @@ public function rolechange(Request $request){
     return view('AR.pendinguser',compact('draftdata'));
 }
 public function userstatus(){
-      $draftdata=DB::table('action')->select('*')->where('district','=',session('districtdr'))
+      $draftdata=DB::table('action')->select('*')->where('district','=',Auth::user()->District)
                ->where('status','=','Forwarded')
                ->orwhere('status','=','ok')
                 ->orderby('time','DESC')->paginate();
