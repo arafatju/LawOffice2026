@@ -48,9 +48,7 @@
                  </td>	
 		        <td>    <input type="text" class="form-control" name="name">  
                 </td>  
-        </tr> 
-
-		<tr>
+         
 		         <td >  @php
  
                          echo '২.পিতার নাম';
@@ -71,11 +69,9 @@
                 <td>     
                     <input type="text" class="form-control"name="mother"> 
                 </td>
-        </tr> 
+         
                         
-        <tr>
-		
-        <tr>
+         
 		        <td > @php
  
                     echo  '৪.উপজেলা ';
@@ -107,7 +103,7 @@
                             </select>  </td>  </tr> 
                         
                          
-                         <tr>
+                         
         
         
                          <td > @php
@@ -128,9 +124,7 @@
                            
                            
                         
-                        </td> <td>   </td></tr> 
-        
-                         <tr>
+                        </td> <td>   </td> 
 		<td >@php
  
        echo '১০.শিক্ষাগত যোগ্যতা';
@@ -149,9 +143,7 @@
 
        @endphp </td>	
                          <td>   <input type="text" name="mobile"> 
-                          </td>  </tr> 
-                                           
-                         <tr>
+                          </td>   
 		<td > @php
      
 
@@ -167,9 +159,7 @@
        echo '১৩.এনআইডি';
 
        @endphp   </td>	
-                         <td>  <input type="text" name="nid"> </td>  </tr>
-                        
-                         <tr>
+                         <td>  <input type="text" name="nid"> </td>  
 		<td > @php
     
 
@@ -193,9 +183,7 @@
 						 <td>   
                          <input type="text" name="datelicense"> 
                            
-                          </td>   </tr> 
-
-				 <tr>
+                          </td>    
 		<td > @php
  
        echo '১৬.লাইসেন্স স্থায়ী না অস্থায়ী';
@@ -215,9 +203,7 @@
        @endphp  </td>	
                          <td>  <input type="text" name="join"> 
                            
-                           </td>  </tr> 
-                        
-                         <tr>
+                           </td>  
 		<td > @php
  
        echo '১৮.ইনডেন্ট পাশের তারিখ';
@@ -236,9 +222,7 @@
                          <td>  <input type="text" name="gazetdate"> 
                            
                           </td>
-                          </tr> 
-                     
-                         <tr>
+                           
 		<td >@php
  
        echo '২০.বয়স ৬৭ বছর পূর্তিতে লাইসেন্স অবসানের তারিখ';
@@ -261,10 +245,7 @@
                             </select>
                          </td> 
                         
-        </tr> 
-                        
-                        
-        <tr>
+        
 		            <td > @php
  
                     echo  '২২.প্রতিষ্ঠানের নাম';
@@ -285,9 +266,7 @@
        @endphp    </td>	
                          <td>   <input type="text" name="permanent"> 
                            
-                           </td>  </tr>
-                        
-                         <tr>
+                           </td>   
 		<td >@php
  
        echo '২৪.কার্যালয়ের ঠিকানা'; 
@@ -308,9 +287,7 @@
        @endphp    </td>	
                          <td>  <input type="text" name="present"> 
                             
-                           </td>  </tr> 
-
-                           <tr>
+                           </td>   
 		<td >@php
  
        echo '২৬.ধর্ম  '; 
@@ -328,7 +305,7 @@
                         <td> Draft
                         </td>
                         <td>     
-                 <input type="submit" class=" btn btn-sm btn-primary">
+                 <input type="submit" class=" btn btn-sm btn-primary"value="Draft">
          
                         </td>
 
