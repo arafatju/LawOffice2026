@@ -12,9 +12,19 @@
 
  
 <div class="container mt-5">
-<form enctype="multipart/form-data" action="/mamlainfo" method="POST">
+
+<div class="d-flex justify-content-end p-1">
+<a class="btn btn-outline-primary" role="button" href="{{route('notunone')}}"> মামলা ড্যাশবোর্ড  </a>
+     
+</div>
+
+<div class="d-flex justify-content-center">
+<h1>
+মামলা  সঙ্ক্রান্ত তথ্যাদি পূরণ করুন </h1>
+
+<form enctype="multipart/form-data" action="/notuninfo" method="POST" >
                 @csrf
-        <table class="table table-bordered mb-5">
+        <table class="table " style="width:100%;">
            
                  
                  
@@ -22,11 +32,13 @@
                
 
 
-		    
+<thead>
+
+</thead>
       	
         
-		<tr  >
-		        <td > 
+		    <tr>
+		             <td > 
       
                          @php
                         echo '১.নাম';
@@ -34,319 +46,194 @@
                          @endphp
     
                  </td>	
-		        <td>    <input type="text" name="name">  
-                </td>  
-        </tr> 
-
-		<tr>
-		         <td >  @php
+		              <td>   
+                     <input type="text" class="form-control" name="name">  
+                  </td>  
+         
+		              <td >  @php
  
                          echo '২.পিতার নাম';
 
                          @endphp
-                 </td>	
+                  </td>	
                           
-                 <td>     <input type="text" name="father">  
-                </td> 
+                  <td>    
+                    <input type="text" class="form-control" name="father">  
+                  </td> 
         </tr> 
                                            
         <tr>
-		        <td > @php
+		              <td > @php
  
                         echo  '৩.মাতার নাম';
                         @endphp   
-                </td>	
-                <td>     
-                    <input type="text" name="mother"> 
-                </td>
-        </tr> 
+                  </td>	
+                  <td>     
+                    <input type="text" class="form-control"name="mother"> 
+                  </td>
+         
                         
-        <tr>
-		
-        <tr>
-		        <td > @php
+         
+		              <td > @php
  
-                    echo  '৪.উপজেলা ';
+                  echo  '৪.উপজেলা ';
 
-                    @endphp   
-                </td>	
+                  @endphp   
+                  </td>	
                           
-                <td>   
-                    <select name="upojela" >
+                  <td>   
+                  <select name="upojela" class="form-control">
                     @foreach($upojela as $row1)
-                    <option>{{$row1->B}} </option>
+                  <option>{{$row1->B}} </option>
                     @endforeach
-                    </select>
+                  </select>
 
-                </td>
+                  </td>
             </tr> 
                         
                           
             <tr>
-		        <td > @php
+		               <td > @php
  
-       echo  '৫.পৌরসভা';
+                         echo  '৫.পৌরসভা/সিটি কর্পোরেশন';
 
-       @endphp   </td>	
-                         <td><select name="pourosova" >
-                         @foreach($pourosova as $row1)    
-                         <option>{{$row1->B}} </option>
+                         @endphp  
+                    </td>	
+                    <td>
+                        <select name="pourosova" class="form-control">
+                         @foreach($pourosova as $row2)    
+                         <option>{{$row2->Y}} </option>
                          @endforeach  
-                            </select>  </td>  </tr> 
+                            </select>  
+                      </td>  
+             
                         
-                         
-                         <tr>
-		<td > @php
+                      <td > @php
  
-       echo  '৬.সিটি কর্পোরেশন';
+                            echo '৬.অধিক্ষেত্র ';
 
-       @endphp   </td>	
-                         <td><select name="city" >
-                         @foreach($city as $row1)   
-                         <option> {{$row1->Y}}</option>
-                         @endforeach
-                            </select> </td>  </tr> 
+                              @endphp  
+                        </td>	
+                        <td> 
+                               <input type="text" name="area"> 
+                          </td>  
+              </tr>
                         
-                         <tr>
-        
-        
-        
-                         <td > @php
+               <tr>
+	                    	<td > @php
  
-       echo '৭.অধিক্ষেত্র ';
+                             echo '৭.জন্ম তারিখ';
 
-       @endphp   </td>	
-                         <td> <input type="text" name="area"> </td>  </tr>
-                        
-                         <tr>
-		<td > @php
- 
-       echo '৮.জন্ম তারিখ';
-
-       @endphp   </td>	
+                             @endphp  
+                         </td>	
                          <td>                             
                          <input type="text" name="dob"> 
                            
                            
                         
-                        </td> <td>   </td></tr> 
-        
-                         <tr>
-		<td >@php
+                        </td> 
+                         <td > @php
  
-       echo '১০.শিক্ষাগত যোগ্যতা';
+                                echo '৮.মোবাইল';
 
-       @endphp   </td>	
+                                  @endphp 
+                          </td>	
+                          <td>   
+                                <input type="text" name="mobile"> 
+                          </td>  
+		 
 		 
 	 
 	 
 				 
-						 <td> <input type="text" name="education">  </td>  </tr> 
+						      </tr> 
 
-				 <tr>
-		<td > @php
- 
-       echo '১১.মোবাইল';
-
-       @endphp </td>	
-                         <td>   <input type="text" name="mobile"> 
-                          </td>  </tr> 
-                                           
-                         <tr>
-		<td > @php
-     
-
-       echo '১২.ই মেইল';
-
-       @endphp   </td>	
-                         <td><input type="text" name="email">  </td> </tr> 
-                        
-                         <tr>
-		<td > @php
-    
-
-       echo '১৩.এনআইডি';
-
-       @endphp   </td>	
-                         <td>  <input type="text" name="nid"> </td>  </tr>
-                        
-                         <tr>
-		<td > @php
-    
-
-       echo '১৪.লাইসেন্স প্রাপ্তির স্মারক';
-
-       @endphp  </td>	
-                         <td> <input type="text" name="dategot"> 
-                           
-                           </td>  </tr> 
-                         <tr>
-		<td > @php
-    
-
-       echo '১৫.লাইসেন্স প্রাপ্তির তারিখ';
-
-       @endphp  </td>	
+				          <tr>
 		 
 	 
-	 
-				 
-						 <td>   
-                         <input type="text" name="datelicense"> 
-                           
-                          </td>   </tr> 
-
-				 <tr>
-		<td > @php
- 
-       echo '১৬.লাইসেন্স স্থায়ী না অস্থায়ী';
-
-       @endphp </td>	
-                         <td> <input type="text" name="statuslicense">  </td>  </tr> 
-                                           
-                         <tr>
-		<td > @php
- 
-       echo '১৭.জেলা রেজিস্ট্রার বরাবর যোগদানের তারিখ';
-
-       @endphp  </td>	
-                         <td>  <input type="text" name="join"> 
-                           
-                           </td>  </tr> 
-                        
-                         <tr>
-		<td > @php
- 
-       echo '১৮.ইনডেন্ট পাশের তারিখ';
-
-       @endphp  </td>	
-                         <td>   <input type="text" name="indent"> 
-                           
-                          </td>  </tr>
-                        
-                         <tr>
-		<td > @php
- 
-       echo '১৯.লাইসেন্স গেজেট  প্রকাশের তারিখ';
-
-       @endphp   </td>	
-                         <td>  <input type="text" name="gazetdate"> 
-                           
-                          </td>
-                          </tr> 
-                     
-                         <tr>
-		<td >@php
- 
-       echo '২০.বয়স ৬৭ বছর পূর্তিতে লাইসেন্স অবসানের তারিখ';
-
-       @endphp  </td>	
-                         <td>  <input type="text" name="expired"> 
-                            
-                          </td>  </tr> 
-                                           
-                         <tr>
-		<td > @php
-    $kk=$loop->iteration;
-
-       echo '২১.চাকুরী';
-
-       @endphp    </td>	
-                         <td><select  name="jobdo">  
-                            <option> </option>
-                            </select>
-                         </td> 
-                        
-        </tr> 
-                        
-                        
-        <tr>
-		            <td > @php
- 
-                    echo  '২২.প্রতিষ্ঠানের নাম';
-
-                    @endphp   
-                    </td>	
-                    <td> <input type="text" name="jobname">   </td>  </tr> 
-                        
                          
-                        
-                         <tr>
+		                    <td > @php
+    
+
+                               echo '৯.এনআইডি';
+
+                                  @endphp  
+                         </td>	
+                         <td>  
+                              <input type="text" name="nid"> 
+                          </td>  
+	                        <td > @php
+    
+
+                                echo '১০.লাইসেন্স প্রাপ্তির স্মারক';
+
+                                 @endphp 
+                           </td>	
+                           <td> 
+                                  <input type="text" name="dategot"> 
+                           
+                           </td> 
+                     </tr> 
+                      
+                   <tr>
 
             
-		<td >@php
+		                        <td >@php
  
-       echo '২৩.স্থায়ী ঠিকানা ';
+                                echo '১১.স্থায়ী ঠিকানা ';
 
-       @endphp    </td>	
-                         <td>   <input type="text" name="permanent"> 
+                                   @endphp   
+                             </td>	
+                             <td>   
+                                  <input type="text" name="permanent"> 
                            
-                           </td>  </tr>
-                        
-                         <tr>
-		<td >@php
+                              </td>   
+	 
+                               
+	                        	<td >@php
  
-       echo '২৪.কার্যালয়ের ঠিকানা'; 
+                                 echo '১২.ধর্ম  '; 
 
-       @endphp    </td>	
-                         <td>  <input type="text" name="office"> 
+                                @endphp    
+                            </td>	
+                            <td> 
+                                  <select name="religion">
+                                  <option> Islam </option>
+                                  <option> Hindu </option>
+                                  <option> Special </option>
+                                   </select>
+                      
+                            </td> 
                             
-                           </td>  </tr> 
+                </tr> 
 
+               <tr>
+                           <td>
+                          
+                                 @php
+ 
+                                 echo '১৩.মামলার বিষয়';
 
+                                  @endphp 
+                         
+                         
+                           </td>
+                          
+                          
+                          <td colspan="3">
+                          <input type="textarea" name="mamla"> 
+
+                            
+                            </td>
+                </tr>
          
 
-                           <tr>
-		<td >@php
- 
-       echo '২৫.বর্তমান ঠিকানা'; 
+                          
 
-       @endphp    </td>	
-                         <td>  <input type="text" name="present"> 
-                            
-                           </td>  </tr> 
-
-                           <tr>
-		<td >@php
- 
-       echo '২৬.ধর্ম  '; 
-
-       @endphp    </td>	
-                         <td>  <select name="religion">
-                            <option> Islam </option>
-                            <option> Hindu </option>
-                            <option> Special </option>
-                                </select>
-                            
-                           </td>  </tr> 
-                           <tr>
-		<td >@php
- 
-       echo '২৭.মামলার  বিষয়বস্তু '; 
-
-       @endphp    </td>	
-                         <td>  <input type="mamla">
-                            
-                            
-                           </td>  </tr> 
-
-                           <tr>
-		<td >@php
- 
-       echo '২৮.প্রয়োজনীয়  কাগজপত্র'; 
-
-       @endphp    </td>	
-                         <td>  <input type="file" name="avatar">
-                            
-                            
-                           </td>  </tr> 
-             
-             
-                           <tr> 
-                        <td> Draft
-                        </td>
-                        <td>     
-                 <input type="submit" class=" btn btn-sm btn-primary">
+               <tr> 
+                         
+                        <td colspan="4">     
+                 <input type="submit" class=" btn btn-sm btn-primary"value="Draft">
          
                         </td>
 
@@ -358,5 +245,6 @@
              
         </table>
         </form>
+ </div>
     </div>
   @endsection

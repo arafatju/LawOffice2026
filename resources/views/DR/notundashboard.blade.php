@@ -11,11 +11,11 @@
 
  
 <div class="container mt-5">
-@foreach($draftdata as $data)
+
 <div class="d-flex justify-content-end p-1">
 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delnotun',encrypt($data->H))}}"> Delete </a>
  <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('sendnotun',encrypt($data->H))}}"> Send </a>
-</div>
+</div>@foreach($draftdata as $data)
         <table class="table table-bordered mb-5">
         <thead>
                 <tr>

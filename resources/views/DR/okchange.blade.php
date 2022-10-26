@@ -19,13 +19,14 @@
 
 <a class="btn btn-outline-primary" role="button" href="{{route('deldashboard')}}"> ড্রাফট ডিলিট  </a>
 <a class="btn btn-outline-primary" role="button" href="{{route('notundashboard')}}"> ড্রাফট নতুন নিয়োগ   </a>
+
 </div>
 
 <div class="d-flex justify-content-end p-1">
 
 
 <a class="btn btn-outline-primary" role="button" href="{{route('notun')}}"> নতুন নিয়োগ </a>
-<a class="btn btn-outline-primary" role="button" > মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
+<a class="btn btn-outline-primary" role="button"href="{{route('mamla')}}" > মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
 </div>
 <div class="d-flex justify-content-end p-1">
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
