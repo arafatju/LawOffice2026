@@ -161,7 +161,7 @@
                         </td>   
 		        <td >   @php
      
-
+                        
                                   echo '১২.ই মেইল';
 
                                  @endphp  
