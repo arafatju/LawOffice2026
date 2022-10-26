@@ -645,6 +645,26 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
 
         return redirect("DR.notundashboard");
      }
+     public function mamla(){
+        return view('DR.mamla');
+     }
+     public function mamladashboard(){
+                       
+        $draftdata=DB::table('mamla')
+        ->select('*')
+        ->where('district','=',Auth::user()->District)
+        ->paginate();
+return view('DR.mamladashboard',compact('draftdata'));
+
+     }
+     public function delmamla($id){
+        DB::table('mamla')
+        ->where('nid','=',decrypt($id))
+         ->delete();
+
+         return redirect("mamladashboard");
+
+     }
      public function notundashboard(){
                      
             $draftdata=DB::table(session('tabledr'))

@@ -14,7 +14,7 @@
 <div class="container mt-5">
 
 <div class="d-flex justify-content-end p-1">
-<a class="btn btn-outline-primary" role="button" href="{{route('notunone')}}"> মামলা ড্যাশবোর্ড  </a>
+<a class="btn btn-outline-primary" role="button" href="{{route('mamladashboard')}}"> মামলা ড্যাশবোর্ড  </a>
      
 </div>
 
@@ -22,7 +22,7 @@
 <h1>
 মামলা  সঙ্ক্রান্ত তথ্যাদি পূরণ করুন </h1>
 
-<form enctype="multipart/form-data" action="/notuninfo" method="POST" >
+<form enctype="multipart/form-data" action="/mamlainfo" method="POST" >
                 @csrf
         <table class="table " style="width:100%;">
            

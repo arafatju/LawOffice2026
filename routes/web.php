@@ -107,6 +107,11 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/notun', [infoimp::class, 'notun'])->name('notun'); 
     Route::get('/drloguser', [infoimp::class, 'drloguser'])->name('drloguser'); 
     Route::get('/userstatus', [infoimp::class, 'userstatus'])->name('userstatus'); 
+    Route::get('/mamla', [infoimp::class, 'mamla'])->name('mamla'); 
+     Route::post('/mamlainfo', [infoimp::class, 'mamlainfo'])->name('mamlainfo'); 
+     Route::get('/delmamla/{id}', [infoimp::class, 'delmamla'])->name('delmamla'); 
+
+    Route::get('/mamladashboard', [infoimp::class, 'mamladashboard'])->name('mamladashboard'); 
 
 
 });

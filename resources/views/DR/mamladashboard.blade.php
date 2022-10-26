@@ -22,41 +22,29 @@
                     <th scope="col">মাতার নাম   </th>
                     
                     <th scope="col">মোবাইল </th>
+                    <th scope="col">Mamla  </th>
                     <th scope="col">Delete  </th>
-                    <th scope="col">Send  </th>
-                    <th scope="col">Details  </th>
-                </tr>
+                 </tr>
             </thead>
             <tbody>
                 @foreach($draftdata as $data)
                 <tr>
-                    <th scope="row">{{$data->D}}</th>
-                    <td> {{ $data->E }} </td>
-                    <td>{{ $data->F }}</td>
+                    <th scope="row">{{$data->name}}</th>
+                    <td> {{ $data->father }} </td>
+                    <td>{{ $data->mother }}</td>
                 
                    
-                     <td> {{ $data->M}}   </td>
+                     <td> {{ $data->mobile}}   </td>
+                     <td> {{ $data->mamla}}   </td>
                  <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delmamla',encrypt($data->H))}}"> Delete </a>
+                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delmamla',encrypt($data->nid))}}"> Delete </a>
  
                 
                 
                 
                 </td>
-                <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('sendmamla',encrypt($data->H))}}"> Send </a>
- 
-                
-                
-                
-                </td>
-                <td>
-                 <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('viewmamla',encrypt($data->H))}}"> View </a>
- 
-                
-                
-                
-                </td>
+                 
+                 
                 </tr>
                 @endforeach
             </tbody>
