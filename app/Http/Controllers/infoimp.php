@@ -657,6 +657,40 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
 return view('DR.mamladashboard',compact('draftdata'));
 
      }
+     public function mamlainfo(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'father' => 'required|string',
+            'mother' =>  'required|string' ,
+            'area' => 'required|string' ,
+            'mobile' => 'required|string',
+            'nid' =>  'required|string' ,
+            'dob' => 'required|string' ,
+             'dategot' => 'required|string' ,
+             'permanent' => 'required|string' ,
+             'religion' => 'required|string' ,
+             
+        ]);
+          DB::table('mamla')->insert([
+            'area' => $request->area  ,
+            'upojela' => $request->upojela  ,
+              'name'=> $request->name  ,
+            'father'=> $request->father   ,
+            'mother'=>  $request->mother ,
+            'dob'=>  $request->dob ,
+            'nid' => $request->nid  ,
+             'address'=>   $request->permanent ,
+             'mobile'=>   $request->mobile,
+             'license' =>   $request->dategot,
+             'religion'=>   $request->religion,
+             'pourosova'=> $request->pourosova,
+            'district'=>Auth::user()->District,
+             'status'=>'Draft',
+             'mamla'=> $request->mamla  ,
+        ]);
+
+        return redirect("mamladashboard");
+     }
      public function delmamla($id){
         DB::table('mamla')
         ->where('nid','=',decrypt($id))
