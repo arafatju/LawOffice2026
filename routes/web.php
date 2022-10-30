@@ -144,7 +144,6 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/lastdelete', [infoimp::class, 'lastdelete'])->name('lastdelete'); 
     Route::get('/lastedit', [infoimp::class, 'lastedit'])->name('lastedit'); 
     Route::get('/lastentry', [infoimp::class, 'lastentry'])->name('lastentry'); 
-    Route::get('/picinfo', [infoimp::class, 'picinfo'])->name('picinfo'); 
     Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
     Route::get('/admin', [infoimp::class, 'admin'])->name('admin'); 
     Route::get('/admindash', [infoimp::class, 'admindash'])->name('admindash'); 
