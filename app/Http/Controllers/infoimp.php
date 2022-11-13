@@ -35,7 +35,18 @@ class infoimp extends Controller
         return view('SR.user');
     }
      public function section7(){
-        return view('SR.dashboard');
+        if(Auth::check()){
+
+            return view('SR.dashboard');
+
+           
+                     }
+    
+    
+     
+
+    return redirect("login")->withSuccess('You are not allowed to access');
+       
     }
     public function verifychange(){
         return view('DR.user');

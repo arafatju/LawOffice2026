@@ -65,13 +65,12 @@ class test extends Controller
             if(Auth::user()->role=='userdr')  { return redirect("dashboard");}
         
             else if(Auth::user()->role=='usersr'){  return redirect("section7");}  
-        
-        else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
+        }
+        else if(Auth::user()->role=='useradmin') { return redirec("admindash") ; }
 
-        else if(Auth::user()->role=='user') { return redirect("Newuser") ; }
-                }
+        else if(Auth::user()->role=='user') { return redirec("Newuser") ; }
+  
         return redirect("login")->withSuccess('Login details are not valid');
-
     }
 
     public function customRegistration(Request $request)
@@ -102,7 +101,7 @@ class test extends Controller
         $check = $this->create($data);
         Auth::login($check);
 
-        return redirect("Newuser")->withSuccess('You have signed-in');
+        return redirect("dashboard")->withSuccess('You have signed-in');
     }
 
     public function create(array $data)
