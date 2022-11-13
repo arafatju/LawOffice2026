@@ -31,7 +31,7 @@ class User extends Authenticatable
         'id',
     ];
     public $timestamps = false;
-
+    protected $table = 'users';
     /**
      * The attributes that should be hidden for serialization.
      *
