@@ -28,36 +28,36 @@
 <a class="btn btn-outline-primary" role="button" href="{{route('notun')}}"> নতুন নিয়োগ </a>
 <a class="btn btn-outline-primary" role="button"href="{{route('mamla')}}" > মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
 </div>
-<div class="d-flex justify-content-end p-1">
+<div class="d-flex justify-content-end p-1 ">
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
-@foreach ($upojela as $district1)   <select name="sector"  id="office" class="form-control ">
-                                <option>  {{ $district1->B}} </option>
+  <select name="sector"  id="office" class="form-inline  ">
+    @foreach ($upojela as $district1)  <option>  {{ $district1->B}} </option> @endforeach
                                 </select>
                               
-                     @endforeach   
+                       
                      <input type="hidden" name="category" value="upojela"> 
-                     <input class="btn btn-sm btn-primary  " type="submit" value="upojela"> 
+                     <input class="btn btn-sm btn-primary form-inline "  type="submit" value="upojela"> 
 </form>
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
-@foreach ($pourosova as $district2)   <select name="sector"    class="form-control ">
-                                <option>  {{ $district2->Y}} </option>
+   <select name="sector"    class="form-inline ">
+    @foreach ($pourosova as $district2) <option>  {{ $district2->Y}} </option>   @endforeach 
                                 </select>
                               
-                     @endforeach    
+                      
                      <input type="hidden" name="category" value="pourosova"> 
-                     <input class="btn btn-sm btn-primary  " type="submit" value="pourosova"> 
+                     <input class="btn btn-sm btn-primary form-inline  " type="submit" value="pourosova"> 
 </form>
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
-@foreach ($city as $district3)   <select name="sector"  id="office" class="form-control ">
-                                <option>  {{ $district3->Y}} </option>
+   <select name="sector"  id="office" class="form-inline ">
+    @foreach ($citycorporation as $district3) <option>  {{ $district3->Y}} </option>      @endforeach 
                                 </select>
                               
-                     @endforeach    
+                  
                      <input type="hidden" name="category" value="citycorporation"> 
-                     <input class="btn btn-sm btn-primary  " type="submit" value="citycorporation"> 
+                     <input class="btn btn-sm btn-primary form-inline " type="submit" value="citycorporation"> 
 </form>
 </div>
 
