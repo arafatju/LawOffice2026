@@ -98,7 +98,7 @@
 
                                  @endphp  
                          </td>	
-                         <td><  select name="pourosova" class="form-control">
+                         <td><select name="pourosova" class="form-control">
                                  @foreach($pourosova as $row2)    
                                  <option>{{$row2->Y}} </option>
                                 @endforeach  
@@ -137,7 +137,7 @@
                           
 		        <td >   @php
  
-       e                        cho '৭.শিক্ষাগত যোগ্যতা';
+                                echo '৭.শিক্ষাগত যোগ্যতা';
 
                                 @endphp   
                         </td>	
