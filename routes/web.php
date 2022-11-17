@@ -152,7 +152,7 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
     Route::get('/admin', [infoimp::class, 'admin'])->name('admin'); 
     Route::get('/admindash', [infoimp::class, 'admindash'])->name('admindash'); 
-    Route::get('/profilear', [infoimp::class, 'profilear'])->name('profilear'); 
+    Route::post('/profilear', [infoimp::class, 'profilear'])->name('profilear'); 
     Route::get('/publish/{name}/{id}', [infoimp::class, 'publish'])->name('publish'); 
     Route::get('/admindel/{name}/{id}', [infoimp::class, 'admindel'])->name('admindel'); 
     Route::get('/adminnotunview/{name}/{id}', [infoimp::class, 'adminnotunview'])->name('adminnotunview'); 
