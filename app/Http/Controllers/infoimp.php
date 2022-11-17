@@ -294,7 +294,7 @@ $path = public_path('upload/kazi/picture/');
         if ($request->hasFile('avatar')){
             $avatar=$request->file('avatar');
             $filename=time().'.'.$avatar->getClientOriginalExtension();
-            Image::make($avatar)->resize(300,300)->save(public_path('/upload/SR/'.$filename));
+            Image::make($avatar)->resize(300,300)->save(public_path('/upload/DR/'.$filename));
             $user=Auth::user();
             $user->avatar=$filename;
             $user->save();
@@ -827,6 +827,14 @@ return view('DR.notundashboard',compact('draftdata'));
 
 
     }
+    public function chargegiven(){
+        $draftdata=DB::table('activitycharge')
+        ->select('*')
+        ->where('status','=','Forwarded')
+        ->paginate();
+return view('SR.charge',compact('draftdata'));
+
+    }
 
     public function additional(){
         $draftdata=DB::table('activitycharge')
@@ -855,6 +863,14 @@ return view('DR.notundashboard',compact('draftdata'));
     return view('SR.newentry',compact('draftdata'));
 
 
+    }
+
+    public function mamlajhamela(){
+        $draftdata=DB::table('mamla')
+                  ->select('*')
+                  ->where('status','=','Draft')
+                  ->paginate();
+    return view('SR.mamlajhamela',compact('draftdata'));
     }
     public function notunview(Request $request){
         $tablenn=$request->name;
@@ -1004,7 +1020,7 @@ public function srloguser(){
     $draftdata=DB::table('loginfo')->select('*')
     ->where('mobile','=',Auth::user()->mobile)
     ->orderby('time','DESC')->paginate();
-    return view('SR.loguser',compact('draftdata'));
+    return view('SR.srloguser',compact('draftdata'));
 }
 public function drloguser(){
     $draftdata=DB::table('loginfo')->select('*')
@@ -1079,6 +1095,14 @@ public function admin2status(){
                       ->paginate();
     return view('AR.allpic',compact('draftdata'));
  }
+ public function srallpic(){
+         
+    $draftdata=DB::table('kazipicture')
+                ->select('district')
+                ->distinct()
+                ->paginate();
+return view('SR.allpic',compact('draftdata'));
+}
 public function dashboard()
     {   
         if(Auth::check()){

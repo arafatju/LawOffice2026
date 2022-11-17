@@ -117,13 +117,18 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 });
 
 Route::middleware(['auth', 'user-access:usersr'])->group(function () {
-  
+    
+    Route::get('/srallpic', [infoimp::class, 'srallpic'])->name('srallpic'); 
+
     Route::get('/section7', [infoimp::class, 'section7'])->name('section7'); 
     Route::get('/usersr', [infoimp::class, 'usersr'])->name('usersr'); 
     Route::post('/profilesr', [infoimp::class, 'profilesr'])->name('profilesr'); 
     Route::get('/overalldel/{name}/{id}', [infoimp::class, 'overalldel'])->name('overalldel'); 
     Route::get('/overallverification/{name}/{id}', [infoimp::class, 'overallverification'])->name('overallverification'); 
+    Route::get('/chargegiven', [infoimp::class, 'chargegiven'])->name('chargegiven'); 
     
+    Route::get('/mamlajhamela', [infoimp::class, 'mamlajhamela'])->name('mamlajhamela'); 
+
     Route::get('/editme', [infoimp::class, 'editme'])->name('editme'); 
     Route::get('/additional', [infoimp::class, 'additional'])->name('additional'); 
     Route::get('/deletesr', [infoimp::class, 'deletesr'])->name('deletesr'); 

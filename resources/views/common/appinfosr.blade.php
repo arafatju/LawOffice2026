@@ -46,7 +46,7 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     
                                 
-                                <a id="navbarDropdown" class="dropdown-item" href="{{route('user')}}" role="button"   aria-haspopup="true" aria-expanded="false"  >
+                                <a id="navbarDropdown" class="dropdown-item" href="{{route('usersr')}}" role="button"   aria-haspopup="true" aria-expanded="false"  >
                                     {{ 'Profile'}}
                                 </a>
                                  <a id="navbarDropdown" class="dropdown-item" href="{{route('section7')}}" role="button"   aria-haspopup="true" aria-expanded="false"  >

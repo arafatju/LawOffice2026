@@ -21,19 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card   text-center text-white" style="background-color:green;" >
-            
-            <div class="card-body">
-            তথ্য মুছুন 
-
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('deleteme')}}">Click</a>
-
-            </div>
-        </div>
-    </div>
+    
     <div class="col">
         <div class="card  text-center" style="background-color:Olive;color:white;">
             
@@ -82,11 +70,11 @@
           
             
             <div class="card-body">
-            লগ ইনফো  
+            Kazi Picture  ইনফো  
 
             </div>
             <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('showkazi')}}">Click</a>
+            <a class="btn btn-dark" role="button" href="{{route('srallpic')}}">Click</a>
 
              </div>
         </div>
