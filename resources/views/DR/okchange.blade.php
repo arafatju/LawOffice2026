@@ -89,7 +89,7 @@
             <tbody>
                 @foreach($person as $data)
                 <tr>
-                    <th scope="row">{{$loop->iteration}}</th>
+                    <th scope="row">{{$data->id}}</th>
                     <td> {{ $data->A }} </td>
                     <td>{{ $data->D }}</td>
                     <td>{{ $data->E }}</td>
@@ -110,6 +110,7 @@
         {{-- Pagination --}}
         <div class="d-flex justify-content-center">
             {!! $person->links() !!}
+           
         </div>
     </div>
   @endsection
