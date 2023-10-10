@@ -37,6 +37,8 @@ class test extends Controller
 
             // $device = Agent::device();
             $browser = \Agent::browser();
+            $version =\Agent::version($browser);
+            $browser=$browser."(".$version.")";
             // $version = \Agent::version($browser);
                  $platform = \Agent::platform();
             // $version2 = Agent::version($platform);
