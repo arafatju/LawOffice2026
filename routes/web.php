@@ -68,7 +68,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::post('/profile', [infoimp::class, 'profile'])->name('profile'); 
     Route::get('/picturekazi/{id}', [infoimp::class, 'picturekazi'])->name('picturekazi'); 
     Route::post('/thanakoi', [infoimp::class, 'thanakoi'])->name('thanakoi'); 
-
+ 
     Route::get('/user', [infoimp::class, 'user'])->name('user'); 
     Route::get('/okchange', [infoimp::class, 'okchange'])->name('okchange'); 
     Route::get('/editchange/{id}', [infoimp::class, 'editchange'])->name('editchange'); 

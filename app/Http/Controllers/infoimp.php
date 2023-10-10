@@ -179,6 +179,8 @@ class infoimp extends Controller
      public function okchange(){
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
         $person=DB::table($nametable)
+                 ->orderBy('A', 'asc')
+
                 ->paginate(20);
         $upojela=DB::table($nametable)
                 ->select('B')
@@ -217,21 +219,26 @@ class infoimp extends Controller
                 ->select('*')
                 ->where('U','=',Auth::user()->District)
                 ->where('B','=',$request->sector)
-                ->paginate(20);
+                ->orderBy('A', 'asc')
+
+                ->paginate(100);
       }
       else if($request->category=='pourosova'){
         $person=DB::table($nametable)
         ->select('*')
         ->where('U','=',Auth::user()->District)
         ->where('Y','=',$request->sector)
-        ->paginate(20);
+        ->orderBy('A', 'asc')
+        ->paginate(100);
       }
       else if($request->category=='citycorporation'){
         $person=DB::table($nametable)
                 ->select('*')
                 ->where('U','=',Auth::user()->District)
                 ->where('Y','=',$request->sector)
-                ->paginate(20);
+                ->orderBy('A', 'asc')
+
+                ->paginate(100);
       }
       $upojela=DB::table($nametable)
       ->select('B')
