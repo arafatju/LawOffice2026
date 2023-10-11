@@ -35,7 +35,7 @@
 
                     <td> {{ $data->Device }} </td>
                     <td>{{ $data->Location }}</td>
-                    <td>{{ $data->browser }}</td>
+                    <td>{{ $data->Browser }}</td>
                     <td>{{ $data->time }}</td>
                     <td>{{ $data->mail }}</td>
                     <td>{{ $data->mobile }}</td>

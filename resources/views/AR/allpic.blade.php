@@ -1,4 +1,4 @@
-@extends('appinfoar')
+@extends('common.appinfoar')
  
  
   

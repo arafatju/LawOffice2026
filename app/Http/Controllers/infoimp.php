@@ -664,8 +664,20 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
         return redirect("DR.notundashboard");
      }
      public function mamla(){
-        return view('DR.mamla');
-     }
+        $upojela=DB::table(session('tabledr'))
+        ->select('B')
+         ->distinct()
+          ->get();
+$pourosova=DB::table(session('tabledr'))
+          ->select('Y')
+          ->whereNotNull('Y')
+           ->distinct()
+            ->get();
+
+
+return view('DR.mamla',compact('upojela','pourosova'));
+        
+      }
      public function mamladashboard(){
                        
         $draftdata=DB::table('mamla')

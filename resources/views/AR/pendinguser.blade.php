@@ -24,7 +24,7 @@
                     <th scope="col">Location </th>
                     <th scope="col">Email </th>
                     <th scope="col">Mobile   </th>
-                    <th scope="col">Time </th>
+                   
                    
                     <th scope="col">Role   </th>
                     <th scope="col">picture   </th>
@@ -44,7 +44,7 @@
                     <td>{{ $data->Location }}</td>
                     <td>{{ $data->email }}</td> 
                     <td>{{ $data->mobile }}</td>
-                    <td>{{ $data->email_verified_at }}</td>
+                    
 
                     <td>{{ $data->role }}</td>
                      <td>  <img src="/upload/DR/{{$data->avatar}}" class="rounded-circle" style="width:32px;height:32px;boarder-radius:50%;"/>

@@ -34,7 +34,7 @@
                 @foreach($draftdata as $data)
                 <tr>
                     
-                    <td> {{ $data->id1 }} </td>
+                    <td> {{ $data->id }} </td>
 
                     <td> {{ $data->id_user }} </td>
                     <td>{{ $data->district }}</td>
