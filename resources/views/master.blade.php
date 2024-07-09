@@ -54,7 +54,9 @@
 
 <style>
         /* Modify the background color */
-         
+        .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 255, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
         .navbar-custom {
             background-color: #191970;
         }
@@ -66,7 +68,7 @@
         }
     </style>
  
-<body style="margin-bottom:5%;">
+<body style="margin-bottom:2%;">
 
 <nav class="navbar navbar-custom navbar-expand-sm navbar-light  " style="height:50px;z-index:1">
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav"

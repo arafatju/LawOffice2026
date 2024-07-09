@@ -59,14 +59,14 @@ margin:0
 
 .mujib {
  position:absolute;
-  top:0;
-  right:5%;
+  top:4%;
+  right:6%;
   
 }
 .golden {
  position:absolute;
-  top:0;
-  left:1%;
+  top:4%;
+  left:6%;
 }
 
 @media only screen and (max-width: 400px){
@@ -80,6 +80,11 @@ margin:0
     font-size: 18px;
   }
    .mujib{
-    right:0;
+    right:2px;
+    top:2px;
+   }
+   .golden{
+    left:2px;
+    top:2px;
    }
 }
