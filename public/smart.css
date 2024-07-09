@@ -57,16 +57,29 @@ margin:0
 margin:0
 }
 
-div.mujib {
+.mujib {
  position:absolute;
   top:0;
   right:5%;
   
 }
-div.golden {
+.golden {
  position:absolute;
   top:0;
   left:1%;
 }
 
-
+@media only screen and (max-width: 400px){
+  .greet h1{
+    font-size: 18px;
+  }
+  .greet h4{
+    font-size: 18px;
+  }
+  .greet h2{
+    font-size: 18px;
+  }
+   .mujib{
+    right:0;
+   }
+}
