@@ -100,7 +100,7 @@
         </div>
         
     </body>
-    <div class="footer  ">
+    <div class="footer  "style="position:fixed ;bottom:0px;">
   <p style="font-size:15px;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
   কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ  </p>
 </div>

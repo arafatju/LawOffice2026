@@ -55,9 +55,7 @@
                 font-size:20px;
             }
         </style>
-<div class="footer">
-  <p style="font-size:10px;"> &copy; 2022  ICT Cell, Law and Justice Division</p>
-</div>
+
 <div class="mujib"> <img  src="{{asset('mujib.png')}}"  style="width:50px;height:50px;"/>  </div> 
 
 <div class="golden"> <img src="{{asset('golden.png')}}"  style="width:50px;height:50px;"/>  </div>
@@ -88,9 +86,10 @@
 <div id="GFG2">
 @yield('content')
         </div>
-        <div class="footer  ">
+      
+    </body>
+    <div class="footer  "style="position:fixed;bottom:0px">
   <p style="font-size:15px;">কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
   কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ  </p>
 </div>
-    </body>
 </html>
