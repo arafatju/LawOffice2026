@@ -68,7 +68,7 @@
 		 
 		 <td align="center"> 
            
-     <a href="{{route('person',encrypt($district->A))}}">  {{ $district->A}} </a> 
+     <a href="{{route('person',encrypt($district->Union_Ward))}}">  {{ $district->Union_Ward}} </a> 
  
 		 </td>
 

@@ -48,13 +48,13 @@ class hhomeController extends Controller
 
  
   	$ward124=DB::table($nametable)
-			->select('A')
- 			->where('Y','=',$city)
+			->select('Union_Ward')
+ 			->where('Pourosova_City_Corporation','=',$city)
  			->get();
 
 			 $ward125=DB::table($nametable)
-			 ->select('U')
-			  ->where('Y','=',$city)
+			 ->select('District')
+			  ->where('Pourosova_City_Corporation','=',$city)
 			  ->distinct()
 			  ->get();
 			  
@@ -95,9 +95,9 @@ public function person($odhi){
 	$thana=session('thana');
 	$person=DB::table($table)
 			->select('*')
-			->where('U','=',$jela)
-			->where('B','=',$thana)
-			->where('A','=',decrypt($odhi))
+			->where('District','=',$jela)
+			->where('Thana','=',$thana)
+			->where('Union_Ward','=',decrypt($odhi))
 			->get();
     
 	return view('last.person',compact('person'));
@@ -110,9 +110,9 @@ public function person($odhi){
 			$pourosova=session('thana');
 			$person=DB::table($table)
 					->select('*')
-					->where('U','=',$jela)
-					->where('Y','=',$pourosova)
-					->where('A','=',decrypt($odhi))
+					->where('District','=',$jela)
+					->where('Pourosova_City_Corporation','=',$pourosova)
+					->where('Union_Ward','=',decrypt($odhi))
 					->get();
 		
 			return view('last.person2',compact('person'));
@@ -127,8 +127,8 @@ public function person($odhi){
 					$city=session('city');
  					$person=DB::table($table)
 							->select('*')
-							->where('Y','=',$city)
- 							->where('A','=',decrypt($odhi))
+							->where('Pourosova_City_Corporation','=',$city)
+ 							->where('Union_Ward','=',decrypt($odhi))
 							->get();
 				
 					return view('last.person3',compact('person'));
@@ -144,39 +144,39 @@ public function person($odhi){
 		$vt=session('religion');
 		if($vt=='1'){
          $number=DB::table($nametable)
-		        ->select('B')
-                ->where('U','=',$jela)
-				->where('Y','=',NULL)
+		        ->select('Thana')
+                ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','=',NULL)
 				->distinct()
                 ->get();
 			}
 
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
-			     ->select('B')
-                ->where('U','=',$jela)
-				->where('T','<>','Hindu')
-			    ->where('T','<>','Special')
-				->where('Y','=',NULL)
+			     ->select('Thana')
+                ->where('District','=',$jela)
+				->where('Report_Sent_By','<>','Hindu')
+			    ->where('Report_Sent_By','<>','Special')
+				->where('Pourosova_City_Corporation','=',NULL)
 				->distinct()
                 ->get();
 		 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
-			->select('B')
-			->where('U','=',$jela)
-			->where('T','=','Hindu')
-			->where('Y','=',NULL)
+			->select('Thana')
+			->where('District','=',$jela)
+			->where('Report_Sent_By','=','Hindu')
+			->where('Pourosova_City_Corporation','=',NULL)
 			->distinct()
 			->get();
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
-			    ->select('B')
-                ->where('U','=',$jela)
- 			    ->where('T','=','Special')
-				->where('Y','=',NULL)
+			    ->select('Thana')
+                ->where('District','=',$jela)
+ 			    ->where('Report_Sent_By','=','Special')
+				->where('Pourosova_City_Corporation','=',NULL)
 				->distinct()
                 ->get();
 		}
@@ -191,39 +191,39 @@ public function person($odhi){
 		$vt=session('religion');
 		if($vt=='1'){
          $number=DB::table($nametable)
-		        ->select('Y')
-                ->where('U','=',$jela)
-				->where('Y','not regexp','কর্পোরেশন')
+		        ->select('Pourosova_City_Corporation')
+                ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
 				->distinct()
                 ->get();
 			}
 
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
-			     ->select('Y')
-                ->where('U','=',$jela)
-				->where('Y','not regexp','কর্পোরেশন')
-                ->where('T','<>','Hindu')
-			    ->where('T','<>','Special')
+			     ->select('Pourosova_City_Corporation')
+                ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
+                ->where('Report_Sent_By','<>','Hindu')
+			    ->where('Report_Sent_By','<>','Special')
  				->distinct()
                 ->get();
 		 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
-			->select('Y')
-			->where('U','=',$jela)
-			->where('Y','not regexp','কর্পোরেশন')
-            ->where('T','=','Hindu')
+			->select('Pourosova_City_Corporation')
+			->where('District','=',$jela)
+			->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
+            ->where('Report_Sent_By','=','Hindu')
  			->distinct()
 			->get();
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
-			    ->select('Y')
-                ->where('U','=',$jela)
-				->where('Y','not regexp','কর্পোরেশন')
-                 ->where('T','=','Special')
+			    ->select('')
+                ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
+                 ->where('Report_Sent_By','=','Special')
  				->distinct()
                 ->get();
 		}
@@ -238,40 +238,40 @@ public function person($odhi){
 		$vt=session('religion');
 		if($vt=='1'){
          $number=DB::table($nametable)
-		        ->select('A')
-                ->where('U','=',$jela)
-				->where('B','=',$thana)
-				->where('Y','=',NULL)
+		        ->select('Union_Ward')
+                ->where('District','=',$jela)
+				->where('Thana','=',$thana)
+				->where('Pourosova_City_Corporation','=',NULL)
                  ->get();
 			}
 
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
-			     ->select('A')
-                 ->where('U','=',$jela)
-				->where('B','=',$thana)
-				->where('T','<>','Hindu')
-			    ->where('T','<>','Special')
-				->where('Y','=',NULL)
+			     ->select('Union_Ward')
+                 ->where('District','=',$jela)
+				->where('Thana','=',$thana)
+				->where('Report_Sent_By','<>','Hindu')
+			    ->where('Report_Sent_By','<>','Special')
+				->where('Pourosova_City_Corporation','=',NULL)
 				->get();
 		 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
-			->select('A')
-			->where('U','=',$jela)
-			->where('B','=',$thana)
-			->where('T','=','Hindu')
-			->where('Y','=',NULL)
+			->select('Union_Ward')
+			->where('District','=',$jela)
+			->where('Thana','=',$thana)
+			->where('Report_Sent_By','=','Hindu')
+			->where('Pourosova_City_Corporation','=',NULL)
 			->get();
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
-			    ->select('A')
-                ->where('U','=',$jela)
-				->where('B','=',$thana)
- 			    ->where('T','=','Special')
-				->where('Y','=',NULL)
+			    ->select('Union_Ward')
+                ->where('District','=',$jela)
+				->where('Thana','=',$thana)
+ 			    ->where('Report_Sent_By','=','Special')
+				->where('Pourosova_City_Corporation','=',NULL)
 				->get();
 		}
 
@@ -284,36 +284,36 @@ public function person($odhi){
 		$vt=session('religion');
 		if($vt=='1'){
          $number=DB::table($nametable)
-		        ->select('A')
-                ->where('U','=',$jela)
-				->where('Y','=',$pourosova)
+		        ->select('Union_Ward')
+                ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','=',$pourosova)
                 ->get();
 			}
 
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
-			     ->select('A')
-                 ->where('U','=',$jela)
-				->where('Y','=',$pourosova)
-				->where('T','<>','Hindu')
-			    ->where('T','<>','Special')
+			     ->select('Union_Ward')
+                 ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','=',$pourosova)
+				->where('Report_Sent_By','<>','Hindu')
+			    ->where('Report_Sent_By','<>','Special')
  				->get();
 		 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
-			->select('A')
-			->where('U','=',$jela)
-			->where('Y','=',$pourosova)
-			->where('T','=','Hindu')
+			->select('Union_Ward')
+			->where('District','=',$jela)
+			->where('Pourosova_City_Corporation','=',$pourosova)
+			->where('Report_Sent_By','=','Hindu')
  			->get();
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
-			    ->select('A')
-                ->where('U','=',$jela)
-				->where('Y','=',$pourosova)
- 			    ->where('T','=','Special')
+			    ->select('Union_Ward')
+                ->where('District','=',$jela)
+				->where('Pourosova_City_Corporation','=',$pourosova)
+ 			    ->where('Report_Sent_By','=','Special')
  				->get();
 		}
 

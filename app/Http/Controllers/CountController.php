@@ -18,22 +18,22 @@ class CountController extends Controller
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
 			->where('District','=',$name)
-			->where('T','<>','Hindu')
-			->where('T','<>','Special')
+			->where('Report_Sent_By','<>','Hindu')
+			->where('Report_Sent_By','<>','Special')
 			->count();
 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
 			->where('District','=',$name)
-			->where('T','=','Hindu')
+			->where('Report_Sent_By','=','Hindu')
 			->count();
 
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
 			->where('District','=',$name)
-			->where('T','=','Special')
+			->where('Report_Sent_By','=','Special')
 			->count();
 
 		}
@@ -49,35 +49,35 @@ class CountController extends Controller
 		if($vt=='1'){
          $number=DB::table($nametable)
                 ->where('District','=',$jela)
-                ->where('B','=',$name)
-                ->where('Y','=',NULL)
+                ->where('Thana','=',$name)
+                ->where('Pourosova_City_Corporation','=',NULL)
                 ->count();}
 
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
 			->where('District','=',$jela)
-            ->where('B','=',$name)
-            ->where('Y','=',NULL) 
-            ->where('T','<>','Hindu')
-			->where('T','<>','Special')
+            ->where('Thana','=',$name)
+            ->where('Pourosova_City_Corporation','=',NULL) 
+            ->where('Report_Sent_By','<>','Hindu')
+			->where('Report_Sent_By','<>','Special')
 			->count();
 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
             ->where('District','=',$jela)
-            ->where('B','=',$name)
-            ->where('Y','=',NULL)
-            ->where('T','=','Hindu')
+            ->where('Thana','=',$name)
+            ->where('Pourosova_City_Corporation','=',NULL)
+            ->where('Report_Sent_By','=','Hindu')
 			->count();
 
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
             ->where('District','=',$jela)
-            ->where('B','=',$name)
-            ->where('Y','=',NULL)
-            ->where('T','=','Special')
+            ->where('Thana','=',$name)
+            ->where('Pourosova_City_Corporation','=',NULL)
+            ->where('Report_Sent_By','=','Special')
 			->count();
 
 		}
@@ -94,31 +94,31 @@ class CountController extends Controller
 		if($vt=='1'){
          $number=DB::table($nametable)
                 ->where('District','=',$jela)
-                ->where('Y','=',$name)
+                ->where('Pourosova_City_Corporation','=',$name)
                 ->count();}
 
 		elseif($vt=='2'){
 			$number=DB::table($nametable)
 			->where('District','=',$jela)
-            ->where('Y','=',$name)
-             ->where('T','<>','Hindu')
-			->where('T','<>','Special')
+            ->where('Pourosova_City_Corporation','=',$name)
+             ->where('Report_Sent_By','<>','Hindu')
+			->where('Report_Sent_By','<>','Special')
 			->count();
 
 		}
 		elseif($vt=='3'){
 			$number=DB::table($nametable)
             ->where('District','=',$jela)
-            ->where('Y','=',$name)
-            ->where('T','=','Hindu')
+            ->where('Pourosova_City_Corporation','=',$name)
+            ->where('Report_Sent_By','=','Hindu')
 			->count();
 
 		}
 		elseif($vt=='4'){
 			$number=DB::table($nametable)
             ->where('District','=',$jela)
-            ->where('Y','=',$name)
-            ->where('T','=','Special')
+            ->where('Pourosova_City_Corporation','=',$name)
+            ->where('Report_Sent_By','=','Special')
 			->count();
 
 		}
@@ -146,8 +146,8 @@ class CountController extends Controller
 
 			$number=DB::table($nametable)
 			->where('District','=',$name)
-			->where('T','<>','Hindu')
-			->where('T','<>','Special')
+			->where('Report_Sent_By','<>','Hindu')
+			->where('Report_Sent_By','<>','Special')
 			->count();
          return $number;
 		}
@@ -155,7 +155,7 @@ class CountController extends Controller
 	  $nametable = (new ConverterController)->name2table($name);
 			$number=DB::table($nametable)
 			->where('District','=',$name)
-			->where('T','=','Hindu')
+			->where('Report_Sent_By','=','Hindu')
 			->count();
 			return $number;
 
@@ -164,7 +164,7 @@ class CountController extends Controller
 			$nametable = (new ConverterController)->name2table($name);
 			$number=DB::table($nametable)
 			->where('District','=',$name)
-			->where('T','=','Special')
+			->where('Report_Sent_By','=','Special')
 			->count();
 			return $number;
 		}

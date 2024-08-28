@@ -67,7 +67,7 @@
     <h5 align="center" style="margin:0;"> আইন ও বিচার বিভাগ  </h5>
     <h5 align="center" style="margin:0;"> সারাদেশের বিবাহ নিবন্ধকগণের ডিজিটাল ডাটাবেইস  </h5>  
     <h5 align="center" style="margin:0;"> জেলার নাম :{{session('jela') }} </h5>  
-    <h5 align="center" style="margin:0;"> @foreach($person as $gg)  {!! QrCode::size(150)->generate(utf8_encode('১।নামঃ'.$gg->D.'  '.'২।পিতার নাম-'.$gg->E.'৩।মাতার নাম:-'.$gg->F.'৪।মোবাইল:-'.$gg->M.'৫।অধিক্ষেত্র:-:'.$gg->A))!!} @endforeach
+    <h5 align="center" style="margin:0;"> @foreach($person as $gg)  {!! QrCode::size(150)->generate(utf8_encode('১।নামঃ'.$gg->Name.'  '.'২।পিতার নাম-'.$gg->Father .'৩।মাতার নাম:-'.$gg->Mother .'৪।মোবাইল:-'.$gg->Mobile .'৫।অধিক্ষেত্র:-:'.$gg->Union_Ward))!!} @endforeach
   
           </h5>
 </div> </div>

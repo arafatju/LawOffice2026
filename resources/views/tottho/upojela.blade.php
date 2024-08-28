@@ -66,13 +66,13 @@
 		 
 		 <td align="center"> 
            
-     <a href="{{route('union123',$district->B)}}">  {{ $district->B}} </a> 
+     <a href="{{route('union123',$district->Thana)}}">  {{ $district->Thana}} </a> 
  
 		 </td>
 
  <td align="center"> 
  @php 
-$ffgg=App\Http\Controllers\CountController::upojelacount($district->B); $total=$ffgg+$total;
+$ffgg=App\Http\Controllers\CountController::upojelacount($district->Thana); $total=$ffgg+$total;
 echo App\Http\Controllers\ConverterController::en2bn($ffgg);
 @endphp
 

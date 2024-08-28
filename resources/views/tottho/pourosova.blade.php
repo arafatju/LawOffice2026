@@ -68,13 +68,13 @@
 		 
 		 <td align="center"> 
            
-     <a href="{{route('ward123',$district->Y)}}">  {{ $district->Y}} </a> 
+     <a href="{{route('ward123',$district->Pourosova_City_Corporation)}}">  {{ $district->Pourosova_City_Corporation}} </a> 
  
 		 </td>
 
  <td align="center"> 
  @php 
-$ffgg=App\Http\Controllers\CountController::pourosovacount($district->Y); $total=$ffgg+$total;
+$ffgg=App\Http\Controllers\CountController::pourosovacount($district->Pourosova_City_Corporation); $total=$ffgg+$total;
 echo App\Http\Controllers\ConverterController::en2bn($ffgg);
 @endphp
 
