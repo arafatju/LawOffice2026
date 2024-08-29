@@ -42,10 +42,7 @@
             }
         </style>
 
-<div class="mujib"> <img src="{{asset('mujib.png')}}"  style="width:50px;height:50px;"/>  </div> 
-
-<div class="golden"> <img src="{{asset('golden.png')}}"  style="width:50px;height:50px;"/>  </div>
-    
+   
     <div class="greet">
 <h4 align="center"><img src="{{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
@@ -100,8 +97,8 @@
         </div>
         
     </body>
-    <div class="footer  "style="position:fixed ;bottom:0px;">
-  <p style="font-size:15px;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
+    <div style="position:absolute ;bottom:0px;width:100%;text-align:center;background:#191970">
+  <p style="font-size:15px;color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
   কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ  </p>
 </div>
 </html>

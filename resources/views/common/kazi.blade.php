@@ -56,10 +56,7 @@
             }
         </style>
 
-<div class="mujib"> <img  src="{{asset('mujib.png')}}"  style="width:50px;height:50px;"/>  </div> 
-
-<div class="golden"> <img src="{{asset('golden.png')}}"  style="width:50px;height:50px;"/>  </div>
-    <div id="GFG">
+     <div id="GFG">
     <div class="greet">
 <h5 align="center" style="margin:0;"><img src=" {{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h5 align="center" style="margin:0;"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h5> 
     <h5 align="center" style="margin:0;"> আইন ও বিচার বিভাগ  </h5>
