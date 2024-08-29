@@ -55,19 +55,14 @@
                 font-size:20px;
             }
         </style>
-<div class="footer">
-  <p style="font-size:10px;"> &copy; 2022  ICT Cell, Law and Justice Division</p>
-</div>
-<div class="mujib"> <img  src="{{asset('mujib.png')}}"  style="width:50px;height:50px;"/>  </div> 
-
-<div class="golden"> <img src="{{asset('golden.png')}}"  style="width:50px;height:50px;"/>  </div>
-    <div id="GFG">
+ 
+     <div id="GFG">
     <div class="greet">
 <h5 align="center" style="margin:0;"><img src=" {{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h5 align="center" style="margin:0;"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h5> 
     <h5 align="center" style="margin:0;"> আইন ও বিচার বিভাগ  </h5>
     <h5 align="center" style="margin:0;"> সারাদেশের বিবাহ নিবন্ধকগণের ডিজিটাল ডাটাবেইস  </h5>  
     <h5 align="center" style="margin:0;">  {{session('city') }} </h5>  
-    <h5 align="center" style="margin:0;"> @foreach($person as $gg)  {!! QrCode::size(150)->generate(utf8_encode('১।নামঃ'.$gg->D.'  '.'২।পিতার নাম-'.$gg->E.'৩।মাতার নাম:-'.$gg->F.'৪।মোবাইল:-'.$gg->M.'৫।অধিক্ষেত্র:-:'.$gg->A))!!} @endforeach
+    <h5 align="center" style="margin:0;"> @foreach($person as $gg)  {!! QrCode::size(150)->generate(utf8_encode('১।নামঃ'.$gg->Name.'  '.'২।পিতার নাম-'.$gg->Father.'৩।মাতার নাম:-'.$gg->Mother.'৪।মোবাইল:-'.$gg->Mobile.'৫।অধিক্ষেত্র:-:'.$gg->Union_Ward))!!} @endforeach
   
           </h5>
 </div> </div>

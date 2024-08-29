@@ -277,6 +277,7 @@ public function person($odhi){
 
        return view('tottho.union123',compact('number'));
 	}
+	 
 	public function ward123($pourosova){
 		$nametable = session('table');
  		session(['thana' =>$pourosova]);

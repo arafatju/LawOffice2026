@@ -113,7 +113,7 @@
           পৌরসভা
          <select name="pourosova"  id="office" class="form-control ">
          @foreach ($number as $district) 
-                             <option>  {{ $district->Y}} </option>
+                             <option>  {{ $district->Pourosova_City_Corporation}} </option>
                               
                      @endforeach       
                             

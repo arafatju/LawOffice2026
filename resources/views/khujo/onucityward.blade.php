@@ -112,7 +112,7 @@
           সিটি কর্পোরেশন 
          <select name="corporation"  id="office" class="form-control ">
          @foreach ($number as $district) 
-                             <option>  {{ $district->Y}} </option>
+                             <option>  {{ $district->Pourosova_City_Corporation}} </option>
                               
                      @endforeach       
                             
@@ -132,7 +132,7 @@
           ওয়ার্ড  
          <select name="thana"  id="office" class="form-control ">
          @foreach ($unionlist as $district) 
-                             <option>  {{ $district->A}} </option>
+                             <option>  {{ $district->Union_Ward}} </option>
                               
                      @endforeach       
                             

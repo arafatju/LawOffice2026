@@ -66,25 +66,25 @@ class ConverterController extends Controller
 	  }
       public static function bangladate11($date11){
       if(!empty($date11)){
-		$hh=session('jela');
+		//$hh=session('jela');
 	//	$dt = Carbon::parse($date11);$currentDate=$dt->format('l j  F Y ');  
 
-		$my_url = "সিলেট জয়পুরহাট হবিগঞ্জ ভোলা নরসিংদী বরগুনা বাগেরহাট সিরাজগঞ্জ মেহেরপুর শরীয়তপুর জামালপুর ফরিদপুর কক্সবাজার পটুয়াখালী রাজবাড়ী নেত্রকোণা  মাগুরা ঝিনাইদহ ";
-		if (preg_match("/".$hh."/", $my_url))
-		{
+		//$my_url = "সিলেট জয়পুরহাট হবিগঞ্জ ভোলা নরসিংদী বরগুনা বাগেরহাট সিরাজগঞ্জ মেহেরপুর শরীয়তপুর জামালপুর ফরিদপুর কক্সবাজার পটুয়াখালী রাজবাড়ী নেত্রকোণা  মাগুরা ঝিনাইদহ ";
+		//if (preg_match("/".$hh."/", $my_url))
+		//{
 			return ConverterController::en2bn($date11);
-		}
-		else
-		{
-			$currentDate = date("l, F j, Y",strtotime($date11));
+		//}
+		//else
+		//{
+		//	$currentDate = date("l, F j, Y",strtotime($date11));
 			
-		$engDATE = array(1,2,3,4,5,6,7,8,9,0, 'January', 'February', 'March','April', 'May', 'June', 'July', 'August','September', 'October', 'November', 'December', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
+		//$engDATE = array(1,2,3,4,5,6,7,8,9,0, 'January', 'February', 'March','April', 'May', 'June', 'July', 'August','September', 'October', 'November', 'December', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
 			
-		$bangDATE = array('১','২','৩','৪','৫','৬','৭','৮','৯','০','জানুয়ারী','ফেব্রুয়ারী','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর','শনিবার','রবিবার','সোমবার','মঙ্গলবার',' বুধবার','বৃহস্পতিবার','শুক্রবার' ); 
+		//$bangDATE = array('১','২','৩','৪','৫','৬','৭','৮','৯','০','জানুয়ারী','ফেব্রুয়ারী','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর','শনিবার','রবিবার','সোমবার','মঙ্গলবার',' বুধবার','বৃহস্পতিবার','শুক্রবার' ); 
 		
 		
-		$conv = str_replace($engDATE, $bangDATE, $currentDate); 
-		return $conv; 
+		//$conv = str_replace($engDATE, $bangDATE, $currentDate); 
+		//return $conv; 
 		}
 
 
@@ -97,7 +97,7 @@ class ConverterController extends Controller
 		
 		
 		 
-	  }
+	   
 
 
 	  }

@@ -113,7 +113,7 @@
           উপজেলা
          <select name="thana"  id="office" class="form-control ">
          @foreach ($number as $district) 
-                             <option>  {{ $district->B}} </option>
+                             <option>  {{ $district->Thana}} </option>
                               
                      @endforeach       
                             
@@ -133,7 +133,7 @@
           ইউনিয়ন 
          <select name="thana"  id="office" class="form-control ">
          @foreach ($unionlist as $district) 
-                             <option>  {{ $district->A}} </option>
+                             <option>  {{ $district->Union_Ward}} </option>
                               
                      @endforeach       
                             

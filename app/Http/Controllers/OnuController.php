@@ -38,75 +38,75 @@ class OnuController extends Controller
      
              if($vt=='2'){
                  $number=DB::table($nametable)
-                      ->select('B')
-                     ->where('U','=',$jela)
-                     ->where('T','<>','Hindu')
-                     ->where('T','<>','Special')
-                     ->where('Y','=',NULL)
+                      ->select('Thana')
+                     ->where('District','=',$jela)
+                     ->where('Report_Sent_By','<>','Hindu')
+                     ->where('Report_Sent_By','<>','Special')
+                     ->where('Pourosova_City_Corporation','=',NULL)
                      ->distinct()
                      ->get();
                  $number2=DB::table($nametable)
-                     ->select('Y')
-                    ->where('U','=',$jela)
-                    ->where('Y','not regexp','কর্পোরেশন')
-                    ->where('T','<>','Hindu')
-                    ->where('T','<>','Special')
+                     ->select('Pourosova_City_Corporation')
+                    ->where('District','=',$jela)
+                    ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
+                    ->where('Report_Sent_By','<>','Hindu')
+                    ->where('Report_Sent_By','<>','Special')
                      ->distinct()
                     ->get();
                     $number3=DB::table($nametable)
-                    ->select('Y')
-                   ->where('U','=',$jela)
-                   ->where('Y','regexp','কর্পোরেশন')
-                   ->where('T','<>','Hindu')
-                   ->where('T','<>','Special')
+                    ->select('Pourosova_City_Corporation')
+                   ->where('District','=',$jela)
+                   ->where('Pourosova_City_Corporation','regexp','কর্পোরেশন')
+                   ->where('Report_Sent_By','<>','Hindu')
+                   ->where('Report_Sent_By','<>','Special')
                     ->distinct()
                    ->get();
              }
              elseif($vt=='3'){
                  $number=DB::table($nametable)
-                 ->select('B')
-                 ->where('U','=',$jela)
-                 ->where('T','=','Hindu')
-                 ->where('Y','=',NULL)
+                 ->select('Thana')
+                 ->where('District','=',$jela)
+                 ->where('Report_Sent_By','=','Hindu')
+                 ->where('Pourosova_City_Corporation','=',NULL)
                  ->distinct()
                  ->get();
 
             $number2=DB::table($nametable)
-                 ->select('Y')
-                 ->where('U','=',$jela)
-                 ->where('Y','not regexp','কর্পোরেশন')
-                 ->where('T','=','Hindu')
+                 ->select('Pourosova_City_Corporation')
+                 ->where('District','=',$jela)
+                 ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
+                 ->where('Report_Sent_By','=','Hindu')
                   ->distinct()
                  ->get();
             $number3=DB::table($nametable)
-                 ->select('Y')
-                 ->where('U','=',$jela)
-                 ->where('Y','regexp','কর্পোরেশন')
-                 ->where('T','=','Hindu')
+                 ->select('Pourosova_City_Corporation')
+                 ->where('District','=',$jela)
+                 ->where('Pourosova_City_Corporation','regexp','কর্পোরেশন')
+                 ->where('Report_Sent_By','=','Hindu')
                   ->distinct()
                  ->get();
              }
              elseif($vt=='4'){
                  $number=DB::table($nametable)
-                     ->select('B')
-                     ->where('U','=',$jela)
-                      ->where('T','=','Special')
-                     ->where('Y','=',NULL)
+                     ->select('Thana')
+                     ->where('District','=',$jela)
+                      ->where('Report_Sent_By','=','Special')
+                     ->where('Pourosova_City_Corporation','=',NULL)
                      ->distinct()
                      ->get();
 
                  $number2=DB::table($nametable)
-                     ->select('Y')
-                     ->where('U','=',$jela)
-                     ->where('Y','not regexp','কর্পোরেশন')
-                      ->where('T','=','Special')
+                     ->select('Pourosova_City_Corporation')
+                     ->where('District','=',$jela)
+                     ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
+                      ->where('Report_Sent_By','=','Special')
                       ->distinct()
                      ->get();
                 $number3=DB::table($nametable)
-                     ->select('Y')
-                     ->where('U','=',$jela)
-                     ->where('Y','regexp','কর্পোরেশন')
-                      ->where('T','=','Special')
+                     ->select('Pourosova_City_Corporation')
+                     ->where('District','=',$jela)
+                     ->where('Pourosova_City_Corporation','regexp','কর্পোরেশন')
+                      ->where('Report_Sent_By','=','Special')
                       ->distinct()
                      ->get();
              }
@@ -141,32 +141,32 @@ class OnuController extends Controller
              
                      if($vt=='2'){
                          $unionlist=DB::table($nametable)
-                             ->select('A')
-                             ->where('U','=',$jela)
-                             ->where('B','=',$thana)
-                             ->where('T','<>','Hindu')
-                             ->where('T','<>','Special')
-                             ->where('Y','=',NULL)
+                             ->select('Union_Ward')
+                             ->where('District','=',$jela)
+                             ->where('Thana','=',$thana)
+                             ->where('Report_Sent_By','<>','Hindu')
+                             ->where('Report_Sent_By','<>','Special')
+                             ->where('Pourosova_City_Corporation','=',NULL)
                             ->get();
                                              }
                      elseif($vt=='3'){
                          $unionlist=DB::table($nametable)
-                         ->select('A')
-                         ->where('U','=',$jela)
-                         ->where('B','=',$thana)
-                         ->where('T','=','Hindu')
-                         ->where('Y','=',NULL)
+                         ->select('Union_Ward')
+                         ->where('District','=',$jela)
+                         ->where('Thana','=',$thana)
+                         ->where('Report_Sent_By','=','Hindu')
+                         ->where('Pourosova_City_Corporation','=',NULL)
                          ->get();
         
                     
                      }
                      elseif($vt=='4'){
                          $unionlist=DB::table($nametable)
-                             ->select('A')
-                             ->where('U','=',$jela)
-                             ->where('B','=',$thana)
-                             ->where('T','=','Special')
-                             ->where('Y','=',NULL)
+                             ->select('Union_Ward')
+                             ->where('District','=',$jela)
+                             ->where('Thana','=',$thana)
+                             ->where('Report_Sent_By','=','Special')
+                             ->where('Pourosova_City_Corporation','=',NULL)
                              ->get();
         
                          
@@ -184,8 +184,8 @@ class OnuController extends Controller
 			$jela=session('jela');
  			$person=DB::table($table)
 					->select('*')
-					->where('U','=',$jela)
- 					->where('A','=',$list23)
+					->where('District','=',$jela)
+ 					->where('Union_Ward','=',$list23)
 					->get();
 		
 			return view('last.onuperson2',compact('person'));
@@ -197,9 +197,9 @@ class OnuController extends Controller
                     $jela=session('jela');
                      $person=DB::table($table)
                             ->select('*')
-                            ->where('Y','=',session('citycop'))
-                            ->where('U','=',$jela)
-                             ->where('A','=',$list23)
+                            ->where('Pourosova_City_Corporation','=',session('citycop'))
+                            ->where('District','=',$jela)
+                             ->where('Union_Ward','=',$list23)
                             ->get();
                 
                     return view('last.onuperson3',compact('person'));
@@ -211,8 +211,8 @@ class OnuController extends Controller
                             $jela=session('jela');
                              $person=DB::table($table)
                                     ->select('*')
-                                    ->where('U','=',$jela)
-                                     ->where('A','=',$list23)
+                                    ->where('District','=',$jela)
+                                     ->where('Union_Ward','=',$list23)
                                     ->get();
                         
                             return view('last.onuperson1',compact('person'));
@@ -229,32 +229,32 @@ class OnuController extends Controller
              
                      if($vt=='2'){
                          $unionlist=DB::table($nametable)
-                             ->select('A')
-                             ->where('U','=',$jela)
-                             ->where('Y','=',$thana)
-                             ->where('T','<>','Hindu')
-                             ->where('T','<>','Special')
-                             ->orderby('A')
+                             ->select('Union_Ward')
+                             ->where('District','=',$jela)
+                             ->where('Pourosova_City_Corporation','=',$thana)
+                             ->where('Report_Sent_By','<>','Hindu')
+                             ->where('Report_Sent_By','<>','Special')
+                             ->orderby('Union_Ward')
                              ->get();
                                              }
                      elseif($vt=='3'){
                          $unionlist=DB::table($nametable)
-                         ->select('A')
-                         ->where('U','=',$jela)
-                         ->where('Y','=',$thana)
-                         ->where('T','=','Hindu')
-                         ->orderby('A')
+                         ->select('Union_Ward')
+                         ->where('District','=',$jela)
+                         ->where('Pourosova_City_Corporation','=',$thana)
+                         ->where('Report_Sent_By','=','Hindu')
+                         ->orderby('Union_Ward')
                          ->get();
         
                     
                      }
                      elseif($vt=='4'){
                          $unionlist=DB::table($nametable)
-                             ->select('A')
-                             ->where('U','=',$jela)
-                             ->where('Y','=',$thana)
-                             ->where('T','=','Special')
-                             ->orderby('A')
+                             ->select('Union_Ward')
+                             ->where('District','=',$jela)
+                             ->where('Pourosova_City_Corporation','=',$thana)
+                             ->where('Report_Sent_By','=','Special')
+                             ->orderby('Union_Ward')
                             ->get();
         
                          
@@ -276,32 +276,32 @@ class OnuController extends Controller
              
                      if($vt=='2'){
                          $unionlist=DB::table($nametable)
-                             ->select('A')
-                             ->where('U','=',$jela)
-                             ->where('Y','=',$thana)
-                             ->where('T','<>','Hindu')
-                             ->where('T','<>','Special')
-                             ->where('Y','not regexp','কর্পোরেশন')
+                             ->select('Union_Ward')
+                             ->where('District','=',$jela)
+                             ->where('Pourosova_City_Corporation','=',$thana)
+                             ->where('Report_Sent_By','<>','Hindu')
+                             ->where('Report_Sent_By','<>','Special')
+                             ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
                             ->get();
                                              }
                      elseif($vt=='3'){
                          $unionlist=DB::table($nametable)
-                         ->select('A')
-                         ->where('U','=',$jela)
-                         ->where('Y','=',$thana)
-                         ->where('T','=','Hindu')
-                         ->where('Y','not regexp','কর্পোরেশন')
+                         ->select('Union_Ward')
+                         ->where('District','=',$jela)
+                         ->where('Pourosova_City_Corporation','=',$thana)
+                         ->where('Report_Sent_By','=','Hindu')
+                         ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
                          ->get();
         
                     
                      }
                      elseif($vt=='4'){
                          $unionlist=DB::table($nametable)
-                             ->select('A')
-                             ->where('U','=',$jela)
-                             ->where('Y','=',$thana)
-                             ->where('T','=','Special')
-                             ->where('Y','not regexp','কর্পোরেশন')
+                             ->select('Union_Ward')
+                             ->where('District','=',$jela)
+                             ->where('Pourosova_City_Corporation','=',$thana)
+                             ->where('Report_Sent_By','=','Special')
+                             ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
                              ->get();
         
                          
