@@ -79,8 +79,7 @@
    
  		</tr> 
      @endforeach	
-    <tr> <td align="center">মোট বিবাহ নিবন্ধকগনের সংখ্যা   </td> <td align="center"> </td>      <td align="center">  </td></tr> 
-  
+   
 	</table> 
  
 

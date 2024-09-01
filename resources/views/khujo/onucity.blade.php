@@ -12,7 +12,7 @@
  @section('content')
  
 
-<div class="card text-center">
+<div class="card text-center mt-3 mb-3">
    <div class="card-body text-center w-50 " style="margin-left:20%;">
    <form action="{{route('onujela')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
