@@ -8,7 +8,7 @@
  
   
  @section('content')
- <div style="margin-left:80px;">
+ <div style="margin-left:80px;"class="mb-4">
     <div class="row justify-content-center align-items-center">
 		<div class="col-md-4 col-md-offset-4">
     		 

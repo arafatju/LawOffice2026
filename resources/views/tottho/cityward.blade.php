@@ -67,7 +67,7 @@
 		 
 		 <td align="center"> 
            
-     <a href="{{route('person3',encrypt($district->Union_Ward))}}">  {{ $district->Union_Ward}} </a> 
+     <a href="{{route('person3',encrypt($district->Union_Ward))}}">  @php echo App\Http\Controllers\ConverterController::en2bn ($district->Union_Ward) @endphp </a> 
  
 		 </td>
 
