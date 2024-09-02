@@ -80,7 +80,12 @@
          echo '৪.অধিক্ষেত্র ';
   
          @endphp   </td>	
-                           <td> {{$row1->Union_Ward}} </td> </tr>
+                           <td>   
+                              
+                              @php echo App\Http\Controllers\ConverterController::en2bn ($row1->Union_Ward) @endphp
+                           
+                           
+                           </td> </tr>
                           
                            <tr>
       <td > @php

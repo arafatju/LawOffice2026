@@ -200,6 +200,7 @@ class OnuController extends Controller
                             ->where('Pourosova_City_Corporation','=',session('citycop'))
                             ->where('District','=',$jela)
                              ->where('Union_Ward','=',$list23)
+                             
                             ->get();
                 
                     return view('last.onuperson3',compact('person'));
