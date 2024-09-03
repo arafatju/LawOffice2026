@@ -32,7 +32,7 @@
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
   <select name="sector"  id="office" class="form-inline  ">
-    @foreach ($upojela as $district1)  <option>  {{ $district1->B}} </option> @endforeach
+    @foreach ($upojela as $district1)  <option>  {{ $district1->Thana}} </option> @endforeach
                                 </select>
                               
                        
@@ -42,7 +42,7 @@
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
    <select name="sector"    class="form-inline ">
-    @foreach ($pourosova as $district2) <option>  {{ $district2->Y}} </option>   @endforeach 
+    @foreach ($pourosova as $district2) <option>  {{ $district2->Pourosova_City_Corporation}} </option>   @endforeach 
                                 </select>
                               
                       
@@ -52,7 +52,7 @@
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
    <select name="sector"  id="office" class="form-inline ">
-    @foreach ($citycorporation as $district3) <option>  {{ $district3->Y}} </option>      @endforeach 
+    @foreach ($citycorporation as $district3) <option>  {{ $district3->Pourosova_City_Corporation}} </option>      @endforeach 
                                 </select>
                               
                   
@@ -90,18 +90,18 @@
                 @foreach($person as $data)
                 <tr>
                     <th scope="row">{{$data->id}}</th>
-                    <td> {{ $data->A }} </td>
-                    <td>{{ $data->D }}</td>
-                    <td>{{ $data->E }}</td>
-                    <td>{{ $data->F }}</td>
-                    <td>{{ $data->G }}</td>
-                    <td>  <a class="btn btn-outline-secondary" role="button" href="{{route('editchange',encrypt($data->H))}}"> তথ্য সংশোধন </a>
+                    <td> {{ $data->Union_Ward }} </td>
+                    <td>{{ $data->Name }}</td>
+                    <td>{{ $data->Father }}</td>
+                    <td>{{ $data->Mother }}</td>
+                    <td>{{ $data->DOB }}</td>
+                    <td>  <a class="btn btn-outline-secondary" role="button" href="{{route('editchange',encrypt($data->NID))}}"> তথ্য সংশোধন </a>
  </td>
- <td>  <a class="btn btn-outline-danger" role="button" href="{{route('delchange',encrypt($data->H))}}"> Delete </a>
+ <td>  <a class="btn btn-outline-danger" role="button" href="{{route('delchange',encrypt($data->NID))}}"> Delete </a>
  </td>
- <td>  <a class="btn btn-outline-info" role="button" href="{{route('addlcharge',encrypt($data->H))}}"> অতিরিক্ত দায়িত্ব  </a>
+ <td>  <a class="btn btn-outline-info" role="button" href="{{route('addlcharge',encrypt($data->NID))}}"> অতিরিক্ত দায়িত্ব  </a>
  </td>
- <td>  <a class="btn btn-outline-dark" role="button" href="{{route('picturekazi',encrypt($data->H))}}"> ছবি সংযোজন  </a>
+ <td>  <a class="btn btn-outline-dark" role="button" href="{{route('picturekazi',encrypt($data->NID))}}"> ছবি সংযোজন  </a>
  </td>
                 </tr>
                 @endforeach

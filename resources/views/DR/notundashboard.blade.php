@@ -25,19 +25,19 @@
                 <tr class="table-success">
                 
 
-                   <td> নাম   </td>  <td>   {{$data->D}} </td>  
-                        <td> পিতার নাম    </td>  <td>  {{$data->E }}  </td>  
-                     <td>মাতার নাম  </td>  <td>  {{$data->F}}  </td>  
+                   <td> নাম   </td>  <td>   {{$data->Name}} </td>  
+                        <td> পিতার নাম    </td>  <td>  {{$data->Father }}  </td>  
+                     <td>মাতার নাম  </td>  <td>  {{$data->Mother}}  </td>  
                     
  
-                     <td>  এন আই ডি </td>  <td> {{$data->H}}   </td>  
-                     <td> অধিক্ষেত্র  </td>  <td>  {{$data->A}}  </td> 
-                    <td> Delete</td> <td><a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delnotun',encrypt($data->H))}}"> Delete </a>
+                     <td>  এন আই ডি </td>  <td> {{$data->NID}}   </td>  
+                     <td> অধিক্ষেত্র  </td>  <td>  {{$data->Union_Ward}}  </td> 
+                    <td> Delete</td> <td><a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('delnotun',encrypt($data->NID))}}"> Delete </a>
  </td>
                      
-                  <td>Send </td>  <td> <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('sendnotun',encrypt($data->H))}}"> Send </a>
+                  <td>Send </td>  <td> <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('sendnotun',encrypt($data->NID))}}"> Send </a>
  </td> 
-                  <td>view </td>  <td> <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('viewnotun',encrypt($data->H))}}"> View details </a>
+                  <td>view </td>  <td> <a class="btn btn-sm  btn-outline-dark" role="button" href="{{route('viewnotun',encrypt($data->NID))}}"> View details </a>
  </td> 
                 </tr> 
                     

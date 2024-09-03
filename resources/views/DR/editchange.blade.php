@@ -42,7 +42,7 @@
 	 
 	 
 				 
-						 <td  >  {{$row1->D}} </td> <td>  <a class="btn btn-primary btn-sm" role="button" href="{{route('changeme', ['id'=>encrypt('D'),'id2'=>'নাম '])}}"> তথ্য সংশোধন </a>
+						 <td  >  {{$row1->Name}} </td> <td>  <a class="btn btn-primary btn-sm" role="button" href="{{route('changeme', ['id'=>encrypt('D'),'id2'=>'নাম '])}}"> তথ্য সংশোধন </a>
  </td>  </tr> 
 
 				 <tr>
@@ -52,7 +52,7 @@
 
        @endphp
      </td>	
-                         <td> {{$row1->E}} </td> <td>  <a class="btn btn-primary btn-sm" role="button" href="{{route('changeme', ['id'=>encrypt('E'),'id2'=>'পিতার নাম'])}}"> তথ্য সংশোধন </a>
+                         <td> {{$row1->Father}} </td> <td>  <a class="btn btn-primary btn-sm" role="button" href="{{route('changeme', ['id'=>encrypt('E'),'id2'=>'পিতার নাম'])}}"> তথ্য সংশোধন </a>
  </td> </tr> 
                                            
                          <tr>
@@ -61,7 +61,7 @@
        echo  '৩.মাতার নাম';
 
        @endphp   </td>	
-                         <td>{{$row1->F}}  </td> <td>  <a class="btn btn-primary btn-sm" role="button" href="{{route('changeme',['id'=>encrypt('F'),'id2'=>'মাতার নাম'] )}}"> তথ্য সংশোধন </a>
+                         <td>{{$row1->Mother}}  </td> <td>  <a class="btn btn-primary btn-sm" role="button" href="{{route('changeme',['id'=>encrypt('F'),'id2'=>'মাতার নাম'] )}}"> তথ্য সংশোধন </a>
  </td></tr> 
                         
                          <tr>

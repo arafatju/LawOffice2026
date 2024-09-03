@@ -103,7 +103,7 @@ class infoimp extends Controller
          
         $person=DB::table(session('tabledr'))
                 ->select($kk)
-                ->where('H','=',session('NID'))
+                ->where('NID','=',session('NID'))
                 ->get();
           
         
@@ -114,7 +114,7 @@ class infoimp extends Controller
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
         $person=DB::table($nametable)
                 ->select('*')
-                ->where('H','=',decrypt($id))
+                ->where('NID','=',decrypt($id))
                 ->get();
          
          session(['NID' =>decrypt($id)]);
@@ -179,28 +179,28 @@ class infoimp extends Controller
      public function okchange(){
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
         $person=DB::table($nametable)
-                 ->orderBy('A', 'asc')
+                 ->orderBy('Union_Ward', 'asc')
 
                 ->paginate(20);
         $upojela=DB::table($nametable)
-                ->select('B')
-                ->where('U','=',Auth::user()->District)
-                ->where('Y','=',NULL)
+                ->select('Thana')
+                ->where('District','=',Auth::user()->District)
+                ->where('Pourosova_City_Corporation','=',NULL)
                 ->distinct()
                 ->get();
 
 
         $pourosova=DB::table($nametable)
-                ->select('Y')
-                ->where('U','=',Auth::user()->District)
-                ->where('Y','not regexp','কর্পোরেশন')
+                ->select('Pourosova_City_Corporation')
+                ->where('District','=',Auth::user()->District)
+                ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
                 ->distinct()
                 ->get();
 
         $citycorporation=DB::table($nametable)
-                            ->select('Y')
-                            ->where('U','=',Auth::user()->District)
-                            ->where('Y','regexp','কর্পোরেশন')
+                            ->select('Pourosova_City_Corporation')
+                            ->where('District','=',Auth::user()->District)
+                            ->where('Pourosova_City_Corporation','regexp','কর্পোরেশন')
                             ->distinct()
                             ->get();
         
@@ -217,48 +217,48 @@ class infoimp extends Controller
       if($request->category=='upojela'){
          $person=DB::table($nametable)
                 ->select('*')
-                ->where('U','=',Auth::user()->District)
-                ->where('B','=',$request->sector)
-                ->orderBy('A', 'asc')
+                ->where('District','=',Auth::user()->District)
+                ->where('Thana','=',$request->sector)
+                ->orderBy('Union_Ward', 'asc')
 
                 ->paginate(100);
       }
       else if($request->category=='pourosova'){
         $person=DB::table($nametable)
         ->select('*')
-        ->where('U','=',Auth::user()->District)
-        ->where('Y','=',$request->sector)
-        ->orderBy('A', 'asc')
+        ->where('District','=',Auth::user()->District)
+        ->where('Pourosova_City_Corporation','=',$request->sector)
+        ->orderBy('Union_Ward', 'asc')
         ->paginate(100);
       }
       else if($request->category=='citycorporation'){
         $person=DB::table($nametable)
                 ->select('*')
-                ->where('U','=',Auth::user()->District)
-                ->where('Y','=',$request->sector)
-                ->orderBy('A', 'asc')
+                ->where('District','=',Auth::user()->District)
+                ->where('Pourosova_City_Corporation','=',$request->sector)
+                ->orderBy('Union_Ward', 'asc')
 
                 ->paginate(100);
       }
       $upojela=DB::table($nametable)
-      ->select('B')
-      ->where('U','=',Auth::user()->District)
-      ->where('Y','=',NULL)
+      ->select('Thana')
+      ->where('District','=',Auth::user()->District)
+      ->where('Pourosova_City_Corporation','=',NULL)
       ->distinct()
       ->get();
 
 
 $pourosova=DB::table($nametable)
-      ->select('Y')
-      ->where('U','=',Auth::user()->District)
-      ->where('Y','not regexp','কর্পোরেশন')
+      ->select('Pourosova_City_Corporation')
+      ->where('District','=',Auth::user()->District)
+      ->where('Pourosova_City_Corporation','not regexp','কর্পোরেশন')
       ->distinct()
       ->get();
 
 $citycorporation=DB::table($nametable)
-                  ->select('Y')
-                  ->where('U','=',Auth::user()->District)
-                  ->where('Y','regexp','কর্পোরেশন')
+                  ->select('Pourosova_City_Corporation')
+                  ->where('District','=',Auth::user()->District)
+                  ->where('Pourosova_City_Corporation','regexp','কর্পোরেশন')
                   ->distinct()
                   ->get();
 
@@ -314,7 +314,7 @@ $path = public_path('upload/kazi/picture/');
         'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:100',
     ]);
     $fft=DB::table(session('tabledr'))
-          ->where('H','=',session('NID'))
+          ->where('NID','=',session('NID'))
           ->first();
     $imageName = 'kazipic'.session('NID').'.'.$request->avatar->extension();  
     $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
@@ -322,9 +322,9 @@ $path = public_path('upload/kazi/picture/');
         'district' => Auth::user()->District,
         'nid'=>session('NID'),
         'picture'=>$imageName,
-        'father'=>$fft->E,
-        'mother'=>$fft->F,
-        'name'=>$fft->D,
+        'father'=>$fft->Father,
+        'mother'=>$fft->Mother,
+        'name'=>$fft->Name,
     ]);
         return redirect("showkazi");
 
@@ -415,7 +415,7 @@ $request->avatar->move(public_path('upload/kazi/papers/'), $imageName);
                session(['NID' =>decrypt($id)]);
                $draftdata=DB::table(session('tabledr'))
                ->select('*')
-               ->where('H','=',decrypt($id))
+               ->where('NID','=',decrypt($id))
                ->get();
 
 
@@ -484,13 +484,13 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
         ]);
         $draftdata=DB::table(session('tabledr'))
         ->select('*')
-        ->where('H','=',session('NID'))
-        ->get()->pluck('D');
+        ->where('NID','=',session('NID'))
+        ->get()->pluck('Name');
 
         $draftdata2=DB::table(session('tabledr'))
         ->select('*')
-        ->where('H','=',session('NID'))
-        ->get()->pluck('A');
+        ->where('NID','=',session('NID'))
+        ->get()->pluck('Union_Ward');
            
         $imageName = "adlpapers".time().session('NID').'.'.$request->avatar->extension();  
         $request->avatar->move(public_path('upload/kazi/papers/'), $imageName);
@@ -604,32 +604,32 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
             
         ]);
           DB::table(session('tabledr'))->insert([
-            'A' => $request->area  ,
-            'B' => $request->upojela  ,
-            'C'=> 'kk'   ,
-             'D'=> $request->name  ,
-            'E'=> $request->father   ,
-            'F'=>  $request->mother ,
-            'G'=>  $request->dob ,
-            'H' => $request->nid  ,
-            'I' =>   $request->education,
-            'J'=>   $request->permanent ,
-             'K'=>  $request->present ,
-            'L'=>  $request->office  ,
-            'M'=>   $request->mobile,
-            'N'=>   $request->email,
-            'O' =>   $request->dategot,
-            'P' =>  $request->statuslicense ,
-            'Q'=>   $request->Q ,
-             'R'=>  $request->indent ,
-            'S'=>   $request->gazetdate ,
-            'T'=>   $request->religion,
-            'U'=>  "draft",
-            'V' => $request->expired,
-            'W'=> $request->jobdo,
-            'X'=> $request->jobname,
-            'Y'=> $request->pourosova,
-            'Z'=>$request->datelicense ,
+            'Union_Ward' => $request->area  ,
+            'Thana' => $request->upojela  ,
+            'Bivag'=> 'kk'   ,
+             'Name'=> $request->name  ,
+            'Father'=> $request->father   ,
+            'Mother'=>  $request->mother ,
+            'DOB'=>  $request->dob ,
+            'NID' => $request->nid  ,
+            'Education' =>   $request->education,
+            'Permanent'=>   $request->permanent ,
+             'Present'=>  $request->present ,
+            'Office'=>  $request->office  ,
+            'Mobile'=>   $request->mobile,
+            'Email'=>   $request->email,
+            'License_Sarok' =>   $request->dategot,
+            'License_Status' =>  $request->statuslicense ,
+            'Joining_Date'=>   $request->Q ,
+             'Indent_Date'=>  $request->indent ,
+            'License_Gazet_Date'=>   $request->gazetdate ,
+            'Report_Sent_By'=>   $request->religion,
+            'District'=>  "draft",
+            'Resign_Date' => $request->expired,
+            'Job'=> $request->jobdo,
+            'Job_Status'=> $request->jobname,
+            'Pourosova_City_Corporation'=> $request->pourosova,
+            'License_Achieved_Date'=>$request->datelicense ,
              
         ]);
 
@@ -665,12 +665,12 @@ $request->avatar->move(public_path('upload/kazi/picture/'), $imageName);
      }
      public function mamla(){
         $upojela=DB::table(session('tabledr'))
-        ->select('B')
+        ->select('Thana')
          ->distinct()
           ->get();
 $pourosova=DB::table(session('tabledr'))
-          ->select('Y')
-          ->whereNotNull('Y')
+          ->select('Pourosova_City_Corporation')
+          ->whereNotNull('Pourosova_City_Corporation')
            ->distinct()
             ->get();
 
@@ -733,14 +733,14 @@ return view('DR.mamladashboard',compact('draftdata'));
                      
             $draftdata=DB::table(session('tabledr'))
                         ->select('*')
-                        ->where('U','=','Draft')
+                        ->where('District','=','Draft')
                         ->paginate();
                 return view('DR.notundashboard',compact('draftdata'));
      }
      public function viewnotun($id){
         $draftdata=DB::table(session('tabledr'))
         ->select('*')
-        ->where('H','=',decrypt($id))
+        ->where('NID','=',decrypt($id))
         ->get();
  return view('DR.viewnotun',compact('draftdata'));
 
@@ -750,18 +750,18 @@ return view('DR.mamladashboard',compact('draftdata'));
 public function notunone(){
     $draftdata=DB::table(session('tabledr'))
     ->select('*')
-    ->where('U','=','Draft')
+    ->where('District','=','Draft')
     ->paginate();
 return view('DR.notundashboard',compact('draftdata'));
 
 }
     public function notun(){
           $upojela=DB::table(session('tabledr'))
-                    ->select('B')
+                    ->select('Thana')
                      ->distinct()
                       ->get();
          $pourosova=DB::table(session('tabledr'))
-                      ->select('Y')
+                      ->select('Pourosova_City_Corporation')
                        ->distinct()
                         ->get();
           
@@ -771,14 +771,14 @@ return view('DR.notundashboard',compact('draftdata'));
     }
     public function sendnotun($id){
                DB::table(session('tabledr'))
-               ->where('H','=',decrypt($id))
-               ->update(['U' => 'For' ]);
+               ->where('NID','=',decrypt($id))
+               ->update(['District' => 'For' ]);
              
                DB::table('activitynew')
-               ->where('H','=',decrypt($id))
+               ->where('NID','=',decrypt($id))
                ->update(['status' => 'Forwarded' ]);
           $ggt=DB::table('activitynew')
-                ->where('H','=',decrypt($id))
+                ->where('NID','=',decrypt($id))
                 ->first();
             
                DB::table('action')->insert([
@@ -796,7 +796,7 @@ return view('DR.notundashboard',compact('draftdata'));
               
                $draftdata=DB::table(session('tabledr'))
                ->select('*')
-               ->where('U','=','Draft')
+               ->where('District','=','Draft')
                ->paginate();
      return view('DR.notundashboard',compact('draftdata'));
 
@@ -804,14 +804,14 @@ return view('DR.notundashboard',compact('draftdata'));
     }
     public function delnotun($id){
                DB::table(session('tabledr'))
-               ->where('H','=',decrypt($id))
-               ->where('U','=','Draft')
+               ->where('NID','=',decrypt($id))
+               ->where('District','=','Draft')
                ->delete();
 
             
      $draftdata=DB::table(session('tabledr'))
                ->select('*')
-               ->where('U','=','Draft')
+               ->where('District','=','Draft')
                ->paginate();
      return view('DR.notundashboard',compact('draftdata'));
 
@@ -899,7 +899,7 @@ return view('SR.charge',compact('draftdata'));
         ->first();
         $nametable = (new ConverterController)->name2table($ggth->district);
       $draftdata=DB::table($nametable)
-        ->where('H','=',$id)
+        ->where('NID','=',$id)
         ->get();
     return view('SR.notunview',compact('draftdata'));
 
@@ -913,7 +913,7 @@ return view('SR.charge',compact('draftdata'));
     ->first();
     $nametable = (new ConverterController)->name2table($ggth->district);
   $draftdata=DB::table($nametable)
-    ->where('H','=',$id)
+    ->where('NID','=',$id)
     ->get();
 return view('AR.adminnotunview',compact('draftdata'));
 
@@ -991,14 +991,14 @@ public function publish(Request $request){
               ->first();
     if($name=='activityedit'&& $district->status=='ok'){
         $nametable = (new ConverterController)->name2table($district->district);
-           DB::table($nametable)->where('H','=',$district->nid)->update([$district->colname => $district->after ]);
+           DB::table($nametable)->where('NID','=',$district->nid)->update([$district->colname => $district->after ]);
            DB::table('activityedit')->where('id','=',$id)->update(['status' => 'published' ]);
 
     }
 
     else if($name=='activitydel'&& $district->status=='ok'){
         $nametable = (new ConverterController)->name2table($district->district);
-           DB::table($nametable)->where('H','=',$district->nid)->delete();
+           DB::table($nametable)->where('NID','=',$district->nid)->delete();
            DB::table('activitydel')->where('id','=',$id)->update(['status' => 'published' ]);
 
 
@@ -1006,14 +1006,14 @@ public function publish(Request $request){
     else if($name=='activitycharge'&& $district->status=='ok'){
         $nametable = (new ConverterController)->name2table($district->district);
          $ready=$district->bortoman.' এবং '.$district->sector.'অতিরিক্ত দায়িত্ব ';  
-        DB::table($nametable)->where('H','=',$district->nid)->update(['A' => $ready ]);
+        DB::table($nametable)->where('NID','=',$district->nid)->update(['A' => $ready ]);
         DB::table('activitycharge')->where('id','=',$id)->update(['status' => 'published' ]);
 
 
     }
     else if($name=='activitynew'&& $district->status=='ok'){
         $nametable = (new ConverterController)->name2table($district->district);
-         DB::table($nametable)->where('H','=',$district->nid)->update(['U' => $district->district]);
+         DB::table($nametable)->where('NID','=',$district->nid)->update(['U' => $district->district]);
          DB::table('activitynew')->where('id','=',$id)->update(['status' => 'published' ]);
 
 

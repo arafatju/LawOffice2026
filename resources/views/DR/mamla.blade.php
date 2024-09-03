@@ -84,7 +84,7 @@
                   <td>   
                   <select name="upojela" class="form-control">
                     @foreach($upojela as $row1)
-                  <option>{{$row1->B}} </option>
+                  <option>{{$row1->Thana}} </option>
                     @endforeach
                   </select>
 
@@ -102,7 +102,7 @@
                     <td>
                         <select name="pourosova" class="form-control">
                          @foreach($pourosova as $row2)    
-                         <option>{{$row2->Y}} </option>
+                         <option>{{$row2->Pourosova_City_Corporation}} </option>
                          @endforeach  
                             </select>  
                       </td>  

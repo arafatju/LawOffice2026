@@ -41,14 +41,14 @@
             <tbody>
                 @foreach($draftdata as $data)
                 <tr>
-                    <th scope="row">{{$data->D}}</th>
-                    <td> {{ $data->E }} </td>
-                    <td>{{ $data->F }}</td>
+                    <th scope="row">{{$data->Name}}</th>
+                    <td> {{ $data->Father }} </td>
+                    <td>{{ $data->Mother }}</td>
                      
-                    <td>{{ $data->A }}</td>
+                    <td>{{ $data->Union_Ward }}</td>
                      <td>   
                 <input type="text" name="charge">  
-                <input type="hidden" name="name" value="{{ $data->D}}"> 
+                <input type="hidden" name="name" value="{{ $data->Name}}"> 
                 <input type="hidden" name="bortoman" value="{{ $data->A}}" > 
               
                 </td>
