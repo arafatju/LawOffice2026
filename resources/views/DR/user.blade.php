@@ -1,7 +1,6 @@
 
 
-@extends('appinfo')
- 
+@extends('common.dr')
  
   
   

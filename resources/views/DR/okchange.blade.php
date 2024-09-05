@@ -1,5 +1,5 @@
 
-@extends('appinfo')
+@extends('common.dr')
  
  
   
@@ -12,23 +12,9 @@
 
  
 <div class="container mt-5">
-<div class="d-flex justify-content-end p-1">
-<a class="btn btn-outline-primary" role="button" href="{{route('dataone')}}"> ড্রাফট এডিট </a>
-<a class="btn btn-outline-primary" role="button" href="{{route('showkazi')}}"> ড্রাফট ছবি  </a>
-<a class="btn btn-outline-primary" role="button" href="{{route('chargedash')}}"> ড্রাফট অতিরক্ত দায়িত্ব   </a>
-
-<a class="btn btn-outline-primary" role="button" href="{{route('deldashboard')}}"> ড্রাফট ডিলিট  </a>
-<a class="btn btn-outline-primary" role="button" href="{{route('notundashboard')}}"> ড্রাফট নতুন নিয়োগ   </a>
-
-</div>
-
-<div class="d-flex justify-content-end p-1">
-
-
-<a class="btn btn-outline-primary" role="button" href="{{route('notun')}}"> নতুন নিয়োগ </a>
-<a class="btn btn-outline-primary" role="button"href="{{route('mamla')}}" > মামলা সঙ্ক্রান্ত তথ্যাদি  </a>
-</div>
-<div class="d-flex justify-content-end p-1 ">
+ 
+ 
+<div class="d-flex justify-content-end p-1 m-2 ">
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
   <select name="sector"  id="office" class="form-inline  ">
@@ -37,7 +23,7 @@
                               
                        
                      <input type="hidden" name="category" value="upojela"> 
-                     <input class="btn btn-sm btn-primary form-inline "  type="submit" value="upojela"> 
+                     <input class="btn btn-sm btn-primary form-inline "  type="submit" value="উপজেলা"> 
 </form>
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
@@ -47,7 +33,7 @@
                               
                       
                      <input type="hidden" name="category" value="pourosova"> 
-                     <input class="btn btn-sm btn-primary form-inline  " type="submit" value="pourosova"> 
+                     <input class="btn btn-md btn-primary form-inline  " type="submit" value="পৌরসভা"> 
 </form>
 <form action="{{route('thanakoi')}}" method="POST" accept-charset="UTF-8" role="form">
                              @csrf
