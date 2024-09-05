@@ -1,4 +1,4 @@
-@extends('appinfosr')
+@extends('common.sr')
  
  
   
