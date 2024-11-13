@@ -166,6 +166,9 @@ return [
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
          Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+
 
 
 
@@ -241,6 +244,7 @@ return [
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => 'Intervention\Image\Facades\Image',
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
 
 

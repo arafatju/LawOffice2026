@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-  <title>  বিবাহ নিবন্ধক গণের তথ্য  </title>
+  <title>  ব্যবহারকারী গণের তথ্য নিবন্ধন   </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

@@ -20,7 +20,7 @@ class Kazipicture extends Migration
      */
     public function up()
     {
-        Schema::create('kazipicture', function (Blueprint $table) {
+        Schema::create('userpicture', function (Blueprint $table) {
             $table->id();
             $table->string('district');
             $table->string('nid');
@@ -40,6 +40,6 @@ class Kazipicture extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kazipicture');
+        Schema::dropIfExists('userpicture');
     }
 }

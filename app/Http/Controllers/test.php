@@ -11,13 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use DB;
+Use Alert;
 
 class test extends Controller
 {
     public function registration()
     {
+       notify()->success('আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে ', 'Notice');
+        //Alert::success('Success Title', 'Success Message');
 
-        return view('auth.registration');
+                return view('auth.registration');
     }
 
      

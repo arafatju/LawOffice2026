@@ -18,7 +18,7 @@ use App\Http\Controllers\test;
 */
 
 Route::get('/', function () {
-    return view('nav1');
+    return view('auth.login');
 });
 
 Route::get('/bivag/{id}', [App\Http\Controllers\hhomeController::class, 'bivag'])->name('bivag');

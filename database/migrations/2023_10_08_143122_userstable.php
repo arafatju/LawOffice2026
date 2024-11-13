@@ -18,11 +18,11 @@ class Userstable extends Migration
             $table->string('email')->unique;
             $table->string('name');
             $table->string('password');
-            $table->string('Designation')->unique;
+            $table->string('Designation');
             $table->string('District');
             $table->string('Device');
-            $table->string('Location')->unique;
-            $table->string('mobile');
+            $table->string('Location');
+            $table->string('mobile')->unique;
             $table->string('avatar');
             $table->string('role');  
 
