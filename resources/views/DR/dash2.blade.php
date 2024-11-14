@@ -24,7 +24,7 @@
            <div>গৃহীত ব্যবহারকারী: ১২৩</div>
          </div>
          <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{ route('sendtoict') }}">Click</a>
+           <a class="btn btn-dark" role="button" href="{{ route('finaluser') }}">Click</a>
          </div>
        </div>
      

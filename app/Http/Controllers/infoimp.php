@@ -831,6 +831,25 @@ return view('DR.notundashboard',compact('draftdata'));
 
          
     }
+    public function finaluser(){
+        $draftdata=DB::table('users')
+        ->select('*')
+        ->where('role','=','verified1')
+        ->paginate(3);
+       return view('DR.finaluser',compact('draftdata'));
+
+         
+    }
+    public function userstatus22(Request $request){
+        DB::table('users')
+      ->where('id','=',$request->id)
+      ->update(['role' => 'userone' ]);
+      $draftdata=DB::table('users')
+      ->select('*')
+      ->where('role','=','verified1')
+      ->paginate(3);
+     return view('DR.finaluser',compact('draftdata'));
+    }
     public function userstatus11(Request $request){
          
       DB::table('users')
