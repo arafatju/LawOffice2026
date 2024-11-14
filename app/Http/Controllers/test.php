@@ -67,7 +67,7 @@ class test extends Controller
 
 
 
-            if(Auth::user()->role=='userdr')  { return redirect("dashboard");}
+            if(Auth::user()->role=='userdr')  { return redirect("dash2");}
         
             else if(Auth::user()->role=='usersr'){  return redirect("section7"); 
                                                                      }

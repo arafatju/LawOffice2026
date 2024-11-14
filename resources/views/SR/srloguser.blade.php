@@ -30,7 +30,7 @@
                     
                     <th scope="col">Time </th>
                     <th scope="col">Email </th>
-                    <th scope="col">Mobile   </th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -41,11 +41,28 @@
 
                     <td> {{ $data->Device }} </td>
                     <td>{{ $data->Location }}</td>
-                    <td>{{ $data->browser }}</td>
+                    <td>{{ $data->Browser }}</td>
                     <td>{{ $data->time }}</td>
-                    <td>{{ $data->mail }}</td>
-                    <td>{{ $data->mobile }}</td>
-                 
+                  
+                    <td>
+                         <div class="row  "> 
+                        <div class="col-auto"> 
+                            <a href="#">
+                            <img src="{{ asset('accept.png') }}" alt="Image" width="20" height="20">
+                        </a>
+                    </div> 
+                    <div class="col-auto"> 
+                        <a href="#">
+                            <img src="{{ asset('delete.png') }}" alt="Image" width="20" height="20">
+                        </a>
+                    </div> 
+                    <div class="col-auto"> 
+                        <a href="#">
+                            <img src="{{ asset('view.png') }}" alt="Image" width="20" height="20">
+                        </a>
+                    </div>
+                    </div>
+                    </td>                     
                 </tr>
                 @endforeach
             </tbody>

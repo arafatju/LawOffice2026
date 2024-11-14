@@ -4,7 +4,9 @@
 <html lang="en">
 <head>
 <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-  <title>  বিবাহ নিবন্ধক গণের তথ্য  </title>
+  <title> বাজেট ব্যবস্থাপনা সিস্টেম   </title>
+ 
+
    
 
   
@@ -46,7 +48,7 @@
     <div class="greet">
 <h4 align="center"><img src="{{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
-    <h4 align="center"> সারাদেশের বিবাহ নিবন্ধকগণের ডিজিটাল ডাটাবেইস  </h4>  
+    <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
 </div> 
 
 <style>
@@ -75,14 +77,14 @@
     <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
     <ul class="navbar-nav navbar-brand    w-100" style="padding-left:24%;   ">
         <li class="nav-item active ">
-        <a href="#" class="nav-link navbar-brand">বিবাহ নিবন্ধকগণের তথ্য</a>
+        <a href="#" class="nav-link navbar-brand">ব্যাক্তিগত তথ্য </a>
         </li>
         <li class="nav-item active">
         <a href="#" class="nav-link navbar-brand"> তথ্য অনুসন্ধান</a>
         </li>
         
         <li class="nav-item active">
-        <a href="#" class="nav-link navbar-brand">এক নজরে সারা দেশ</a>
+        <a href="#" class="nav-link navbar-brand">লগ ইনফো তথ্য</a>
         </li>
         <li class="nav-item active mt-1">
             <a class="dropdown-item" href="{{ route('logout') }}"
@@ -101,7 +103,7 @@
  
  
         <div class="container mx-auto mt-5" >
-Congratulations. You have been successfully Registered. You will bw notifid very soon        </div>
+            আপনি সফল ভাবে রেজিস্ট্রেশন করেছেন । আপনার  আইডিটি খুব    শীঘ্রই  অ্যাক্টিভ  করা হবে ।  বাজেট সিস্টেমের সাথে থাকার জন্য ধন্যবাদ ।        </div>
         
     </body>
     <div style="position:absolute ;bottom:0px;width:100%;text-align:center;background:#191970">

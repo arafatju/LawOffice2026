@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title>  বিবাহ নিবন্ধক গণের তথ্য  </title>
+    <title>  বাজেট ব্যবস্থাপনা সিস্টেম   </title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,7 +41,7 @@
     <h4 align="center"><img src="{{asset('gov.png')}}" style="width:20px;height:20px;" /> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> 
     <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
-    <h4 align="center"> সারাদেশের বিবাহ নিবন্ধকগণের ডিজিটাল ডাটাবেইস  </h4>  
+    <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
 </div>
 
 <nav class="navbar navbar-custom navbar-expand-sm navbar-light" style="height:50px;z-index:1">

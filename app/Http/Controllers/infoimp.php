@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use Image;
 use DB;
-
+ 
 
 class infoimp extends Controller
 {
@@ -36,7 +36,7 @@ class infoimp extends Controller
     }
      public function section7(){
         if(Auth::check()){
-
+             
             return view('SR.dashboard');
 
            
@@ -823,7 +823,25 @@ return view('DR.notundashboard',compact('draftdata'));
 
     }
     public function sendtoict(){
-        return view('SR.sendtoict');
+        $draftdata=DB::table('users')
+        ->select('*')
+        ->where('role','=','user')
+        ->paginate(3);
+       return view('SR.sendtoict',compact('draftdata'));
+
+         
+    }
+    public function userstatus11(Request $request){
+         
+      DB::table('users')
+      ->where('id','=',$request->id)
+      ->update(['role' => 'verified1' ]);
+      $draftdata=DB::table('users')
+      ->select('*')
+      ->where('role','=','user')
+      ->paginate(3);
+     return view('SR.sendtoict',compact('draftdata'));
+       
     }
     public function overalldel(Request $request){
           $tablenn=$request->name;
@@ -831,7 +849,11 @@ return view('DR.notundashboard',compact('draftdata'));
         DB::table($tablenn)
         ->where('id','=',$id)
         ->delete();
-        return view('SR.verificationinfo');
+        $draftdata=DB::table('users')
+        ->select('*')
+        ->where('role','=','user')
+        ->paginate(3);
+       return view('SR.sendtoict',compact('draftdata'));
 
 
 
@@ -961,6 +983,7 @@ public function admindash(){
     return view('AR.dashboard');
 }
 public function Newuser(){
+    
     return view('Newok.Newuser');
 }
 public function profilear(Request $request){
@@ -1041,7 +1064,7 @@ public function loguser(){
 public function srloguser(){
     $draftdata=DB::table('loginfo')->select('*')
     ->where('mobile','=',Auth::user()->mobile)
-    ->orderby('time','DESC')->paginate();
+    ->orderby('time','DESC')->paginate(5);
     return view('SR.srloguser',compact('draftdata'));
 }
 public function drloguser(){
@@ -1140,7 +1163,21 @@ public function dashboard()
   
         return redirect("login")->withSuccess('You are not allowed to access');
     }
-    
+    public function dash2()
+    {   
+        if(Auth::check()){
+
+                // ->orWhere('name', 'John')
+               
+               
+               return view('DR.dash2');
+                        }
+        
+        
+         
+  
+        return redirect("login")->withSuccess('You are not allowed to access');
+    }
     public function signOut() {
         Session::flush();
         Auth::logout();

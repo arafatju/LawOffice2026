@@ -20,6 +20,7 @@ use App\Http\Controllers\test;
 Route::get('/', function () {
     return view('auth.login');
 });
+ 
 
 Route::get('/bivag/{id}', [App\Http\Controllers\hhomeController::class, 'bivag'])->name('bivag');
 Route::get('/hhome', [App\Http\Controllers\hhomeController::class, 'index'])->name('hhome');
@@ -63,7 +64,8 @@ All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
-    
+    Route::get('/dash2', [infoimp::class, 'dash2'])->name('dash2'); 
+
     Route::get('/dashboard', [infoimp::class, 'dashboard'])->name('dashboard'); 
     Route::post('/profile', [infoimp::class, 'profile'])->name('profile'); 
     Route::get('/picturekazi/{id}', [infoimp::class, 'picturekazi'])->name('picturekazi'); 
@@ -140,6 +142,8 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/notunview/{name}/{id}', [infoimp::class, 'notunview'])->name('notunview'); 
     Route::get('/srloguser', [infoimp::class, 'srloguser'])->name('srloguser'); 
     Route::get('/adminstatus', [infoimp::class, 'adminstatus'])->name('adminstatus'); 
+     
+    Route::get('/userstatus11/{id}', [infoimp::class, 'userstatus11'])->name('userstatus11'); 
 
 
 });
@@ -171,6 +175,6 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
-    Route::get('/Newuser', [infoimp::class, 'Newuser'])->name('Newuser'); 
+   Route::get('/Newuser', [infoimp::class, 'Newuser'])->name('Newuser'); 
 
 });

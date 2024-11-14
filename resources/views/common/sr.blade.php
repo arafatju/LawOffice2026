@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title>  বিবাহ নিবন্ধক গণের তথ্য  </title>
+    <title> বাজেট ব্যবস্থাপনা সিস্টেম   </title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,113 +41,38 @@
     <h4 align="center"><img src="{{asset('gov.png')}}" style="width:20px;height:20px;" /> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> 
     <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
-    <h4 align="center"> সারাদেশের বিবাহ নিবন্ধকগণের ডিজিটাল ডাটাবেইস  </h4>  
+    <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
 </div>
-
-<nav class="navbar navbar-custom navbar-expand-sm navbar-light" style="height:50px;z-index:1;width:100%">
+<nav class="navbar navbar-custom navbar-expand-sm navbar-light  " style="height:50px;z-index:1">
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"> </span> </button>
 
-    <div class="collapse navbar-collapse w-100 " id="navbarNav" style="background-color: #191970;">
-        <ul class="navbar-nav navbar-brand mx-auto p-2 w-100"  >
-           
-            <li class="nav-item active mt-1 mr-2 ">
-                <a class="dropdown-item mr-3" href="{{ route('section7') }}"
-                    >
-                    হোম
-                </a>
-                 
-            </li>
-           
-           
-            <li class="nav-item active mt-1 ">
-                <a class="dropdown-item mr-1" href="{{ route('editme') }}"
-                    >
-                    ব্যাক্তিগত তথ্য
-                </a>
-                 
-            </li>
-            
-            <li class="nav-item active mt-1 ">
-                <a class="dropdown-item mr-1" href="{{ route('srallpic') }}"
-                    >
-                    ছবি সংশোধন 
-                </a>
-                 
-            </li>
-	        <li class="nav-item active mt-1 ">
-                <a class="dropdown-item mr-1" href="{{ route('additional') }}"
-                    >
-                    অতিরিক্ত দায়িত্ব 
-                </a>
-                 
-            </li>
-             
-	
-            
-           
-                
-	      Log Out 
-            <li class="nav-item active mt-1 ">
-                <a class="dropdown-item mr-1" href="{{ route('deletesr') }}"
-                    >
-                    তথ্য মুছে ফেলুন 
-                </a>
-                 
-            </li>
-            <li class="nav-item active mt-1 ">
-                <a class="dropdown-item mr-1" href="{{ route('newentry') }}"
-                    >
-                    নতুন নিয়োগ 
-                                </a>
-                 
-            </li>
-             
-	
-             
-             
-             
-            
-             
-             
-       
-      
-      
-       
-     
-      
-	
-	 
-    
-    
-    
-     
-     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Status
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{route('srloguser')}}"> লগ তথ্য </a></li>
-            <li><a class="dropdown-item" href="{{route('adminstatus')}}"> বর্তমান তথ্য </a></li>
-             
-            
+    <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
+    <ul class="navbar-nav navbar-brand    w-100" style="padding-left:24%;   ">
+        <li class="nav-item active ">
+        <a href="#" class="nav-link navbar-brand">ব্যাক্তিগত তথ্য </a>
+        </li>
+        <li class="nav-item active">
+        <a href="#" class="nav-link navbar-brand"> তথ্য অনুসন্ধান</a>
+        </li>
+        
+        <li class="nav-item active">
+        <a href="#" class="nav-link navbar-brand">লগ ইনফো তথ্য</a>
+        </li>
+        <li class="nav-item active mt-1">
+            <a class="dropdown-item" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                          document.getElementById('logout-form').submit();">
+              লগ আউট 
+         </a>
+
+         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+             @csrf
+         </form>
+        </li>
         </ul>
-    </li>
-     
-            
-            <li class="nav-item active mt-1">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    লগ আউট
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-            </li>
-        </ul>
-    </div>
+        </div>
 </nav>
 
 <main class="py-4">

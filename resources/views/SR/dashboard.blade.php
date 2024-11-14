@@ -8,77 +8,37 @@
  
   
  @section('content')
- <div class="row  justify-content-center align-items-center " >
+ 
+ <div class="row d-flex justify-content-center">
 
-<div class="col"style="padding: 2rem 2rem;">
-
-<div class="card w-75 text-center" style="background-color:purple;color:white;">
-           
-          
-            
-           <div class="card-body">
-            তথ্য যাচাইকরণ 
-
-           </div>
-           <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{route('verificationinfo')}}">Click</a>
-
-            </div>
-</div>
-</div>
-<div class="col">
-       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
-           
-          
-            
-           <div class="card-body">
-            তথ্য প্রেরণ  
-
-           </div>
-           <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{route('sendtoict')}}">Click</a>
-
-            </div>
+       <div class="card w-25 text-center mx-2" style="background-color:purple; color:white;">
+         <div class="card-title">তথ্য যাচাইকরণ</div>
+         <div class="card-body">
+           <div>মোট আবেদনের সংখ্যা: ১২৩২২</div>
+           <div>অনুমোদন এর অপেক্ষায়: ২৩</div>
+           <div>গৃহীত: ১২৩</div>
+         </div>
+         <div class="card-footer">
+           <a class="btn btn-dark" role="button" href="{{ route('verificationinfo') }}">Click</a>
+         </div>
        </div>
-
-
-</div>
-
-<div class="col">
-       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
-           
-          
-            
-           <div class="card-body">
-          Status 
-
-           </div>
-           <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{route('adminstatus')}}">Click</a>
-
-            </div>
+     
+       <div class="card w-25 text-center mx-2" style="background-color:royalblue; color:white;">
+         <div class="card-title">ব্যবহারকারী অনুমোদন</div>
+         <div class="card-body">
+           <div>অনুমোদন এর অপেক্ষায়: ২৩</div>
+           <div>গৃহীত ব্যবহারকারী: ১২৩</div>
+         </div>
+         <div class="card-footer">
+           <a class="btn btn-dark" role="button" href="{{ route('sendtoict') }}">Click</a>
+         </div>
        </div>
+     
+     </div>
+     
+ 
 
+ 
 
-</div>
-
-<div class="col">
-       <div class="card w-75 text-center" style="background-color:royalblue;color:white;">
-           
-          
-            
-           <div class="card-body">
-        Loginfo
-
-           </div>
-           <div class="card-footer">
-           <a class="btn btn-dark" role="button" href="{{route('srloguser')}}">Click</a>
-
-            </div>
-       </div>
-
-
-</div>
-
-</div> 
+ 
  @endsection
