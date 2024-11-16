@@ -180,3 +180,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/Newuser', [infoimp::class, 'Newuser'])->name('Newuser'); 
 
 });
+Route::middleware(['auth', 'user-access:userone'])->group(function () {
+    Route::post('/budgetform', [infoimp::class, 'budgetform'])->name('budgetform'); 
+    Route::get('/userone11', [infoimp::class, 'userone11'])->name('userone11');
+ });

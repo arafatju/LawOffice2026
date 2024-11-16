@@ -49,7 +49,7 @@
 <h4 align="center"><img src="{{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
     <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
-    <h4 align="center"> {{Auth::Designation}},{{Auth::District}}  </h4> 
+    <h4 align="center"> {{Auth::user()->Designation}},{{Auth::user()->District}}  </h4> 
 </div> 
 
 <style>

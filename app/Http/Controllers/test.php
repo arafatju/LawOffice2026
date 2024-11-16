@@ -74,6 +74,7 @@ class test extends Controller
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
         else if(Auth::user()->role=='user') { return redirect("Newuser") ; }
+        else if(Auth::user()->role=='userone') { return redirect("userone11") ; }
                                                                     }
   
           return redirect("login")->withSuccess('Login details are not valid');

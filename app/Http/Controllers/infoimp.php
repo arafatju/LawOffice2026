@@ -34,9 +34,12 @@ class infoimp extends Controller
      public function usersr(){
         return view('SR.user');
     }
+    public function userone11(){
+        return view('User.user');
+    }
      public function section7(){
         if(Auth::check()){
-            notify()->success('আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে ', 'Notice');
+             
             return view('SR.dashboard');
 
            
@@ -176,6 +179,7 @@ class infoimp extends Controller
 
                 return view('DR.dataone',compact('draftdata'));
      }
+     
      public function okchange(){
         $nametable = (new ConverterController)->name2table(Auth::user()->District);
         $person=DB::table($nametable)

@@ -21,7 +21,7 @@ class CreateBudgetTable extends Migration
             $table->string('mobile');  
             $table->string('District');  
             $table->string('Designation'); 
-
+            $table->string('status'); 
             $table->string('financial2324'); 
             $table->bigInteger('allotment');  
             $table->bigInteger('allotment2');  
