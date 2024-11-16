@@ -11,9 +11,9 @@
 
 
 
- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+ <div class="container mb-2">
+    <div class="row justify-content-center ">
+        <div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header text-center"><h3>{{ __(' অর্থনৈতিক কোড  এর তথ্য নিবন্ধন   করুন ') }}</h3></div>
 
@@ -27,7 +27,7 @@
                             <label for="code1" class="col-md-4 col-form-label text-md-end">{{ __('কোড' ) }}</label>
 
                             <div class="col-md-6">
-                                <input id="code1" type="text" class="form-control @error('financial2324') is-invalid @enderror" name="code1" value="{{ old('code1') }}" required autocomplete="code1" autofocus>
+                                <input id="code1" type="text" class="form-control @error('code1') is-invalid @enderror" name="code1" value="" required  autofocus>
 
                                 @error('code1')
                                     <span class="invalid-feedback" role="alert">
@@ -41,10 +41,10 @@
 
                             <div class="col-md-6">
 
-                            <input id="name" type="text" class="form-control @error('allotment') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="" required  autofocus>
                                
                                    
-                            @error('allotment')
+                            @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -78,6 +78,57 @@
                 </div>
             </div>
         </div>
+
+
+        <table class="table table-bordered mb-5">
+    <thead>
+            <tr>
+                <th colspan="8">
+               User  info 
+                </th>
+            </tr>
+            </thead>  
+    <thead>
+            <tr class="table-success">
+            <th scope="col">Serial </th>
+            <th scope="col"> নাম      </th>
+
+                <th scope="col">Code   </th>
+                
+                <th scope="col">Action  </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($draftdata as $data)
+            <tr>
+                <th scope="row">{{$loop->iteration}}</th>
+                <td> {{ $data->name }} </td>
+
+                <td> {{ $data->code1 }} </td>
+                 
+              
+                <td>
+                     <div class="row  "> 
+                    
+                <div class="col-auto"> 
+                    <a href="{{route('overalldel',['name'=>'codetable','id'=>encrypt($data->id)])}}">
+                        <img src="{{ asset('delete.png') }}" alt="Image" width="20" height="20">
+                    </a>
+                </div> 
+                 
+                </div>
+                </td>                     
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+     
+    {{-- Pagination --}}
+    <div class="d-flex justify-content-center">
+        {!! $draftdata->links() !!}
+    </div>
+        
     </div>
 </div>   
 

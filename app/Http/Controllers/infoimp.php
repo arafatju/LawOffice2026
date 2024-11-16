@@ -52,13 +52,19 @@ class infoimp extends Controller
        
     }
     public function budgetcode(Request $request){
+        $validated = $request->validate([
+            'code1' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+        ]);
         DB::table('codetable')->insert([
-            'code' => $request->code1,
-            'name' => $request->name,
+            'code' => $validated['code1'],
+            'name' => $validated['name'],
              
              
              
         ]);
+
+        
         return view('SR.code11');
     }
     public function finacialcode(){
