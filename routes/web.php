@@ -123,6 +123,9 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     
     Route::get('/srallpic', [infoimp::class, 'srallpic'])->name('srallpic'); 
+    Route::get('/finacialcode', [infoimp::class, 'finacialcode'])->name('finacialcode'); 
+
+    Route::post('/budgetcode', [infoimp::class, 'budgetcode'])->name('budgetcode'); 
 
     Route::get('/section7', [infoimp::class, 'section7'])->name('section7'); 
     Route::get('/usersr', [infoimp::class, 'usersr'])->name('usersr'); 

@@ -60,6 +60,9 @@
         </li>
         
         <li class="nav-item active">
+        <a href="{{route('finacialcode')}}" class="nav-link navbar-brand">অর্থনৈতিক কোড </a>
+        </li>
+        <li class="nav-item active">
         <a href="#" class="nav-link navbar-brand">লগ ইনফো তথ্য</a>
         </li>
         <li class="nav-item active mt-1">

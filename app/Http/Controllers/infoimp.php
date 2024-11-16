@@ -51,6 +51,19 @@ class infoimp extends Controller
     return redirect("login")->withSuccess('You are not allowed to access');
        
     }
+    public function budgetcode(Request $request){
+        DB::table('codetable')->insert([
+            'code' => $request->code1,
+            'name' => $request->name,
+             
+             
+             
+        ]);
+        return view('SR.code11');
+    }
+    public function finacialcode(){
+        return view('SR.code11');
+    }
     public function verifychange(){
         return view('DR.user');
     }
