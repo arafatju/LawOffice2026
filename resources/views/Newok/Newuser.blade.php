@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
 <link rel="shortcut icon" href="{{asset('gov.png')}}">    
   <title> বাজেট ব্যবস্থাপনা সিস্টেম   </title>
  
-
-   
-
   
+
+
   
    <link rel="stylesheet" href="{{asset('smart.css')}}">  
       
@@ -22,14 +22,21 @@
  
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
- 
-    <!-- Styles -->
+     <!-- Styles -->
+      <!-- Toastr CSS -->
+      
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    @notifyCss
+
+@if(session('notyf_success'))
+    <script>
+        const notyf = new Notyf();
+        notyf.success("{{ session('notyf_success') }}");
+    </script>
+@endif
 
 
-  
 
   
   
@@ -49,6 +56,7 @@
 <h4 align="center"><img src="{{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
     <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
+    <h4 align="center"> {{Auth::user()->Designation}},{{Auth::user()->District}}   </h4> 
 </div> 
 
 <style>
@@ -66,9 +74,10 @@
             color: white;
         }
     </style>
- 
-<body style="margin-bottom:2%;">
 
+<body style="margin-bottom:2%;">
+ 
+ 
 <nav class="navbar navbar-custom navbar-expand-sm navbar-light  " style="height:50px;z-index:1">
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -104,11 +113,13 @@
  
         <div class="container mx-auto mt-5" >
             আপনি সফল ভাবে রেজিস্ট্রেশন করেছেন । আপনার  আইডিটি খুব    শীঘ্রই  অ্যাক্টিভ  করা হবে ।  বাজেট সিস্টেমের সাথে থাকার জন্য ধন্যবাদ ।        </div>
-        
+            <x-notify::notify />
+            @notifyJs  
     </body>
     <div style="position:absolute ;bottom:0px;width:100%;text-align:center;background:#191970">
   <p style="font-size:15px;color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
   কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ  </p>
+  
 </div>
 </html>
 

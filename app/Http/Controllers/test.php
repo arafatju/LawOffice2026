@@ -107,7 +107,7 @@ class test extends Controller
         $check = $this->create($data);
         Auth::login($check);
 
-        return redirect("Newuser")->withSuccess('You have signed-in');
+        return redirect("Newuser")->with('You have signed-in');
     }
 
     public function create(array $data)

@@ -14,6 +14,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
+    
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
@@ -42,6 +43,7 @@
     <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
     <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
+    <h4 align="center"> {{Auth::user()->Designation}},{{Auth::user()->District}}   </h4>
 </div>
 <nav class="navbar navbar-custom navbar-expand-sm navbar-light  " style="height:50px;z-index:1">
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav"

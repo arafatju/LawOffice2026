@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use Image;
 use DB;
- 
+ use Toastr;
 
 class infoimp extends Controller
 {
@@ -36,7 +36,7 @@ class infoimp extends Controller
     }
      public function section7(){
         if(Auth::check()){
-             
+            notify()->success('আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে ', 'Notice');
             return view('SR.dashboard');
 
            
@@ -1002,7 +1002,7 @@ public function admindash(){
     return view('AR.dashboard');
 }
 public function Newuser(){
-    
+    notify()->success('আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে ', 'Notice');
     return view('Newok.Newuser');
 }
 public function profilear(Request $request){

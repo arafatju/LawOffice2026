@@ -246,7 +246,7 @@ return [
         'Image' => 'Intervention\Image\Facades\Image',
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
-
+'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
 
 
 
