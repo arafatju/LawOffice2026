@@ -53,23 +53,23 @@
     <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
     <ul class="navbar-nav navbar-brand    w-100" style="padding-left:24%;   ">
         <li class="nav-item active ">
-        <a href="#" class="nav-link navbar-brand">ব্যাক্তিগত তথ্য </a>
+        <a href="{{route('section7')}}" class="nav-link navbar-brand">Home  </a>
         </li>
         <li class="nav-item active">
-        <a href="#" class="nav-link navbar-brand"> তথ্য অনুসন্ধান</a>
+        <a href="#" class="nav-link navbar-brand"> Search</a>
         </li>
         
         <li class="nav-item active">
-        <a href="{{route('finacialcode')}}" class="nav-link navbar-brand">অর্থনৈতিক কোড </a>
+        <a href="{{route('finacialcode')}}" class="nav-link navbar-brand">Economical Code </a>
         </li>
         <li class="nav-item active">
-        <a href="#" class="nav-link navbar-brand">লগ ইনফো তথ্য</a>
+        <a href="#" class="nav-link navbar-brand">Settings</a>
         </li>
         <li class="nav-item active mt-1">
             <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();">
-              লগ আউট 
+              Logout 
          </a>
 
          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

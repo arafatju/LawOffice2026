@@ -57,6 +57,10 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
 Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/srdel/{name}/{id}', [infoimp::class, 'srdel'])->name('srdel'); 
+    
+    Route::get('/overalldel/{id}/{name}', [infoimp::class, 'overalldel'])->name('overalldel'); 
+
+    Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
 
      Route::get('/finacialcode', [infoimp::class, 'finacialcode'])->name('finacialcode'); 
 

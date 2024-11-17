@@ -52,59 +52,36 @@
     </button>
 
     <div class="collapse navbar-collapse w-100" id="navbarNav" style="background-color: #191970;">
-        <ul class="navbar-nav navbar-brand mx-auto p-2"  >
-           
-            <li class="nav-item active mt-1 ">
-                <a class="dropdown-item mr-1" href="{{ route('okchange') }}"
-                    >
-                    হোম
-                </a>
-                 
-            </li>
-           
-           
-           
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    নিয়োগ
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                    <li><a class="dropdown-item" href="{{route('notun')}}">নতুন নিয়োগ</a></li>
-                    <li><a class="dropdown-item" href="{{route('notunone')}}">ড্যাশ বোর্ড</a></li>
-                     
-                </ul>
-            </li>
+        <ul class="navbar-nav navbar-brand mx-auto "  >
              
+      
+
+        <li class="nav-item active">
+        <a href="{{ route('dash2') }}" class="nav-link navbar-brand"> Home </a>
+        </li>
+
+
+        <li class="nav-item active">
+        <a href="#" class="nav-link navbar-brand"> Search</a>
+        </li>
+
+        <li class="nav-item active">
+        <a href="#" class="nav-link navbar-brand"> Settings </a>
+        </li>
+       
+        <li class="nav-item active">
+        <a href="#" class="nav-link navbar-brand"> Status </a>
+        </li>
+            
 	 
 	 
 	 
 	
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    তথ্য সংশোধন
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{route('dataone')}}">ব্যাক্তিগত তথ্য</a></li>
-                    <li><a class="dropdown-item" href="{{route('showkazi')}}">ছবি সংশোধন</a></li>
-                    <li><a class="dropdown-item" href="{{route('chargedash')}}">অতিরিক্ত দায়িত্ব</a></li>
-                    <li><a class="dropdown-item" href="{{route('deldashboard')}}">তথ্য মুছে ফেলুন</a></li>
-                    
-                </ul>
-            </li>
+             
              
              
             
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    মামলা
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{route('mamla')}}">নতুন মামলা</a></li>
-                    <li><a class="dropdown-item" href="{{route('mamladashboard')}}"> ড্যাশ বোর্ড</a></li>
-                     
-                    
-                </ul>
-            </li>
+             
              
        
       
@@ -114,38 +91,17 @@
       
 	
 	 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            তথ্য পাঠান
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">ব্যাক্তিগত তথ্য </a></li>
-            <li><a class="dropdown-item" href="#">ছবি সংশোধন</a></li>
-            <li><a class="dropdown-item" href="#">অতিরিক্ত দায়িত্ব</a></li>
-            <li><a class="dropdown-item" href="#">তথ্য মুছে ফেলুন</a></li>
-            
-        </ul>
-    </li>
+     
     
     
      
-     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle navbar-brand" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Status
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{route('drloguser')}}"> লগ তথ্য </a></li>
-            <li><a class="dropdown-item" href="{{route('userstatus')}}"> বর্তমান তথ্য </a></li>
-             
-            
-        </ul>
-    </li>
+    
      
             
             <li class="nav-item active mt-1">
                 <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    লগ আউট
+                    Logout
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf

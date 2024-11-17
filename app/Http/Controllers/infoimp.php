@@ -44,8 +44,12 @@ class infoimp extends Controller
     }
      public function section7(){
         if(Auth::check()){
-             
-            return view('SR.dashboard');
+            $count_user1 = DB::table('users')->where('role', 'user')->count();
+            $count_user2 = DB::table('users')->where('role', 'verified1')->count();
+            $count_accept = DB::table('users')->where('role', 'userone')->count();
+            $user_number=$count_user1+$count_user2;
+
+            return view('SR.dashboard',compact('count_accept','user_number'));
 
            
                      }
@@ -1315,9 +1319,14 @@ public function dashboard()
         if(Auth::check()){
 
                 // ->orWhere('name', 'John')
+                $count_user1 = DB::table('users')->where('role', 'user')->count();
+                $count_user2 = DB::table('users')->where('role', 'verified1')->count();
+                $count_accept = DB::table('users')->where('role', 'userone')->count();
+                $user_number=$count_user1+$count_user2;
+    
+                return view('DR.dash2',compact('count_accept','user_number'));
                
                
-               return view('DR.dash2');
                         }
         
         
