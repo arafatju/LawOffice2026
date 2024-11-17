@@ -82,7 +82,7 @@
         <a href="#" class="nav-link navbar-brand">Dashboard  </a>
         </li>
         <li class="nav-item active">
-        <a href="#" class="nav-link navbar-brand"> Draft Information </a>
+        <a href="{{route('userdraftbudget')}}" class="nav-link navbar-brand"> Draft Information </a>
         </li>
         
         <li class="nav-item active">
@@ -120,12 +120,12 @@
                             <div class="col-md-6">
                             <select id="code11" class="form-control @error('code11') is-invalid @enderror" name="code11"  required  autofocus>
                                
-                                   
+                                @foreach( $draft as $data) 
         
                                
-                               <option>জেলা জজ    </option>
-                               <option>সহকারী জজ </option>
-                               <option>চিফ জুডিশিয়াল ম্যাজিস্ট্রেট</option>
+                               <option>{{ $data->name }}({{ $data->code }})   </option>
+                                
+                               @endforeach
                                 @error('code11')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

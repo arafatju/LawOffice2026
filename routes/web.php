@@ -121,7 +121,8 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 });
 
 Route::middleware(['auth', 'user-access:usersr'])->group(function () {
-    
+    Route::get('/srdel/{name}/{id}', [infoimp::class, 'srdel'])->name('srdel'); 
+
     Route::get('/srallpic', [infoimp::class, 'srallpic'])->name('srallpic'); 
     Route::get('/finacialcode', [infoimp::class, 'finacialcode'])->name('finacialcode'); 
 
@@ -184,6 +185,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
 });
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
+    
+    Route::get('/userdraftbudget', [infoimp::class, 'userdraftbudget'])->name('userdraftbudget');
+    Route::get('/budgetstatus/{id}', [infoimp::class, 'budgetstatus'])->name('budgetstatus');
+
     Route::post('/budgetform', [infoimp::class, 'budgetform'])->name('budgetform'); 
     Route::get('/userone11', [infoimp::class, 'userone11'])->name('userone11');
- });
+    
+    Route::get('/userbudgetdel/{id}', [infoimp::class, 'userbudgetdel'])->name('userbudgetdel');
+
+
+});

@@ -100,19 +100,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($draftdata as $data)
+            @foreach( $draft as $data)
             <tr>
                 <th scope="row">{{$loop->iteration}}</th>
                 <td> {{ $data->name }} </td>
 
-                <td> {{ $data->code1 }} </td>
+                <td> {{ $data->code }} </td>
                  
               
                 <td>
                      <div class="row  "> 
                     
                 <div class="col-auto"> 
-                    <a href="{{route('overalldel',['name'=>'codetable','id'=>encrypt($data->id)])}}">
+                    <a href="{{route('srdel',['name'=>'codetable','id'=>encrypt($data->id)])}}">
                         <img src="{{ asset('delete.png') }}" alt="Image" width="20" height="20">
                     </a>
                 </div> 
@@ -124,10 +124,7 @@
         </tbody>
     </table>
      
-    {{-- Pagination --}}
-    <div class="d-flex justify-content-center">
-        {!! $draftdata->links() !!}
-    </div>
+    
         
     </div>
 </div>   

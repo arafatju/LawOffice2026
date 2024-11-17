@@ -35,7 +35,12 @@ class infoimp extends Controller
         return view('SR.user');
     }
     public function userone11(){
-        return view('User.user');
+        $draft = DB::table('codetable')
+        ->select('*')
+        ->get();
+  
+    return view('User.user', compact('draft'));
+         
     }
      public function section7(){
         if(Auth::check()){
@@ -64,15 +69,94 @@ class infoimp extends Controller
              
         ]);
 
+        $draft = DB::table('codetable')
+        ->select('*')
+        ->get();
+
+    return view('SR.code11', compact('draft'));
         
-        return view('SR.code11');
+    }
+    public function userbudgetdel(Request $request){
+        DB::table('user_budget')
+        ->where('status','=','pending')
+        ->where('applicationid','=',decrypt($request->id))
+        ->delete();
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->paginate();
+
+    return view('User.userdraft', compact('draftdata'));
+    }
+    public function budgetstatus(Request $request){
+        DB::table('user_budget')
+        ->where('status','=','pending')
+        ->where('applicationid','=',$request->id)
+        ->update(['status' => "Forwarded"]);
+
+         $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->paginate();
+
+    return view('User.userdraft', compact('draftdata'));
+    }
+    public function budgetform(Request $request){
+        $validated = $request->validate([
+            'code11' => 'required|string|max:255',
+            'financial2324' => 'required|string|max:255',
+            'allotment' => 'required|integer|min:1|max:9223372036854775807', // For signed BIGINT
+
+            'financial2425' => 'required|string|max:255',
+            'allotment2' => 'required|integer|min:1|max:9223372036854775807', // For signed BIGINT
+            'opinion' => 'required|string|max:255',
+
+        ]);
+        $lastId = DB::table('user_budget')->latest('id')->value('id');
+        DB::table('user_budget')->insert([
+            'code11' => $validated['code11'],
+            'username' => Auth::user()->name,
+            'email'=> Auth::user()->email,
+            'mobile'=> Auth::user()->mobile,
+            'Designation'=> Auth::user()->Designation,
+            'District'=> Auth::user()->District,
+            'status'=>'pending',
+            'financial2324'=>$validated['financial2324'],
+            'allotment'=>$validated['allotment'],
+            'allotment2'=>$validated['allotment2'],
+            'opinion'=>$validated['opinion'],
+            'financial2425'=>$validated['financial2425'],
+            'applicationid'=>Auth::user()->mobile.$lastId,
+
+             
+             
+             
+        ]);
+
+        $draft = DB::table('codetable')
+        ->select('*')
+        ->get();
+
+    return view('User.user', compact('draft'));
+        
     }
     public function finacialcode(){
-        return view('SR.code11');
+        $draft = DB::table('codetable')
+        ->select('*')
+        ->get();
+
+    return view('SR.code11', compact('draft'));
     }
     public function verifychange(){
         return view('DR.user');
     }
+    public function userdraftbudget(){
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->paginate();
+
+    return view('User.userdraft', compact('draftdata'));
+        
+        
+                             }
      public function draftdetails(Request $request){
          $colname=$request->colname;
          $changed=$request->changed;
@@ -900,6 +984,21 @@ return view('DR.notundashboard',compact('draftdata'));
 
 
     }
+    public function srdel(Request $request){
+        $tablenn=$request->name;
+        $id=decrypt($request->id);
+      DB::table($tablenn)
+      ->where('id','=',$id)
+      ->delete();
+      $draft = DB::table('codetable')
+      ->select('*')
+      ->get();
+
+  return view('SR.code11', compact('draft'));
+
+
+
+  }
 
     public function editme(){
         $draftdata=DB::table('activityedit')

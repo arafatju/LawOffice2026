@@ -28,7 +28,7 @@ class CreateBudgetTable extends Migration
             $table->string('opinion');  
               
             $table->string('financial2425'); 
-            
+            $table->string('applicationid');
             $table->rememberToken();
             $table->timestamps(); // Created_at and updated_at
         });
