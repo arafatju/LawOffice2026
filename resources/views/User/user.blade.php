@@ -79,7 +79,7 @@
     <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
     <ul class="navbar-nav navbar-brand    w-100" style="padding-left:24%;   ">
         <li class="nav-item active ">
-        <a href="#" class="nav-link navbar-brand">Dashboard  </a>
+        <a href="{{route('userone11')}}" class="nav-link navbar-brand">Home  </a>
         </li>
         <li class="nav-item active">
         <a href="{{route('userdraftbudget')}}" class="nav-link navbar-brand"> Draft Information </a>
@@ -92,7 +92,7 @@
             <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();">
-              লগ আউট 
+             Logout
          </a>
 
          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
