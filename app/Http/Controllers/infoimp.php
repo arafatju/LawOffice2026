@@ -83,6 +83,8 @@ class infoimp extends Controller
         ->delete();
         $draftdata = DB::table('user_budget')
         ->select('*')
+        ->where('Designation','=',Auth::user()->Designation)
+        ->where('District','=',Auth::user()->District)
         ->paginate();
 
     return view('User.userdraft', compact('draftdata'));
@@ -95,6 +97,8 @@ class infoimp extends Controller
 
          $draftdata = DB::table('user_budget')
         ->select('*')
+        ->where('Designation','=',Auth::user()->Designation)
+        ->where('District','=',Auth::user()->District)
         ->paginate();
 
     return view('User.userdraft', compact('draftdata'));
@@ -151,6 +155,8 @@ class infoimp extends Controller
     public function userdraftbudget(){
         $draftdata = DB::table('user_budget')
         ->select('*')
+        ->where('Designation','=',Auth::user()->Designation)
+        ->where('District','=',Auth::user()->District)
         ->paginate();
 
     return view('User.userdraft', compact('draftdata'));
