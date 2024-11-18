@@ -38,6 +38,10 @@ All Normal Users Routes List
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
+    
+    
+    Route::get('/acceptfinal/{id}', [infoimp::class, 'acceptfinal'])->name('acceptfinal'); 
+    Route::get('/budgetback11/{id}', [infoimp::class, 'budgetback11'])->name('budgetback11'); 
 
     Route::get('/dash2', [infoimp::class, 'dash2'])->name('dash2'); 
     Route::get('/finaluser', [infoimp::class, 'finaluser'])->name('finaluser');
@@ -52,12 +56,18 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     
        Route::get('/userstatus', [infoimp::class, 'userstatus'])->name('userstatus'); 
      
+       
+       Route::get('/finalstage', [infoimp::class, 'finalstage'])->name('finalstage'); 
 
+       
 });
 
 Route::middleware(['auth', 'user-access:usersr'])->group(function () {
     Route::get('/srdel/{name}/{id}', [infoimp::class, 'srdel'])->name('srdel'); 
+    Route::get('/budgetstatusfinal1/{id}', [infoimp::class, 'budgetstatusfinal1'])->name('budgetstatusfinal1'); 
     
+    Route::get('/budgetback/{id}', [infoimp::class, 'budgetback'])->name('budgetback'); 
+
     Route::get('/overalldel/{id}/{name}', [infoimp::class, 'overalldel'])->name('overalldel'); 
 
     Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 

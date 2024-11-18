@@ -8,78 +8,67 @@
  
   
  @section('content')
+ <div class="container mt-5">
+    <table class="table table-bordered mb-5">
+    <thead>
+            <tr>
+                <th colspan="8">
+               Budget  info 
+                </th>
+            </tr>
+            </thead>  
+    <thead>
+            <tr class="table-success">
+            <th scope="col">Serial </th>
+            <th scope="col"> কোড      </th>
 
- <div class="row mt-4"style="padding: 2rem 2rem;">
-    <div class="col ">
-        <div class="card  text-center text-white" style="background-color:#CD6155;padding:2rem 0 rem;">
-             
-            <div class="card-body">
-            তথ্য সংশোধন 
-            </div>
-            <div class="card-footer">
-              <a class="btn btn-dark" role="button" href="{{route('editme')}}">Click</a>
-            </div>
-        </div>
+                <th scope="col">অর্থবছর ২০২৩-২৪  </th>
+                <th scope="col">বরাদ্দকৃত অর্থ</th>
+                <th scope="col"> অর্থবছর ২৪২৪-২৫  </th>
+                
+                <th scope="col">বরাদ্দকৃত অর্থ </th>
+                <th scope="col">মন্তব্য  </th>
+                <th scope="col">Status  </th>
+                <th scope="col">ID   </th>
+                <th scope="col">Action   </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($draftdata as $data)
+            <tr>
+                <th scope="row">{{$loop->iteration}}</th>
+                <td> {{ $data->code11 }} </td>
+
+                <td> {{ $data->financial2324 }} </td>
+                <td>{{ $data->allotment }}</td>
+                <td>{{ $data->financial2425 }}</td>
+                <td>{{ $data->allotment2 }}</td>
+                <td>{{ $data->opinion }}</td>
+                <td>{{ $data->status }}</td>
+                <td>{{ $data->applicationid }}</td>
+                <td>
+                     <div class="row  "> 
+                    <div class="col-auto"> 
+                        <a href="{{ route('budgetstatusfinal1', ['id' => $data->applicationid]) }}">
+                        <img src="{{ asset('send.png') }}" alt="Image" width="20" height="20">
+                    </a>
+                </div> 
+                <div class="col-auto"> 
+                    <a href="{{route('budgetback',['id'=>encrypt($data->applicationid)])}}">
+                        <img src="{{ asset('back.png') }}" alt="Image" width="20" height="20">
+                    </a>
+                </div> 
+                 
+                </div>
+                </td>                     
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+     
+    {{-- Pagination --}}
+    <div class="d-flex justify-content-center">
+        {!! $draftdata->links() !!}
     </div>
-    <div class="col">
-        <div class="card   text-center text-white" style="background-color:green;" >
-            
-            <div class="card-body">
-            তথ্য মুছুন 
-
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('deletesr')}}">Click</a>
-
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card  text-center" style="background-color:Olive;color:white;">
-            
-            <div class="card-body">
-            অতিরিক্ত দায়িত্ব 
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('additional')}}">Click</a>
- 
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card  text-center" style="background-color:purple;color:white;">
-             
-            <div class="card-body">
-           
-            নতুন নিয়োগ  
-            </div>
-            <div class="card-footer">
-            <a class="btn btn-dark" role="button" href="{{route('newentry')}}">Click</a>
-
-             </div>
-        </div>
-    </div>
-
- 
-  
-</div>
-<div class="row  justify-content-center align-items-center " >
-
-<div class="col-md-6 col-md-offset-4 ">
-        <div class="card   text-left" >
-            <div class="card-header">
-            নির্দেশনবলী
-            </div>
-            <div class="card-body">
-          <div class="row"> <h5>১। ড্রাফট এ ক্লিক করলে আপনার সম্পুরন জেলার তথ্য পাবেন  </h5>  </div>
-          <div class="row"> <h5> ২। সেখান থেকে সংশোধন ডিলিট ছবি সংযজন অতিরিক্ত  দায়িত্ব প্রদান ইত্যাদি অপশন পাবেন </h5> </br> </div>
-          <div class="row"> <h5> ৩।  যে কোন সংশোধনের সময় সবার আগে আপনাকে ড্রাফট করতে হবে । </h5> </br> </div> 
-          <div class="row"> <h5> ৪।  এরপরে সেন্ড বাটনে ক্লিক করলে সেটা বিচার শাখা ৭ এ যাবে  </h5> </br> </div>  
-          <div class="row"> <h5> ৫।  কারও পাসওয়ার্ড ভুলে গেলে নতুন করে নিবন্ধন করবেন এবং আমাকে জানাবেন । বের হওয়ার আগে অবশ্যই লগআউট করবেন । যদি কেও ভুলে জান সে ক্ষেত্রে পিসি রিস্টার্ট দিয়ে ১০ মিনিট পরে খুলবেন   </h5> </br> </div>   
-            </div>
-             
-        </div>
-    </div>
-
 </div> 
  @endsection

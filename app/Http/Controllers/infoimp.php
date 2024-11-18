@@ -48,9 +48,17 @@ class infoimp extends Controller
             $count_user2 = DB::table('users')->where('role', 'verified1')->count();
             $count_accept = DB::table('users')->where('role', 'userone')->count();
             $user_number=$count_user1+$count_user2;
-
-            return view('SR.dashboard',compact('count_accept','user_number'));
-
+                           
+            $application_number1 = DB::table('user_budget')->where('status', 'Accepted')->count();
+            $application_number2 = DB::table('user_budget')->where('status', 'Forwarded')->count();
+            $application_number3 = DB::table('user_budget')->where('status', 'Waiting')->count();
+         
+            $total=$application_number1+$application_number2+$application_number3;
+            $waiting=$application_number2+$application_number3;
+            $accepted=$application_number1;
+            return view('SR.dashboard',compact('count_accept','user_number','total','accepted','waiting'));
+           
+ 
            
                      }
     
@@ -864,80 +872,88 @@ return view('DR.mamladashboard',compact('draftdata'));
               
 
     }
-public function notunone(){
-    $draftdata=DB::table(session('tabledr'))
-    ->select('*')
-    ->where('District','=','Draft')
-    ->paginate();
-return view('DR.notundashboard',compact('draftdata'));
-
-}
-    public function notun(){
-          $upojela=DB::table(session('tabledr'))
-                    ->select('Thana')
-                     ->distinct()
-                      ->get();
-         $pourosova=DB::table(session('tabledr'))
-                      ->select('Pourosova_City_Corporation')
-                       ->distinct()
-                        ->get();
-          
-        
-     return view('DR.notun',compact('upojela','pourosova'));
-
-    }
-    public function sendnotun($id){
-               DB::table(session('tabledr'))
-               ->where('NID','=',decrypt($id))
-               ->update(['District' => 'For' ]);
-             
-               DB::table('activitynew')
-               ->where('NID','=',decrypt($id))
-               ->update(['status' => 'Forwarded' ]);
-          $ggt=DB::table('activitynew')
-                ->where('NID','=',decrypt($id))
-                ->first();
-            
-               DB::table('action')->insert([
-                'district' => Auth::user()->District,
-                'mobile' => Auth::user()->mobile,
-                'status'=> "Forwarded",
-                 'time'=>date("Y-m-d H:i:s", strtotime('now')),
-                'action'=>$ggt->action,
-                'id_user'=>$ggt->id,
-                'id_admin'=> $ggt->id, 
-                 
-                 
-            ]);
-             
-              
-               $draftdata=DB::table(session('tabledr'))
-               ->select('*')
-               ->where('District','=','Draft')
-               ->paginate();
-     return view('DR.notundashboard',compact('draftdata'));
-
-
-    }
-    public function delnotun($id){
-               DB::table(session('tabledr'))
-               ->where('NID','=',decrypt($id))
-               ->where('District','=','Draft')
-               ->delete();
-
-            
-     $draftdata=DB::table(session('tabledr'))
-               ->select('*')
-               ->where('District','=','Draft')
-               ->paginate();
-     return view('DR.notundashboard',compact('draftdata'));
-
-   
-
-    }
+ 
+    
+    
+    
     public function verificationinfo(){
-        return view('SR.verificationinfo');
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('status','=', 'Forwarded')
+        ->paginate();
 
+    return view('SR.verificationinfo', compact('draftdata'));
+
+        
+
+    }
+    public function budgetstatusfinal1(Request $request){
+        DB::table('user_budget')
+        ->where('status','=','Forwarded')
+        ->where('applicationid','=',$request->id)
+        ->update(['status' => "Waiting"]);
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('status','=', 'Forwarded')
+        ->paginate();
+
+    return view('SR.verificationinfo', compact('draftdata')); 
+
+    } 
+    public function finalstage(){
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('status','=', 'Waiting')
+        ->orwhere('status','=','Accepted')
+        ->paginate();
+
+    return view('DR.finalstage', compact('draftdata'));
+    }
+     
+    public function acceptfinal(Request $request){
+        DB::table('user_budget')
+        ->where('status','=','Waiting')
+        ->where('applicationid','=',$request->id)
+        ->update(['status' => "Accepted"]);
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('status','=', 'Waiting')
+        ->orwhere('status','=','Accepted')
+        ->paginate();
+
+    return view('DR.finalstage', compact('draftdata'));
+
+
+    }
+    public function budgetback11(Request $request){
+        DB::table('user_budget')
+        ->where('status','=','Waiting')
+        ->where('applicationid','=',decrypt($request->id))
+        ->update(['status' => "Forwarded"]);
+
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('status','=', 'Waiting')
+        ->orwhere('status','=','Accepted')
+        ->paginate();
+
+    return view('DR.finalstage', compact('draftdata'));
+
+    }
+    public function budgetback(Request $request){
+        DB::table('user_budget')
+        ->where('status','=','Forwarded')
+        ->where('applicationid','=',decrypt($request->id))
+        ->update(['status' => "pending"]);
+
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('status','=', 'Forwarded')
+        ->paginate();
+
+    return view('SR.verificationinfo', compact('draftdata'));
+
+         
     }
     public function sendtoict(){
         $draftdata=DB::table('users')
@@ -1010,33 +1026,10 @@ return view('DR.notundashboard',compact('draftdata'));
 
   }
 
-    public function editme(){
-        $draftdata=DB::table('activityedit')
-                  ->select('*')
-                  ->where('status','=','Forwarded')
-                  ->paginate();
-    return view('SR.editme',compact('draftdata'));
+     
+    
 
-
-    }
-    public function chargegiven(){
-        $draftdata=DB::table('activitycharge')
-        ->select('*')
-        ->where('status','=','Forwarded')
-        ->paginate();
-return view('SR.charge',compact('draftdata'));
-
-    }
-
-    public function additional(){
-        $draftdata=DB::table('activitycharge')
-                  ->select('*')
-                  ->where('status','=','Forwarded')
-                  ->paginate();
-    return view('SR.additional',compact('draftdata'));
-
-
-    }
+     
 
     public function deletesr(){
         $draftdata=DB::table('activitydel')
@@ -1057,13 +1050,7 @@ return view('SR.charge',compact('draftdata'));
 
     }
 
-    public function mamlajhamela(){
-        $draftdata=DB::table('mamla')
-                  ->select('*')
-                  ->where('status','=','Draft')
-                  ->paginate();
-    return view('SR.mamlajhamela',compact('draftdata'));
-    }
+    
     public function notunview(Request $request){
         $tablenn=$request->name;
         $id=decrypt($request->id);
@@ -1103,30 +1090,9 @@ return view('AR.adminnotunview',compact('draftdata'));
 
   }
   
-public function lastcharge(){
-
-      $draftdata=DB::table('activitycharge')
-      ->where('status','=','ok')
-      ->paginate();
-      return view('AR.lastcharge',compact('draftdata'));
-
-}
-public function lastdelete(){
-
-    $draftdata=DB::table('activitydel')
-    ->where('status','=','ok')
-    ->paginate();
-    return view('AR.lastdelete',compact('draftdata'));
-
-}
-public function lastedit(){
-
-    $draftdata=DB::table('activityedit')
-    ->where('status','=','ok')
-    ->paginate();
-    return view('AR.lastedit',compact('draftdata'));
-
-}
+ 
+ 
+ 
 public function admin(){
     return view('AR.user');
 }
@@ -1323,8 +1289,16 @@ public function dashboard()
                 $count_user2 = DB::table('users')->where('role', 'verified1')->count();
                 $count_accept = DB::table('users')->where('role', 'userone')->count();
                 $user_number=$count_user1+$count_user2;
-    
-                return view('DR.dash2',compact('count_accept','user_number'));
+                
+                
+                $application_number1 = DB::table('user_budget')->where('status', 'Accepted')->count();
+                $application_number2 = DB::table('user_budget')->where('status', 'Forwarded')->count();
+                $application_number3 = DB::table('user_budget')->where('status', 'Waiting')->count();
+             
+                $total=$application_number1+$application_number2+$application_number3;
+               $waiting=$application_number2+$application_number3;
+                $accepted=$application_number1;
+                return view('DR.dash2',compact('count_accept','user_number','total','accepted','waiting'));
                
                
                         }
