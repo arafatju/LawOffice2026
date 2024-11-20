@@ -14,6 +14,7 @@ use App\Mail\loginfo;
 use Image;
 use DB;
  use Toastr;
+  use RealRashid\SweetAlert\Facades\Alert;
 
 class infoimp extends Controller
 {
@@ -968,7 +969,7 @@ return view('DR.mamladashboard',compact('draftdata'));
         $draftdata=DB::table('users')
         ->select('*')
         ->where('role','=','verified1')
-        ->paginate(3);
+        ->paginate();
        return view('DR.finaluser',compact('draftdata'));
 
          
@@ -992,12 +993,30 @@ return view('DR.mamladashboard',compact('draftdata'));
       ->select('*')
       ->where('role','=','user')
       ->paginate(3);
-     return view('SR.sendtoict',compact('draftdata'));
+      Alert::success('Title', 'Message');
+
+      return view('SR.sendtoict',compact('draftdata')) ;
        
     }
+    public function overalldel11(Request $request){
+        $tablenn=$request->name;
+        $id= $request->id;
+      DB::table($tablenn)
+      ->where('id','=',$id)
+      ->delete();
+      $draftdata=DB::table('users')
+        ->select('*')
+        ->where('role','=','verified1')
+        ->paginate();
+       return view('DR.finaluser',compact('draftdata'));
+
+
+
+
+  }
     public function overalldel(Request $request){
           $tablenn=$request->name;
-          $id=decrypt($request->id);
+          $id= $request->id;
         DB::table($tablenn)
         ->where('id','=',$id)
         ->delete();

@@ -58,6 +58,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
      
        
        Route::get('/finalstage', [infoimp::class, 'finalstage'])->name('finalstage'); 
+       Route::get('/overalldel11/{id}/{name}', [infoimp::class, 'overalldel11'])->name('overalldel11'); 
 
        
 });

@@ -41,14 +41,28 @@
                <td>
                     <div class="row  "> 
                    <div class="col-auto"> 
-                       <a href="{{ route('userstatus22', ['id' => $data->id]) }}">
-                       <img src="{{ asset('accept.png') }}" alt="Image" width="20" height="20">
-                   </a>
+
+                       
+
+                    <form id="user11Form" action="{{ route('userstatus22',['id'=>$data->id]) }}" method="GET">
+                        @csrf
+                        @method('DELETE')
+                        <a href="#">
+                            <img src="{{ asset('accept.png') }}" onclick="confirmAction(event, 'user11Form')" alt="Image" width="20" height="20">
+                        </a>
+                    </form>
                </div> 
                <div class="col-auto"> 
-                   <a href="{{route('overalldel',['name'=>'users','id'=>encrypt($data->id)])}}">
-                       <img src="{{ asset('delete.png') }}" alt="Image" width="20" height="20">
-                   </a>
+
+
+                <form id="user12Form" action="{{ route('overalldel11',['name'=>'users','id'=>($data->id)]) }}" method="GET">
+                    @csrf
+                    @method('DELETE')
+                    <a href="#">
+                        <img src="{{ asset('delete.png') }}" onclick="confirmAction(event, 'user12Form')" alt="Image" width="20" height="20">
+                    </a>
+                </form>
+                    
                </div> 
                <div class="col-auto"> 
                    <a href="#">
@@ -66,5 +80,26 @@
    <div class="d-flex justify-content-center">
        {!! $draftdata->links() !!}
    </div>
+
+   <script>
+    function confirmAction(event, formId) {
+        event.preventDefault(); // Prevent default form submission
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, do it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit();
+            }
+        });
+    }
+</script>
 </div>
 @endsection

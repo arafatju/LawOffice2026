@@ -49,6 +49,9 @@
                 <td>
                      <div class="row  "> 
                     <div class="col-auto"> 
+
+
+                        
                         <a href="{{ route('acceptfinal', ['id' => $data->applicationid]) }}">
                         <img src="{{ asset('accept.png') }}" alt="Image" width="20" height="20">
                     </a>
@@ -70,5 +73,26 @@
     <div class="d-flex justify-content-center">
         {!! $draftdata->links() !!}
     </div>
+
+    <script>
+        function confirmAction(event, formId) {
+            event.preventDefault(); // Prevent default form submission
+    
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, do it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
 </div> 
  @endsection

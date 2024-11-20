@@ -49,14 +49,30 @@
                 <td>
                      <div class="row  "> 
                     <div class="col-auto"> 
-                        <a href="{{ route('budgetstatusfinal1', ['id' => $data->applicationid]) }}">
-                        <img src="{{ asset('send.png') }}" alt="Image" width="20" height="20">
-                    </a>
+
+                        <form id="sendForm" action="{{ route('budgetstatusfinal1',['id'=>$data->applicationid]) }}" method="GET">
+                            @csrf
+                            @method('DELETE')
+                            <a href="#">
+                        
+                        <img src="{{ asset('send.png') }}"  onclick="confirmAction(event, 'sendForm')"  alt="Image" width="20" height="20">
+                         </a>
+                        </form> 
+                         
                 </div> 
                 <div class="col-auto"> 
-                    <a href="{{route('budgetback',['id'=>encrypt($data->applicationid)])}}">
-                        <img src="{{ asset('back.png') }}" alt="Image" width="20" height="20">
-                    </a>
+
+                    <form id="backForm" action="{{ route('budgetback',['id'=>encrypt($data->applicationid)]) }}" method="GET">
+                        @csrf
+                        @method('DELETE')
+                        <a href="#">
+                    
+                    <img src="{{ asset('back.png') }}"  onclick="confirmAction(event, 'backForm')"  alt="Image" width="20" height="20">
+                     </a>
+                    </form> 
+
+
+                    
                 </div> 
                  
                 </div>
@@ -70,5 +86,26 @@
     <div class="d-flex justify-content-center">
         {!! $draftdata->links() !!}
     </div>
+
+    <script>
+        function confirmAction(event, formId) {
+            event.preventDefault(); // Prevent default form submission
+    
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, do it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
 </div> 
  @endsection
