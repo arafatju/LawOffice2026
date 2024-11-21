@@ -921,7 +921,8 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->where('status','=', 'Waiting')
         ->orwhere('status','=','Accepted')
         ->paginate();
-
+       
+       // flash()->error('There was a problem re-verifying your account.');
     return view('DR.finalstage', compact('draftdata'));
 
 
@@ -982,6 +983,7 @@ return view('DR.mamladashboard',compact('draftdata'));
       ->select('*')
       ->where('role','=','verified1')
       ->paginate(3);
+      toastr('Successfully Accepted User ');
      return view('DR.finaluser',compact('draftdata'));
     }
     public function userstatus11(Request $request){
@@ -1302,7 +1304,7 @@ public function dashboard()
     public function dash2()
     {   
         if(Auth::check()){
-
+            
                 // ->orWhere('name', 'John')
                 $count_user1 = DB::table('users')->where('role', 'user')->count();
                 $count_user2 = DB::table('users')->where('role', 'verified1')->count();
