@@ -77,7 +77,7 @@ class test extends Controller
         else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("userone11") ; }
                                                                     }
   
-          return redirect("login")->withSuccess('Login details are not valid');
+          return redirect("login")->withError('Login details are not valid');
     }
 
     public function customRegistration(Request $request)

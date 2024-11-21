@@ -27,14 +27,7 @@
       
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
-    @notifyCss
-
-@if(session('notyf_success'))
-    <script>
-        const notyf = new Notyf();
-        notyf.success("{{ session('notyf_success') }}");
-    </script>
-@endif
+     
 
 
 
@@ -113,8 +106,7 @@
  
         <div class="container mx-auto mt-5" >
             আপনি সফল ভাবে রেজিস্ট্রেশন করেছেন । আপনার  আইডিটি খুব    শীঘ্রই  অ্যাক্টিভ  করা হবে ।  বাজেট সিস্টেমের সাথে থাকার জন্য ধন্যবাদ ।        </div>
-            <x-notify::notify />
-            @notifyJs  
+             
     </body>
     <div style="position:absolute ;bottom:0px;width:100%;text-align:center;background:#191970">
   <p style="font-size:15px;color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     

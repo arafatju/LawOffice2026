@@ -1,12 +1,5 @@
 @extends('layouts.app')
-@notifyCss
-
-@if(session('notyf_success'))
-    <script>
-        const notyf = new Notyf();
-        notyf.success("{{ session('notyf_success') }}");
-    </script>
-@endif
+ 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -149,6 +142,6 @@
         </div>
     </div>
 </div>
-<x-notify::notify />
-        @notifyJs
+ 
+         
 @endsection

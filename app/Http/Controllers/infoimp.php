@@ -85,11 +85,19 @@ class infoimp extends Controller
         $draft = DB::table('codetable')
         ->select('*')
         ->get();
-
+        toastr('Successfully Added');
     return view('SR.code11', compact('draft'));
         
     }
     public function userbudgetdel(Request $request){
+       
+        $rrt=DB::table('user_budget')
+              ->select('status')
+               ->where('applicationid','=',decrypt($request->id))
+       ->first();
+       if($rrt && $rrt->status=='pending'){ 
+           
+       
         DB::table('user_budget')
         ->where('status','=','pending')
         ->where('applicationid','=',decrypt($request->id))
@@ -99,10 +107,26 @@ class infoimp extends Controller
         ->where('Designation','=',Auth::user()->Designation)
         ->where('District','=',Auth::user()->District)
         ->paginate();
+        toastr('Successfully Deleted');
+    return view('User.userdraft', compact('draftdata'));}
+        else {
+            $draftdata = DB::table('user_budget')
+            ->select('*')
+            ->where('Designation','=',Auth::user()->Designation)
+            ->where('District','=',Auth::user()->District)
+            ->paginate();
+            
+        return view('User.userdraft', compact('draftdata'));
 
-    return view('User.userdraft', compact('draftdata'));
+        }
     }
     public function budgetstatus(Request $request){
+       
+       $rrt=DB::table('user_budget')
+              ->select('status')
+               ->where('applicationid','=',$request->id)
+       ->first();
+       if($rrt && $rrt->status=='pending'){ 
         DB::table('user_budget')
         ->where('status','=','pending')
         ->where('applicationid','=',$request->id)
@@ -113,8 +137,19 @@ class infoimp extends Controller
         ->where('Designation','=',Auth::user()->Designation)
         ->where('District','=',Auth::user()->District)
         ->paginate();
+        toastr('Successfully Sent to Admin Section');
+    return view('User.userdraft', compact('draftdata'));}
 
+    else {
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+        ->where('Designation','=',Auth::user()->Designation)
+        ->where('District','=',Auth::user()->District)
+        ->paginate();
+         
     return view('User.userdraft', compact('draftdata'));
+
+    }
     }
     public function budgetform(Request $request){
         $validated = $request->validate([
@@ -122,7 +157,7 @@ class infoimp extends Controller
             'financial2324' => 'required|string|max:255',
             'allotment' => 'required|integer|min:1|max:9223372036854775807', // For signed BIGINT
 
-            'financial2425' => 'required|string|max:255',
+             
             'allotment2' => 'required|integer|min:1|max:9223372036854775807', // For signed BIGINT
             'opinion' => 'required|string|max:255',
 
@@ -140,14 +175,14 @@ class infoimp extends Controller
             'allotment'=>$validated['allotment'],
             'allotment2'=>$validated['allotment2'],
             'opinion'=>$validated['opinion'],
-            'financial2425'=>$validated['financial2425'],
+            'financial2425'=>'nnnn',
             'applicationid'=>Auth::user()->mobile.$lastId,
 
              
              
              
         ]);
-
+        toastr('Successfully Saved Draft data');
         $draft = DB::table('codetable')
         ->select('*')
         ->get();
@@ -897,6 +932,7 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->select('*')
         ->where('status','=', 'Forwarded')
         ->paginate();
+        toastr('Successfully Sent to Admin Approval ');
 
     return view('SR.verificationinfo', compact('draftdata')); 
 
@@ -921,7 +957,7 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->where('status','=', 'Waiting')
         ->orwhere('status','=','Accepted')
         ->paginate();
-       
+        toastr('Successfully Accepted  ');
        // flash()->error('There was a problem re-verifying your account.');
     return view('DR.finalstage', compact('draftdata'));
 
@@ -938,7 +974,7 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->where('status','=', 'Waiting')
         ->orwhere('status','=','Accepted')
         ->paginate();
-
+        toastr('Successfully sent back  ');
     return view('DR.finalstage', compact('draftdata'));
 
     }
@@ -952,7 +988,7 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->select('*')
         ->where('status','=', 'Forwarded')
         ->paginate();
-
+        toastr('Successfully Sent back  ');
     return view('SR.verificationinfo', compact('draftdata'));
 
          
@@ -995,7 +1031,8 @@ return view('DR.mamladashboard',compact('draftdata'));
       ->select('*')
       ->where('role','=','user')
       ->paginate(3);
-      session()->flash('success', 'Your message here!');
+      toastr('Successfully Sent for final Acceptance ');
+
 
       return view('SR.sendtoict',compact('draftdata')) ;
        
@@ -1010,12 +1047,13 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->select('*')
         ->where('role','=','verified1')
         ->paginate();
+        toastr('Successfully Deleted  ');
        return view('DR.finaluser',compact('draftdata'));
 
 
 
 
-  }
+  }  
     public function overalldel(Request $request){
           $tablenn=$request->name;
           $id= $request->id;
@@ -1026,12 +1064,15 @@ return view('DR.mamladashboard',compact('draftdata'));
         ->select('*')
         ->where('role','=','user')
         ->paginate(3);
+        toastr('Successfully deleted ');
        return view('SR.sendtoict',compact('draftdata'));
 
 
 
     }
     public function srdel(Request $request){
+         
+        
         $tablenn=$request->name;
         $id=decrypt($request->id);
       DB::table($tablenn)
@@ -1040,7 +1081,7 @@ return view('DR.mamladashboard',compact('draftdata'));
       $draft = DB::table('codetable')
       ->select('*')
       ->get();
-
+      toastr('Successfully Deleted');
   return view('SR.code11', compact('draft'));
 
 
@@ -1121,7 +1162,7 @@ public function admindash(){
     return view('AR.dashboard');
 }
 public function Newuser(){
-    notify()->success('আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে ', 'Notice');
+    
     return view('Newok.Newuser');
 }
 public function profilear(Request $request){
