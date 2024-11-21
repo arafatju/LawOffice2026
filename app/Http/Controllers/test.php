@@ -67,14 +67,14 @@ class test extends Controller
 
 
 
-            if(Auth::user()->role=='userdr')  { return redirect("dash2");}
+            if(Auth::user()->role=='userdr')  {toastr('Successfully Logged in'); return redirect("dash2");}
         
-            else if(Auth::user()->role=='usersr'){  return redirect("section7"); 
+            else if(Auth::user()->role=='usersr'){ toastr('Successfully Logged in'); return redirect("section7"); 
                                                                      }
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
-        else if(Auth::user()->role=='user') { return redirect("Newuser") ; }
-        else if(Auth::user()->role=='userone') { return redirect("userone11") ; }
+        else if(Auth::user()->role=='user') { toastr('Successfully Logged in');return redirect("Newuser") ; }
+        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("userone11") ; }
                                                                     }
   
           return redirect("login")->withSuccess('Login details are not valid');
