@@ -993,7 +993,7 @@ return view('DR.mamladashboard',compact('draftdata'));
       ->select('*')
       ->where('role','=','user')
       ->paginate(3);
-      Alert::success('Title', 'Message');
+      session()->flash('success', 'Your message here!');
 
       return view('SR.sendtoict',compact('draftdata')) ;
        
