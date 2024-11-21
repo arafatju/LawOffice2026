@@ -43,12 +43,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="allotment" class="col-md-4 col-form-label text-md-end">{{ __('অর্থবছর ২০২৩-২৪') }}</label>
+                            <label for="financial2324" class="col-md-4 col-form-label text-md-end">{{ __('অর্থবছর ২০২৩-২৪') }}</label>
 
                             <div class="col-md-6">
-                                <input id="allotment" type="text" class="form-control @error('allotment') is-invalid @enderror" name="allotment" value="{{ old('allotment') }}" required autocomplete="allotment" autofocus>
+                                <input id="financial2324" type="text" class="form-control @error('financial2324') is-invalid @enderror" name="financial2324" value="২০২৩-২৪" readonly required autocomplete="financial2324" autofocus>
 
-                                @error('allotment')
+                                @error('financial2324')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -58,7 +58,38 @@
                         
                         
                         <div class="row mb-3">
-                            <label for="allotment2" class="col-md-4 col-form-label text-md-end">{{ __('অর্থবছর ২৪২৪-২৫ ') }}</label>
+                            <label for="allotment" class="col-md-4 col-form-label text-md-end">{{ __('  বরাদ্দকৃত অর্থ ') }}</label>
+
+                            <div class="col-md-6">
+                            <input id="allotment" type="text" class="form-control @error('allotment') is-invalid @enderror" name="allotment" value="{{ old('allotment') }}" required  autofocus>
+
+                             
+                                
+                                @error('allotment')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            
+
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label for="financial2425" class="col-md-4 col-form-label text-md-end">{{ __('চাহিদাকৃত  অর্থ অর্থবছর ২৪২৪-২৫ ') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="financial2425" type="text" class="form-control @error('financial2425') is-invalid @enderror" name="financial2425" value="২৪২৪-২৫" required readonly autocomplete="financial2425">
+
+                                @error('financial2425')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="allotment2" class="col-md-4 col-form-label text-md-end">{{ __('  বরাদ্দকৃত অর্থ ') }}</label>
 
                             <div class="col-md-6">
                             <input id="allotment2" type="text" class="form-control @error('allotment2') is-invalid @enderror" name="allotment2" value="{{ old('allotment2') }}" required  autofocus>
@@ -74,22 +105,19 @@
 
                             </div>
                         </div>
-                        
                         <div class="row mb-3">
-                            <label for="financial2324" class="col-md-4 col-form-label text-md-end">{{ __('চাহিদাকৃত  অর্থ  ') }}</label>
+                            <label for="allotment3" class="col-md-4 col-form-label text-md-end">{{ __('চাহিদাকৃত  অর্থ  ') }}</label>
 
                             <div class="col-md-6">
-                                <input id="financial2324" type="text" class="form-control @error('allotment2') is-invalid @enderror" name="financial2324" value="{{ old('financial2324') }}" required autocomplete="financial2324">
+                                <input id="allotment3" type="text" class="form-control @error('financial2425') is-invalid @enderror" name="allotment3" value="{{ old('allotment3') }}" required   autocomplete="allotment3">
 
-                                @error('financial2324')
+                                @error('allotment3')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
-                      
-                       
                         <div class="row mb-3">
                             <label for="opinion" class="col-md-4 col-form-label text-md-end">{{ __(' মন্তব্য ') }}</label>
 

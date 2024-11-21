@@ -27,7 +27,7 @@
                 <th scope="col"> অর্থবছর ২৪২৪-২৫  </th>
                 
                 <th scope="col">বরাদ্দকৃত অর্থ </th>
-                <th scope="col">মন্তব্য  </th>
+                <th scope="col">চাহিদাকৃত অর্থ   </th>
                 <th scope="col">Status  </th>
                 <th scope="col">ID   </th>
                 <th scope="col">Action   </th>
@@ -43,7 +43,7 @@
                 <td>{{ $data->allotment }}</td>
                 <td>{{ $data->financial2425 }}</td>
                 <td>{{ $data->allotment2 }}</td>
-                <td>{{ $data->opinion }}</td>
+                <td>{{ $data->allotment3 }}</td>
                 <td>{{ $data->status }}</td>
                 <td>{{ $data->applicationid }}</td>
                 <td>
