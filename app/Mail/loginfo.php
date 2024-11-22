@@ -28,6 +28,6 @@ class loginfo extends Mailable
      */
     public function build()
     {
-        return $this->view('DR.emails');
+        return $this->view('Email.info');
     }
 }

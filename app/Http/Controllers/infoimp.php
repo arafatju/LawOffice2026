@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
+use App\Mail\userinfo; 
 use Image;
 use DB;
  use Toastr;
@@ -255,6 +256,8 @@ class infoimp extends Controller
         ->where('status','=','Waiting')
         ->where('applicationid','=',$request->id)
         ->update(['status' => "Accepted"]);
+        Mail::to(Auth::user()->email)->send(new userinfo());
+        
         $draftdata = DB::table('user_budget')
         ->select('*')
         ->where('status','=', 'Waiting')

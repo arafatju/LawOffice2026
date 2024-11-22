@@ -35,8 +35,7 @@ class test extends Controller
    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) { 
-            $ip=$request->ip();
-            session(['ip' =>$ip]);
+             
 
             // $device = Agent::device();
             $browser = \Agent::browser();
@@ -45,11 +44,30 @@ class test extends Controller
             // $version = \Agent::version($browser);
                  $platform = \Agent::platform();
             // $version2 = Agent::version($platform);
-            $data = \Location::get(session('ip')); 
-                   
+            $ip = $request->ip();
+$data = Location::get($ip);
+
+            if ($data) {
+                // Successfully retrieved location details
+                session(['user_data_city' => $data->cityName]);
+                session(['user_data_region' => $data->regionName]);
+                session(['user_data_country' => $data->countryName]);
+            } else {
+                // Handle failure to retrieve location
+                session(['user_data_city' => 'Unknown Region']);
+            }
                   //countryName  regionName  cityName
-      
-                     // Mail::to(Auth::user()->email)->send(new loginfo());
+                  //try {
+                    // Attempt to send the mail
+                    Mail::to(Auth::user()->email)->send(new loginfo());
+                    
+                    // Show success toastr notification
+                   // toastr()->success('Successfully sent mail');
+               // } catch (\Exception $e) {
+                    // Handle failure and show error toastr notification
+                   // toastr()->error('Mail Sent Error: ' . $e->getMessage());
+               // }
+                
                      //Device Location ip Browser 
                      DB::table('loginfo')->insert([
                       'district' => Auth::user()->District,
@@ -58,7 +76,7 @@ class test extends Controller
                        'time'=>date("Y-m-d H:i:s", strtotime('now')),
                       'Device'=>$platform,
                       'Browser'=>$browser,
-                      'ip'=>session('ip'),
+                      'ip'=>$ip,
                       'Location'=>"jjj" ,
                       
                        
