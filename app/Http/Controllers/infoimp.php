@@ -245,31 +245,49 @@ class infoimp extends Controller
         $draftdata = DB::table('user_budget')
         ->select('*')
         ->where('status','=', 'Waiting')
-        ->orwhere('status','=','Accepted')
+        
         ->paginate();
 
     return view('DR.finalstage', compact('draftdata'));
     }
-     
+    public function finalstage1122(){
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+         
+        ->where('status','=','Accepted')
+        ->paginate();
+
+    return view('DR.final11', compact('draftdata'));
+    }
     public function acceptfinal(Request $request){
+       
+        
+       
         DB::table('user_budget')
         ->where('status','=','Waiting')
         ->where('applicationid','=',$request->id)
         ->update(['status' => "Accepted"]);
-        Mail::to(Auth::user()->email)->send(new userinfo());
-        
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('status','=', 'Waiting')
-        ->orwhere('status','=','Accepted')
-        ->paginate();
-        toastr('Successfully Accepted  ');
-       // flash()->error('There was a problem re-verifying your account.');
-    return view('DR.finalstage', compact('draftdata'));
 
+        $user_mail=DB::table('user_budget')
+            ->select('email')
+            ->where('applicationid','=',$request->id)
+            ->first();
+
+        Mail::to($user_mail->email)->send(new userinfo($request->id));
+        
+        return redirect()->route('finalstage');
+            
 
     }
     public function budgetback11(Request $request){
+      
+        $rrt=DB::table('user_budget')
+        ->select('status')
+        ->where('applicationid','=',decrypt($request->id))
+        ->first();
+        if($rrt->status=='Waiting'){ 
+      
+      
         DB::table('user_budget')
         ->where('status','=','Waiting')
         ->where('applicationid','=',decrypt($request->id))
@@ -282,6 +300,10 @@ class infoimp extends Controller
         ->paginate();
         toastr('Successfully sent back  ');
     return view('DR.finalstage', compact('draftdata'));
+        }
+           else {
+            return redirect()->back();
+           }
 
     }
     public function budgetback(Request $request){

@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class loginfo extends Mailable
+class userinfo extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $id;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        
+        $this->id = $id;  
     }
 
     /**
@@ -28,6 +28,7 @@ class loginfo extends Mailable
      */
     public function build()
     {
-        return $this->view('Email.user');
+        return $this->view('Email.user')
+        ->with(['id' => $this->id]);
     }
 }

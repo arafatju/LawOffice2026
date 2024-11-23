@@ -39,7 +39,7 @@ All Normal Users Routes List
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     
-    
+    Route::get('/finalstage1122', [infoimp::class, 'finalstage1122'])->name('finalstage1122'); 
     Route::get('/acceptfinal/{id}', [infoimp::class, 'acceptfinal'])->name('acceptfinal'); 
     Route::get('/budgetback11/{id}', [infoimp::class, 'budgetback11'])->name('budgetback11'); 
 

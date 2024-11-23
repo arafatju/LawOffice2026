@@ -9,7 +9,12 @@
   
  @section('content')
  <div class="container mt-5">
-    <table class="table table-bordered mb-5">
+ <div class="d-flex justify-content-end">
+ <a href="{{ route('finalstage1122') }}" class="btn btn-primary">Accepted Applications</a>
+
+     
+</div> 
+ <table class="table table-bordered mb-5">
     <thead>
             <tr>
                 <th colspan="8">

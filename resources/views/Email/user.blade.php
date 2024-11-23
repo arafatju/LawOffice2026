@@ -6,7 +6,7 @@
 <body>
   
  <h1>System generated mail </h1>
- <p>Dear  {{Auth::user()->name}}   Sir, Your Application has been accepted. Thanks 
+ <p>Dear  {{Auth::user()->name}}   Sir, Your Application number {{$id }}has been accepted. Thanks 
      
  
  </p>
