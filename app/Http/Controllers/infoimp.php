@@ -72,21 +72,45 @@ class infoimp extends Controller
     }
     public function budgetcode(Request $request){
         $validated = $request->validate([
-            'code1' => 'required|string|max:255',
+            'code_status' => 'required|string|max:255',
             'name' => 'required|string|max:255',
         ]);
+        if($validated['code_status']=='economy'){
         DB::table('codetable')->insert([
-            'code' => $validated['code1'],
+            'code' => $request->code1,
             'name' => $validated['name'],
+            'status'=>'economy',
              
              
              
-        ]);
+        ]);       toastr('Successfully Added');                 }
+        else if( $validated['code_status']=='designation'){
+            DB::table('codetable')->insert([
+                'code' => '1111',
+                'name' => $validated['name'],
+                'status'=>'designation',
+                 
+                 
+                 
+            ]);  toastr('Successfully Added');
+        }
+        else if( $validated['code_status']=='district'){
+            DB::table('codetable')->insert([
+                'code' =>  '2222',
+                'name' => $validated['name'],
+                'status'=>'district',
+                 
+                 
+                 
+            ]);  toastr('Successfully Added');
+        }
 
         $draft = DB::table('codetable')
         ->select('*')
-        ->get();
-        toastr('Successfully Added');
+        ->get(); 
+               
+               
+      
     return view('SR.code11', compact('draft'));
         
     }
@@ -250,14 +274,70 @@ class infoimp extends Controller
 
     return view('DR.finalstage', compact('draftdata'));
     }
+    public function finalstage1123(Request $request){
+        
+        if($request->district=='সমগ্র'){
+            $dist=$request->district;
+        }
+        else  {
+            $dist='*';
+        }
+        if($request->designation=='সমগ্র'){
+             $desig=$request->designation;
+        }
+        else {
+            $desig='*';
+        }
+        if($request->code=='সমগ্র'){
+            $econo=$request->code;
+      }
+      else {
+           $econo='*';
+      }
+        
+        
+        $draftdata = DB::table('user_budget')
+        ->select('*')
+         ->where('District',$dist)
+         ->where('Designation',$desig)
+         ->where('code11',$econo)
+        ->where('status','=','Accepted')
+        ->paginate();
+        $draft1 = DB::table('codetable')
+        ->select('*')->where('status','designation')
+        ->get(); 
+        $draft2 = DB::table('codetable')
+        ->select('*')->where('status','district')
+        ->get();       
+        $draft3 = DB::table('codetable')
+        ->select('*')->where('status','economy')
+        ->get();      
+      
+     
+
+    return view('DR.final11', compact('draftdata','draft1','draft2','draft3'));
+  
+
+    }
     public function finalstage1122(){
         $draftdata = DB::table('user_budget')
         ->select('*')
          
         ->where('status','=','Accepted')
         ->paginate();
+        $draft1 = DB::table('codetable')
+        ->select('*')->where('status','designation')
+        ->get(); 
+        $draft2 = DB::table('codetable')
+        ->select('*')->where('status','district')
+        ->get();       
+        $draft3 = DB::table('codetable')
+        ->select('*')->where('status','economy')
+        ->get();      
+      
+     
 
-    return view('DR.final11', compact('draftdata'));
+    return view('DR.final11', compact('draftdata','draft1','draft2','draft3'));
     }
     public function acceptfinal(Request $request){
        

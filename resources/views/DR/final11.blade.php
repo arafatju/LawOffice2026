@@ -12,35 +12,49 @@
   
  <div class="d-flex justify-content-end align-items-center gap-3">
   <!-- District Dropdown -->
+ 
   <div>
-   Office
-    <select class="form-select" id="district">
-      <option value="dhaka">Dhaka</option>
-      <option value="chittagong">Chittagong</option>
-      <option value="khulna">Khulna</option>
+    <form method="POST" action="{{ route('finalstage1123') }}">
+      @csrf
+   Designation
+    <select class="form-select" id="designation" name="designation">
+      
+      <option>সমগ্র</option>
+      @foreach( $draft1 as $data)
+                               
+      <option>{{$data->name}}</option>
+      @endforeach 
+      
     </select>
   </div>
   <div>
    District 
     <select class="form-select" id="district">
-      <option value="dhaka">Dhaka</option>
-      <option value="chittagong">Chittagong</option>
-      <option value="khulna">Khulna</option>
+      <option>সমগ্র</option>
+      @foreach( $draft2 as $data)
+                               
+      <option>{{$data->name}}</option>
+      @endforeach 
     </select>
   </div>
 
   <!-- Code Dropdown -->
   <div class="row">
     Code
-    <select class="form-select" id="code">
-      <option value="101">101</option>
-      <option value="102">102</option>
-      <option value="103">103</option>
+    <select class="form-select" id="code"name="code">
+      <option>সমগ্র</option>
+      @foreach( $draft3 as $data)
+                               
+      <option>{{$data->name}}</option>
+      @endforeach 
     </select>
   </div>
 
   <!-- Search Button -->
-  <a href="{{ route('finalstage1122') }}" class="btn btn-primary mt-4">Search</a>
+  <button type="submit" class="btn btn-primary">
+    {{ __('Search') }}
+</button>
+</form> 
 </div>
 
  <table class="table table-bordered mb-5">

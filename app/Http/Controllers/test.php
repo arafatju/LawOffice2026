@@ -17,10 +17,17 @@ class test extends Controller
 {
     public function registration()
     {
-       notify()->success('আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে ', 'Notice');
-        //Alert::success('Success Title', 'Success Message');
-
-                return view('auth.registration');
+       
+        $draft1 = DB::table('codetable')
+        ->select('*')->where('status','designation')
+        ->get(); 
+        $draft2 = DB::table('codetable')
+        ->select('*')->where('status','district')
+        ->get();       
+               
+      
+    return view('auth.registration', compact('draft1','draft2'));
+                
     }
 
      

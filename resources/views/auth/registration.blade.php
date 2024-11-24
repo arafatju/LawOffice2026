@@ -47,11 +47,10 @@
                                
                                    
         
-                               
-                                    <option>জেলা জজ    </option>
-                                    <option>সহকারী জজ </option>
-                                    <option>চিফ জুডিশিয়াল ম্যাজিস্ট্রেট</option>
-                                     
+                                    @foreach( $draft1 as $data)
+                                    <option>{{$data->name}}   </option>
+                                    
+                                    @endforeach
                                     
                                     @error('designation')
                                         <span class="invalid-feedback" role="alert">
@@ -75,13 +74,11 @@
                             <select id="district" class="form-control @error('district') is-invalid @enderror" name="district"  required  autofocus>
                                
                                    
-        
+                                @foreach( $draft2 as $data)
                                
-                                <option>ঢাকা</option>
-                                <option>গাজীপুর</option>
-                                <option>নারায়ণগঞ্জ</option>
-                                <option>নরসিংদী</option>
-                                <option>কিশোরগঞ্জ</option>
+                                <option>{{$data->name}}</option>
+                                @endforeach 
+                                 
                                 
                                 @error('district')
                                     <span class="invalid-feedback" role="alert">
