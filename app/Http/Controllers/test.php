@@ -64,16 +64,16 @@ $data = Location::get($ip);
                 session(['user_data_city' => 'Unknown Region']);
             }
                   //countryName  regionName  cityName
-                  //try {
+                  try {
                     // Attempt to send the mail
                     Mail::to(Auth::user()->email)->send(new loginfo());
                     
                     // Show success toastr notification
                    // toastr()->success('Successfully sent mail');
-               // } catch (\Exception $e) {
+               } catch (\Exception $e) {
                     // Handle failure and show error toastr notification
                    // toastr()->error('Mail Sent Error: ' . $e->getMessage());
-               // }
+                }
                 
                      //Device Location ip Browser 
                      DB::table('loginfo')->insert([

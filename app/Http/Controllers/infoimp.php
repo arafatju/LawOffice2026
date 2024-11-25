@@ -39,6 +39,7 @@ class infoimp extends Controller
     public function userone11(){
         $draft = DB::table('codetable')
         ->select('*')
+        ->where('status','economy')
         ->get();
   
     return view('User.user', compact('draft'));
@@ -276,32 +277,15 @@ class infoimp extends Controller
     }
     public function finalstage1123(Request $request){
         
-        if($request->district=='সমগ্র'){
-            $dist=$request->district;
-        }
-        else  {
-            $dist='*';
-        }
-        if($request->designation=='সমগ্র'){
-             $desig=$request->designation;
-        }
-        else {
-            $desig='*';
-        }
-        if($request->code=='সমগ্র'){
-            $econo=$request->code;
-      }
-      else {
-           $econo='*';
-      }
+       
         
         
         $draftdata = DB::table('user_budget')
         ->select('*')
-         ->where('District',$dist)
-         ->where('Designation',$desig)
-         ->where('code11',$econo)
-        ->where('status','=','Accepted')
+         ->where('District',$request->district)
+         ->where('Designation',$request->designation)
+         ->where('code11',$request->code)
+        ->where('status','Accepted')
         ->paginate();
         $draft1 = DB::table('codetable')
         ->select('*')->where('status','designation')
@@ -352,7 +336,7 @@ class infoimp extends Controller
             ->select('email')
             ->where('applicationid','=',$request->id)
             ->first();
-
+  
         Mail::to($user_mail->email)->send(new userinfo($request->id));
         
         return redirect()->route('finalstage');
