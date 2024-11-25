@@ -5,7 +5,11 @@
 
  
 <div class="container mt-5">
-<button class="primary btn-lg"> Accepted User </button>
+    <div class="d-flex justify-content-end">
+        <a href="{{ route('userlist1122') }}" class="btn btn-primary">Accepted User </a>
+       
+            
+       </div> 
    <table class="table table-bordered mb-5">
    <thead>
            <tr>

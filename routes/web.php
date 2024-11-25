@@ -39,6 +39,14 @@ All Normal Users Routes List
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     
+
+    Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
+
+    Route::get('/userlist1122', [infoimp::class, 'userlist1122'])->name('userlist1122'); 
+    
+    Route::get('/inactiveuserlist/{id}', [infoimp::class, 'inactiveuserlist'])->name('inactiveuserlist'); 
+
+
     Route::post('/finalstage1123', [infoimp::class, 'finalstage1123'])->name('finalstage1123'); 
 
     Route::get('/finalstage1122', [infoimp::class, 'finalstage1122'])->name('finalstage1122'); 

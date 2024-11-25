@@ -19,7 +19,7 @@
    Designation
     <select class="form-select" id="designation" name="designation">
       
-      <option>সমগ্র</option>
+      
       @foreach( $draft1 as $data)
                                
       <option>{{$data->name}}</option>
@@ -30,7 +30,7 @@
   <div>
    District 
     <select class="form-select" id="district">
-      <option>সমগ্র</option>
+   
       @foreach( $draft2 as $data)
                                
       <option>{{$data->name}}</option>
@@ -42,7 +42,7 @@
   <div class="row">
     Code
     <select class="form-select" id="code"name="code">
-      <option>সমগ্র</option>
+    
       @foreach( $draft3 as $data)
                                
       <option>{{$data->name}}</option>

@@ -266,6 +266,23 @@ class infoimp extends Controller
     return view('SR.verificationinfo', compact('draftdata')); 
 
     } 
+    
+    public function inactiveuserlist(Request $request){
+        DB::table('users')
+         
+        ->where('email','=',$request->id)
+        ->update(['role' => "inactive"]);
+       return redirect()->route('showinactive');
+    }
+       public function showinactive(){
+        $draftdata=DB::table('users')
+        ->select('*')
+        ->where('role','=','inactive')
+        ->paginate();
+       return view('DR.inactive1122',compact('draftdata'));
+
+    }
+    
     public function finalstage(){
         $draftdata = DB::table('user_budget')
         ->select('*')
@@ -275,6 +292,14 @@ class infoimp extends Controller
 
     return view('DR.finalstage', compact('draftdata'));
     }
+
+    public function userlist1122(){
+        $draftdata=DB::table('users')
+        ->select('*')
+        ->where('role','=','userone')
+        ->paginate();
+       return view('DR.userlist1122',compact('draftdata'));
+    }
     public function finalstage1123(Request $request){
         
        
@@ -282,9 +307,9 @@ class infoimp extends Controller
         
         $draftdata = DB::table('user_budget')
         ->select('*')
-         ->where('District',$request->district)
-         ->where('Designation',$request->designation)
-         ->where('code11',$request->code)
+         ->where('District','like','%'.$request->district.'%')
+         ->where('Designation','like','%'.$request->designation.'%')
+         ->where('code11','like', '%'.$request->code.'%')
         ->where('status','Accepted')
         ->paginate();
         $draft1 = DB::table('codetable')
@@ -405,7 +430,7 @@ class infoimp extends Controller
     }
     public function userstatus22(Request $request){
         DB::table('users')
-      ->where('id','=',$request->id)
+      ->where('email','=',$request->id)
       ->update(['role' => 'userone' ]);
       $draftdata=DB::table('users')
       ->select('*')

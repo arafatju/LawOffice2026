@@ -7,7 +7,8 @@
     <title> Welcome to Login     </title>
 
  
-    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <link href="{{ asset('signin.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -67,7 +68,7 @@
                                     </span>
                                 @enderror
     </div>
-
+    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"></div>
     <div class="form-floating">
          
         {!! NoCaptcha::renderJs() !!}
