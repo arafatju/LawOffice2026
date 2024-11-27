@@ -21,7 +21,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
  
- 
+Route::get('/test', function () {
+    return view('auth.testlogin');
+});
  Route::get('/login', [App\Http\Controllers\infoimp::class, 'index'])->name('login');
 Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])->name('registration');
 

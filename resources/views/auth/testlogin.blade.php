@@ -1,4 +1,5 @@
 @extends('layouts.app')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 @section('content')
 <div class="container">
@@ -41,7 +42,9 @@
                         <div class="row mb-3">
 
                         <div class="col-md-6 offset-md-4">
-                             <label for="captcha">Captcha</label>
+                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"></div>
+
+                            <label for="captcha">Captcha</label>
                                  {!! NoCaptcha::renderJs() !!}
                                  {!! NoCaptcha::display() !!}
                                  @error('g-recaptcha-response')

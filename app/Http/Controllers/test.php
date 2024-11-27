@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use DB;
 Use Alert;
+use App\Rules\ReCaptcha;
+
 
 class test extends Controller
 {
@@ -36,7 +38,7 @@ class test extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-            //'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => 'required'
 
         ]);
    

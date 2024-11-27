@@ -30,8 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'recaptcha' => [
-    'sitekey' => env('RECAPTCHA_SITE_KEY'),
-    'secret' => env('RECAPTCHA_SECRET_KEY'),
+     
+    'secret' => env('6LfzaokqAAAAAKJZ2GYWPwaPjDeKPxWKcdKX1ae3'),
+    'sitekey' => env('6LfzaokqAAAAAC7oGTEbUZSewrf99Dp7F8E7ZTcx'),
 ],
 
 

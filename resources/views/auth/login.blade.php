@@ -68,11 +68,14 @@
                                     </span>
                                 @enderror
     </div>
-    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"></div>
     <div class="form-floating">
+      <div class="g-recaptcha" data-sitekey="6LfzaokqAAAAAC7oGTEbUZSewrf99Dp7F8E7ZTcx"></div>
+
+      {!! NoCaptcha::renderJs() !!}
+      {!! NoCaptcha::display() !!}
+       
+
          
-        {!! NoCaptcha::renderJs() !!}
-        {!! NoCaptcha::display() !!}
         @error('g-recaptcha-response')
   <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
         @enderror
