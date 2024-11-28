@@ -361,8 +361,16 @@ class infoimp extends Controller
             ->select('email')
             ->where('applicationid','=',$request->id)
             ->first();
-  
-        Mail::to($user_mail->email)->send(new userinfo($request->id));
+            try { 
+                // Attempt to send the mail
+                 Mail::to($user_mail->email)->send(new userinfo($request->id));
+                // Show success toastr notification
+               toastr()->success('Successfully sent mail');
+           } catch (\Exception $e) {
+                // Handle failure and show error toastr notification
+               // toastr()->error('Mail Sent Error: ' . $e->getMessage());
+            }
+      
         
         return redirect()->route('finalstage');
             

@@ -10,13 +10,54 @@ use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
+use App\Mail\recovery11;
+
 use DB;
 Use Alert;
 use App\Rules\ReCaptcha;
+use Carbon\Carbon;
 
 
 class test extends Controller
 {
+    
+    public function forget11(){
+        return view('auth.forget11');
+    }
+    public function forget22(Request $request){
+        $validated=$request->validate([
+             
+            'email' => 'required|email|exists:users,email',
+ 
+        ]);
+                   
+        
+        $randomNumber = rand(100000, 999999);
+        try { 
+            // Attempt to send the mail
+            Mail::to($validated['email'])->send(new recovery11($randomNumber));
+            if ((Mail::failures())) {
+                return view('auth.forget11');
+            } else {
+                $startTime = Carbon::now();
+            session(['start_time' => $startTime ]);
+            // Show success toastr notification
+             toastr()->success('Successfully sent mail');
+           $endTime =  Carbon::now()->addMinutes(5); // Add 5 minutes to start time
+
+        return view('auth.forget22', [
+            'endTime' => $endTime->toISOString() // Pass ISO timestamp to view
+        ]);}
+       } catch (\Exception $e) {
+            // Handle failure and show error toastr notification
+            toastr()->error('Mail Sent Error: ' );
+            
+        }
+        
+
+    }
+    
+    
     public function registration()
     {
        
@@ -38,7 +79,7 @@ class test extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-            'g-recaptcha-response' => 'required'
+           // 'g-recaptcha-response' => 'required'
 
         ]);
    

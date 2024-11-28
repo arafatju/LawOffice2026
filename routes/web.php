@@ -20,16 +20,22 @@ use App\Http\Controllers\test;
 Route::get('/', function () {
     return view('auth.login');
 });
+Auth::routes([
+    'register' => false,
+    'reset' => false,
+    'verify'=>false,
+    'resend'=>false,
+]);
  
-Route::get('/test', function () {
-    return view('auth.testlogin');
-});
  Route::get('/login', [App\Http\Controllers\infoimp::class, 'index'])->name('login');
 Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])->name('registration');
 
+ 
  Route::post('/custom-login', [test::class, 'customLogin'])->name('login.custom'); 
  Route::post('/custom-registration', [test::class, 'customRegistration'])->name('register.custom'); 
 Route::get('/signout', [infoimp::class, 'signOut'])->name('signout');
+Route::get('/forget11', [test::class, 'forget11'])->name('forget11'); 
+Route::post('/forget22', [test::class, 'forget22'])->name('forget22'); 
 
 Auth::routes();
   
