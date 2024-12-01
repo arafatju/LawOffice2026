@@ -36,6 +36,8 @@ Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])-
 Route::get('/signout', [infoimp::class, 'signOut'])->name('signout');
 Route::get('/forget11', [test::class, 'forget11'])->name('forget11'); 
 Route::post('/forget22', [test::class, 'forget22'])->name('forget22'); 
+Route::post('/forget33', [test::class, 'forget33'])->name('forget33'); 
+Route::post('/forget44', [test::class, 'forget44'])->name('forget44'); 
 
 Auth::routes();
   

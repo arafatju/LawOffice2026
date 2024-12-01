@@ -31,12 +31,12 @@ class test extends Controller
  
         ]);
                    
-        
+        session(['email11'=>$validated['email']]);
         $randomNumber = rand(100000, 999999);
-        try { 
+        session(['number' => $randomNumber ]);
             // Attempt to send the mail
             Mail::to($validated['email'])->send(new recovery11($randomNumber));
-            if ((Mail::failures())) {
+            if (!empty(Mail::failures())) {
                 return view('auth.forget11');
             } else {
                 $startTime = Carbon::now();
@@ -44,20 +44,38 @@ class test extends Controller
             // Show success toastr notification
              toastr()->success('Successfully sent mail');
            $endTime =  Carbon::now()->addMinutes(5); // Add 5 minutes to start time
+          
+           // $diffInMinutes = $startTime->diffInMinutes($endTime, false);
 
+           
         return view('auth.forget22', [
             'endTime' => $endTime->toISOString() // Pass ISO timestamp to view
         ]);}
-       } catch (\Exception $e) {
-            // Handle failure and show error toastr notification
-            toastr()->error('Mail Sent Error: ' );
-            
-        }
+        
         
 
     }
     
-    
+    public function forget33(Request $request){
+        $startTime = session('start_time');
+
+        $EndTime = Carbon::now();
+        $diffInMinutes = $startTime->diffInSeconds($EndTime);
+      
+        if($diffInMinutes<=59){
+              if($request->otp==session('number')){
+            return view('auth.forget33');
+                                }
+      }
+      else if ($diffInMinutes>=60) {
+       // toastr->warning("Error");
+        return view('auth.forget11');
+      }
+      else {
+        return view('auth.forget11');
+      }
+
+    }
     public function registration()
     {
        
@@ -72,7 +90,15 @@ class test extends Controller
     return view('auth.registration', compact('draft1','draft2'));
                 
     }
+public function forget44(Request $request){
+          $pwd11=Hash::make($request->password);
+          DB::table('users')
+        ->where('email','=',session('email11'))
+        
+        ->update(['password' => $pwd11]);
 
+          
+}
      
      public function customLogin(Request $request)
     {

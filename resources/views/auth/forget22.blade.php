@@ -42,12 +42,12 @@
   <body class="text-center">
     
 <main class="form-signin">
-    <form method="POST" action="{{ route('forget22') }}">
+    <form method="POST" action="{{ route('forget33') }}">
         @csrf
       
     <img class="mb-4" src="{{asset('gov.png')}}" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Law and Justice Division</h1>
-    <h1 class="h3 mb-3 fw-normal">Forget Password </h1>
+    <h1 class="h3 mb-3 fw-normal">Enter OTP </h1>
      <div class="form-floating">
         <p id="timer">Loading...</p>
 
@@ -76,10 +76,10 @@
         </script>
      </div>   
     <div class="form-floating">
-      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+      <input id="otp" type="otp" class="form-control @error('otp') is-invalid @enderror" name="otp" value="{{ old('otp') }}" required autocomplete="otp" autofocus>
 
-       <label for="email">Enter your Email address</label>
-      @error('email')
+       <label for="otp">OTP</label>
+      @error('otp')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -88,10 +88,10 @@
      
      
     
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Send</button>
   </form>
   <div class="form-floating">
-    <a   href="{{ route('registration') }}">{{ __('Register') }}</a>
+    <a   href="{{ route('forget11') }}">{{ __('Back') }}</a>
     <p class="mt-5 mb-3 text-muted">&copy; 2021–2023</p>
     <p class="mt-5 mb-3 text-muted">Technical Consultancy,Arafat Ur Rahman</p>
 

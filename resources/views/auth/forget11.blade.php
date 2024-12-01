@@ -62,10 +62,10 @@
      
      
     
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Send OTP</button>
   </form>
   <div class="form-floating">
-    <a   href="{{ route('registration') }}">{{ __('Register') }}</a>
+    <a   href="{{ route('login') }}">{{ __('Login') }}</a>
     <p class="mt-5 mb-3 text-muted">&copy; 2021–2023</p>
     <p class="mt-5 mb-3 text-muted">Technical Consultancy,Arafat Ur Rahman</p>
 
