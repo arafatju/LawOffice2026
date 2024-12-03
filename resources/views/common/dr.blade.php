@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title>  বাজেট ব্যবস্থাপনা সিস্টেম   </title>
+    <title> অনলাইন বদলী ব্যবস্থাপনা   </title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,7 +42,7 @@
     <h4 align="center"><img src="{{asset('gov.png')}}" style="width:20px;height:20px;" /> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> 
     <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
-    <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
+    <h4 align="center"> অনলাইন বদলী ব্যবস্থাপনা   </h4>  
     <h4 align="center">  চূড়ান্ত অনুমোদনকারী কতৃপক্ষ -১    </h4>
 </div>
 
