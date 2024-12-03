@@ -23,7 +23,10 @@ class Activitydel extends Migration
             $table->id();
              $table->string('userid');
             $table->string('wifename');
-             $table->string('wifeworkingaddress');
+             $table->string('wifedesignation');
+             $table->string('wifeprofession');
+             $table->string('wifeworkplace');
+             $table->string('wifehomedistrict');
              $table->string('kids_number');
                                                                 });
     }

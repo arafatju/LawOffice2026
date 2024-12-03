@@ -19,10 +19,15 @@ class Activity extends Migration
             $table->string('userid');
             $table->string('mobile');
             $table->string('name');
+            $table->string('marital_status');
             $table->string('father');
             $table->string('mother');
             $table->string('email');
             $table->string('officeid');
+            $table->string('homedistrict');
+
+            $table->string('permanentaddress');
+
             
                                                                });
     }

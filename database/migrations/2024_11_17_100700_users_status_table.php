@@ -17,7 +17,7 @@ class UsersStatusTable extends Migration
             $table->id();
             $table->string('userid');  
             $table->string('district');  
-              
+            $table->string('reason'); 
             $table->timestamps();
         });
     }
