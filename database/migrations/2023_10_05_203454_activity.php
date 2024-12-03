@@ -25,7 +25,7 @@ class Activity extends Migration
             $table->string('email');
             $table->string('officeid');
             $table->string('homedistrict');
-
+                     
             $table->string('permanentaddress');
 
             
