@@ -19,14 +19,12 @@ class Activitydel extends Migration
      */
     public function up()
     {
-        Schema::create('activitydel', function (Blueprint $table) {
+        Schema::create('wifeinfo', function (Blueprint $table) {
             $table->id();
-             $table->string('mobile');
-            $table->string('status');
-             $table->string('time');
-            $table->string('nid');
-            $table->string('trname');
-            $table->string('avatar');
+             $table->string('userid');
+            $table->string('wifename');
+             $table->string('wifeworkingaddress');
+             $table->string('kids_number');
                                                                 });
     }
 
@@ -37,6 +35,6 @@ class Activitydel extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activitydel');
+        Schema::dropIfExists('wifeinfo');
     }
 }

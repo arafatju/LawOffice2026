@@ -20,14 +20,13 @@ class Kazipicture extends Migration
      */
     public function up()
     {
-        Schema::create('userpicture', function (Blueprint $table) {
+        Schema::create('childinfo', function (Blueprint $table) {
             $table->id();
-            $table->string('district');
-            $table->string('nid');
-            $table->string('picture');
-            $table->string('father');
-            $table->string('mother');
+            $table->string('userid');
             $table->string('name');
+            $table->string('age');
+            $table->string('education');
+             
            
              
                                                                });

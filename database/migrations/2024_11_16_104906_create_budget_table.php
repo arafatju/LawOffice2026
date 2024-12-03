@@ -13,22 +13,18 @@ class CreateBudgetTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_budget', function (Blueprint $table) {
+        Schema::create('working_history', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->string('code11');  
-            $table->string('username');  
-            $table->string('email');  
+            $table->string('userid');  
+            $table->string('district');  
+            $table->string('designation');  
             $table->string('mobile');  
-            $table->string('District');  
-            $table->string('Designation'); 
-            $table->string('status'); 
-            $table->string('financial2324'); 
-            $table->bigInteger('allotment');  
-            $table->bigInteger('allotment2');  
-            $table->string('opinion');  
-              
-            $table->string('financial2425'); 
-            $table->string('applicationid');
+            $table->string('status');  // empty or present
+            $table->string('situation'); // now  or before
+            $table->string('start'); 
+            $table->string('end'); 
+            $table->string('status2');
+            
             $table->rememberToken();
             $table->timestamps(); // Created_at and updated_at
         });
@@ -41,6 +37,6 @@ class CreateBudgetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('budget');
+        Schema::dropIfExists('working_history');
     }
 }

@@ -14,18 +14,16 @@ class Activity extends Migration
     
     public function up()
     {
-        Schema::create('activityedit', function (Blueprint $table) {
+        Schema::create('personalinfo', function (Blueprint $table) {
             $table->id();
-            $table->string('district');
+            $table->string('userid');
             $table->string('mobile');
-            $table->string('status');
-            $table->string('colname');
-            $table->string('after');
-            $table->string('time');
-            $table->string('nid');
-            $table->string('trname');
-            $table->string('heading');
-            $table->string('bortoman');
+            $table->string('name');
+            $table->string('father');
+            $table->string('mother');
+            $table->string('email');
+            $table->string('officeid');
+            
                                                                });
     }
 
@@ -36,7 +34,7 @@ class Activity extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activityedit');
+        Schema::dropIfExists('personalinfo');
 
     }
 }

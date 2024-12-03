@@ -13,11 +13,11 @@ class UsersStatusTable extends Migration
      */
    public function up()
     {
-        Schema::create('user_status', function (Blueprint $table) {
+        Schema::create('interest', function (Blueprint $table) {
             $table->id();
-            $table->string('status');  
-            $table->string('appid');  
-            $table->string('opinion'); 
+            $table->string('userid');  
+            $table->string('district');  
+              
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class UsersStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_status');
+        Schema::dropIfExists('interest');
     }
 }
