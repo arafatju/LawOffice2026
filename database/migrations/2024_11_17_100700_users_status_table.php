@@ -13,11 +13,11 @@ class UsersStatusTable extends Migration
      */
    public function up()
     {
-        Schema::create('interest', function (Blueprint $table) {
+        Schema::create('preferred_five_districts', function (Blueprint $table) {
             $table->id();
             $table->string('userid');  
             $table->string('district');  
-            $table->string('reason'); 
+            $table->string('reason'); //30 words
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class UsersStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interest');
+        Schema::dropIfExists('preferred_five_districts');
     }
 }

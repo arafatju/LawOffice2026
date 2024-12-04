@@ -20,13 +20,13 @@ class Activity extends Migration
             $table->string('mobile');
             $table->string('name');
             $table->string('marital_status');
-            $table->string('father');
-            $table->string('mother');
+            $table->string('join');
+            $table->string('retired');
             $table->string('email');
-            $table->string('officeid');
-            $table->string('homedistrict');
+            $table->string('serviceid');
+            $table->string('gradation');
                      
-            $table->string('permanentaddress');
+            
 
             
                                                                });
