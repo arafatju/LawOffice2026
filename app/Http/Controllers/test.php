@@ -221,15 +221,16 @@ $data = Location::get($ip);
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'District' =>$data['district'],
-        'Designation'=>$data['designation'],
-        'Location'=>$currentUserInfo,
-        'Device'=>$platform,
+        'district' =>$data['district'],
+        'designation'=>$data['designation'],
+        'location'=>$currentUserInfo,
+        'device'=>$platform,
         'mobile'=>$data['mobile'],
         'role'=>'user',
         'email_verified_at'=>now(),
         'avatar'=>'kk',
-         
+         'userid'=>'kkk',
+         'office'=>'lll',
   
       ]);
     }    

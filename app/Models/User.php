@@ -21,22 +21,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'Designation',
-        'District',
-        'Device',
-        'Location',
+        'designation',
+        'district',
+        'device',
+        'location',
         'mobile',
         'role',
         'avatar',
-        'id',
+        'userid',
+        'office',
     ];
-    public $timestamps = false;
+     
     protected $table = 'users';
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+     
     protected $hidden = [
         'password',
      ];

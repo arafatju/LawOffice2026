@@ -91,45 +91,9 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন সিরিয়াল ') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ old('gradation') }}" required autocomplete="gradation">
-
-                                @error('gradation')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="join1" class="col-md-4 col-form-label text-md-end">{{ __('চাকুরীতে প্রথম নিয়োগের তারিখ  ') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="join1" type="text" class="form-control @error('join1') is-invalid @enderror" name="join1" value="{{ old('join1') }}" required autocomplete="join1">
-
-                                @error('join1')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('চাকুরীতে  অবসরের তারিখ ') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{ old('retired') }}" required autocomplete="retired">
-
-                                @error('retired')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
+                         
+                         
                         <div class="row mb-3">
                             <label for="mobile" class="col-md-4 col-form-label text-md-end">{{ __('মোবাইল') }}</label>
 
