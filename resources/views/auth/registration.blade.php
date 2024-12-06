@@ -77,6 +77,30 @@
 
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <label for="office" class="col-md-4 col-form-label text-md-end">{{ __('দপ্তর') }}</label>
+
+                            <div class="col-md-6">
+                            
+                            <select id="office" class="form-control @error('office') is-invalid @enderror" name="office"  required  autofocus>
+                               
+                                   
+                                @foreach( $draft3  as $data)
+                               
+                                <option>{{$data->name}}</option>
+                                @endforeach 
+                                 
+                                
+                                @error('office')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </select>
+
+                            </div>
+                        </div>
                         <div class="row mb-3">
                             <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('সার্ভিস আইডি') }}</label>
 
@@ -143,7 +167,7 @@
                             </div>
                         </div>
                          
-                        <div class="row mb-0">
+                        <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}

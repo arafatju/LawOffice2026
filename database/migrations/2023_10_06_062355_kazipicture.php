@@ -6,18 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class Kazipicture extends Migration
 {
-    /**
-     * Run the migrations.
-     DB::table('kazipicture')->insert([
-        'district' => Auth::user()->District,
-        'nid'=>session('NID'),
-        'picture'=>$imageName,
-        'father'=>$fft->E,
-        'mother'=>$fft->F,
-        'name'=>$fft->D,
-    ]);
-     * @return void
-     */
+     
     public function up()
     {
         Schema::create('childinfo', function (Blueprint $table) {
@@ -28,7 +17,7 @@ class Kazipicture extends Migration
             $table->string('educationtype'); // class 1 2 school(1-6)- 6-10 college univ 
             $table->string('educationlocation');
             $table->string('educationname');  //varsity name
-           
+            $table->timestamps();
              
                                                                });
     }

@@ -15,18 +15,20 @@ class Userstable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique;
-            $table->string('userid');
+            $table->string('email')->unique();
+            
             $table->string('name');
             $table->string('password');
             $table->string('designation');
             $table->string('district');
             $table->string('device');
             $table->string('location');
-            $table->string('mobile')->unique;
+            $table->string('mobile')->unique();
             $table->string('avatar');
             $table->string('role');  
-
+            $table->string('doptor');
+            $table->string('serviceid')->unique(); 
+            $table->timestamps();
 
              
         });

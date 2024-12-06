@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class Loginfo extends Migration
 {
-    /**
-     * Run the migrations.
-     * DB::table('loginfo')->insert([
-                     
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('loginfo', function (Blueprint $table) {
@@ -28,11 +23,7 @@ class Loginfo extends Migration
                                                                });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('loginfo');

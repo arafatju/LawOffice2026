@@ -17,7 +17,7 @@ class CreateCodeTable extends Migration
             $table->id();
             $table->string('name');  
             $table->string('code');  
-            
+            $table->string('status');  
             $table->timestamps();
         });
     }

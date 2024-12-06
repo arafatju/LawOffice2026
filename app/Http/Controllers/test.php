@@ -86,8 +86,10 @@ class test extends Controller
         ->select('*')->where('status','district')
         ->get();       
                
-      
-    return view('auth.registration', compact('draft1','draft2'));
+        $draft3 = DB::table('codetable')
+        ->select('*')->where('status','office')
+        ->get(); 
+    return view('auth.registration', compact('draft1','draft2','draft3'));
                 
     }
 public function forget44(Request $request){
@@ -146,7 +148,7 @@ $data = Location::get($ip);
                 
                      //Device Location ip Browser 
                      DB::table('loginfo')->insert([
-                      'district' => Auth::user()->District,
+                      'district' => Auth::user()->district,
                       'mobile' => Auth::user()->mobile,
                       'mail'=>Auth::user()->email,
                        'time'=>date("Y-m-d H:i:s", strtotime('now')),
@@ -229,8 +231,8 @@ $data = Location::get($ip);
         'role'=>'user',
         'email_verified_at'=>now(),
         'avatar'=>'kk',
-         'userid'=>'kkk',
-         'office'=>'lll',
+         'serviceid'=>$data['serviceid'],
+         'doptor'=>$data['office'],
   
       ]);
     }    

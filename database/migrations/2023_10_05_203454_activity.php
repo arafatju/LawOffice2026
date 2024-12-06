@@ -16,16 +16,16 @@ class Activity extends Migration
     {
         Schema::create('personalinfo', function (Blueprint $table) {
             $table->id();
-            $table->string('userid');
-            $table->string('mobile');
+            $table->string('userid')->unique();
+            $table->string('mobile')->unique();
             $table->string('name');
             $table->string('marital_status');
             $table->string('join');
             $table->string('retired');
-            $table->string('email');
-            $table->string('serviceid');
-            $table->string('gradation');
-                     
+            $table->string('email')->unique();
+            $table->string('serviceid')->unique();
+            $table->string('gradation')->unique();
+           $table->timestamps()  ;                   
             
 
             

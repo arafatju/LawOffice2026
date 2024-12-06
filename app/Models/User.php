@@ -28,8 +28,9 @@ class User extends Authenticatable
         'mobile',
         'role',
         'avatar',
-        'userid',
+        'doptor',
         'office',
+        'serviceid'
     ];
      
     protected $table = 'users';
