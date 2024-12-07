@@ -170,7 +170,7 @@ $data = Location::get($ip);
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
         else if(Auth::user()->role=='user') { toastr('Successfully Logged in');return redirect("Newuser") ; }
-        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("userone11") ; }
+        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("jobinfo") ; }
                                                                     }
   
           return redirect("login")->withError('Login details are not valid');

@@ -5,7 +5,7 @@
 <head>
     
 <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-  <title> বাজেট ব্যবস্থাপনা সিস্টেম   </title>
+  <title>  অনলাইন বদলী ব্যবস্থাপনা   </title>
  
   
 
@@ -48,7 +48,7 @@
     <div class="greet">
 <h4 align="center"><img src="{{asset('gov.png')}}"  style="width:20px;height:20px;"/> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
-    <h4 align="center"> বাজেট ব্যবস্থাপনা সিস্টেম   </h4>  
+    <h4 align="center">  অনলাইন বদলী ব্যবস্থাপনা  </h4>  
     <h4 align="center"> {{Auth::user()->Designation}},{{Auth::user()->District}}   </h4> 
 </div> 
 
@@ -108,9 +108,9 @@
             আপনি সফল ভাবে রেজিস্ট্রেশন করেছেন । আপনার  আইডিটি খুব    শীঘ্রই  অ্যাক্টিভ  করা হবে ।  বাজেট সিস্টেমের সাথে থাকার জন্য ধন্যবাদ ।        </div>
              
     </body>
-    <div style="position:absolute ;bottom:0px;width:100%;text-align:center;background:#191970">
-  <p style="font-size:15px;color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,     
-  কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ  </p>
+    <div style="position:absolute ;bottom:0px;width:100%;text-align:center;background:#191970;">
+  <p style="font-size:15px;color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন  ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত ,রুপায়নঃ  মুহম্মদ শাহাদত হোসেন,উপসচিব (ফৌজদারি),সলিসিটর অনুবিভাগ ,     
+  কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার ,আইন ও বিচার বিভাগ  </p>
   
 </div>
 </html>

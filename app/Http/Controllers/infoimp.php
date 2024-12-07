@@ -36,7 +36,7 @@ class infoimp extends Controller
      public function usersr(){
         return view('SR.user');
     }
-    public function userone11(){
+    public function jobinfo(){
         $draft = DB::table('codetable')
         ->select('*')
         ->where('status','economy')
@@ -225,14 +225,15 @@ class infoimp extends Controller
     return view('SR.code11', compact('draft'));
     }
      
-    public function userdraftbudget(){
-        $draftdata = DB::table('user_budget')
+    public function spouse(){
+         
+        $draft = DB::table('codetable')
         ->select('*')
-        ->where('Designation','=',Auth::user()->Designation)
-        ->where('District','=',Auth::user()->District)
-        ->paginate();
-
-    return view('User.userdraft', compact('draftdata'));
+        ->where('status','economy')
+        ->get();
+  
+    return view('User.spouse', compact('draft'));
+     
         
         
                              }
