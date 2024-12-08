@@ -103,6 +103,18 @@
 
  
 </div>    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('#join', {
+            enableTime: false, // Optional, depending on whether you need time selection
+            dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
+        });
+        flatpickr('#retired', {
+            enableTime: false, // Optional, depending on whether you need time selection
+            dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
+        });
+    });
+</script>
      
 @endsection
 
