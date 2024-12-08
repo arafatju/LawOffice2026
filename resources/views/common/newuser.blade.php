@@ -18,7 +18,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Styles -->
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
@@ -55,7 +57,7 @@
     <span class="navbar-toggler-icon"> </span> </button>
 
     <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
-    <ul class="navbar-nav navbar-brand    w-100" style="padding-left:24%;   ">
+    <ul class="navbar-nav navbar-brand    w-100 d-flex justify-content-center"     ">
         <li class="nav-item active ">
         <a href="{{route('jobinfo')}}" class="nav-link navbar-brand">Job Info   </a>
         </li>
@@ -64,11 +66,14 @@
         </li>
         
         <li class="nav-item active">
-        <a href="#" class="nav-link navbar-brand">Workplace info  </a>
+        <a href="{{route('workplace')}}" class="nav-link navbar-brand">Workplace info  </a>
         </li>
         <li class="nav-item active">
-        <a href="#" class="nav-link navbar-brand">Contact info  </a>
+        <a href="{{route('contactinfo')}}" class="nav-link navbar-brand">Contact info  </a>
         </li>
+        <li class="nav-item active">
+            <a href="{{route('transferme')}}" class="nav-link navbar-brand">Transfer Request   </a>
+            </li>
         <li class="nav-item active">
         <a href="#" class="nav-link navbar-brand">Settings  </a>
         </li>

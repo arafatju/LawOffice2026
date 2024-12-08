@@ -174,6 +174,66 @@
         </div>
 
 </div>
+
+<div class="row justify-content-center mt-2">
+    <div class="col-md-6"> 
+        <div class="card">
+            <div class="card-header">
+              <div class="d-flex justify-content-end">
+             <a href="{{ route('finalstage1122') }}" class="btn btn-primary">Add</a>
+       
+              </div>
+              <div class="header">
+                <div class="col-8">সন্তান সম্পর্কিত </div>
+            </div>
+
+            </div> 
+
+          
+    
+          <div class="card-body">
+            
+            
+            <div class="table-header row table-success">
+                <div class="col">Serial</div>
+                <div class="col">নাম</div>
+                <div class="col">বয়স </div>
+                <div class="col">শ্রেণী</div>
+                <div class="col">শিক্ষা প্রতিষ্ঠানের নাম </div>
+                <div class="col">শিক্ষা প্রতিষ্ঠানের   অবস্থান  </div>
+                 
+                <div class="col">Action</div>
+            </div>
+        
+            <div class="table-body">
+                @foreach($draft2 as $data)
+                <div class="row">
+                    <div class="col">{{$loop->iteration}}</div>
+                    <div class="col">{{$data->name}}</div>
+                    <div class="col">{{$data->age}}</div>
+                    <div class="col">{{$data->educationtype}}</div>
+                    <div class="col">{{$data->educationname}}</div>
+                    <div class="col">{{$data->educationlocation}}</div>
+                    
+                    <div class="col">
+                        <div class="row">
+                             
+                            <div class="col-auto">
+                                <a href="{{route('budgetback11',['id'=>encrypt($data->applicationid)])}}">
+                                    <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div> 
+        </div>
+    </div>
+    </div>
+
+</div>
 @endsection
 
 

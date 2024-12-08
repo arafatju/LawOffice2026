@@ -131,12 +131,15 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
     
     Route::get('/spouse', [infoimp::class, 'spouse'])->name('spouse');
-    Route::get('/budgetstatus/{id}', [infoimp::class, 'budgetstatus'])->name('budgetstatus');
+    Route::get('/workplace', [infoimp::class, 'workplace'])->name('workplace');
 
     Route::post('/budgetform', [infoimp::class, 'budgetform'])->name('budgetform'); 
     Route::get('/jobinfo', [infoimp::class, 'jobinfo'])->name('jobinfo');
-    
-    Route::get('/userbudgetdel/{id}', [infoimp::class, 'userbudgetdel'])->name('userbudgetdel');
+    Route::get('/editme/{tablename}/{rowname11}/{userid}', [infoimp::class, 'editme'])->name('editme'); 
+
+    Route::get('/contactinfo', [infoimp::class, 'contactinfo'])->name('contactinfo');
+    Route::get('/transferme', [infoimp::class, 'transferme'])->name('transferme');
+    Route::post('/chakuri', [infoimp::class, 'chakuri'])->name('chakuri'); 
 
 
 });

@@ -14,6 +14,7 @@ class Kazipicture extends Migration
             $table->string('userid');
             $table->string('name');
             $table->string('age');
+            $table->string('status');
             $table->string('educationtype'); // class 1 2 school(1-6)- 6-10 college univ 
             $table->string('educationlocation');
             $table->string('educationname');  //varsity name

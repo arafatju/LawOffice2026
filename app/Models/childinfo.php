@@ -17,6 +17,7 @@ class childinfo extends Model
         'age', 
         'educationtype', 
         'educationlocation', 
-        'educationname'
+        'educationname',
+         
     ];
 }

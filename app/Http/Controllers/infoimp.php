@@ -37,10 +37,10 @@ class infoimp extends Controller
         return view('SR.user');
     }
     public function jobinfo(){
-        $draft = DB::table('codetable')
+        $draft = DB::table('personalinfo')
         ->select('*')
-        ->where('status','economy')
-        ->get();
+        
+        ->first();
   
     return view('User.user', compact('draft'));
          
@@ -115,69 +115,28 @@ class infoimp extends Controller
     return view('SR.code11', compact('draft'));
         
     }
-    public function userbudgetdel(Request $request){
-       
-        $rrt=DB::table('user_budget')
-              ->select('status')
-               ->where('applicationid','=',decrypt($request->id))
-       ->first();
-       if($rrt && $rrt->status=='pending'){ 
-           
-       
-        DB::table('user_budget')
-        ->where('status','=','pending')
-        ->where('applicationid','=',decrypt($request->id))
-        ->delete();
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('Designation','=',Auth::user()->Designation)
-        ->where('District','=',Auth::user()->District)
-        ->paginate();
-        toastr('Successfully Deleted');
-    return view('User.userdraft', compact('draftdata'));}
-        else {
-            $draftdata = DB::table('user_budget')
-            ->select('*')
-            ->where('Designation','=',Auth::user()->Designation)
-            ->where('District','=',Auth::user()->District)
-            ->paginate();
-            
-        return view('User.userdraft', compact('draftdata'));
-
-        }
-    }
-    public function budgetstatus(Request $request){
-       
-       $rrt=DB::table('user_budget')
-              ->select('status')
-               ->where('applicationid','=',$request->id)
-       ->first();
-       if($rrt && $rrt->status=='pending'){ 
-        DB::table('user_budget')
-        ->where('status','=','pending')
-        ->where('applicationid','=',$request->id)
-        ->update(['status' => "Forwarded"]);
-
-         $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('Designation','=',Auth::user()->Designation)
-        ->where('District','=',Auth::user()->District)
-        ->paginate();
-        toastr('Successfully Sent to Admin Section');
-    return view('User.userdraft', compact('draftdata'));}
-
-    else {
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('Designation','=',Auth::user()->Designation)
-        ->where('District','=',Auth::user()->District)
-        ->paginate();
+    public function contactinfo(Request $request){
+           return view('User.contactinfo');
          
-    return view('User.userdraft', compact('draftdata'));
-
     }
+    public function transferme(){
+        return view('User.transfer');
+      
+         }
+    public function workplace(){
+        $draft = DB::table('codetable')
+        ->select('*')
+        ->where('status','economy')
+        ->get();
+        $draft2  = DB::table('childinfo')
+        ->select('*')
+         
+        ->get();
+      
+    return view('User.workplace', compact('draft','draft2'));
     }
-    public function budgetform(Request $request){
+    
+    public function editme(Request $request){
         $validated = $request->validate([
             'code11' => 'required|string|max:255',
             'financial2324' => 'required|string|max:255',
@@ -231,8 +190,11 @@ class infoimp extends Controller
         ->select('*')
         ->where('status','economy')
         ->get();
-  
-    return view('User.spouse', compact('draft'));
+        $draft2  = DB::table('childinfo')
+        ->select('*')
+         
+        ->get();
+    return view('User.spouse', compact('draft','draft2'));
      
         
         
