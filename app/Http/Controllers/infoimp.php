@@ -16,6 +16,8 @@ use Image;
 use DB;
  use Toastr;
   use RealRashid\SweetAlert\Facades\Alert;
+ 
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class infoimp extends Controller
 {
@@ -51,15 +53,8 @@ class infoimp extends Controller
             $count_user2 = DB::table('users')->where('role', 'verified1')->count();
             $count_accept = DB::table('users')->where('role', 'userone')->count();
             $user_number=$count_user1+$count_user2;
-                           
-            $application_number1 = DB::table('user_budget')->where('status', 'Accepted')->count();
-            $application_number2 = DB::table('user_budget')->where('status', 'Forwarded')->count();
-            $application_number3 = DB::table('user_budget')->where('status', 'Waiting')->count();
-         
-            $total=$application_number1+$application_number2+$application_number3;
-            $waiting=$application_number2+$application_number3;
-            $accepted=$application_number1;
-            return view('SR.dashboard',compact('count_accept','user_number','total','accepted','waiting'));
+             
+            return view('SR.dashboard',compact('count_accept','user_number' ));
            
  
            
@@ -522,6 +517,19 @@ public function dashboard()
   
         return redirect("login")->withSuccess('You are not allowed to access');
     }
+    public function all_info(){
+        $results = DB::table('users as u')
+    ->join('childinfo as c', 'u.userid', '=', 'c.userid')      // Join users with orders
+    ->join('personalinfo as p', 'c.userid', '=', 'p.userid')    // Join orders with payments
+    ->join('preferred_five_districts as pr', 'p.userid', '=', 'pr.userid')  // Join orders with products
+    ->join('wifeinfo as w', 'pr.userid', '=', 'w.userid') // Join products with categories
+    ->join('working_history_officer as h','w.userid','=','h.userid')
+    ->select('*')  // Select all columns from all joined tables
+    ->get();
+    $pdf = Pdf::loadView('PDF.all', ['data' => $results]);
+
+    return $pdf->download('all_data.pdf');
+    }
     public function dash2()
     {   
         if(Auth::check()){
@@ -533,14 +541,8 @@ public function dashboard()
                 $user_number=$count_user1+$count_user2;
                 
                 
-                $application_number1 = DB::table('user_budget')->where('status', 'Accepted')->count();
-                $application_number2 = DB::table('user_budget')->where('status', 'Forwarded')->count();
-                $application_number3 = DB::table('user_budget')->where('status', 'Waiting')->count();
-             
-                $total=$application_number1+$application_number2+$application_number3;
-               $waiting=$application_number2+$application_number3;
-                $accepted=$application_number1;
-                return view('DR.dash2',compact('count_accept','user_number','total','accepted','waiting'));
+                 
+                return view('DR.dash2',compact('count_accept','user_number' ));
                
                
                         }

@@ -39,6 +39,9 @@ Route::post('/forget22', [test::class, 'forget22'])->name('forget22');
 Route::post('/forget33', [test::class, 'forget33'])->name('forget33'); 
 Route::post('/forget44', [test::class, 'forget44'])->name('forget44'); 
 
+Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
+
+
 Auth::routes();
   
 /*------------------------------------------

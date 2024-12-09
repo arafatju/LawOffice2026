@@ -64,7 +64,7 @@
         </li>
         
         <li class="nav-item active">
-        <a href="{{route('finacialcode')}}" class="nav-link navbar-brand">Economical Code </a>
+        <a href="{{route('finacialcode')}}" class="nav-link navbar-brand">Office registration </a>
         </li>
         <li class="nav-item active">
         <a href="#" class="nav-link navbar-brand">Settings</a>
