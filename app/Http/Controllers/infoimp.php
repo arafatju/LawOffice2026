@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use App\Mail\userinfo; 
+use Illuminate\Support\Facades\View;
 use Image;
 use DB;
+use Mpdf\Mpdf;
  use Toastr;
   use RealRashid\SweetAlert\Facades\Alert;
- 
+  use Dompdf\Dompdf;
+  use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class infoimp extends Controller
@@ -526,9 +529,21 @@ public function dashboard()
     ->join('working_history_officer as h','w.userid','=','h.userid')
     ->select('*')  // Select all columns from all joined tables
     ->get();
-    $pdf = Pdf::loadView('PDF.all', ['data' => $results]);
+     
+    $html = View::make('PDF.all', ['data' => $results])->render();
 
-    return $pdf->download('all_data.pdf');
+    $mpdf = new Mpdf([
+        'format' => 'Letter', // Letter page size
+        'orientation' => 'L', // Landscape orientation
+        'default_font' => 'nikosh', // বাংলা ফন্ট সাপোর্ট
+        'default_font_size'=>'10',
+        'margin_left' => 2.54,  // 0.1 inch = 2.54 mm
+            'margin_right' => 2.54,
+    ]);
+    $mpdf->WriteHTML($html);
+    return $mpdf->Output('posts.pdf', 'I');
+
+ 
     }
     public function dash2()
     {   
