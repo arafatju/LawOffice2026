@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\childinfo;
+use App\Models\personalinfo;
+use App\Models\wifeinfo;
+use App\Models\preferred111;
+use App\Models\workingdetails;
+use App\Models\release111;
+
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -123,7 +130,7 @@ public function forget44(Request $request){
                  $platform = \Agent::platform();
             // $version2 = Agent::version($platform);
             $ip = $request->ip();
-$data = Location::get($ip);
+            $data = Location::get($ip);
 
             if ($data) {
                 // Successfully retrieved location details
@@ -199,12 +206,72 @@ $data = Location::get($ip);
 
         $data = $request->all();
          
+
        
 
         $check = $this->create($data);
         Auth::login($check);
+        $userid = User::max('id');
+       
+      
+      childinfo::create([
+       'userid' => $userid,
+       'name'=>'gg', 
+        'age'=>'gg', 
+        'educationtype'=>'gg', 
+        'educationlocation'=>'gg', 
+        'educationname'=>'gg',
+      ]);
+      wifeinfo::create([
+        'userid' => $userid,
+        'wifename'=>'kk', 
+        'profession'=>'kk', 
+        'designation'=>'kk', 
+        'wifeworkplace'=>'kk', 
+        'wifehomedistrict'=>'kk', 
+        'kids_number'=>'kk'
+       ]);
+       workingdetails::create([
+        'userid' => $userid,
+        'district'=>'kk',
+        'designation'=>'kk',
+        'mobile'=>'kk',
+        'status'=>'kk',
+        'situation'=>'kk',
+        'start'=>'02/02/2022',
+        'end'=>'02/02/2022',
+        'status2'=>'kk',
+        'GO_Date'=>'02/02/2022',
+        'sarok'=>'02/02/2022',
+        'office'=>'kk'
+       ]);
+       personalinfo::create([
+        'userid' => $userid,
+         
+        'mobile'=>'kk',
+        'name'=>'kk',
+        'marital_status'=>'kk',
+        'join'=>'kk',
+        'retired'=>'kk',
+        'email'=>'kk',
+        'serviceid'=>'kk',
+        'gradation'=>'kk',
+        'home_district'=>'kk'
+       ]);
 
-        return redirect("Newuser")->with('You have signed-in');
+       preferred111::create([
+        'userid' => $userid,
+        'district'=>'kk', 
+        'reason'=>'kk'
+       ]);
+       release111::create([
+        'userid' => $userid,
+        'GO_date'=>'kk', 
+        'sarok'=>'kk'
+       ]);
+     
+
+        return redirect("jobinfo")->with('You have signed-in');
     }
 
     public function create(array $data)
@@ -218,7 +285,9 @@ $data = Location::get($ip);
      //  $platform = Agent::platform();
       // $version2 = Agent::version($platform);
       $platform = \Agent::platform();
-      
+      $lastId = User::max('id');
+      $userid=$lastId+10000+2;
+
         return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
@@ -228,12 +297,12 @@ $data = Location::get($ip);
         'location'=>$currentUserInfo,
         'device'=>$platform,
         'mobile'=>$data['mobile'],
-        'role'=>'user',
+        'role'=>'userone',
         'email_verified_at'=>now(),
         'avatar'=>'kk',
          'serviceid'=>$data['serviceid'],
          'doptor'=>$data['office'],
-  
+         'userid'=>'User'.$userid,
       ]);
     }    
    

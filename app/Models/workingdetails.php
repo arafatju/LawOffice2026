@@ -22,6 +22,7 @@ class workingdetails extends Model
         'end',
         'status2',
         'GO_Date',
-        'sarok'
+        'sarok',
+        'office'
     ];
 }

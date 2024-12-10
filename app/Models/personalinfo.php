@@ -21,6 +21,7 @@ class personalinfo extends Model
         'email',
         'serviceid',
         'gradation',
+        'home_district'
     ];
 
 }

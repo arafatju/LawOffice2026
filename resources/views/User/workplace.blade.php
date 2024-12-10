@@ -188,7 +188,7 @@
                         <div class="row">
                              
                             <div class="col-auto">
-                                <a href="{{route('budgetback11',['id'=>encrypt($data->applicationid)])}}">
+                                <a href="{{route('budgetback11',['id'=>encrypt($data->id)])}}">
                                     <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
                                 </a>
                             </div>
