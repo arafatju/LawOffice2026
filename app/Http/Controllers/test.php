@@ -240,7 +240,7 @@ public function forget44(Request $request){
         'situation'=>'kk',
         'start'=>'2022-02-02',
         'end'=>'2022-02-02',
-        'status2'=>'kk',
+        'status2'=>'unlocked',
         'GO_Date'=>'2022-02-02',
         'sarok'=>'2022-02-02',
         'office'=>'kk'

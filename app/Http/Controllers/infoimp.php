@@ -111,15 +111,21 @@ class infoimp extends Controller
         $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
         $godate = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
         $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');
-        workingdetails::where('userid', Auth::user()->userid)->update([
-            'district' => $validated['district'],
-            'designation' => trim($validated['designation']),
-            'office'=>$validated['office']  ,
-            'start'=> $StartDate,
-           'GO_Date'=> $GoDate,
+        workingdetails::create([
+             'userid'=>Auth::user()->userid,
+            'district' => $validated['district1'],
+            'designation' => trim($validated['designation1']),
+            'office'=>$validated['office1']  ,
+            'start'=> $JoinDate,
+            'end'=>$release ,
+           'GO_Date'=> $godate,
             'sarok'=>$validated['sarok'],
-            'status'=>'now',
-            'situation'=>'present',
+            'status'=>'empty',
+            'situation'=>'before',
+            'end'=>$release,
+            'mobile'=>Auth::user()->mobile,
+            'status2'=>'nolocked',
+ 
 
         ]);
         return redirect('workplace')->withSuccess('Updated');
@@ -136,7 +142,9 @@ class infoimp extends Controller
         ]);
         $StartDate = Carbon::createFromFormat('d-m-Y', $validated['start'])->format('Y-m-d');
         $GoDate = Carbon::createFromFormat('d-m-Y', $validated['GO_Date'])->format('Y-m-d');
-        workingdetails::where('userid', Auth::user()->userid)->update([
+        workingdetails::where('userid', Auth::user()->userid)
+              ->where('status2','unlocked')
+             ->update([
             'district' => $validated['district'],
             'designation' => trim($validated['designation']),
             'office'=>$validated['office']  ,
@@ -145,6 +153,7 @@ class infoimp extends Controller
             'sarok'=>$validated['sarok'],
             'status'=>'now',
             'situation'=>'present',
+            'status2'=>'locked'
 
         ]);
         return redirect('workplace')->withSuccess('Updated');
