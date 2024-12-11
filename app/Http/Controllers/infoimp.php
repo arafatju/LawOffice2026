@@ -4,6 +4,15 @@ namespace App\Http\Controllers;
 use Stevebauman\Location\Facades\Location;
 use Jenssegers\Agent\Agent;
 use App\Models\User;
+ 
+use App\Models\childinfo;
+use App\Models\personalinfo;
+use App\Models\wifeinfo;
+use App\Models\preferred111;
+use App\Models\workingdetails;
+use App\Models\release111;
+
+
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +30,7 @@ use Mpdf\Mpdf;
   use Dompdf\Dompdf;
   use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class infoimp extends Controller
 {
@@ -39,7 +49,137 @@ class infoimp extends Controller
          return view('DR.user');
      }
      public function usersr(){
-        return view('SR.user');
+        return view('SR.user');  
+    }
+     
+    public function chakuri(Request $request){
+        $validated = $request->validate([
+            'serviceid' => 'required|string|max:255',
+            'gradation' => 'required|numeric',
+            'join'=> 'required|date_format:d-m-Y',
+            'retired'=>'required|date_format:d-m-Y' ,
+            'home' => 'required|string',
+
+        ]);
+        $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join'])->format('Y-m-d');
+        $RetiredDate = Carbon::createFromFormat('d-m-Y', $validated['retired'])->format('Y-m-d');
+       
+        personalinfo::where('userid', Auth::user()->userid)->update([
+            'home_district' => $validated['home'],
+            'serviceid' => $validated['serviceid'],
+            'gradation'=>$validated['gradation']  ,
+            'join'=> $JoinDate ,
+            'retired'=> $RetiredDate ,
+        ]);
+        User::where('userid', Auth::user()->userid)->update([
+            'serviceid' => $validated['serviceid']
+        ]);
+       return redirect('jobinfo')->withSuccess('Updated');
+    }
+    public function husband(Request $request){
+        $validated = $request->validate([
+            'wifename' => 'required|string',
+            'profession' => 'required|string',
+            'wifeworkplace'=> 'required|string',
+            'designation'=>'required|string' ,
+            'wifehomedistrict' => 'required|string',
+            'kids_number' => 'required|string',
+
+        ]);
+        wifeinfo::where('userid', Auth::user()->userid)->update([
+            'wifename' => $validated['wifename'],
+            'profession' => trim($validated['profession']),
+            'wifeworkplace'=>$validated['wifeworkplace']  ,
+            'designation'=> $validated['designation'],
+            'wifehomedistrict'=> $validated['wifehomedistrict'],
+            'kids_number'=>$validated['kids_number']
+        ]);
+        return redirect('spouse')->withSuccess('Updated');
+         
+    }
+    public function workingbefore (Request $request){
+        $validated = $request->validate([
+            'district1' => 'required|string',
+            'designation1' => 'required|string',
+            'office1'=> 'required|string',
+            'join1'=>'required|date_format:d-m-Y' ,
+            'go_date' => 'required|date_format:d-m-Y',
+            'release1' => 'required|date_format:d-m-Y',
+            'sarok' => 'required|string',
+
+        ]);
+        $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
+        $godate = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
+        $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');
+        workingdetails::where('userid', Auth::user()->userid)->update([
+            'district' => $validated['district'],
+            'designation' => trim($validated['designation']),
+            'office'=>$validated['office']  ,
+            'start'=> $StartDate,
+           'GO_Date'=> $GoDate,
+            'sarok'=>$validated['sarok'],
+            'status'=>'now',
+            'situation'=>'present',
+
+        ]);
+        return redirect('workplace')->withSuccess('Updated');
+    }
+    public function workingpresent (Request $request){
+        $validated = $request->validate([
+            'district' => 'required|string',
+            'designation' => 'required|string',
+            'office'=> 'required|string',
+            'start'=>'required|date_format:d-m-Y' ,
+            'GO_Date' => 'required|date_format:d-m-Y',
+            'sarok' => 'required|string',
+
+        ]);
+        $StartDate = Carbon::createFromFormat('d-m-Y', $validated['start'])->format('Y-m-d');
+        $GoDate = Carbon::createFromFormat('d-m-Y', $validated['GO_Date'])->format('Y-m-d');
+        workingdetails::where('userid', Auth::user()->userid)->update([
+            'district' => $validated['district'],
+            'designation' => trim($validated['designation']),
+            'office'=>$validated['office']  ,
+            'start'=> $StartDate,
+           'GO_Date'=> $GoDate,
+            'sarok'=>$validated['sarok'],
+            'status'=>'now',
+            'situation'=>'present',
+
+        ]);
+        return redirect('workplace')->withSuccess('Updated');
+    }
+      public function child11(Request $request){
+        $validated= $request->validate([
+             
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer|min:1',
+            'educationtype' => 'nullable|string|max:255',
+            'educationlocation' => 'required|string|max:255',
+            'educationname' => 'nullable|string|max:255',
+        ]);
+            childinfo::create([
+                'userid'=>Auth::user()->userid,
+                'name'=>$validated['name'],
+                'age'=>$validated['age'],
+                'educationtype'=>$validated['educationtype'],
+                'educationlocation'=>$validated['educationlocation'],
+                'educationname'=>$validated['educationname'],
+            ]);
+            return redirect('spouse')->withSuccess('updated');
+         
+
+
+         
+        }
+    public function married(Request $request){
+        $validated = $request->validate([
+            'marital_status' => 'required|string'
+        ]);
+        personalinfo::where('userid', Auth::user()->userid)->update([
+            'marital_status' => trim($validated['marital_status'])
+        ]);
+        return redirect('spouse')->withSuccess('Updated');
     }
     public function jobinfo(){
         $draft = DB::table('personalinfo')

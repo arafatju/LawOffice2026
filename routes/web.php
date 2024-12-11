@@ -143,6 +143,14 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::get('/contactinfo', [infoimp::class, 'contactinfo'])->name('contactinfo');
     Route::get('/transferme', [infoimp::class, 'transferme'])->name('transferme');
     Route::post('/chakuri', [infoimp::class, 'chakuri'])->name('chakuri'); 
-
+    
+    Route::post('/married', [infoimp::class, 'married'])->name('married'); 
+    Route::post('/husband', [infoimp::class, 'husband'])->name('husband'); 
+    
+    Route::post('/child11', [infoimp::class, 'child11'])->name('child11'); 
+     
+    Route::post('/workingpresent', [infoimp::class, 'workingpresent'])->name('workingpresent'); 
+   
+    Route::post('/workingbefore', [infoimp::class, 'workingbefore'])->name('workingbefore'); 
 
 });

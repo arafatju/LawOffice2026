@@ -211,7 +211,7 @@ public function forget44(Request $request){
 
         $check = $this->create($data);
         Auth::login($check);
-        $userid = User::max('id');
+        $userid = session('userid');
        
       
       childinfo::create([
@@ -238,24 +238,24 @@ public function forget44(Request $request){
         'mobile'=>'kk',
         'status'=>'kk',
         'situation'=>'kk',
-        'start'=>'02/02/2022',
-        'end'=>'02/02/2022',
+        'start'=>'2022-02-02',
+        'end'=>'2022-02-02',
         'status2'=>'kk',
-        'GO_Date'=>'02/02/2022',
-        'sarok'=>'02/02/2022',
+        'GO_Date'=>'2022-02-02',
+        'sarok'=>'2022-02-02',
         'office'=>'kk'
        ]);
        personalinfo::create([
         'userid' => $userid,
          
-        'mobile'=>'kk',
-        'name'=>'kk',
+        'mobile'=>$data['mobile'],
+        'name'=>$data['name'],
         'marital_status'=>'kk',
-        'join'=>'kk',
-        'retired'=>'kk',
-        'email'=>'kk',
-        'serviceid'=>'kk',
-        'gradation'=>'kk',
+        'join'=>'2022-02-02',
+        'retired'=>'2022-02-02',
+        'email'=>$data['email'],
+        'serviceid'=>$data['serviceid'],
+        'gradation'=>22,
         'home_district'=>'kk'
        ]);
 
@@ -266,7 +266,7 @@ public function forget44(Request $request){
        ]);
        release111::create([
         'userid' => $userid,
-        'GO_date'=>'kk', 
+        'GO_date'=>'2022-02-02', 
         'sarok'=>'kk'
        ]);
      
@@ -286,14 +286,14 @@ public function forget44(Request $request){
       // $version2 = Agent::version($platform);
       $platform = \Agent::platform();
       $lastId = User::max('id');
-      $userid=$lastId+10000+2;
-
+      $userid='User'.$lastId+10000+2;
+      session(['userid' => $userid]);
         return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'district' =>$data['district'],
-        'designation'=>$data['designation'],
+        'district' =>trim($data['district']),
+        'designation'=>trim($data['designation']),
         'location'=>$currentUserInfo,
         'device'=>$platform,
         'mobile'=>$data['mobile'],
@@ -301,8 +301,8 @@ public function forget44(Request $request){
         'email_verified_at'=>now(),
         'avatar'=>'kk',
          'serviceid'=>$data['serviceid'],
-         'doptor'=>$data['office'],
-         'userid'=>'User'.$userid,
+         'doptor'=>trim($data['office']),
+         'userid'=>$userid,
       ]);
     }    
    
