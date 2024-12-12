@@ -78,19 +78,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label for="home" class="col-md-4 col-form-label text-md-end">{{ __('নিজ জেলা') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="home" type="text" class="form-control @error('home') is-invalid @enderror" name="home" value="" required   autocomplete="home">
-
-                                @error('home')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
                          
 
                         <div class="row mb-0">

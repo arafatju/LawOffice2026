@@ -58,14 +58,14 @@ class infoimp extends Controller
             'gradation' => 'required|numeric',
             'join'=> 'required|date_format:d-m-Y',
             'retired'=>'required|date_format:d-m-Y' ,
-            'home' => 'required|string',
+            
 
         ]);
         $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join'])->format('Y-m-d');
         $RetiredDate = Carbon::createFromFormat('d-m-Y', $validated['retired'])->format('Y-m-d');
        
         personalinfo::where('userid', Auth::user()->userid)->update([
-            'home_district' => $validated['home'],
+            
             'serviceid' => $validated['serviceid'],
             'gradation'=>$validated['gradation']  ,
             'join'=> $JoinDate ,
@@ -73,7 +73,7 @@ class infoimp extends Controller
         ]);
         User::where('userid', Auth::user()->userid)->update([
             'serviceid' => $validated['serviceid']
-        ]);
+        ]); 
        return redirect('jobinfo')->withSuccess('Updated');
     }
     public function husband(Request $request){
@@ -130,6 +130,7 @@ class infoimp extends Controller
         ]);
         return redirect('workplace')->withSuccess('Updated');
     }
+     
     public function workingpresent (Request $request){
         $validated = $request->validate([
             'district' => 'required|string',
@@ -262,8 +263,46 @@ class infoimp extends Controller
     return view('SR.code11', compact('draft'));
         
     }
+    public function contactinfo11(Request $request){
+         User::where('userid',Auth::user()->userid)
+            ->update([
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'mobile'=>$request->mobile,
+                
+            ]);
+           personalinfo::where('userid',Auth::user()->userid)
+            ->update([
+                'home_district'=>$request->home_district
+            ]);
+
+       return redirect('contactinfo')->with('updated');
+       
+       
+  }
+  public function reason111(Request $request){
+    $validated = $request->validate([
+        'reason' => 'required|string',
+        'five' => 'required|string',
+    ]);
+           preferred111::where('userid',Auth::user()->userid)->update([
+            'reason'=>$validated['reason'],
+            'district'=>$validated['five'],
+           ]);
+           return redirect('transferme')->with('Updated');
+  }
+  public function profile(Request $request){
+    return view('User.profile');
+  }
     public function contactinfo(Request $request){
-           return view('User.contactinfo');
+          $home=personalinfo::where('userid', Auth::user()->userid)
+          ->first();
+          $name=Auth::user()->name;
+          $email=Auth::user()->email;
+          $mobile=Auth::user()->mobile; 
+
+        
+        return view('User.contactinfo',compact('name','email','mobile','home'));
          
     }
     public function transferme(){

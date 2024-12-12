@@ -18,17 +18,17 @@
                 <div class="card-header text-center"><h3>{{ __(' যোগাযোগ তথ্য  ') }}</h3></div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('budgetform') }}">
+                    <form method="POST" action="{{ route('contactinfo11') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="code11" class="col-md-4 col-form-label text-md-end">{{ __('নাম ') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('নাম ') }}</label>
 
                           
                                 <div class="col-md-6">
-                                    <input id="financial2324" type="text" class="form-control @error('financial2324') is-invalid @enderror" name="financial2324" value="২০২৩-২৪" readonly required autocomplete="financial2324" autofocus>
+                                    <input id="name" type="text" class="form-control @error('financial2324') is-invalid @enderror" name="name" value="{{$name}} "   required autocomplete="name" autofocus>
     
-                                    @error('financial2324')
+                                    @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -40,12 +40,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="financial2324" class="col-md-4 col-form-label text-md-end">{{ __('মোবাইল') }}</label>
+                            <label for="mobile" class="col-md-4 col-form-label text-md-end">{{ __('মোবাইল') }}</label>
 
                             <div class="col-md-6">
-                                <input id="financial2324" type="text" class="form-control @error('financial2324') is-invalid @enderror" name="financial2324" value="২০২৩-২৪" readonly required autocomplete="financial2324" autofocus>
+                                <input id="mobile" type="text" class="form-control @error('mobile') is-invalid @enderror" name="mobile" value="{{$mobile}} "   required autocomplete="mobile" autofocus>
 
-                                @error('financial2324')
+                                @error('mobile')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -55,14 +55,14 @@
                         
                         
                         <div class="row mb-3">
-                            <label for="allotment" class="col-md-4 col-form-label text-md-end">{{ __('  ইমেইল ') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('  ইমেইল ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="allotment" type="text" class="form-control @error('allotment') is-invalid @enderror" name="allotment" value="{{ old('allotment') }}" required  autofocus>
+                            <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$email}} " required  autofocus>
 
                              
                                 
-                                @error('allotment')
+                                @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -71,7 +71,23 @@
 
                             </div>
                         </div>
-                        
+                        <div class="row mb-3">
+                            <label for="home_district" class="col-md-4 col-form-label text-md-end">{{ __('নিজ জেলা') }}</label>
+
+                            <div class="col-md-6">
+                            <input id="home_district" type="text" class="form-control @error('home_district') is-invalid @enderror" name="home_district" value="{{$home->home_district}} " required  autofocus>
+
+                             
+                                
+                                @error('home_district')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            
+
+                            </div>
+                        </div>
                          
                          
                          
