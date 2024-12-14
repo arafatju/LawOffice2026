@@ -20,6 +20,9 @@ use App\Http\Controllers\test;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/test',function() {
+         return view('test');
+});
 Auth::routes([
     'register' => false,
     'reset' => false,
@@ -41,6 +44,8 @@ Route::post('/forget44', [test::class, 'forget44'])->name('forget44');
 
 Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
 
+Route::get('/result123', [infoimp::class, 'result123'])->name('result123'); 
+
 
 Auth::routes();
   
@@ -52,6 +57,7 @@ All Normal Users Routes List
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     
+    Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
 
     Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
 
