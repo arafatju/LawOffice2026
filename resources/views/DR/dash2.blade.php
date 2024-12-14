@@ -10,7 +10,7 @@
 <body>
     <div class="container mt-5">
         <h2>Data sheet</h2>
-        <table id="users-table" class="table table-bordered">
+        <table id="users-table" class="table table-bordered"style="font-size: 13px;">
             <thead>
               
                        
