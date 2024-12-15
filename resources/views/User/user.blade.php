@@ -22,12 +22,14 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('chakuri') }}">
                         @csrf
-
+                       @foreach ($draft as $data)
+                           
+                      
                         <div class="row mb-3">
                             <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('সার্ভিস আইডি ') }}</label>
 
                             <div class="col-md-6">
-                                <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value=" "   required autocomplete="serviceid" autofocus>
+                                <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{$data->serviceid}} "   required autocomplete="serviceid" autofocus>
 
                             </div>
                         </div>
@@ -36,7 +38,7 @@
                             <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন লিস্ট') }}</label>
 
                             <div class="col-md-6">
-                                <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value=""  required autocomplete="gradation" autofocus>
+                                <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{$data->gradation}}"  required autocomplete="gradation" autofocus>
 
                                 @error('gradation')
                                     <span class="invalid-feedback" role="alert">
@@ -51,7 +53,7 @@
                             <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  চাকুরীর প্রথম  নিয়োগের তারিখ ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ old('join') }}" required  autofocus>
+                            <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value=" " required  autofocus>
 
                              
                                 
@@ -69,7 +71,7 @@
                             <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('অবসরের তারিখ ') }}</label>
 
                             <div class="col-md-6">
-                                <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="" required   autocomplete="retired">
+                                <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value=" " required   autocomplete="retired">
 
                                 @error('retired')
                                     <span class="invalid-feedback" role="alert">
@@ -78,8 +80,8 @@
                                 @enderror
                             </div>
                         </div>
+                        @endforeach
                         
-                         
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">

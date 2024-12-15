@@ -13,7 +13,7 @@ class release111 extends Model
     // The attributes that are mass assignable
     protected $fillable = [
         'userid', 
-        'GO_date', 
+        'Go_date', 
         'sarok'
     ];
 }

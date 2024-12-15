@@ -138,7 +138,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
 });
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
-    
+    Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
+
+    Route::get('/releasefromcurrent', [infoimp::class, 'releasefromcurrent'])->name('releasefromcurrent');
+
     Route::get('/spouse', [infoimp::class, 'spouse'])->name('spouse');
     Route::get('/workplace', [infoimp::class, 'workplace'])->name('workplace');
 

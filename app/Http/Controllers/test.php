@@ -264,11 +264,7 @@ public function forget44(Request $request){
         'district'=>'kk', 
         'reason'=>'kk'
        ]);
-       release111::create([
-        'userid' => $userid,
-        'GO_date'=>'2022-02-02', 
-        'sarok'=>'kk'
-       ]);
+        
      
 
         return redirect("jobinfo")->with('You have signed-in');

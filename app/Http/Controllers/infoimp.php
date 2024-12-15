@@ -159,6 +159,27 @@ class infoimp extends Controller
         ]);
         return redirect('workplace')->withSuccess('Updated');
     }
+     public function release11(Request $request){
+       
+         $validated=$request->validate([
+             'go_date'=>'required|date_format:d-m-Y',
+             'sarok'=>'required|string'
+         ]);
+         $Date11 = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
+
+        release111::create([
+            'userid'=>Auth::user()->userid,
+            'Go_date'=>$Date11,
+            'sarok'=>$validated['sarok']
+        ]);
+      workingdetails::where('userid',Auth::user()->userid)->update([
+            'status2'=>'unlocked'
+      ]);
+      return redirect('profile')->withSuccess('Now you can edit your information of Present Working') ;
+     }
+    public function releasefromcurrent(){
+        return view('User.release');
+    }
       public function child11(Request $request){
         $validated= $request->validate([
              
@@ -192,10 +213,8 @@ class infoimp extends Controller
         return redirect('spouse')->withSuccess('Updated');
     }
     public function jobinfo(){
-        $draft = DB::table('personalinfo')
-        ->select('*')
-        
-        ->first();
+        $draft = personalinfo::where('userid',Auth::user()->userid)->get();
+
   
     return view('User.user', compact('draft'));
          
@@ -292,7 +311,17 @@ class infoimp extends Controller
            return redirect('transferme')->with('Updated');
   }
   public function profile(Request $request){
-    return view('User.profile');
+        $job_related_info=personalinfo::where('userid',Auth::user()->userid)->get();
+        
+        $wife=wifeinfo::where('userid',Auth::user()->userid)->get();
+        $child11=childinfo::where('userid',Auth::user()->userid)->get();
+        $working_present=workingdetails::where('userid',Auth::user()->userid)
+                    ->where('situation','present')->get();
+        $working_before=workingdetails::where('userid',Auth::user()->userid)
+                    ->where('situation','before')->get();  
+         $transfer=preferred111::where('userid',Auth::user()->userid)->get();
+        // $contact11=                   
+    return view('User.profile',compact('job_related_info', 'wife','child11','working_present','working_before','transfer'));
   }
     public function contactinfo(Request $request){
           $home=personalinfo::where('userid', Auth::user()->userid)
