@@ -141,6 +141,8 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
 
     Route::get('/releasefromcurrent', [infoimp::class, 'releasefromcurrent'])->name('releasefromcurrent');
+    Route::get('/delete111/{id}', [infoimp::class, 'delete111'])->name('delete111');
+    Route::get('/delete112/{id}', [infoimp::class, 'delete112'])->name('delete112');
 
     Route::get('/spouse', [infoimp::class, 'spouse'])->name('spouse');
     Route::get('/workplace', [infoimp::class, 'workplace'])->name('workplace');
@@ -164,5 +166,6 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/contactinfo11', [infoimp::class, 'contactinfo11'])->name('contactinfo11'); 
     Route::post('/reason111', [infoimp::class, 'reason111'])->name('reason111'); 
     Route::get('/profile', [infoimp::class, 'profile'])->name('profile');
+     
 
 });

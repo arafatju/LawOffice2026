@@ -21,21 +21,101 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('workingpresent') }}">
                         @csrf
-                                                           
+                                                    
+                        
                         <div class="row mb-3">
-                            <label for="district" class="col-md-4 col-form-label text-md-end">{{ __('জেলা  ') }}</label>
+                            <label for="district" class="col-md-4 col-form-label text-md-end">{{ __('জেলা') }}</label>
 
                             <div class="col-md-6">
-                                <input id="district" type="text" class="form-control @error('district') is-invalid @enderror" name="district" value=" "   required autocomplete="district" autofocus>
-
+                            
+                            <select id="district" class="form-control @error('district') is-invalid @enderror" name="district"  required  autofocus>
+                               
+                                   
+                                
+                                   
+        
+                               
+                               <option>ঢাকা</option>
+                               <option>গাজীপুর</option>
+                               <option>নারায়ণগঞ্জ</option>
+                               <option>নরসিংদী</option>
+                               <option>কিশোরগঞ্জ</option>
+                               <option>ফরিদপুর</option>
+                               <option>গোপালগঞ্জ</option>
+                               <option>মাদারীপুর</option>
+                               <option>মানিকগঞ্জ</option>
+                               <option>মুন্সিগঞ্জ</option>
+                               <option>রাজবাড়ী</option>
+                               <option>শরীয়তপুর</option>
+                               <option>টাঙ্গাইল</option>
+                               <option>জামালপুর</option>
+                               <option>ময়মনসিংহ</option>
+                               <option>নেত্রকোণা</option>
+                               <option>শেরপুর</option>
+                               <option>হবিগঞ্জ</option>
+                               <option>মৌলভীবাজার</option>
+                               <option>সুনামগঞ্জ</option>
+                               <option>সিলেট</option>
+                               <option>বগুড়া</option>
+                               <option>চাঁপাইনবাবগঞ্জ</option>
+                               <option>জয়পুরহাট</option>
+                               <option>নওগাঁ</option>
+                               <option>নাটোর</option>
+                               <option>পাবনা</option>
+                               <option>রাজশাহী</option>
+                               <option>সিরাজগঞ্জ</option>
+                               <option>দিনাজপুর</option>
+                               <option>গাইবান্ধা</option>
+                               <option>কুড়িগ্রাম</option>
+                               <option>লালমনিরহাট</option>
+                               <option>নীলফামারী</option>
+                               <option>পঞ্চগড়</option>
+                               <option>রংপুর</option>
+                               <option>ঠাকুরগাঁও</option>
+                               <option>বান্দরবান</option>
+                               <option>ব্রাহ্মণবাড়িয়া</option>
+                               <option>চাঁদপুর</option>
+                               <option>চট্টগ্রাম</option>
+                               <option>কুমিল্লা</option>
+                               <option>কক্সবাজার</option>
+                               <option>ফেনী</option>
+                               <option>খাগড়াছড়ি</option>
+                               <option>লক্ষ্মীপুর</option>
+                               <option>নোয়াখালী</option>
+                               <option>রাঙ্গামাটি</option>
+                               <option>বরগুনা</option>
+                               <option>বরিশাল</option>
+                               <option>ঝালকাঠি</option>
+                               <option>পিরোজপুর</option>
+                               <option>পটুয়াখালী</option>
+                               <option>ভোলা</option>
+                               <option>বাগেরহাট</option>
+                               <option>চুয়াডাঙ্গা</option>
+                               <option>যশোর</option>
+                               <option>ঝিনাইদহ</option>
+                               <option>খুলনা</option>
+                               <option>কুষ্টিয়া</option>
+                               <option>মাগুরা </option>
+                               <option>মেহেরপুর </option>
+                               <option>নড়াইল</option>
+                               <option>সাতক্ষীরা</option>
+                                
+                                 
+                                
                                 @error('district')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </select>
+
                             </div>
-                            
                         </div>
+
+
+
+
+                         
 
                         <div class="row mb-3">
                             <label for="designation" class="col-md-4 col-form-label text-md-end">{{ __('পদবী ') }}</label>
@@ -138,7 +218,7 @@
 </div>
 
 <div class="row justify-content-center mt-4">
-    <div class="col-md-8"> 
+    <div class="col-md-10"> 
         <div class="card">
             <div class="card-header">
               <div class="d-flex justify-content-end">
@@ -157,41 +237,46 @@
           <div class="card-body">
             
             
-            <div class="table-header row table-success">
-                <div class="col">Serial</div>
-                <div class="col">জেলা</div>
-                <div class="col">পদবী </div>
-                <div class="col">অফিস</div>
-                <div class="col">যোগদানের তারিখ </div>
-                <div class="col">অবমুক্তির তারিখ  </div>
-                <div class="col">অফিস আদেশের তারিখ </div>
-                <div class="col">স্মারক নাম্বার </div>
-                <div class="col">Action</div>
-            </div>
+
+
+          <table class="table table-bordered table-striped">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <th>Serial</th>
+                                            <th>জেলা</th>
+                                            <th>পদবী</th>
+                                            <th>অফিস</th>
+                                            <th>যোগদানের তারিখ</th>
+                                            <th>অবমুক্তির তারিখ </th>
+                                            <th>অফিস আদেশের তারিখ</th>
+                                            <th>স্মারক নাম্বার</th>
+                                            <th> Action </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($draft2 as $data)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$data->district}}</td>
+                                            <td>{{$data->designation}}</td>
+                                            <td>{{$data->office}}</td>
+                                            <td>{{$data->start}}</td>
+                                            <td>{{$data->end}}</td>
+                                            <td>{{$data->GO_Date}}</td>
+                                            <td>{{$data->sarok}}</td>
+                                            <td> 
+                                              <a href="{{route('delete112',['id'=>encrypt($data->id)])}}">
+                                                <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
+                                              </a>
+                                             </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+      
+            
         
-            <div class="table-body">
-                @foreach($draft2 as $data)
-                <div class="row">
-                    <div class="col">{{$loop->iteration}}</div>
-                    <div class="col">{{$data->name}}</div>
-                    <div class="col">{{$data->age}}</div>
-                    <div class="col">{{$data->educationtype}}</div>
-                    <div class="col">{{$data->educationname}}</div>
-                    <div class="col">{{$data->educationlocation}}</div>
-                    
-                    <div class="col">
-                        <div class="row">
-                             
-                            <div class="col-auto">
-                                <a href="{{route('budgetback11',['id'=>encrypt($data->id)])}}">
-                                    <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
+            
         </div> 
         </div>
     </div>
@@ -211,32 +296,116 @@
                 </div>
                 <div class="modal-body">
                      
+                <div class="mb-3">
+                            <label for="district1" class=" form-label  ">{{ __('জেলা') }}</label>
+                            
+                            
+                            <select id="district1" class="form-control @error('district1') is-invalid @enderror" name="district1"  required  autofocus>
+                               
+                                   
+                                
+                                   
+        
+                               
+                               <option>ঢাকা</option>
+                               <option>গাজীপুর</option>
+                               <option>নারায়ণগঞ্জ</option>
+                               <option>নরসিংদী</option>
+                               <option>কিশোরগঞ্জ</option>
+                               <option>ফরিদপুর</option>
+                               <option>গোপালগঞ্জ</option>
+                               <option>মাদারীপুর</option>
+                               <option>মানিকগঞ্জ</option>
+                               <option>মুন্সিগঞ্জ</option>
+                               <option>রাজবাড়ী</option>
+                               <option>শরীয়তপুর</option>
+                               <option>টাঙ্গাইল</option>
+                               <option>জামালপুর</option>
+                               <option>ময়মনসিংহ</option>
+                               <option>নেত্রকোণা</option>
+                               <option>শেরপুর</option>
+                               <option>হবিগঞ্জ</option>
+                               <option>মৌলভীবাজার</option>
+                               <option>সুনামগঞ্জ</option>
+                               <option>সিলেট</option>
+                               <option>বগুড়া</option>
+                               <option>চাঁপাইনবাবগঞ্জ</option>
+                               <option>জয়পুরহাট</option>
+                               <option>নওগাঁ</option>
+                               <option>নাটোর</option>
+                               <option>পাবনা</option>
+                               <option>রাজশাহী</option>
+                               <option>সিরাজগঞ্জ</option>
+                               <option>দিনাজপুর</option>
+                               <option>গাইবান্ধা</option>
+                               <option>কুড়িগ্রাম</option>
+                               <option>লালমনিরহাট</option>
+                               <option>নীলফামারী</option>
+                               <option>পঞ্চগড়</option>
+                               <option>রংপুর</option>
+                               <option>ঠাকুরগাঁও</option>
+                               <option>বান্দরবান</option>
+                               <option>ব্রাহ্মণবাড়িয়া</option>
+                               <option>চাঁদপুর</option>
+                               <option>চট্টগ্রাম</option>
+                               <option>কুমিল্লা</option>
+                               <option>কক্সবাজার</option>
+                               <option>ফেনী</option>
+                               <option>খাগড়াছড়ি</option>
+                               <option>লক্ষ্মীপুর</option>
+                               <option>নোয়াখালী</option>
+                               <option>রাঙ্গামাটি</option>
+                               <option>বরগুনা</option>
+                               <option>বরিশাল</option>
+                               <option>ঝালকাঠি</option>
+                               <option>পিরোজপুর</option>
+                               <option>পটুয়াখালী</option>
+                               <option>ভোলা</option>
+                               <option>বাগেরহাট</option>
+                               <option>চুয়াডাঙ্গা</option>
+                               <option>যশোর</option>
+                               <option>ঝিনাইদহ</option>
+                               <option>খুলনা</option>
+                               <option>কুষ্টিয়া</option>
+                               <option>মাগুরা </option>
+                               <option>মেহেরপুর </option>
+                               <option>নড়াইল</option>
+                               <option>সাতক্ষীরা</option>
+                                
+                                 
+                                
+                                @error('district1')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </select>
+
+                            
+                        </div>
+                            
                     <div class="mb-3">
-                        <label for="district1" class="form-label">District</label>
-                        <input type="text" name="district1" class="form-control" id="district1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="designation1" class="form-label">Designation</label>
+                        <label for="designation1" class="form-label">পদবী</label>
                         <input type="text" name="designation1" class="form-control" id="designation1" required>
                     </div>
                     <div class="mb-3">
-                        <label for="office1" class="form-label">Office</label>
+                        <label for="office1" class="form-label">অফিস</label>
                         <input type="text" name="office1" class="form-control" id="office1">
                     </div>
                     <div class="mb-3">
-                        <label for="join1" class="form-label">Joining Date</label>
+                        <label for="join1" class="form-label">যোগদানের তারিখ</label>
                         <input type="text" name="join1" class="form-control" id="join1">
                     </div>
                     <div class="mb-3">
-                        <label for="release1" class="form-label">Release Date</label>
+                        <label for="release1" class="form-label">অবমুক্তির তারিখ</label>
                         <input type="text" name="release1" class="form-control" id="release1">
                     </div>
                     <div class="mb-3">
-                        <label for="go_date" class="form-label">GO Date</label>
+                        <label for="go_date" class="form-label">অফিস আদেশের তারিখ </label>
                         <input type="text" name="go_date" class="form-control" id="go_date">
                     </div>
                     <div class="mb-3">
-                        <label for="sarok" class="form-label">Sarok Number</label>
+                        <label for="sarok" class="form-label"> সারক নাম্বার </label>
                         <input type="text" name="sarok" class="form-control" id="sarok">
                     </div>
                 </div>

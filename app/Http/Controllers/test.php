@@ -94,7 +94,7 @@ class test extends Controller
         ->get();       
                
         $draft3 = DB::table('codetable')
-        ->select('*')->where('status','office')
+        ->select('*')->where('status','economy')
         ->get(); 
     return view('auth.registration', compact('draft1','draft2','draft3'));
                 
@@ -233,28 +233,28 @@ public function forget44(Request $request){
        ]);
        workingdetails::create([
         'userid' => $userid,
-        'district'=>'kk',
-        'designation'=>'kk',
-        'mobile'=>'kk',
+        'district'=>Auth::user()->district,
+        'designation'=>Auth::user()->designation,
+        'mobile'=>Auth::user()->mobile,
         'status'=>'kk',
-        'situation'=>'kk',
+        'situation'=>'present',
         'start'=>'2022-02-02',
         'end'=>'2022-02-02',
         'status2'=>'unlocked',
         'GO_Date'=>'2022-02-02',
         'sarok'=>'2022-02-02',
-        'office'=>'kk'
+        'office'=>Auth::user()->doptor
        ]);
        personalinfo::create([
         'userid' => $userid,
          
-        'mobile'=>$data['mobile'],
-        'name'=>$data['name'],
+        'mobile'=>Auth::user()->mobile,
+        'name'=>Auth::user()->name ,
         'marital_status'=>'kk',
         'join'=>'2022-02-02',
         'retired'=>'2022-02-02',
-        'email'=>$data['email'],
-        'serviceid'=>$data['serviceid'],
+        'email'=>Auth::user()->email,
+        'serviceid'=>Auth::user()->serviceid,
         'gradation'=>22,
         'home_district'=>'kk'
        ]);

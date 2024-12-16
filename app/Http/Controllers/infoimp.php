@@ -163,7 +163,7 @@ class infoimp extends Controller
        
          $validated=$request->validate([
              'go_date'=>'required|date_format:d-m-Y',
-             'sarok'=>'required|string'
+             'sarok'=>'required|string',
          ]);
          $Date11 = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
 
@@ -172,11 +172,35 @@ class infoimp extends Controller
             'Go_date'=>$Date11,
             'sarok'=>$validated['sarok']
         ]);
-      workingdetails::where('userid',Auth::user()->userid)->update([
-            'status2'=>'unlocked'
+       $data11=workingdetails::where('userid',Auth::user()->userid)->where('situation','present')->get();
+//if(workingdetails::where('status','kk')->doesntExist()){
+      workingdetails::where('userid',Auth::user()->userid)->where('situation','present')->update([
+            'situation'=>'before',
+            'end'=> $Date11,
+            
+            
       ]);
+      
+ 
+
+       
+      workingdetails::create([
+        'userid' => Auth::user()->userid,
+        'district'=>Auth::user()->district,
+        'designation'=>Auth::user()->designation,
+        'mobile'=>Auth::user()->mobile,
+        'status'=>'kk',
+        'situation'=>'present',
+        'start'=>'2022-02-02',
+        'end'=>'2022-02-02',
+        'status2'=>'unlocked',
+        'GO_Date'=>'2022-02-02',
+        'sarok'=>'2022-02-02',
+        'office'=>Auth::user()->doptor
+      ]);
+  
       return redirect('profile')->withSuccess('Now you can edit your information of Present Working') ;
-     }
+     } 
     public function releasefromcurrent(){
         return view('User.release');
     }
@@ -245,7 +269,7 @@ class infoimp extends Controller
         ]);
         if($validated['code_status']=='economy'){
         DB::table('codetable')->insert([
-            'code' => $request->code1,
+            'code' => 999,
             'name' => $validated['name'],
             'status'=>'economy',
              
@@ -308,6 +332,8 @@ class infoimp extends Controller
             'reason'=>$validated['reason'],
             'district'=>$validated['five'],
            ]);
+
+
            return redirect('transferme')->with('Updated');
   }
   public function profile(Request $request){
@@ -343,10 +369,7 @@ class infoimp extends Controller
         ->select('*')
         ->where('status','economy')
         ->get();
-        $draft2  = DB::table('childinfo')
-        ->select('*')
-         
-        ->get();
+        $draft2  = workingdetails::where('userid',Auth::user()->userid)->where('situation','before')->get();
       
     return view('User.workplace', compact('draft','draft2'));
     }
@@ -398,6 +421,18 @@ class infoimp extends Controller
 
     return view('SR.code11', compact('draft'));
     }
+    public function delete111(Request $request){
+        $id=decrypt($request->id);
+        childinfo::where('id',$id)->delete();
+        toastr('Successfully deleted   ');
+        return redirect('spouse');
+    } 
+    public function delete112(Request $request){
+        $id=decrypt($request->id);
+        workingdetails::where('id',$id)->delete();
+        toastr('Successfully deleted   ');
+        return redirect('workplace');
+    }
      
     public function spouse(){
          
@@ -409,7 +444,8 @@ class infoimp extends Controller
         ->select('*')
          
         ->get();
-    return view('User.spouse', compact('draft','draft2'));
+        $draft3=wifeinfo::where('userid',Auth::user()->userid)->get();
+    return view('User.spouse', compact('draft','draft2','draft3'));
      
         
         
@@ -845,7 +881,7 @@ public function dashboard()
         ->where('whf_current.situation','present')
         ->where('whf_before.situation','before')
          
-         
+         ->distinct()
         ->select(
             'p.userid as userid11',
             'p.id as id',
@@ -874,7 +910,7 @@ public function dashboard()
         ->get();
                   
         $data = [];
-
+        $results = $results->unique('userid11');
         foreach ($results as $user) {
             // Carbon instance for current date
             $carbonNow = Carbon::now();

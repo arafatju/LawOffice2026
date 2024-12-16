@@ -75,11 +75,12 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('husband') }}">
                         @csrf
+                        @foreach($draft3 as $wife11)
                         <div class="row mb-3">
                             <label for="wifename" class="col-md-4 col-form-label text-md-end">{{ __(' নাম') }}</label>
 
                             <div class="col-md-6">
-                                <input id="wifename" type="text" class="form-control @error('wifename') is-invalid @enderror" name="wifename" value=" "   required autocomplete="name" autofocus>
+                                <input id="wifename" type="text" class="form-control @error('wifename') is-invalid @enderror" name="wifename" value=" {{$wife11->wifename}}"   required autocomplete="name" autofocus>
 
                                 @error('wifename')
                                     <span class="invalid-feedback" role="alert">
@@ -119,7 +120,7 @@
                             <label for="designation" class="col-md-4 col-form-label text-md-end">{{ __('  পদবী ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="designation" type="text" class="form-control @error('designation') is-invalid @enderror" name="designation" value=" " required  autofocus>
+                            <input id="designation" type="text" class="form-control @error('designation') is-invalid @enderror" name="designation" value="{{$wife11->designation}} " required  autofocus>
 
                              
                                 
@@ -132,46 +133,202 @@
 
                             </div>
                         </div>
-                                         
+                                 
+                        
+
+                         
                         <div class="row mb-3">
-                            <label for="wifeworkplace" class="col-md-4 col-form-label text-md-end">{{ __('  কর্মস্থল(জেলা) ') }}</label>
+                            <label for="wifeworkplace" class="col-md-4 col-form-label text-md-end">{{ __('কর্মস্থল(জেলা)') }}</label>
 
                             <div class="col-md-6">
-                            <input id="wifeworkplace" type="text" class="form-control @error('wifeworkplace') is-invalid @enderror" name="wifeworkplace" value=" " required  autofocus>
-
-                             
+                            
+                            <select id="wifeworkplace" class="form-control @error('wifeworkplace') is-invalid @enderror" name="wifeworkplace"  required  autofocus>
+                               
+                                   
+                                
+                                   
+        
+                               
+                               <option>ঢাকা</option>
+                               <option>গাজীপুর</option>
+                               <option>নারায়ণগঞ্জ</option>
+                               <option>নরসিংদী</option>
+                               <option>কিশোরগঞ্জ</option>
+                               <option>ফরিদপুর</option>
+                               <option>গোপালগঞ্জ</option>
+                               <option>মাদারীপুর</option>
+                               <option>মানিকগঞ্জ</option>
+                               <option>মুন্সিগঞ্জ</option>
+                               <option>রাজবাড়ী</option>
+                               <option>শরীয়তপুর</option>
+                               <option>টাঙ্গাইল</option>
+                               <option>জামালপুর</option>
+                               <option>ময়মনসিংহ</option>
+                               <option>নেত্রকোণা</option>
+                               <option>শেরপুর</option>
+                               <option>হবিগঞ্জ</option>
+                               <option>মৌলভীবাজার</option>
+                               <option>সুনামগঞ্জ</option>
+                               <option>সিলেট</option>
+                               <option>বগুড়া</option>
+                               <option>চাঁপাইনবাবগঞ্জ</option>
+                               <option>জয়পুরহাট</option>
+                               <option>নওগাঁ</option>
+                               <option>নাটোর</option>
+                               <option>পাবনা</option>
+                               <option>রাজশাহী</option>
+                               <option>সিরাজগঞ্জ</option>
+                               <option>দিনাজপুর</option>
+                               <option>গাইবান্ধা</option>
+                               <option>কুড়িগ্রাম</option>
+                               <option>লালমনিরহাট</option>
+                               <option>নীলফামারী</option>
+                               <option>পঞ্চগড়</option>
+                               <option>রংপুর</option>
+                               <option>ঠাকুরগাঁও</option>
+                               <option>বান্দরবান</option>
+                               <option>ব্রাহ্মণবাড়িয়া</option>
+                               <option>চাঁদপুর</option>
+                               <option>চট্টগ্রাম</option>
+                               <option>কুমিল্লা</option>
+                               <option>কক্সবাজার</option>
+                               <option>ফেনী</option>
+                               <option>খাগড়াছড়ি</option>
+                               <option>লক্ষ্মীপুর</option>
+                               <option>নোয়াখালী</option>
+                               <option>রাঙ্গামাটি</option>
+                               <option>বরগুনা</option>
+                               <option>বরিশাল</option>
+                               <option>ঝালকাঠি</option>
+                               <option>পিরোজপুর</option>
+                               <option>পটুয়াখালী</option>
+                               <option>ভোলা</option>
+                               <option>বাগেরহাট</option>
+                               <option>চুয়াডাঙ্গা</option>
+                               <option>যশোর</option>
+                               <option>ঝিনাইদহ</option>
+                               <option>খুলনা</option>
+                               <option>কুষ্টিয়া</option>
+                               <option>মাগুরা </option>
+                               <option>মেহেরপুর </option>
+                               <option>নড়াইল</option>
+                               <option>সাতক্ষীরা</option>
+                                
+                                 
                                 
                                 @error('wifeworkplace')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            
+                            </select>
 
                             </div>
                         </div>
+
+
+
+ 
+                        
+
+                           
                         <div class="row mb-3">
-                            <label for="wifehomedistrict" class="col-md-4 col-form-label text-md-end">{{ __(' নিজ জেলা ') }}</label>
+                            <label for="wifehomedistrict" class="col-md-4 col-form-label text-md-end">{{ __('নিজ জেলা') }}</label>
 
                             <div class="col-md-6">
-                            <input id="wifehomedistrict" type="text" class="form-control @error('wifehomedistrict') is-invalid @enderror" name="wifehomedistrict" value=" " required  autofocus>
-
-                             
+                            
+                            <select id="wifehomedistrict" class="form-control @error('wifehomedistrict') is-invalid @enderror" name="wifehomedistrict"  required  autofocus>
+                               
+                                   
+                                
+                                   
+        
+                               
+                               <option>ঢাকা</option>
+                               <option>গাজীপুর</option>
+                               <option>নারায়ণগঞ্জ</option>
+                               <option>নরসিংদী</option>
+                               <option>কিশোরগঞ্জ</option>
+                               <option>ফরিদপুর</option>
+                               <option>গোপালগঞ্জ</option>
+                               <option>মাদারীপুর</option>
+                               <option>মানিকগঞ্জ</option>
+                               <option>মুন্সিগঞ্জ</option>
+                               <option>রাজবাড়ী</option>
+                               <option>শরীয়তপুর</option>
+                               <option>টাঙ্গাইল</option>
+                               <option>জামালপুর</option>
+                               <option>ময়মনসিংহ</option>
+                               <option>নেত্রকোণা</option>
+                               <option>শেরপুর</option>
+                               <option>হবিগঞ্জ</option>
+                               <option>মৌলভীবাজার</option>
+                               <option>সুনামগঞ্জ</option>
+                               <option>সিলেট</option>
+                               <option>বগুড়া</option>
+                               <option>চাঁপাইনবাবগঞ্জ</option>
+                               <option>জয়পুরহাট</option>
+                               <option>নওগাঁ</option>
+                               <option>নাটোর</option>
+                               <option>পাবনা</option>
+                               <option>রাজশাহী</option>
+                               <option>সিরাজগঞ্জ</option>
+                               <option>দিনাজপুর</option>
+                               <option>গাইবান্ধা</option>
+                               <option>কুড়িগ্রাম</option>
+                               <option>লালমনিরহাট</option>
+                               <option>নীলফামারী</option>
+                               <option>পঞ্চগড়</option>
+                               <option>রংপুর</option>
+                               <option>ঠাকুরগাঁও</option>
+                               <option>বান্দরবান</option>
+                               <option>ব্রাহ্মণবাড়িয়া</option>
+                               <option>চাঁদপুর</option>
+                               <option>চট্টগ্রাম</option>
+                               <option>কুমিল্লা</option>
+                               <option>কক্সবাজার</option>
+                               <option>ফেনী</option>
+                               <option>খাগড়াছড়ি</option>
+                               <option>লক্ষ্মীপুর</option>
+                               <option>নোয়াখালী</option>
+                               <option>রাঙ্গামাটি</option>
+                               <option>বরগুনা</option>
+                               <option>বরিশাল</option>
+                               <option>ঝালকাঠি</option>
+                               <option>পিরোজপুর</option>
+                               <option>পটুয়াখালী</option>
+                               <option>ভোলা</option>
+                               <option>বাগেরহাট</option>
+                               <option>চুয়াডাঙ্গা</option>
+                               <option>যশোর</option>
+                               <option>ঝিনাইদহ</option>
+                               <option>খুলনা</option>
+                               <option>কুষ্টিয়া</option>
+                               <option>মাগুরা </option>
+                               <option>মেহেরপুর </option>
+                               <option>নড়াইল</option>
+                               <option>সাতক্ষীরা</option>
+                                
+                                 
                                 
                                 @error('wifehomedistrict')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            
+                            </select>
 
                             </div>
                         </div>
+
+
+
+
                         <div class="row mb-3">
                             <label for="kids_number" class="col-md-4 col-form-label text-md-end">{{ __(' সন্তান সংখ্যা ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="kids_number" type="text" class="form-control @error('kids_number') is-invalid @enderror" name="kids_number" value=" " required  autofocus>
+                            <input id="kids_number" type="text" class="form-control @error('kids_number') is-invalid @enderror" name="kids_number" value="{{$wife11->kids_number}} " required  autofocus>
 
                              
                                 
@@ -185,7 +342,7 @@
                             </div>
                         </div>
                          
-
+                       @endforeach
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -201,7 +358,7 @@
 </div>
 
 <div class="row justify-content-center mt-2">
-    <div class="col-md-6"> 
+    <div class="col-md-10"> 
         <div class="card">
             <div class="card-header">
               <div class="d-flex justify-content-end">
@@ -219,41 +376,44 @@
     
           <div class="card-body">
             
+
             
-            <div class="table-header row table-success">
-                <div class="col">Serial</div>
-                <div class="col">নাম</div>
-                <div class="col">বয়স </div>
-                <div class="col">শ্রেণী</div>
-                <div class="col">শিক্ষা প্রতিষ্ঠানের নাম </div>
-                <div class="col">শিক্ষা প্রতিষ্ঠানের   অবস্থান  </div>
-                 
-                <div class="col">Action</div>
-            </div>
+            
+          <table class="table table-bordered table-striped">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <th>Serial</th>
+                                            <th>নাম</th>
+                                            <th>বয়স</th>
+                                            <th>শ্রেণী</th>
+                                            <th>শিক্ষা প্রতিষ্ঠানের নাম</th>
+                                            <th>শিক্ষা প্রতিষ্ঠানের অবস্থান</th>
+                                            <th> Action  </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                           @foreach($draft2 as $data)
+                                             <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$data->name}}</td>
+                                            <td>{{$data->age}}</td>
+                                            <td>{{$data->educationtype}}</td>
+                                            <td>{{$data->educationname}}</td>
+                                            <td>{{$data->educationlocation}}</td>
+                                            <td> 
+                                              <a href="{{route('delete111',['id'=>encrypt($data->id)])}}">
+                                                <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
+                                              </a>
+                                             </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+           
+            
+             
         
-            <div class="table-body">
-                @foreach($draft2 as $data)
-                <div class="row">
-                    <div class="col">{{$loop->iteration}}</div>
-                    <div class="col">{{$data->name}}</div>
-                    <div class="col">{{$data->age}}</div>
-                    <div class="col">{{$data->educationtype}}</div>
-                    <div class="col">{{$data->educationname}}</div>
-                    <div class="col">{{$data->educationlocation}}</div>
-                    
-                    <div class="col">
-                        <div class="row">
-                             
-                            <div class="col-auto">
-                                <a href="{{route('budgetback11',['id'=>encrypt($data->id)])}}">
-                                    <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
+            
         </div> 
         </div>
     </div>
