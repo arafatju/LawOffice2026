@@ -10,6 +10,8 @@ use App\Models\personalinfo;
 use App\Models\wifeinfo;
 use App\Models\preferred111;
 use App\Models\workingdetails;
+use App\Models\workingnow;
+use App\Models\workingbefore;
 use App\Models\release111;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -74,7 +76,7 @@ class infoimp extends Controller
         User::where('userid', Auth::user()->userid)->update([
             'serviceid' => $validated['serviceid']
         ]); 
-       return redirect('jobinfo')->withSuccess('Updated');
+       return redirect('profile')->withSuccess('Updated');
     }
     public function husband(Request $request){
         $validated = $request->validate([
@@ -94,7 +96,7 @@ class infoimp extends Controller
             'wifehomedistrict'=> $validated['wifehomedistrict'],
             'kids_number'=>$validated['kids_number']
         ]);
-        return redirect('spouse')->withSuccess('Updated');
+        return redirect('profile')->withSuccess('Updated');
          
     }
     public function workingbefore (Request $request){
@@ -111,7 +113,7 @@ class infoimp extends Controller
         $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
         $godate = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
         $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');
-        workingdetails::create([
+        workingbefore::create([
              'userid'=>Auth::user()->userid,
             'district' => $validated['district1'],
             'designation' => trim($validated['designation1']),
@@ -119,7 +121,9 @@ class infoimp extends Controller
             'start'=> $JoinDate,
             'end'=>$release ,
            'GO_Date'=> $godate,
+           'GO_Date2'=> '20-02-02',
             'sarok'=>$validated['sarok'],
+            'sarok2'=>'kkk',
             'status'=>'empty',
             'situation'=>'before',
             'end'=>$release,
@@ -143,8 +147,8 @@ class infoimp extends Controller
         ]);
         $StartDate = Carbon::createFromFormat('d-m-Y', $validated['start'])->format('Y-m-d');
         $GoDate = Carbon::createFromFormat('d-m-Y', $validated['GO_Date'])->format('Y-m-d');
-        workingdetails::where('userid', Auth::user()->userid)
-              ->where('status2','unlocked')
+        workingnow::where('userid', Auth::user()->userid)
+              
              ->update([
             'district' => $validated['district'],
             'designation' => trim($validated['designation']),
@@ -154,7 +158,7 @@ class infoimp extends Controller
             'sarok'=>$validated['sarok'],
             'status'=>'now',
             'situation'=>'present',
-            'status2'=>'locked'
+            'status2'=>'open'
 
         ]);
         return redirect('workplace')->withSuccess('Updated');
@@ -166,17 +170,16 @@ class infoimp extends Controller
              'sarok'=>'required|string',
          ]);
          $Date11 = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
-
-        release111::create([
+       $gg=workingnow::where('userid',Auth::user()->userid)->first();
+       if($gg && $gg->status2 == 'open'){ 
+       release111::create([
             'userid'=>Auth::user()->userid,
             'Go_date'=>$Date11,
             'sarok'=>$validated['sarok']
         ]);
-       $data11=workingdetails::where('userid',Auth::user()->userid)->where('situation','present')->get();
-//if(workingdetails::where('status','kk')->doesntExist()){
-      workingdetails::where('userid',Auth::user()->userid)->where('situation','present')->update([
-            'situation'=>'before',
-            'end'=> $Date11,
+       workingnow::where('userid',Auth::user()->userid)->update([
+            'status2'=>'closed',
+            
             
             
       ]);
@@ -184,23 +187,26 @@ class infoimp extends Controller
  
 
        
-      workingdetails::create([
+      workingbefore::create([
         'userid' => Auth::user()->userid,
-        'district'=>Auth::user()->district,
-        'designation'=>Auth::user()->designation,
-        'mobile'=>Auth::user()->mobile,
+        'district'=>$gg->district,
+        'designation'=>$gg->designation,
+        'mobile'=>$gg->mobile,
         'status'=>'kk',
-        'situation'=>'present',
-        'start'=>'2022-02-02',
-        'end'=>'2022-02-02',
+        'situation'=>'before',
+        'start'=>$gg->start,
+        'end'=>$Date11,
         'status2'=>'unlocked',
-        'GO_Date'=>'2022-02-02',
-        'sarok'=>'2022-02-02',
-        'office'=>Auth::user()->doptor
+        'GO_Date'=>$gg->GO_Date,
+        'sarok'=>$gg->sarok,
+        'office'=>$gg->office,
+        'GO_Date2'=>$Date11,
+        'sarok2'=>$validated['sarok']
       ]);
   
       return redirect('profile')->withSuccess('Now you can edit your information of Present Working') ;
-     } 
+       } 
+    } 
     public function releasefromcurrent(){
         return view('User.release');
     }
@@ -234,7 +240,7 @@ class infoimp extends Controller
         personalinfo::where('userid', Auth::user()->userid)->update([
             'marital_status' => trim($validated['marital_status'])
         ]);
-        return redirect('spouse')->withSuccess('Updated');
+        return redirect('profile')->withSuccess('Updated');
     }
     public function jobinfo(){
         $draft = personalinfo::where('userid',Auth::user()->userid)->get();
@@ -341,10 +347,10 @@ class infoimp extends Controller
         
         $wife=wifeinfo::where('userid',Auth::user()->userid)->get();
         $child11=childinfo::where('userid',Auth::user()->userid)->get();
-        $working_present=workingdetails::where('userid',Auth::user()->userid)
-                    ->where('situation','present')->get();
-        $working_before=workingdetails::where('userid',Auth::user()->userid)
-                    ->where('situation','before')->get();  
+        $working_present=workingnow::where('userid',Auth::user()->userid)
+                     ->get();
+        $working_before=workingbefore::where('userid',Auth::user()->userid)
+                     ->get();  
          $transfer=preferred111::where('userid',Auth::user()->userid)->get();
         // $contact11=                   
     return view('User.profile',compact('job_related_info', 'wife','child11','working_present','working_before','transfer'));
@@ -369,7 +375,8 @@ class infoimp extends Controller
         ->select('*')
         ->where('status','economy')
         ->get();
-        $draft2  = workingdetails::where('userid',Auth::user()->userid)->where('situation','before')->get();
+        $draft2  = workingbefore::where('userid',Auth::user()->userid)
+        ->get();
       
     return view('User.workplace', compact('draft','draft2'));
     }
@@ -440,10 +447,9 @@ class infoimp extends Controller
         ->select('*')
         ->where('status','economy')
         ->get();
-        $draft2  = DB::table('childinfo')
-        ->select('*')
+        $draft2  = childinfo::where('userid',Auth::user()->userid)->get();
          
-        ->get();
+         
         $draft3=wifeinfo::where('userid',Auth::user()->userid)->get();
     return view('User.spouse', compact('draft','draft2','draft3'));
      
@@ -861,7 +867,137 @@ public function dashboard()
     dd($carbonDiffFormatted);
    
 }
+public  function get2data(){
 
+    $converter = new ConverterController();
+
+       
+    $data = [];
+   
+   $results=workingnow::all();
+    foreach ($results as $user) {
+        
+        $carbonNow = Carbon::now();
+
+         $carbonDiff = $carbonNow->diff(Carbon::parse($user->start));
+
+         $carbonDiffFormatted = $converter->en2bn($carbonDiff->y) . ' বছর , ' . $converter->en2bn($carbonDiff->m) . ' মাস , ' . $converter->en2bn($carbonDiff->d) . ' দিন';
+         
+        // Combine user details into the first column
+        $user11=personalinfo::where('userid',$user->userid)->first();
+       
+        $username='<div>  ' .$user11->name . '</div>';
+        $userhomedistrict='<div>  ' .$user11->home_district . '</div>';
+        $userserviceid='<div>  ' .$converter->en2bn($user11->serviceid) . '</div>';
+                 
+        $Gradation = '
+            <div> ' . $converter->en2bn($user11->gradation). '</div>';
+        
+            
+
+        $userdesignation = ' <div>    ' . $user->designation. '</div>';
+        $userworkdistrict ='<div>  ' . $user->district. '</div>';
+        $useroffice='<div>  ' . $user->office.'</div>';
+
+
+            $Join_office = '
+            <div>  ' . $converter->en2bn(Carbon::parse($user->start)->format('d-m-y')) . '</div>';
+              $user12=wifeinfo::where('userid',$user->userid)->first();
+            
+            
+            
+              $usermaritalstatus='<div>   ' . $user11->marital_status.'</div>';
+              $userwifename='<div>   ' . $user12->wifename.'</div>';
+              $userwifeprofession='<div>  ' . $user12->profession.'</div>';
+              $userwifedesignation='<div>   ' . $user12->designation.'</div>';
+              $userwifeworkplace='<div>   ' . $user12->wifeworkplace.'</div>';
+              $userwifehomeplace='<div>  ' . $user12->wifehomedistrict.'</div>';
+
+                 $Child_info = '<div><b>১৫.সন্তানাদি:</b></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>নাম</th>
+                        <th>বয়স</th>
+                        <th>ধরন</th>
+                        <th>জেলা</th>
+                    </tr>
+                </thead>
+                <tbody>';
+                
+                $info11=childinfo::where('userid',$user->userid)->get();
+            foreach ($info11  as $child) {
+                $Child_info .= "
+                    <tr>
+                        <td>{$child->name}</td>
+                        <td>{$child->age}</td>
+                        <td>{$child->educationtype}</td>
+                        <td>{$child->educationlocation}</td>
+                    </tr>";
+            }
+        
+            $Child_info .= '</tbody></table>';
+          //  $ddd = implode(',', $user->before_district ?? []);
+          $info12=workingbefore::where('userid',$user->userid)->get();
+                     $before13='';
+              foreach($info12 as $before12)
+                              {
+                                $before13=$before12->district.','.$before13;
+                              }
+           $PreviousDist = '<div><b>১৬.অফিসারের পূর্বের কর্মস্থল (জেলা):</b> ' . $before13 . '</div></div>
+            <div><b>১৭. পছন্দকৃত জেলা  :</b> ' . $user->preferred_district . '</div>
+            <div><b>১৮. কেন বদলি চান :</b> ' . $user->preferred_reason . '</div>';
+         $Last='
+            <div><b>১৯. মেয়াদ (বর্তমান কর্মস্থল )    :</b> ' . $carbonDiffFormatted. '</div>';
+        // Add combined details and formatted carbon diff into the data array
+
+
+//   $Designation  $Working_district  $Working_office   $Join_office   $Marriage $Last  $Child_info  $PreviousDist
+ 
+
+        $data[] = [
+            'id'=>$user->id,
+            'username' => $username,
+            'userhomedistrict'=>$userhomedistrict,
+            'userserviceid'=>$userserviceid,
+            'gradation'=>$Gradation ,
+            
+            'userdesignation'=>$userdesignation,
+            'userworkdistrict'=>$userworkdistrict,
+            'useroffice'=>$useroffice,
+            
+            'join_date'=>$Join_office,
+             'usermaritalstatus'=>$usermaritalstatus,
+            'userwifename'=>$userwifename,
+            'userwifeprofession'=>$userwifeprofession,
+             'userwifedesignation'=>$userwifedesignation,
+             'userwifeworkplace'=>$userwifeworkplace,
+             'userwifehomeplace'=>$userwifehomeplace,
+
+            'last'=>$Last,
+            'child_info'=>$Child_info,
+            'previous'=>$PreviousDist,
+            
+
+            //'carbon_diff' => $carbonDiffFormatted,  // Display formatted carbon diff
+            //'action' => '<button class="btn btn-sm btn-info">Details</button>',
+        ];
+    }
+
+    return DataTables::of($data)
+         
+        ->rawColumns(['username','userhomedistrict','userserviceid', 'gradation','userdesignation','userworkdistrict','useroffice','join_date',
+        
+        'usermaritalstatus','userwifename','userwifeprofession','userwifedesignation','userwifeworkplace','userwifehomeplace','last','child_info','previous',]) // Allow HTML rendering
+        ->make(true);
+
+
+
+
+
+
+
+}
     
     public function getData()
     {  
@@ -870,7 +1006,7 @@ public function dashboard()
 
         // Call the en2bn method
        // $bengaliNumber = $converter->en2bn(12345);
-
+    /*
         $results = DB::table('personalinfo as p')
         ->join('childinfo as c', 'p.userid', '=', 'c.userid')
         ->join('preferred_five_districts as prf', 'p.userid', '=', 'prf.userid')
@@ -908,45 +1044,47 @@ public function dashboard()
         'prf.reason as preferred_reason'
         )
         ->get();
-                  
+             */     
         $data = [];
-        $results = $results->unique('userid11');
+       // $results = $results->unique('userid11');
+       $results=workingnow::all();
         foreach ($results as $user) {
             // Carbon instance for current date
             $carbonNow = Carbon::now();
 
             // Calculate the difference between the current date and the created_at date
-            $carbonDiff = $carbonNow->diff(Carbon::parse($user->current_start));
+            $carbonDiff = $carbonNow->diff(Carbon::parse($user->start));
 
             // Format the difference as "X years, Y months, Z days"
             $carbonDiffFormatted = $converter->en2bn($carbonDiff->y) . ' বছর , ' . $converter->en2bn($carbonDiff->m) . ' মাস , ' . $converter->en2bn($carbonDiff->d) . ' দিন';
              
             // Combine user details into the first column
-            
+            $user11=personalinfo::where('userid',$user->userid)->first();
+
             $userDetails = '
-                <div><b>১.নাম:</b> ' .$user->name . '</div>
-                <div><b>২.নিজ জেলা :</b> ' .$user->home_district . '</div>
-                <div><b>৩.সার্ভিস আইডি :</b> ' .$converter->en2bn($user->serviceid) . '</div>';
+                <div><b>১.নাম:</b> ' .$user11->name . '</div>
+                <div><b>২.নিজ জেলা :</b> ' .$user11->home_district . '</div>
+                <div><b>৩.সার্ভিস আইডি :</b> ' .$converter->en2bn($user11->serviceid) . '</div>';
            
              
             $Gradation = '
-                <div><b>৪.গ্রেডেশন:</b> ' . $converter->en2bn($user->gradation). '</div>';
+                <div><b>৪.গ্রেডেশন:</b> ' . $converter->en2bn($user11->gradation). '</div>';
                 
-                $working_present = ' <div><b>৫.পদবী:</b>   ' . $user->current_designation. '</div>
-               <div><b> ৬. বর্তমান করমস্থল(জেলা)   :</b> ' . $user->current_district. '</div><div><b>
-                ৭. আদালত/ প্রতিষ্ঠান    :</b>  ' . $user->current_office.'</div>';
+                $working_present = ' <div><b>৫.পদবী:</b>   ' . $user->designation. '</div>
+               <div><b> ৬. বর্তমান করমস্থল(জেলা)   :</b> ' . $user->district. '</div><div><b>
+                ৭. আদালত/ প্রতিষ্ঠান    :</b>  ' . $user->office.'</div>';
 
  
                 $Join_office = '
-                <div><b>৮. যোগদানের তারিখ (বর্তমান কর্মস্থল )    :</b> ' . $converter->en2bn(Carbon::parse($user->current_start)->format('d-m-y')) . '</div>';
-                  
+                <div><b>৮. যোগদানের তারিখ (বর্তমান কর্মস্থল )    :</b> ' . $converter->en2bn(Carbon::parse($user->start)->format('d-m-y')) . '</div>';
+                  $user12=wifeinfo::where('userid',$user->userid)->first();
                 $Marriage = '
-                <div><b>৯.বৈবাহিক অবস্থা :</b> ' . $user->marital_status . '</div>
-                <div><b>১০.স্বামী/ স্ত্রীর নাম  :</b> ' . $user->wife_name . '</div>
-                <div><b>১১.পেশা:</b> ' . $user->wife_profession . '</div>
-                <div><b>১২.পদবী:</b> ' . $user->wife_designation . '</div>
-                <div><b>১৩.কর্মস্থল(জেলা) :</b> ' . $user->wifeworkplace. '</div>
-                <div><b>১৪. নিজ জেলা ( স্বামী /স্ত্রী )  :</b> ' . $user->wifehomedistrict . '</div>';
+                <div><b>৯.বৈবাহিক অবস্থা :</b> ' . $user11->marital_status . '</div>
+                <div><b>১০.স্বামী/ স্ত্রীর নাম  :</b> ' . $user12->wifename . '</div>
+                <div><b>১১.পেশা:</b> ' . $user12->profession . '</div>
+                <div><b>১২.পদবী:</b> ' . $user12->designation . '</div>
+                <div><b>১৩.কর্মস্থল(জেলা) :</b> ' . $user12->wifeworkplace. '</div>
+                <div><b>১৪. নিজ জেলা ( স্বামী /স্ত্রী )  :</b> ' . $user12->wifehomedistrict . '</div>';
                 $Child_info = '<div><b>১৫.সন্তানাদি:</b></div>
                 <table class="table">
                     <thead>
@@ -959,7 +1097,7 @@ public function dashboard()
                     </thead>
                     <tbody>';
                     
-                    $info11=childinfo::where('userid',$user->userid11)->get();
+                    $info11=childinfo::where('userid',$user->userid)->get();
                 foreach ($info11  as $child) {
                     $Child_info .= "
                         <tr>
@@ -972,7 +1110,7 @@ public function dashboard()
             
                 $Child_info .= '</tbody></table>';
               //  $ddd = implode(',', $user->before_district ?? []);
-              $info12=workingdetails::where('userid',$user->userid11)->where('situation','before')->get();
+              $info12=workingbefore::where('userid',$user->userid)->get();
                          $before13='';
                   foreach($info12 as $before12)
                                   {
@@ -980,9 +1118,10 @@ public function dashboard()
                                   }
                $PreviousDist = '<div><b>১৬.অফিসারের পূর্বের কর্মস্থল (জেলা):</b> ' . $before13 . '</div></div>
                 <div><b>১৭. পছন্দকৃত জেলা  :</b> ' . $user->preferred_district . '</div>
-                <div><b>১৮. কেন বদলি চান :</b> ' . $user->preferred_reason . '</div>';
-             $Last='
-                <div><b>১৯. মেয়াদ (বর্তমান কর্মস্থল )    :</b> ' . $carbonDiffFormatted. '</div>';
+                <div><b>১৮. কেন বদলি চান :</b> ' . $user->preferred_reason . '</div> 
+                  <div><b>১৯. মেয়াদ (বর্তমান কর্মস্থল )    :</b> ' . $carbonDiffFormatted. '</div>';
+             
+                
             // Add combined details and formatted carbon diff into the data array
 
 
@@ -997,7 +1136,7 @@ public function dashboard()
                 
                 'join_date'=>$Join_office,
                 'marriage'=>$Marriage,
-                'last'=>$Last,
+                 
                 'child_info'=>$Child_info,
                 'previous'=>$PreviousDist,
                 
@@ -1009,7 +1148,7 @@ public function dashboard()
 
         return DataTables::of($data)
             
-            ->rawColumns(['user_details','gradation','working_present', 'join_date','marriage','last','child_info','previous',]) // Allow HTML rendering
+            ->rawColumns(['user_details','gradation','working_present', 'join_date','marriage', 'child_info','previous',]) // Allow HTML rendering
             ->make(true);
     }
     public function signOut() {

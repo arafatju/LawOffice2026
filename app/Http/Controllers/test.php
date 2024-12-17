@@ -8,6 +8,8 @@ use App\Models\wifeinfo;
 use App\Models\preferred111;
 use App\Models\workingdetails;
 use App\Models\release111;
+use App\Models\workingnow;
+use App\Models\workingbefore;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -231,7 +233,7 @@ public function forget44(Request $request){
         'wifehomedistrict'=>'kk', 
         'kids_number'=>'kk'
        ]);
-       workingdetails::create([
+       workingnow::create([
         'userid' => $userid,
         'district'=>Auth::user()->district,
         'designation'=>Auth::user()->designation,
@@ -239,8 +241,8 @@ public function forget44(Request $request){
         'status'=>'kk',
         'situation'=>'present',
         'start'=>'2022-02-02',
-        'end'=>'2022-02-02',
-        'status2'=>'unlocked',
+         
+        'status2'=>'closed',
         'GO_Date'=>'2022-02-02',
         'sarok'=>'2022-02-02',
         'office'=>Auth::user()->doptor

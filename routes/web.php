@@ -58,6 +58,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     
     Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
+    Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
 
     Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
 

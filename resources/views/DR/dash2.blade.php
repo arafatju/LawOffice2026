@@ -25,7 +25,7 @@
                     <th> বৈবাহিক </th> 
                     <th>সন্তানাদি </th> 
                     <th> পূর্বের জেলা </th> 
-                    <th> মেয়াদ</th> 
+                     
                     
                 </tr>
             </thead>
@@ -54,7 +54,7 @@
                    
                     { data: 'child_info', name: 'child_info' }, 
                     { data: 'previous', name: 'previous' }, 
-                    { data: 'last', name: 'last' }, 
+                    
 
                      
             
