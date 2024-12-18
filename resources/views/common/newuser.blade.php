@@ -57,14 +57,12 @@
     <span class="navbar-toggler-icon"> </span> </button>
 
     <div class="collapse navbar-collapse " id="navbarNav" style="background-color: #191970;">
-    <ul class="navbar-nav navbar-brand    w-100 d-flex justify-content-center"     ">
+    <ul class="navbar-nav navbar-brand    w-100 d-flex justify-content-center"     >
         <li class="nav-item active ">
             <a href="{{route('profile')}}" class="nav-link navbar-brand">Profile Info  </a>
             </li>
         
-            <li class="nav-item active">
-                <a href="#" class="nav-link navbar-brand">Print  </a>
-                </li>
+            
             <li class="nav-item active">
         <a href="#" class="nav-link navbar-brand">Settings  </a>
         </li>

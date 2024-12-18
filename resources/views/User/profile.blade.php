@@ -13,18 +13,29 @@ $controller = app(App\Http\Controllers\ConverterController::class);
 
 @endphp
   <style>
-        /* Custom background for accordion header */
         .accordion-button {
-            background-color: navy; /* Blue background */
-            color: white; /* White text */
-            border: none;
-        }
+    background-color: navy; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
 
-        /* Hover effect for accordion header */
-        .accordion-button:hover {
-            background-color: #0056b3; /* Darker blue */
-            color: #fff;
-        }
+.accordion-button:hover {
+    background-color: royalblue; /* Lighter blue for hover */
+    color: white; /* Keep text white */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+.accordion-item {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow around the accordion item */
+    border-radius: 4px; /* Slightly rounded corners */
+    margin-bottom: 10px; /* Space between accordion items */
+}
+
+.accordion-item:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
 
         /* Active accordion header */
         .accordion-button:not(.collapsed) {
@@ -40,6 +51,9 @@ $controller = app(App\Http\Controllers\ConverterController::class);
         }
     </style>
 <div class="row justify-content-center m-4 p-2">
+<div class="d-flex justify-content-end">
+        <button class="btn btn-sm btn-primary">Print</button>
+    </div>
         <div class="accordion " id="accordionExample">
 
             <!-- Accordion Item 1 -->

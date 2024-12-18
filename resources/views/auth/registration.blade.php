@@ -214,9 +214,12 @@
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('পাসওয়ার্ড') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 position-relative">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-4" onclick="togglePasswordVisibility('password', this)" style="cursor: pointer;">
+            <i class="bi bi-eye"></i> <!-- Bootstrap eye icon -->
+        </span>
                                 @error('password')
                     <span class="text-danger">{{ $message }}</span>
                              @enderror
@@ -227,8 +230,11 @@
                         <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('পাসওয়ার্ড নিশ্চিত করন ') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 position-relative">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-4" onclick="togglePasswordVisibility('password-confirm', this)" style="cursor: pointer;">
+            <i class="bi bi-eye"></i> <!-- Bootstrap eye icon -->
+        </span>
                             </div>
                         </div>
                          
@@ -253,5 +259,20 @@
     dateFormat: "d/m/Y",  // Set the format to DD/MM/YYYY
   });
   </script>
+  <script>
+    function togglePasswordVisibility(inputId, toggleIcon) {
+        const inputField = document.getElementById(inputId);
+        const icon = toggleIcon.querySelector('i');
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            inputField.type = "password";
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    }
+</script>
          
 @endsection

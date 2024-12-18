@@ -780,16 +780,15 @@ public function dashboard()
         return redirect("login")->withSuccess('You are not allowed to access');
     }
     public function all_info(){
-        $results = DB::table('users as u')
-    ->join('childinfo as c', 'u.userid', '=', 'c.userid')      // Join users with orders
-    ->join('personalinfo as p', 'c.userid', '=', 'p.userid')    // Join orders with payments
-    ->join('preferred_five_districts as pr', 'p.userid', '=', 'pr.userid')  // Join orders with products
-    ->join('wifeinfo as w', 'pr.userid', '=', 'w.userid') // Join products with categories
-    ->join('working_history_officer as h','w.userid','=','h.userid')
-    ->select('*')  // Select all columns from all joined tables
-    ->get();
-     
-    $html = View::make('PDF.all', ['data' => $results])->render();
+        $personal = personalinfo::where('userid',Auth::user()->userid)->get();
+        $working_now= workingnow::where('userid',Auth::user()->userid)->get();  
+        $working_before= workingbefore::where('userid',Auth::user()->userid)->get();  
+        
+        $html = View::make('PDF.all', [
+            'personal' => $personal,
+            'working_now' => $working_now,
+            'working_before' => $working_before
+        ])->render();
        
     $mpdf = new Mpdf([
         'format' => 'Letter', // Letter page size
