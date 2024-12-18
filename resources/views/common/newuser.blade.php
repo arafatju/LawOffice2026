@@ -61,23 +61,11 @@
         <li class="nav-item active ">
             <a href="{{route('profile')}}" class="nav-link navbar-brand">Profile Info  </a>
             </li>
-        <li class="nav-item active ">
-        <a href="{{route('jobinfo')}}" class="nav-link navbar-brand">Job Info   </a>
-        </li>
-        <li class="nav-item active">
-        <a href="{{route('spouse')}}" class="nav-link navbar-brand"> Spouse Information </a>
-        </li>
         
-        <li class="nav-item active">
-        <a href="{{route('workplace')}}" class="nav-link navbar-brand">Workplace info  </a>
-        </li>
-        <li class="nav-item active">
-        <a href="{{route('contactinfo')}}" class="nav-link navbar-brand">Contact info  </a>
-        </li>
-        <li class="nav-item active">
-            <a href="{{route('transferme')}}" class="nav-link navbar-brand">Transfer Request   </a>
-            </li>
-        <li class="nav-item active">
+            <li class="nav-item active">
+                <a href="#" class="nav-link navbar-brand">Print  </a>
+                </li>
+            <li class="nav-item active">
         <a href="#" class="nav-link navbar-brand">Settings  </a>
         </li>
         <li class="nav-item active mt-1">
@@ -100,7 +88,7 @@
 </main>
 
 <div style="position:absolute; bottom:0px; width:100%; text-align:center; background:#191970">
-    <p style="font-size:15px; color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত , রুপায়নঃ  মুহম্মদ শাহাদত হোসেন,উপসচিব (ফৌজদারি),সলিসিটর অনুবিভাগ , কারিগরি সহায়তায় আরাফাত উর রহমান , সহকারী প্রোগ্রামার আইন ও বিচার বিভাগ </p>
+    <p style="font-size:15px; color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত,নির্দেশনায়: এস,এম, সাইফুল ইসলাম যুগ্মসচিব (প্রশাসন-১),আইন ও বিচার বিভাগ,রূপকার: মুহম্মদ শাহাদাত হোসেন, উপসচিব(অতিরিক্ত জেলা জজ), আইন ও বিচার বিভাগ, কারিগরি সহায়তায়: আরাফাত উর রহমান, সহকারী প্রোগ্রামার, আইন ও বিচার বিভাগ </p>
 </div>
 
 </body>

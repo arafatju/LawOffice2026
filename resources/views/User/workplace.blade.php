@@ -14,7 +14,7 @@
              
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header text-center"><h3>{{ __(' বর্তমান কর্মস্থল সম্পর্কে তথ্যাদি  ') }}</h3></div>
+                <div class="card-header text-center"><h3>{{ __('অফিসারের বর্তমান কর্মস্থল সম্পর্কে তথ্যাদি  ') }}</h3></div>
                  
                  
                  
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="GO_Date" class="col-md-4 col-form-label text-md-end">{{ __('  অফিস আদেশের তারিখ  ') }}</label>
+                            <label for="GO_Date" class="col-md-4 col-form-label text-md-end">{{ __('  জিওর তারিখ  ') }}</label>
 
                             <div class="col-md-6">
                             <input id="GO_Date" type="text" class="form-control @error('GO_Date') is-invalid @enderror" name="GO_Date" value=" " required  autofocus>

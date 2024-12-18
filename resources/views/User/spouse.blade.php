@@ -233,7 +233,7 @@
 
                            
                         <div class="row mb-3">
-                            <label for="wifehomedistrict" class="col-md-4 col-form-label text-md-end">{{ __('নিজ জেলা') }}</label>
+                            <label for="wifehomedistrict" class="col-md-4 col-form-label text-md-end">{{ __('স্বামী/স্ত্রী নিজ জেলা') }}</label>
 
                             <div class="col-md-6">
                             
@@ -454,7 +454,7 @@
                         <input type="text" name="educationlocation" class="form-control" id="educationlocation">
                     </div>
                     <div class="mb-3">
-                        <label for="educationname" class="form-label">Education Name</label>
+                        <label for="educationname" class="form-label">Institution  Name</label>
                         <input type="text" name="educationname" class="form-control" id="educationname">
                     </div>
                 </div>

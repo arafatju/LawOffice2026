@@ -12,7 +12,33 @@
 $controller = app(App\Http\Controllers\ConverterController::class);
 
 @endphp
- 
+  <style>
+        /* Custom background for accordion header */
+        .accordion-button {
+            background-color: navy; /* Blue background */
+            color: white; /* White text */
+            border: none;
+        }
+
+        /* Hover effect for accordion header */
+        .accordion-button:hover {
+            background-color: #0056b3; /* Darker blue */
+            color: #fff;
+        }
+
+        /* Active accordion header */
+        .accordion-button:not(.collapsed) {
+            background-color: #0056b3; /* Darker blue */
+            color: #fff;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+        }
+
+        /* Accordion body customization */
+        .accordion-body {
+            background-color: #f8f9fa; /* Light gray background */
+            color: #212529; /* Default text color */
+        }
+    </style>
 <div class="row justify-content-center m-4 p-2">
         <div class="accordion " id="accordionExample">
 
