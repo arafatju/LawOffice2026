@@ -147,7 +147,7 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
 
     Route::get('/spouse', [infoimp::class, 'spouse'])->name('spouse');
     Route::get('/workplace', [infoimp::class, 'workplace'])->name('workplace');
-
+   
     Route::post('/budgetform', [infoimp::class, 'budgetform'])->name('budgetform'); 
     Route::get('/jobinfo', [infoimp::class, 'jobinfo'])->name('jobinfo');
     Route::get('/editme/{tablename}/{rowname11}/{userid}', [infoimp::class, 'editme'])->name('editme'); 

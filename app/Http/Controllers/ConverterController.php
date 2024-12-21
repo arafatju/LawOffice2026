@@ -52,6 +52,10 @@ class ConverterController extends Controller
     {
         return str_replace(self::$en1, self::$bn1, $number);
     }
+	public static function bn2en($number)
+    {
+        return str_replace(self::$bn1,self::$en1,$number);
+    }
       public static function logdd($date11){
 		$currentDate = date("l, F j, Y  , h:i:s A",strtotime($date11));
 			

@@ -55,7 +55,93 @@ $controller = app(App\Http\Controllers\ConverterController::class);
         <button class="btn btn-sm btn-primary">Print</button>
     </div>
         <div class="accordion " id="accordionExample">
+        <div class="accordion-item mb-3">
+                <h2 class="accordion-header" id="headingThree">
+                    <button 
+                        class="accordion-button collapsed fs-3" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#collapseSeven" 
+                        aria-expanded="false" 
+                        aria-controls="collapseSeven">
+                        ব্যাক্তিগত তথ্যাদি   
+                    </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="card">
+                            <div class="card-body">
+                            
+                                  
+                             
+                              <div class="row mb-3">
+                                  <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('নাম  ') }}</label>
+      
+                                  <div class="col-md-6">
+                                      <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value=" {{Auth::user()->name }}"  readonly required autocomplete="serviceid" autofocus>
+      
+                                  </div>
+                              </div>
+      
+                              <div class="row mb-3">
+                                  <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('মোবাইল  ') }}</label>
+      
+                                  <div class="col-md-6">
+                                      <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ Auth::user()->mobile }}" readonly required autocomplete="gradation" autofocus>
+       
+                                  </div>
+                              </div>
+                              
+                              
+                              <div class="row mb-3">
+                                  <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('   জন্ম তারিখ   ') }}</label>
+      
+                                  <div class="col-md-6">
+                                  <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ $job_related_info->dob }}" required readonly autofocus>
+      
+                                   
+                                      
+                                      
+                                  
+      
+                                  </div>
+                              </div>
+                              
+                              <div class="row mb-3">
+                                  <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __(' নিজ জেলা') }}</label>
+                                   
+                                      
+                                 
+                                  <div class="col-md-6">
+                                      <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$job_related_info->home_district}}" required  readonly autocomplete="retired">
+      
+                                      
+                                  </div>
+                                 
+                              </div>
+                          
+                              <div class="row mb-3">
+                            <label for="marital_status" class="col-md-4 col-form-label text-md-end">{{ __('বৈবাহিক অবস্থা ') }}</label>
 
+                            <div class="col-md-6">
+                            <input id="retir11ed" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$job_related_info->marital_status}}" required  readonly autocomplete="retired">
+
+
+                            </div>
+                            
+                        </div>
+                             
+                          
+                             </div>
+                             <div class="card-footer text-center">
+                                <a href="{{ route('contactinfo' ) }}" class="btn btn-primary">Edit</a>
+
+                              </div>
+                          </div> 
+                   
+                    </div>
+                </div>
+            </div>
             <!-- Accordion Item 1 -->
             <div class="accordion-item mb-3">
                 <h2 class="accordion-header" id="headingOne">
@@ -64,21 +150,21 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         type="button" 
                         data-bs-toggle="collapse" 
                         data-bs-target="#collapseOne" 
-                        aria-expanded="true" 
+                        aria-expanded="false" 
                         aria-controls="collapseOne">
                         চাকুরী   
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div id="collapseOne" class="accordion-collapse collapse  " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="card">
                           <div class="card-body">
-                          @foreach($job_related_info as $job)
+                          
                             <div class="row mb-3">
                                 <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('সার্ভিস আইডি ') }}</label>
     
                                 <div class="col-md-6">
-                                    <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{ $job->serviceid}} "  readonly required autocomplete="serviceid" autofocus>
+                                    <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{ $job_related_info->serviceid}} "  readonly required autocomplete="serviceid" autofocus>
     
                                 </div>
                             </div>
@@ -87,17 +173,17 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                 <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন লিস্ট') }}</label>
     
                                 <div class="col-md-6">
-                                    <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ $job->gradation}}" readonly required autocomplete="gradation" autofocus>
+                                    <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ $job_related_info->gradation}}" readonly required autocomplete="gradation" autofocus>
      
                                 </div>
                             </div>
                             
                             
                             <div class="row mb-3">
-                                <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  চাকুরীর প্রথম  নিয়োগের তারিখ ') }}</label>
+                                <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  চাকুরীর প্রথম  যোগদানের তারিখ ') }}</label>
     
                                 <div class="col-md-6">
-                                <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ $job->join }}" required readonly autofocus>
+                                <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ $job_related_info->join }}" required readonly autofocus>
     
                                  
                                     
@@ -107,17 +193,8 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                 </div>
                             </div>
                             
-                            <div class="row mb-3">
-                                <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('অবসরের তারিখ ') }}</label>
-    
-                                <div class="col-md-6">
-                                    <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$job->retired}}" required  readonly autocomplete="retired">
-    
-                                    
-                                </div>
-                            </div>
+                            
                         
-                         @endforeach
                         
                         
                            </div>
@@ -152,11 +229,11 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                   <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __(' বৈবাহিক অবস্থা ') }}</label>
                                  
                                   <div class="col-md-6">
-                                    @foreach ($job_related_info as $job1 )
+                                    
                                         
                                    
-                                      <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{$job1->marital_status}} "  readonly required autocomplete="serviceid" autofocus>
-                                      @endforeach
+                                      <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{$job_related_info->marital_status}} "  readonly required autocomplete="serviceid" autofocus>
+                                     
                                   </div>
                               </div>
                               @foreach ($wife as $wife1 )
@@ -379,7 +456,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                              <div class="card-footer text-center">
                                 <a href="{{ route('workplace' ) }}" class="btn btn-primary">Edit</a>
 
-                                <a href="{{ route('releasefromcurrent' ) }}" class="btn btn-primary">Release</a>
+                                
                              </div>
                           </div> 
                    
@@ -409,32 +486,14 @@ $controller = app(App\Http\Controllers\ConverterController::class);
 
 
                                 <table class="table table-bordered table-striped">
-                                    <thead class="table-success">
-                                        <tr>
-                                            <th>Serial</th>
-                                            <th>জেলা</th>
-                                            <th>পদবী</th>
-                                            <th>অফিস</th>
-                                            <th>যোগদানের তারিখ</th>
-                                            <th>অবমুক্তির তারিখ </th>
-                                            <th>অফিস আদেশের তারিখ</th>
-                                            <th>স্মারক নাম্বার</th>
-                                        </tr>
-                                    </thead>
+                                     
                                     <tbody>
-                                        @foreach($working_before as $data)
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$data->district}}</td>
-                                            <td>{{$data->designation}}</td>
-                                            <td>{{$data->office}}</td>
-                                            <td>{{$data->start}}</td>
-                                            <td>{{$data->end}}</td>
-                                            <td>{{$data->GO_Date}}</td>
-                                            <td>{{$data->sarok}}</td>
+                                         <tr>
+                                      
+                                         <th class="table-success">জেলা</th>  <td>  {{ $working_before->pluck('district')->implode(', ') }}</td>
+                                         
                                         </tr>
-                                        @endforeach
-                                    </tbody>
+                                     </tbody>
                                 </table>
       
                                
@@ -511,84 +570,9 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                 </div>
             </div>
 
-            <div class="accordion-item mb-3">
-                <h2 class="accordion-header" id="headingThree">
-                    <button 
-                        class="accordion-button collapsed fs-3" 
-                        type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#collapseSeven" 
-                        aria-expanded="false" 
-                        aria-controls="collapseSeven">
-                        যোগাযোগ  
-                    </button>
-                </h2>
-                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <div class="card">
-                            <div class="card-body">
-                            
-                                  
-                             
-                              <div class="row mb-3">
-                                  <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('নাম  ') }}</label>
-      
-                                  <div class="col-md-6">
-                                      <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value=" {{Auth::user()->name }}"  readonly required autocomplete="serviceid" autofocus>
-      
-                                  </div>
-                              </div>
-      
-                              <div class="row mb-3">
-                                  <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('মোবাইল  ') }}</label>
-      
-                                  <div class="col-md-6">
-                                      <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ Auth::user()->mobile }}" readonly required autocomplete="gradation" autofocus>
-       
-                                  </div>
-                              </div>
-                              
-                              
-                              <div class="row mb-3">
-                                  <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  ইমেইল  ') }}</label>
-      
-                                  <div class="col-md-6">
-                                  <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ Auth::user()->email }}" required readonly autofocus>
-      
-                                   
-                                      
-                                      
-                                  
-      
-                                  </div>
-                              </div>
-                              
-                              <div class="row mb-3">
-                                  <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __(' নিজ জেলা') }}</label>
-                                  @foreach ($job_related_info as $kk)
-                                      
-                                 
-                                  <div class="col-md-6">
-                                      <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$kk->home_district}}" required  readonly autocomplete="retired">
-      
-                                      
-                                  </div>
-                                  @endforeach
-                              </div>
-                          
-                               
-                             
-                          
-                             </div>
-                             <div class="card-footer text-center">
-                                <a href="{{ route('contactinfo' ) }}" class="btn btn-primary">Edit</a>
+            
 
-                              </div>
-                          </div> 
-                   
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 

@@ -164,7 +164,7 @@ public function forget44(Request $request){
                       'Device'=>$platform,
                       'Browser'=>$browser,
                       'ip'=>$ip,
-                      'Location'=>"jjj" ,
+                      'Location'=>session('user_data_region'),
                       
                        
                   ]);
@@ -187,11 +187,12 @@ public function forget44(Request $request){
 
     public function customRegistration(Request $request)
     {  
-        $request->validate([
-            'name' => 'required|string|max:50',
+       $validated=$request->validate([
+            'name' => 'required|string|max:30',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-
+            'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'serviceid'=>'required|string|max:20',
+            'mobile'=>'required|string|max:20'
         ]);
         
         
@@ -206,7 +207,7 @@ public function forget44(Request $request){
         
         // $dataloc = \Location::get($ip); 
 
-        $data = $request->all();
+        $data = $validated;
          
 
        
@@ -258,7 +259,8 @@ public function forget44(Request $request){
         'email'=>Auth::user()->email,
         'serviceid'=>Auth::user()->serviceid,
         'gradation'=>22,
-        'home_district'=>'kk'
+        'home_district'=>'kk',
+        'dob'=>'1990-01-01'
        ]);
 
        preferred111::create([
@@ -296,7 +298,7 @@ public function forget44(Request $request){
         'device'=>$platform,
         'mobile'=>$data['mobile'],
         'role'=>'userone',
-        'email_verified_at'=>now(),
+        
         'avatar'=>'kk',
          'serviceid'=>$data['serviceid'],
          'doptor'=>trim($data['office']),

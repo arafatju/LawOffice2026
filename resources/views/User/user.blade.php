@@ -50,7 +50,7 @@
                         
                         
                         <div class="row mb-3">
-                            <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  চাকুরীর প্রথম  নিয়োগের তারিখ ') }}</label>
+                            <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  চাকুরীর প্রথম  যোগদানের তারিখ ') }}</label>
 
                             <div class="col-md-6">
                             <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value=" " required  autofocus>
@@ -67,19 +67,7 @@
                             </div>
                         </div>
                         
-                        <div class="row mb-3">
-                            <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('অবসরের তারিখ ') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value=" " required   autocomplete="retired">
-
-                                @error('retired')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         @endforeach
                         
 
