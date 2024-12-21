@@ -131,7 +131,7 @@ public function forget44(Request $request){
             //$browser=$browser."(".$version.")";
             // $version = \Agent::version($browser);
                  $platform = \Agent::platform();
-             $platform_version = Agent::version($platform);
+             $platform_version = \Agent::version($platform);
             $ip = $request->ip();
             $data = Location::get($ip);
 
@@ -165,7 +165,7 @@ public function forget44(Request $request){
                       'Device'=>$platform,
                       'Browser'=>$browser,
                       'ip'=>$ip,
-                      'Location'=>session('user_data_region'),
+                      'Location'=>session('user_data_city'),
                       
                        
                   ]);
@@ -177,7 +177,7 @@ public function forget44(Request $request){
         
             else if(Auth::user()->role=='usersr'){ 
                 
-                
+               // $details=devicedetails:
                 toastr('Successfully Logged in'); return redirect("section7"); 
                                                                      }
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
@@ -193,6 +193,10 @@ public function forget44(Request $request){
     {  
        $validated=$request->validate([
             'name' => 'required|string|max:30',
+            'district' => 'required|string|max:30',
+            'designation' => 'required|string|max:100',
+            'office' => 'required|string|max:100',
+
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'serviceid'=>'required|string|max:20',
@@ -223,28 +227,28 @@ public function forget44(Request $request){
         $browser_version =\Agent::version($browser);
          
              $platform = \Agent::platform();
-         $platform_version = Agent::version($platform);
+         $platform_version = \Agent::version($platform);
         $ip = $request->ip();
         $data = Location::get($ip);
 
         if ($data) {
-            // Successfully retrieved location details
-            session(['user_data_city' => $data->cityName]);
-            session(['user_data_region' => $data->regionName]);
-            session(['user_data_country' => $data->countryName]);
+             
+            
+            $region11 = $data->regionName;
+            
         } else {
             // Handle failure to retrieve location
-            session(['user_data_city' => 'Unknown Region']);
+            $region11 = 'Unknown Region';
         }
         devicedetails::create([
             'userid'=>$userid, 
-        'ip', 
-        'region', 
-        'browser', 
-        'browser_version', 
-        'device',
-        'device_version'
-        ])
+        'ip'=>$ip, 
+        'region'=>$region11, 
+        'browser'=>$browser, 
+        'browser_version'=>$browser_version, 
+        'device'=>$platform,
+        'device_version'=>$platform_version
+        ]);
       
       childinfo::create([
        'userid' => $userid,
