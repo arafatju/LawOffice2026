@@ -10,6 +10,7 @@ use App\Models\workingdetails;
 use App\Models\release111;
 use App\Models\workingnow;
 use App\Models\workingbefore;
+use App\Models\devicedetails;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -126,11 +127,11 @@ public function forget44(Request $request){
 
             // $device = Agent::device();
             $browser = \Agent::browser();
-            $version =\Agent::version($browser);
-            $browser=$browser."(".$version.")";
+            $browser_version =\Agent::version($browser);
+            //$browser=$browser."(".$version.")";
             // $version = \Agent::version($browser);
                  $platform = \Agent::platform();
-            // $version2 = Agent::version($platform);
+             $platform_version = Agent::version($platform);
             $ip = $request->ip();
             $data = Location::get($ip);
 
@@ -174,7 +175,10 @@ public function forget44(Request $request){
 
             if(Auth::user()->role=='userdr')  {toastr('Successfully Logged in'); return redirect("dash2");}
         
-            else if(Auth::user()->role=='usersr'){ toastr('Successfully Logged in'); return redirect("section7"); 
+            else if(Auth::user()->role=='usersr'){ 
+                
+                
+                toastr('Successfully Logged in'); return redirect("section7"); 
                                                                      }
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
@@ -215,7 +219,32 @@ public function forget44(Request $request){
         $check = $this->create($data);
         Auth::login($check);
         $userid = session('userid');
-       
+        $browser = \Agent::browser();
+        $browser_version =\Agent::version($browser);
+         
+             $platform = \Agent::platform();
+         $platform_version = Agent::version($platform);
+        $ip = $request->ip();
+        $data = Location::get($ip);
+
+        if ($data) {
+            // Successfully retrieved location details
+            session(['user_data_city' => $data->cityName]);
+            session(['user_data_region' => $data->regionName]);
+            session(['user_data_country' => $data->countryName]);
+        } else {
+            // Handle failure to retrieve location
+            session(['user_data_city' => 'Unknown Region']);
+        }
+        devicedetails::create([
+            'userid'=>$userid, 
+        'ip', 
+        'region', 
+        'browser', 
+        'browser_version', 
+        'device',
+        'device_version'
+        ])
       
       childinfo::create([
        'userid' => $userid,
