@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header text-center"><h3>{{ __(' যোগাযোগ তথ্য  ') }}</h3></div>
+                <div class="card-header text-center"><h3>{{ __(' ব্যাক্তিগত তথ্যাদি  ') }}</h3></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('contactinfo11') }}">
@@ -55,14 +55,14 @@
                         
                         
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('  ইমেইল ') }}</label>
+                            <label for="dob" class="col-md-4 col-form-label text-md-end">{{ __('  জন্ম তারিখ  ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$email}} " required  autofocus>
+                            <input id="dob" type="text" class="form-control @error('dob') is-invalid @enderror" name="dob" value=" " required  autofocus>
 
                              
                                 
-                                @error('email')
+                                @error('dob')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -157,10 +157,32 @@
                                 @enderror
                             </select>
 </div>
+            
                             
                         </div>
                          
-                         
+                        <div class="row mb-3">
+                            <label for="marital_status" class="col-md-4 col-form-label text-md-end">{{ __('বৈবাহিক অবস্থা ') }}</label>
+
+                            <div class="col-md-6">
+                            <select id="marital_status" class="form-control @error('code11') is-invalid @enderror" name="marital_status"  required  autofocus>
+                               
+                                 
+        
+                                <option>Single</option> 
+                               <option>Married</option>
+                               <option>Divorced</option>
+                              
+                                @error('marital_status')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                </select>
+
+                            </div>
+                            
+                        </div>
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -187,7 +209,14 @@
      
 @endsection
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('#dob', {
+            enableTime: false, // Optional, depending on whether you need time selection
+            dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
+        });
+    });
+</script> 
 
 
 

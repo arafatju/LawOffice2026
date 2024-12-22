@@ -244,12 +244,7 @@
                                         <tr>
                                             <th>Serial</th>
                                             <th>জেলা</th>
-                                            <th>পদবী</th>
-                                            <th>অফিস</th>
-                                            <th>যোগদানের তারিখ</th>
-                                            <th>অবমুক্তির তারিখ </th>
-                                            <th>অফিস আদেশের তারিখ</th>
-                                            <th>স্মারক নাম্বার</th>
+                                            
                                             <th> Action </th>
                                         </tr>
                                     </thead>
@@ -258,12 +253,7 @@
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$data->district}}</td>
-                                            <td>{{$data->designation}}</td>
-                                            <td>{{$data->office}}</td>
-                                            <td>{{$data->start}}</td>
-                                            <td>{{$data->end}}</td>
-                                            <td>{{$data->GO_Date}}</td>
-                                            <td>{{$data->sarok}}</td>
+                                             
                                             <td> 
                                               <a href="{{route('delete112',['id'=>encrypt($data->id)])}}">
                                                 <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
@@ -384,30 +374,7 @@
                             
                         </div>
                             
-                    <div class="mb-3">
-                        <label for="designation1" class="form-label">পদবী</label>
-                        <input type="text" name="designation1" class="form-control" id="designation1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="office1" class="form-label">অফিস</label>
-                        <input type="text" name="office1" class="form-control" id="office1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="join1" class="form-label">যোগদানের তারিখ</label>
-                        <input type="text" name="join1" class="form-control" id="join1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="release1" class="form-label">অবমুক্তির তারিখ</label>
-                        <input type="text" name="release1" class="form-control" id="release1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="go_date" class="form-label">অফিস আদেশের তারিখ </label>
-                        <input type="text" name="go_date" class="form-control" id="go_date">
-                    </div>
-                    <div class="mb-3">
-                        <label for="sarok" class="form-label"> সারক নাম্বার </label>
-                        <input type="text" name="sarok" class="form-control" id="sarok">
-                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

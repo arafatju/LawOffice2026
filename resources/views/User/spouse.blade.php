@@ -10,21 +10,6 @@
   
 @section('content')
 <div class="row justify-content-center mt-2">
-        <div class="col-md-4  ">
-            <div class="card">
-                <div class="card-header text-center"><h3>{{ __(' বৈবাহিক অবস্থা ') }}</h3></div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('married') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="marital_status" class="col-md-4 col-form-label text-md-end">{{ __('বৈবাহিক অবস্থা ') }}</label>
-
-                            <div class="col-md-6">
-                            <select id="marital_status" class="form-control @error('code11') is-invalid @enderror" name="marital_status"  required  autofocus>
-                               
-                                 
         
                                 <option>Single</option> 
                                <option>Married</option>
@@ -102,7 +87,8 @@
                                <option>সরকারি চাকুরীজীবী    </option>
                                 <option> বেসরকারি চাকুরীজীবী </option> 
                                 <option>ব্যবসায়ী </option> 
-                                
+                                <option>গৃহিণী   </option> 
+                                <option>অবসরপ্রাপ্ত </option>
                                 @error('profession')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -436,25 +422,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                     
+                <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Child Name</label>
+                        <label for="name" class="form-label">নাম</label>
                         <input type="text" name="name" class="form-control" id="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="age" class="form-label">Age</label>
-                        <input type="number" name="age" class="form-control" id="age" required>
+                        <label for="age" class="form-label">বয়স</label>
+                        <input type="text" name="age" class="form-control" id="age" required>
                     </div>
                     <div class="mb-3">
-                        <label for="educationtype" class="form-label">Education Type</label>
+                        <label for="educationtype" class="form-label">শ্রেণী</label>
                         <input type="text" name="educationtype" class="form-control" id="educationtype">
                     </div>
                     <div class="mb-3">
-                        <label for="educationlocation" class="form-label">Education Location(District)</label>
+                        <label for="educationlocation" class="form-label">শিক্ষা প্রতিষ্ঠানের অবস্থান(জেলা)</label>
                         <input type="text" name="educationlocation" class="form-control" id="educationlocation">
                     </div>
                     <div class="mb-3">
-                        <label for="educationname" class="form-label">Institution  Name</label>
+                        <label for="educationname" class="form-label">শিক্ষা প্রতিষ্ঠানের নাম</label>
                         <input type="text" name="educationname" class="form-control" id="educationname">
                     </div>
                 </div>

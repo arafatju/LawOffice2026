@@ -10,6 +10,7 @@ use App\Models\workingdetails;
 use App\Models\release111;
 use App\Models\workingnow;
 use App\Models\workingbefore;
+use App\Models\devicedetails;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -126,11 +127,11 @@ public function forget44(Request $request){
 
             // $device = Agent::device();
             $browser = \Agent::browser();
-            $version =\Agent::version($browser);
-            $browser=$browser."(".$version.")";
+            $browser_version =\Agent::version($browser);
+            //$browser=$browser."(".$version.")";
             // $version = \Agent::version($browser);
                  $platform = \Agent::platform();
-            // $version2 = Agent::version($platform);
+             $platform_version = \Agent::version($platform);
             $ip = $request->ip();
             $data = Location::get($ip);
 
@@ -164,7 +165,7 @@ public function forget44(Request $request){
                       'Device'=>$platform,
                       'Browser'=>$browser,
                       'ip'=>$ip,
-                      'Location'=>"jjj" ,
+                      'Location'=>session('user_data_city'),
                       
                        
                   ]);
@@ -174,7 +175,10 @@ public function forget44(Request $request){
 
             if(Auth::user()->role=='userdr')  {toastr('Successfully Logged in'); return redirect("dash2");}
         
-            else if(Auth::user()->role=='usersr'){ toastr('Successfully Logged in'); return redirect("section7"); 
+            else if(Auth::user()->role=='usersr'){ 
+                
+               // $details=devicedetails:
+                toastr('Successfully Logged in'); return redirect("section7"); 
                                                                      }
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
@@ -187,11 +191,16 @@ public function forget44(Request $request){
 
     public function customRegistration(Request $request)
     {  
-        $request->validate([
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+       $validated=$request->validate([
+            'name' => 'required|string|max:30',
+            'district' => 'required|string|max:30',
+            'designation' => 'required|string|max:100',
+            'office' => 'required|string|max:100',
 
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'serviceid'=>'required|string|max:20',
+            'mobile'=>'required|string|max:20'
         ]);
         
         
@@ -206,7 +215,7 @@ public function forget44(Request $request){
         
         // $dataloc = \Location::get($ip); 
 
-        $data = $request->all();
+        $data = $validated;
          
 
        
@@ -214,7 +223,32 @@ public function forget44(Request $request){
         $check = $this->create($data);
         Auth::login($check);
         $userid = session('userid');
-       
+        $browser = \Agent::browser();
+        $browser_version =\Agent::version($browser);
+         
+             $platform = \Agent::platform();
+         $platform_version = \Agent::version($platform);
+        $ip = $request->ip();
+        $data = Location::get($ip);
+
+        if ($data) {
+             
+            
+            $region11 = $data->regionName;
+            
+        } else {
+            // Handle failure to retrieve location
+            $region11 = 'Unknown Region';
+        }
+        devicedetails::create([
+            'userid'=>$userid, 
+        'ip'=>$ip, 
+        'region'=>$region11, 
+        'browser'=>$browser, 
+        'browser_version'=>$browser_version, 
+        'device'=>$platform,
+        'device_version'=>$platform_version
+        ]);
       
       childinfo::create([
        'userid' => $userid,
@@ -258,7 +292,8 @@ public function forget44(Request $request){
         'email'=>Auth::user()->email,
         'serviceid'=>Auth::user()->serviceid,
         'gradation'=>22,
-        'home_district'=>'kk'
+        'home_district'=>'kk',
+        'dob'=>'1990-01-01'
        ]);
 
        preferred111::create([
@@ -296,7 +331,7 @@ public function forget44(Request $request){
         'device'=>$platform,
         'mobile'=>$data['mobile'],
         'role'=>'userone',
-        'email_verified_at'=>now(),
+        
         'avatar'=>'kk',
          'serviceid'=>$data['serviceid'],
          'doptor'=>trim($data['office']),

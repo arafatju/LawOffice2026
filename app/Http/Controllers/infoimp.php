@@ -55,23 +55,27 @@ class infoimp extends Controller
     }
      
     public function chakuri(Request $request){
+        $converter = new ConverterController();
+
+        $grd=$converter->bn2en($request->gradation);
+        $request->merge(['gradation' => $grd]);
         $validated = $request->validate([
             'serviceid' => 'required|string|max:255',
             'gradation' => 'required|numeric',
             'join'=> 'required|date_format:d-m-Y',
-            'retired'=>'required|date_format:d-m-Y' ,
+             
             
 
         ]);
         $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join'])->format('Y-m-d');
-        $RetiredDate = Carbon::createFromFormat('d-m-Y', $validated['retired'])->format('Y-m-d');
+       // $RetiredDate = Carbon::createFromFormat('d-m-Y', $validated['retired'])->format('Y-m-d');
        
         personalinfo::where('userid', Auth::user()->userid)->update([
             
             'serviceid' => $validated['serviceid'],
             'gradation'=>$validated['gradation']  ,
             'join'=> $JoinDate ,
-            'retired'=> $RetiredDate ,
+            
         ]);
         User::where('userid', Auth::user()->userid)->update([
             'serviceid' => $validated['serviceid']
@@ -102,21 +106,22 @@ class infoimp extends Controller
     public function workingbefore (Request $request){
         $validated = $request->validate([
             'district1' => 'required|string',
-            'designation1' => 'required|string',
+           /* 'designation1' => 'required|string',
             'office1'=> 'required|string',
             'join1'=>'required|date_format:d-m-Y' ,
             'go_date' => 'required|date_format:d-m-Y',
             'release1' => 'required|date_format:d-m-Y',
-            'sarok' => 'required|string',
+            'sarok' => 'required|string',  */
 
         ]);
-        $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
+     /*    $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
         $godate = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
-        $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');
+        $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');  */
         workingbefore::create([
              'userid'=>Auth::user()->userid,
             'district' => $validated['district1'],
-            'designation' => trim($validated['designation1']),
+            'mobile'=>Auth::user()->mobile,
+            /*   'designation' => trim($validated['designation1']),
             'office'=>$validated['office1']  ,
             'start'=> $JoinDate,
             'end'=>$release ,
@@ -127,8 +132,8 @@ class infoimp extends Controller
             'status'=>'empty',
             'situation'=>'before',
             'end'=>$release,
-            'mobile'=>Auth::user()->mobile,
-            'status2'=>'nolocked',
+           
+            'status2'=>'nolocked',*/
  
 
         ]);
@@ -214,7 +219,7 @@ class infoimp extends Controller
         $validated= $request->validate([
              
             'name' => 'required|string|max:255',
-            'age' => 'required|integer|min:1',
+            'age' => 'required|string',
             'educationtype' => 'nullable|string|max:255',
             'educationlocation' => 'required|string|max:255',
             'educationname' => 'nullable|string|max:255',
@@ -313,16 +318,31 @@ class infoimp extends Controller
         
     }
     public function contactinfo11(Request $request){
+
+         $validated=$request->validate([
+          'dob'=>'date|required',
+          'name'=>'string|required|max:60',
+          'mobile'=>'string|required|max:20',
+          'marital_status'=>'string|required|max:15',
+          'home_district'=>'string|required|max:25'
+         ]);
+
+        $StartDate = Carbon::createFromFormat('d-m-Y', $validated['dob'])->format('Y-m-d');
+        if(trim($validated['marital_status'])=='Married'||'Divorced'){
+
+        }
          User::where('userid',Auth::user()->userid)
             ->update([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'mobile'=>$request->mobile,
+                'name'=>$validated['name'],
+                
+                'mobile'=>$validated['mobile'],
                 
             ]);
            personalinfo::where('userid',Auth::user()->userid)
             ->update([
-                'home_district'=>$request->home_district
+                'home_district'=>$validated['home_district'],
+                'marital_status'=>$validated['marital_status'],
+                'dob'=>$StartDate
             ]);
 
        return redirect('contactinfo')->with('updated');
@@ -343,7 +363,7 @@ class infoimp extends Controller
            return redirect('transferme')->with('Updated');
   }
   public function profile(Request $request){
-        $job_related_info=personalinfo::where('userid',Auth::user()->userid)->get();
+        $job_related_info=personalinfo::where('userid',Auth::user()->userid)->first();
         
         $wife=wifeinfo::where('userid',Auth::user()->userid)->get();
         $child11=childinfo::where('userid',Auth::user()->userid)->get();
@@ -436,7 +456,7 @@ class infoimp extends Controller
     } 
     public function delete112(Request $request){
         $id=decrypt($request->id);
-        workingdetails::where('id',$id)->delete();
+        workingbefore::where('id',$id)->delete();
         toastr('Successfully deleted   ');
         return redirect('workplace');
     }
