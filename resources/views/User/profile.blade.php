@@ -52,7 +52,9 @@ $controller = app(App\Http\Controllers\ConverterController::class);
     </style>
 <div class="row justify-content-center m-4 p-2">
 <div class="d-flex justify-content-end">
+    <a href={{route('all_info')}}> 
         <button class="btn btn-sm btn-primary">Print</button>
+    </a>
     </div>
         <div class="accordion " id="accordionExample">
         <div class="accordion-item mb-3">
@@ -225,17 +227,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
  
                             <div class="card-body">
                             
-                              <div class="row mb-3">
-                                  <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __(' বৈবাহিক অবস্থা ') }}</label>
-                                 
-                                  <div class="col-md-6">
-                                    
-                                        
-                                   
-                                      <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{$job_related_info->marital_status}} "  readonly required autocomplete="serviceid" autofocus>
-                                     
-                                  </div>
-                              </div>
+                               
                               @foreach ($wife as $wife1 )
                               <div class="row mb-3">
                                   <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('স্বামী / স্ত্রীর নাম') }}</label>

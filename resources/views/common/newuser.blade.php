@@ -42,7 +42,7 @@
     </style>
 </head>
 
-<body style="margin-bottom:2%;">
+<body>
 
 <div class="greet">
     <h4 align="center"><img src="{{asset('gov.png')}}" style="width:20px;height:20px;" /> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> 
@@ -85,9 +85,12 @@
     @yield('content')
 </main>
 
-<div style="position:absolute; bottom:0px; width:100%; text-align:center; background:#191970">
-    <p style="font-size:15px; color:white;"> কপিরাইট &copy;আইসিটি সেল , আইন ও বিচার বিভাগ  কতৃক সর্বস্বত্ব সংরক্ষিত,নির্দেশনায়: এস,এম, সাইফুল ইসলাম যুগ্মসচিব (প্রশাসন-১),আইন ও বিচার বিভাগ,রূপকার: মুহম্মদ শাহাদাত হোসেন, উপসচিব(অতিরিক্ত জেলা জজ), আইন ও বিচার বিভাগ, কারিগরি সহায়তায়: আরাফাত উর রহমান, সহকারী প্রোগ্রামার, আইন ও বিচার বিভাগ </p>
-</div>
+<footer style="position: absolute; bottom: 0; width: 100%; text-align: center; background: #191970; padding: 10px 20px;" class="d-flex  mt-1 justify-content-center">
+    <p style="font-size: 15px; color: white; margin: 0 20px; word-break: break-word;">
+        কপিরাইট &copy; আইসিটি সেল, আইন ও বিচার বিভাগ কর্তৃক সর্বস্বত্ব সংরক্ষিত, নির্দেশনায়: এস,এম, সাইফুল ইসলাম যুগ্মসচিব (প্রশাসন-১), আইন ও বিচার বিভাগ, রূপকার: মুহম্মদ শাহাদাত হোসেন, উপসচিব (অতিরিক্ত জেলা জজ), আইন ও বিচার বিভাগ, কারিগরি সহায়তায়: আরাফাত উর রহমান, সহকারী প্রোগ্রামার, আইন ও বিচার বিভাগ
+    </p>
+</footer>
+
 
 </body>
 </html>

@@ -328,9 +328,7 @@ class infoimp extends Controller
          ]);
 
         $StartDate = Carbon::createFromFormat('d-m-Y', $validated['dob'])->format('Y-m-d');
-        if(trim($validated['marital_status'])=='Married'||'Divorced'){
-
-        }
+     
          User::where('userid',Auth::user()->userid)
             ->update([
                 'name'=>$validated['name'],
@@ -340,6 +338,9 @@ class infoimp extends Controller
             ]);
            personalinfo::where('userid',Auth::user()->userid)
             ->update([
+                'name'=>$validated['name'],
+                
+                'mobile'=>$validated['mobile'],
                 'home_district'=>$validated['home_district'],
                 'marital_status'=>$validated['marital_status'],
                 'dob'=>$StartDate
@@ -800,8 +801,8 @@ public function dashboard()
         return redirect("login")->withSuccess('You are not allowed to access');
     }
     public function all_info(){
-        $personal = personalinfo::where('userid','User10018')->get();
-        $wife= wifeinfo::where('userid','User10018')->get();  
+        $personal = personalinfo::where('userid',Auth::user()->userid)->get();
+        $wife= wifeinfo::where('userid', Auth::user()->userid)->get();  
         $child= workingbefore::where('userid',Auth::user()->userid)->get();  
         
         $html = View::make('PDF.all', [

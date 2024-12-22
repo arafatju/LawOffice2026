@@ -42,7 +42,7 @@ Route::post('/forget22', [test::class, 'forget22'])->name('forget22');
 Route::post('/forget33', [test::class, 'forget33'])->name('forget33'); 
 Route::post('/forget44', [test::class, 'forget44'])->name('forget44'); 
 
-Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
+
 
 Route::get('/result123', [infoimp::class, 'result123'])->name('result123'); 
 
@@ -140,7 +140,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 });
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
-
+    Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
     Route::get('/releasefromcurrent', [infoimp::class, 'releasefromcurrent'])->name('releasefromcurrent');
     Route::get('/delete111/{id}', [infoimp::class, 'delete111'])->name('delete111');
     Route::get('/delete112/{id}', [infoimp::class, 'delete112'])->name('delete112');

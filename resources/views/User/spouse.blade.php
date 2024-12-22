@@ -11,40 +11,7 @@
 @section('content')
 <div class="row justify-content-center mt-2">
         
-                                <option>Single</option> 
-                               <option>Married</option>
-                               <option>Divorced</option>
-                              
-                                @error('marital_status')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                </select>
-
-                            </div>
-                            
-                        </div>
-
-                        
-                        
-                        
-                        
-                         
-                         
-                         
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Save & Submit ') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+                                
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center"><h3>{{ __(' স্বামী/স্ত্রী সম্পর্কে তথ্য ') }}</h3></div>

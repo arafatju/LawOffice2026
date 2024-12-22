@@ -51,8 +51,8 @@
                     <tr><td> সার্ভিস আইডিঃ</td>         <td>{{ $item->serviceid }}</td></tr> 
                         <tr> <td>গ্রেডেশনঃ </td>  <td>{{ $item->gradation }}</td></tr> 
                             <tr> <td>বৈবাহিক অবস্থাঃ </td>  <td>{{ $item->marital_status }}</td></tr> 
-                                <tr> <td>প্রথম নিয়োগঃ </td>  <td>{{ $item->join }}</td></tr> 
-                                    <tr> <td>অবসরের তারিখঃ </td>  <td>{{ $item->retired }}</td></tr> 
+                                <tr> <td>প্রথম যোগদান: </td>  <td>{{ $item->join }}</td></tr> 
+                                    <tr> <td>জন্ম তারিখ   তারিখঃ </td>  <td>{{ $item->dob }}</td></tr> 
 
                                         <tr><td>অফিসারের নিজ জেলাঃ </td>   <td>{{ $item->home_district }}</td></tr> 
                     @endforeach
