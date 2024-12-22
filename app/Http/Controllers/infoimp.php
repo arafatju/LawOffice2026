@@ -780,19 +780,19 @@ public function dashboard()
         return redirect("login")->withSuccess('You are not allowed to access');
     }
     public function all_info(){
-        $personal = personalinfo::where('userid',Auth::user()->userid)->get();
-        $working_now= workingnow::where('userid',Auth::user()->userid)->get();  
-        $working_before= workingbefore::where('userid',Auth::user()->userid)->get();  
+        $personal = personalinfo::where('userid','User10018')->get();
+        $wife= wifeinfo::where('userid','User10018')->get();  
+        $child= workingbefore::where('userid',Auth::user()->userid)->get();  
         
         $html = View::make('PDF.all', [
             'personal' => $personal,
-            'working_now' => $working_now,
-            'working_before' => $working_before
+           'wife' => $wife,
+          //  'working_before' => $working_before
         ])->render();
-       
+        
     $mpdf = new Mpdf([
-        'format' => 'Letter', // Letter page size
-        'orientation' => 'L', // Landscape orientation
+        'format' => 'A4', // Letter page size
+        'orientation' => 'P', // Landscape orientation
         'default_font' => 'nikosh', // বাংলা ফন্ট সাপোর্ট
         'default_font_size'=>'10',
         'margin_left' => 2.54,  // 0.1 inch = 2.54 mm
@@ -1115,9 +1115,10 @@ public  function get2data(){
                                   {
                                     $before13=$before12->district.','.$before13;
                                   }
+                            $prf_district=preferred111::where('userid',$user->userid)->first();
                $PreviousDist = '<div><b>১৬.অফিসারের পূর্বের কর্মস্থল (জেলা):</b> ' . $before13 . '</div></div>
-                <div><b>১৭. পছন্দকৃত জেলা  :</b> ' . $user->preferred_district . '</div>
-                <div><b>১৮. কেন বদলি চান :</b> ' . $user->preferred_reason . '</div> 
+                <div><b>১৭. পছন্দকৃত জেলা  :</b> ' .$prf_district->district . '</div>
+                <div><b>১৮. কেন বদলি চান :</b> ' .$prf_district->reason . '</div> 
                   <div><b>১৯. মেয়াদ (বর্তমান কর্মস্থল )    :</b> ' . $carbonDiffFormatted. '</div>';
              
                 

@@ -10,97 +10,163 @@
             font-family: 'nikosh', sans-serif;
             font-size: 10px;
         }
+        
         table {
-            width: 100%;
-            max-width: 100%; /* Ensure the table does not overflow the page width */
-            border-collapse: collapse;
-            table-layout: fixed; /* Fix the table layout */
-        }
+        border-collapse: collapse;
+        width: 50%;
+        margin: auto;
+    }
+    caption {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
 
-        th, td {
-            border: 1px solid #000;
-            padding: 0px;
-            text-align: center;
-            word-wrap: break-word; /* Allow words to break and wrap in the cell */
-            overflow: hidden;
-            text-overflow: ellipsis; /* Add ellipsis for overflowing text */
-        }
-
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-
-        td {
-            max-width: 80px; /* Limit the maximum width of each column */
-        }
-
-        /* For controlling page breaks when printing */
-        @media print {
-            table {
-                page-break-inside: auto;
-            }
-
-            tr {
-                page-break-inside: avoid;
-                page-break-after: auto;
-            }
-        }
+         
     </style>
 </head>
-<h1>বাংলা ভাষায় ডকুমেন্ট</h1>
-    <p>এটি একটি উদাহরণ পিডিএফ যেখানে নিকোশ ফন্ট ব্যবহৃত হয়েছে।</p>
+ 
 <body>
     <table>
-        <thead>
-            <tr>
-                <th>Serial বাংলা ভাষায় ডকুমেন্ট</th>
-                <th>Name</th>
-                <th>Home District</th>
-                <th>Sevice ID</th>
-                <th>Gradation</th>
-                <th>Designation</th>
-                <th>Working Station</th>
-                <th>Court/Institute</th>
-                <th>Date of Joining at Current Post </th>
-                <th>Marital Status</th>
-                <th>Spouse Name </th>
-                <th>Spouse Designation </th>
-                <th>Spouse Workplace</th>
-                <th>Spouse Home District</th>
-                <th>Children Details </th>
-                <th>Offier's Previous Distrcits</th>
-                <th>Preferred Districts </th>
-                <th>Reasons for transfers </th>
-                <th>Duration at Station </th>
-                 
-            </tr>
-        </thead>
+        <caption>Personal Information</caption>
+         
+
         <tbody>
-            @foreach ($data as $item)
-                <tr>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->id }}</td>
+           
+                @foreach ($personal as $item)
+                <tr>  <td>ID  </td> <td>{{ $item->id }}</td> </tr> 
+                <tr><td>নামঃ </td>     <td> {{ $item->name }}</td></tr> 
+                <tr> <td>ইমেইল এড্রেসঃ </td>         <td>{{ $item->email }}</td></tr> 
+                <tr> <td>ইউজার আইডিঃ </td>       <td>{{ $item->userid }}</td></tr> 
+                <tr> <td>মোবাইলঃ </td>       <td>{{ $item->mobile }}</td></tr> 
+
+                    <tr><td> সার্ভিস আইডিঃ</td>         <td>{{ $item->serviceid }}</td></tr> 
+                        <tr> <td>গ্রেডেশনঃ </td>  <td>{{ $item->gradation }}</td></tr> 
+                            <tr> <td>বৈবাহিক অবস্থাঃ </td>  <td>{{ $item->marital_status }}</td></tr> 
+                                <tr> <td>প্রথম নিয়োগঃ </td>  <td>{{ $item->join }}</td></tr> 
+                                    <tr> <td>অবসরের তারিখঃ </td>  <td>{{ $item->retired }}</td></tr> 
+
+                                        <tr><td>অফিসারের নিজ জেলাঃ </td>   <td>{{ $item->home_district }}</td></tr> 
+                    @endforeach
+
                     
-                </tr>
-            @endforeach
+           
+        </tbody>
+    </table>
+    <table>
+        <caption>Wife  Information</caption>
+         
+
+        <tbody>
+          
+          
+           
+        
+          
+          
+                @foreach ($wife as $item)
+                 <tr><td>নামঃ </td>     <td> {{ $item->name }}</td></tr> 
+                <tr> <td>  পেশাঃ  </td>         <td>{{ $item->profession }}</td></tr> 
+                <tr> <td>  পদবীঃ  </td>       <td>{{ $item->designation }}</td></tr> 
+                <tr> <td>    কর্মস্থল জেলাঃ </td>       <td>{{ $item->wifeworkplace }}</td></tr> 
+
+                    <tr><td>   নিজ জেলাঃ </td>         <td>{{ $item->wifehomedistrict }}</td></tr> 
+                        <tr> <td>  সন্তান সংখ্যাঃ </td>  <td>{{ $item->kids_number }}</td></tr> 
+                              
+                    @endforeach
+
+                    
+           
+        </tbody>
+    </table>
+    <table>
+        <caption>Child  Information</caption>
+         
+
+        <tbody>
+           
+                @foreach ($personal as $item)
+                <tr>  <td>ID  </td> <td>{{ $item->id }}</td> </tr> 
+                <tr><td>নামঃ </td>     <td> {{ $item->name }}</td></tr> 
+                <tr> <td>ইমেইল এড্রেসঃ </td>         <td>{{ $item->email }}</td></tr> 
+                <tr> <td>ইউজার আইডিঃ </td>       <td>{{ $item->userid }}</td></tr> 
+                <tr> <td>মোবাইলঃ </td>       <td>{{ $item->mobile }}</td></tr> 
+
+                    <tr><td> সার্ভিস আইডিঃ</td>         <td>{{ $item->serviceid }}</td></tr> 
+                        <tr> <td>গ্রেডেশনঃ </td>  <td>{{ $item->gradation }}</td></tr> 
+                            <tr> <td>বৈবাহিক অবস্থাঃ </td>  <td>{{ $item->marital_status }}</td></tr> 
+                                <tr> <td>প্রথম নিয়োগঃ </td>  <td>{{ $item->join }}</td></tr> 
+                                    <tr> <td>অবসরের তারিখঃ </td>  <td>{{ $item->retired }}</td></tr> 
+
+                                        <tr><td>অফিসারের নিজ জেলাঃ </td>   <td>{{ $item->home_district }}</td></tr> 
+                    @endforeach
+
+                    
+           
+        </tbody>
+    </table>
+    <table>
+        <caption>Present Workstation</caption>
+         
+
+        <tbody>
+           
+                @foreach ($personal as $item)
+                <tr>  <td>ID  </td> <td>{{ $item->id }}</td> </tr> 
+                <tr><td>নামঃ </td>     <td> {{ $item->name }}</td></tr> 
+                <tr> <td>ইমেইল এড্রেসঃ </td>         <td>{{ $item->email }}</td></tr> 
+                <tr> <td>ইউজার আইডিঃ </td>       <td>{{ $item->userid }}</td></tr> 
+                <tr> <td>মোবাইলঃ </td>       <td>{{ $item->mobile }}</td></tr> 
+
+                    <tr><td> সার্ভিস আইডিঃ</td>         <td>{{ $item->serviceid }}</td></tr> 
+                        <tr> <td>গ্রেডেশনঃ </td>  <td>{{ $item->gradation }}</td></tr> 
+                            <tr> <td>বৈবাহিক অবস্থাঃ </td>  <td>{{ $item->marital_status }}</td></tr> 
+                                <tr> <td>প্রথম নিয়োগঃ </td>  <td>{{ $item->join }}</td></tr> 
+                                    <tr> <td>অবসরের তারিখঃ </td>  <td>{{ $item->retired }}</td></tr> 
+
+                                        <tr><td>অফিসারের নিজ জেলাঃ </td>   <td>{{ $item->home_district }}</td></tr> 
+                    @endforeach
+
+                    
+           
+        </tbody>
+    </table>
+    <table>
+        <caption>Previous Workstation</caption>
+         
+
+        <tbody>
+           
+                @foreach ($personal as $item)
+                <tr>  <td>ID  </td> <td>{{ $item->id }}</td> </tr> 
+                <tr><td>নামঃ </td>     <td> {{ $item->name }}</td></tr> 
+                             @endforeach
+
+                    
+           
+        </tbody>
+    </table>
+    <table>
+        <caption>Transfer Related</caption>
+         
+
+        <tbody>
+           
+                @foreach ($personal as $item)
+                <tr>  <td>ID  </td> <td>{{ $item->id }}</td> </tr> 
+                <tr><td>নামঃ </td>     <td> {{ $item->name }}</td></tr> 
+                             @endforeach
+
+                    
+           
         </tbody>
     </table>
 </body>

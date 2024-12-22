@@ -379,8 +379,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                              <div class="card-footer text-center">
                                 <a href="{{ route('workplace' ) }}" class="btn btn-primary">Edit</a>
 
-                                <a href="{{ route('releasefromcurrent' ) }}" class="btn btn-primary">Release</a>
-                             </div>
+                              </div>
                           </div> 
                    
                     </div>
