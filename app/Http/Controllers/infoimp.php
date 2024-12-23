@@ -1109,9 +1109,9 @@ public  function get2data(){
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>নাম</th>
-                            <th>বয়স</th>
-                            <th>ধরন</th>
+                            <th>নাম ও বয়স</th>
+                             
+                            <th>শ্রেণি</th>
                             <th>জেলা</th>
                         </tr>
                     </thead>
@@ -1121,8 +1121,8 @@ public  function get2data(){
                 foreach ($info11  as $child) {
                     $Child_info .= "
                         <tr>
-                            <td>{$child->name}</td>
-                            <td>{$child->age}</td>
+                            <td>{$child->name}({$child->age})</td>
+                            
                             <td>{$child->educationtype}</td>
                             <td>{$child->educationlocation}</td>
                         </tr>";
