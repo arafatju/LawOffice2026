@@ -133,7 +133,7 @@
                         
                         
                         <div class="row mb-3">
-                            <label for="office" class="col-md-4 col-form-label text-md-end">{{ __('  অফিস ') }}</label>
+                            <label for="office" class="col-md-4 col-form-label text-md-end">{{ __('  আদালত/দপ্তর  ') }}</label>
 
                             <div class="col-md-6">
                             <input id="office" type="text" class="form-control @error('office') is-invalid @enderror" name="office" value=" " required  autofocus>
@@ -189,7 +189,7 @@
                             <label for="sarok" class="col-md-4 col-form-label text-md-end">{{ __('  স্মারক নাম্বার   ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="sarok" type="text" class="form-control @error('sarok') is-invalid @enderror" name="sarok" value=" " required  autofocus>
+                            <input id="sarok" type="text" class="form-control @error('sarok') is-invalid @enderror" name="sarok" value=" "    autofocus>
 
                              
                                 

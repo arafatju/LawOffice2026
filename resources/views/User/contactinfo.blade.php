@@ -13,7 +13,7 @@
  
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-4">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header text-center"><h3>{{ __(' ব্যাক্তিগত তথ্যাদি  ') }}</h3></div>
 

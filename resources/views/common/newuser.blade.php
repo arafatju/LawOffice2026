@@ -40,6 +40,33 @@
             color: white;
         }
     </style>
+    <style>
+        footer {
+            position: absolute; /* Remove absolute positioning for better responsiveness */
+            bottom: 0;
+            width: 100%;
+        }
+    
+        footer p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    
+        /* Add media query for smaller screens */
+        @media (max-width: 768px) {
+            footer p {
+                font-size: 14px;
+                padding: 5px;
+            }
+        }
+    
+        @media (max-width: 576px) {
+            footer p {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -85,11 +112,14 @@
     @yield('content')
 </main>
 
-<footer style="position: absolute; bottom: 0; width: 100%; text-align: center; background: #191970; padding: 10px 20px;" class="d-flex  mt-1 justify-content-center">
-    <p style="font-size: 15px; color: white; margin: 0 20px; word-break: break-word;">
-        কপিরাইট &copy; আইসিটি সেল, আইন ও বিচার বিভাগ কর্তৃক সর্বস্বত্ব সংরক্ষিত, নির্দেশনায়: এস,এম, সাইফুল ইসলাম যুগ্মসচিব (প্রশাসন-১), আইন ও বিচার বিভাগ, রূপকার: মুহম্মদ শাহাদাত হোসেন, উপসচিব (অতিরিক্ত জেলা জজ), আইন ও বিচার বিভাগ, কারিগরি সহায়তায়: আরাফাত উর রহমান, সহকারী প্রোগ্রামার, আইন ও বিচার বিভাগ
+<footer style="background: #191970; padding: 10px 20px;" class="d-flex justify-content-center mt-1">
+    <p style="font-size: 15px; color: white; margin: 0; text-align: center; word-break: break-word;">
+        কপিরাইট &copy; আইসিটি সেল, আইন ও বিচার বিভাগ কর্তৃক সর্বস্বত্ব সংরক্ষিত, নির্দেশনায়: এস,এম, সাইফুল ইসলাম, যুগ্মসচিব (প্রশাসন-১), আইন ও বিচার বিভাগ, রূপকার: মুহম্মদ শাহাদাত হোসেন, উপসচিব (অতিরিক্ত জেলা জজ), আইন ও বিচার বিভাগ, কারিগরি সহায়তায়: আরাফাত উর রহমান, সহকারী প্রোগ্রামার, আইন ও বিচার বিভাগ
     </p>
 </footer>
+
+
+
 
 
 </body>

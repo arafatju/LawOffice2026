@@ -66,7 +66,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         data-bs-target="#collapseSeven" 
                         aria-expanded="false" 
                         aria-controls="collapseSeven">
-                        ব্যাক্তিগত তথ্যাদি   
+                        ব্যক্তিগত তথ্যাদি   
                     </button>
                 </h2>
                 <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -154,7 +154,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         data-bs-target="#collapseOne" 
                         aria-expanded="false" 
                         aria-controls="collapseOne">
-                        চাকুরী   
+                        চাকুরী সম্পর্কিত  
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse  " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -172,7 +172,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                             </div>
     
                             <div class="row mb-3">
-                                <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন লিস্ট') }}</label>
+                                <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন নং') }}</label>
     
                                 <div class="col-md-6">
                                     <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ $job_related_info->gradation}}" readonly required autocomplete="gradation" autofocus>
@@ -218,7 +218,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         data-bs-target="#collapseTwo" 
                         aria-expanded="false" 
                         aria-controls="collapseTwo">
-                        স্ত্রী সম্পর্কিত তথ্যাদি 
+                        স্বামী/স্ত্রী সম্পর্কিত তথ্যাদি 
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -354,7 +354,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                           
                              </div>
                              <div class="card-footer text-center">
-                                <a href="{{ route('spouse' ) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('child12' ) }}" class="btn btn-primary">Edit</a>
                              </div>
                           </div> 
  
@@ -402,7 +402,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                               
                               
                               <div class="row mb-3">
-                                  <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  অফিস ') }}</label>
+                                  <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  আদালত/ দপ্তর  ') }}</label>
       
                                   <div class="col-md-6">
                                   <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ $working1->office }}" required readonly autofocus>
@@ -426,7 +426,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                               </div>
                           
                               <div class="row mb-3">
-                                <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('  অফিস আদেশের তারিখ') }}</label>
+                                <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('  জিওর তারিখ') }}</label>
     
                                 <div class="col-md-6">
                                     <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$working1->GO_Date}}" required  readonly autocomplete="retired">
@@ -514,7 +514,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         data-bs-target="#collapseSix" 
                         aria-expanded="false" 
                         aria-controls="collapseSix">
-                        বদলী   
+                        বদলী কেন ও পছন্দের জেলা সম্পর্কিত   
                     </button>
                 </h2>
                 <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
