@@ -86,8 +86,8 @@ class infoimp extends Controller
         $validated = $request->validate([
             'wifename' => 'required|string',
             'profession' => 'required|string',
-            'wifeworkplace'=> 'required|string',
-            'designation'=>'required|string' ,
+            'wifeworkplace'=> 'nullable|string',
+            'designation'=>'nullable|string' ,
             'wifehomedistrict' => 'required|string',
             'kids_number' => 'required|string',
 
@@ -102,6 +102,11 @@ class infoimp extends Controller
         ]);
         return redirect('profile')->withSuccess('Updated');
          
+    }
+    public function child12(){
+        $draft2  = childinfo::where('userid',Auth::user()->userid)->get();
+        return view('User.child12',compact('draft2'));
+
     }
     public function workingbefore (Request $request){
         $validated = $request->validate([
@@ -137,7 +142,7 @@ class infoimp extends Controller
  
 
         ]);
-        return redirect('workplace')->withSuccess('Updated');
+        return redirect('distbefore')->withSuccess('Updated');
     }
      
     public function workingpresent (Request $request){
@@ -147,7 +152,7 @@ class infoimp extends Controller
             'office'=> 'required|string',
             'start'=>'required|date_format:d-m-Y' ,
             'GO_Date' => 'required|date_format:d-m-Y',
-            'sarok' => 'required|string',
+            'sarok' => 'nullable|string',
 
         ]);
         $StartDate = Carbon::createFromFormat('d-m-Y', $validated['start'])->format('Y-m-d');
@@ -166,7 +171,12 @@ class infoimp extends Controller
             'status2'=>'open'
 
         ]);
-        return redirect('workplace')->withSuccess('Updated');
+        return redirect('profile')->withSuccess('Updated');
+    }
+    public function distbefore(){
+        $draft2  = workingbefore::where('userid',Auth::user()->userid)
+        ->get();
+        return view('User.workbefore',compact('draft2'));
     }
      public function release11(Request $request){
        
@@ -232,7 +242,7 @@ class infoimp extends Controller
                 'educationlocation'=>$validated['educationlocation'],
                 'educationname'=>$validated['educationname'],
             ]);
-            return redirect('spouse')->withSuccess('updated');
+            return redirect('child12')->withSuccess('updated');
          
 
 
@@ -346,7 +356,7 @@ class infoimp extends Controller
                 'dob'=>$StartDate
             ]);
 
-       return redirect('contactinfo')->with('updated');
+       return redirect('profile')->withSuccess('Updated Personal Info Successfully');
        
        
   }
@@ -453,13 +463,13 @@ class infoimp extends Controller
         $id=decrypt($request->id);
         childinfo::where('id',$id)->delete();
         toastr('Successfully deleted   ');
-        return redirect('spouse');
+        return redirect('child12');
     } 
     public function delete112(Request $request){
         $id=decrypt($request->id);
         workingbefore::where('id',$id)->delete();
         toastr('Successfully deleted   ');
-        return redirect('workplace');
+        return redirect('distbefore');
     }
      
     public function spouse(){

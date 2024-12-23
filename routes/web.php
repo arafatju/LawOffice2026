@@ -144,6 +144,8 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::get('/releasefromcurrent', [infoimp::class, 'releasefromcurrent'])->name('releasefromcurrent');
     Route::get('/delete111/{id}', [infoimp::class, 'delete111'])->name('delete111');
     Route::get('/delete112/{id}', [infoimp::class, 'delete112'])->name('delete112');
+    Route::get('/child12', [infoimp::class, 'child12'])->name('child12');
+    Route::get('/distbefore', [infoimp::class, 'distbefore'])->name('distbefore');
 
     Route::get('/spouse', [infoimp::class, 'spouse'])->name('spouse');
     Route::get('/workplace', [infoimp::class, 'workplace'])->name('workplace');

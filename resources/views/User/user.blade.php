@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন লিস্ট') }}</label>
+                            <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন নং') }}</label>
 
                             <div class="col-md-6">
                                 <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{$data->gradation}}"  required autocomplete="gradation" autofocus>
