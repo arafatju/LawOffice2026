@@ -142,7 +142,7 @@ class infoimp extends Controller
  
 
         ]);
-        return redirect('workplace')->withSuccess('Updated');
+        return redirect('distbefore')->withSuccess('Updated');
     }
      
     public function workingpresent (Request $request){
@@ -469,7 +469,7 @@ class infoimp extends Controller
         $id=decrypt($request->id);
         workingbefore::where('id',$id)->delete();
         toastr('Successfully deleted   ');
-        return redirect('workplace');
+        return redirect('distbefore');
     }
      
     public function spouse(){
