@@ -371,7 +371,7 @@ class infoimp extends Controller
            ]);
 
 
-           return redirect('transferme')->with('Updated');
+           return redirect('profile')->withSuccess('Updated Successfully Transfer request');
   }
   public function profile(Request $request){
         $job_related_info=personalinfo::where('userid',Auth::user()->userid)->first();
@@ -1101,7 +1101,7 @@ public  function get2data(){
                 <div><b>৪.গ্রেডেশন:</b> ' . $converter->en2bn($user11->gradation). '</div>';
                 
                 $working_present = ' <div><b>৫.পদবী:</b>   ' . $user->designation. '</div>
-               <div><b> ৬. বর্তমান করমস্থল(জেলা)   :</b> ' . $user->district. '</div><div><b>
+               <div><b> ৬. বর্তমান কর্মস্থল(জেলা)   :</b> ' . $user->district. '</div><div><b>
                 ৭. আদালত/ প্রতিষ্ঠান    :</b>  ' . $user->office.'</div>';
 
  

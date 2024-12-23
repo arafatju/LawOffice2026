@@ -25,6 +25,38 @@
             border-top: 2px solid black; /* Thicker border for header row */
         }
     </style>
+    <style>
+ 
+
+#users-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+.dataTables_filter input {
+    height: 48px; /* Increase the height */
+    padding: 8px 12px; /* Adjust padding */
+    font-size: 16px; /* Slightly larger font size */
+    border: 2px solid navy; /* Set navy blue border */
+    border-radius: .50rem; /* Rounded corners */
+    margin-bottom: 2px; /* Adjust margin-bottom */
+}
+
+.dataTables_filter input:hover {
+    border-color: #000080; /* Darker navy on hover */
+    border-width: 3px; /* Slightly thicker on hover */
+}
+
+/* Add focus effect */
+.dataTables_filter input:focus {
+    border-color: #000080; /* Navy blue on focus */
+    border-width: 3px; /* Thicker border on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(0, 0, 128, 0.5); /* Add soft glow */
+}
+        </style>
 
 </head>
 <body>
@@ -44,7 +76,7 @@
                     <th>  যোগদান তারিখ  </th> 
                     <th> বৈবাহিক </th> 
                     <th>সন্তানাদি </th> 
-                    <th> পূর্বের জেলা </th> 
+                    <th> পূর্ব জেলা/পছন্দকৃত জেলা/মেয়াদ  </th> 
                      
                     
                 </tr>

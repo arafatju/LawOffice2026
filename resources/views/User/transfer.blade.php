@@ -15,14 +15,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-center"><h3>{{ __(' অবমুক্তি     ') }}</h3></div>
+                <div class="card-header text-center"><h3>{{ __(' বদলী কেন ও পছন্দের জেলা     ') }}</h3></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('reason111') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="reason" class="col-md-4 col-form-label text-md-end">{{ __('অবমুক্তির কারণ  অনধিক ৩০ শব্দ ') }}</label>
+                            <label for="reason" class="col-md-4 col-form-label text-md-end">{{ __('বদলী কেন চাই(অনধিক ৩০ শব্দ) ') }}</label>
 
                             <textarea 
                             id="reason" 

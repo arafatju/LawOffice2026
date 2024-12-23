@@ -13,17 +13,24 @@
 <div class="row justify-content-center mt-4">
     <div class="col-md-10"> 
         <div class="card">
-            <div class="card-header">
-              <div class="d-flex justify-content-end">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+                <!-- Header Text -->
+                <div class="header">
+                    <div >পূর্বের কর্মস্থল সম্পর্কে</div>
+                </div>
+                
+                <!-- Button -->
+                <div>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWorkModal">
                     Add Previous Working Information
                 </button>       
-              </div>
-              <div class="header">
-                <div class="col-6"><h1> পূর্বের কর্মস্থল সম্পর্কে </h1> </div>
+                </div>
             </div>
 
-            </div> 
+
+
+             
 
                     
     
