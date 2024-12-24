@@ -12,8 +12,8 @@
 <div class="row justify-content-center mt-2 m-2">
         
              
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-md-6 py-2">
+            <div class="card mb-4">
                 <div class="card-header text-center"><h3>{{ __('অফিসারের বর্তমান কর্মস্থল সম্পর্কে তথ্যাদি  ') }}</h3></div>
                  
                  

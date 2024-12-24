@@ -69,7 +69,7 @@
                                 @enderror
     </div>
     <div class="form-floating">
-      <div class="g-recaptcha" data-sitekey="6LfzaokqAAAAAC7oGTEbUZSewrf99Dp7F8E7ZTcx"></div>
+      <div class="g-recaptcha" data-sitekey="6LeqwU0pAAAAAI6IQJo50uXcgk3dvjHLUCx565Cq"></div>
 
       {!! NoCaptcha::renderJs() !!}
       {!! NoCaptcha::display() !!}
@@ -85,8 +85,14 @@
   </form>
   <div class="form-floating">
     <a   href="{{ route('registration') }}">{{ __('Register') }}</a>
+
+  </div> 
+  <div class="form-floating">
+    <a   href="{{ route('forget11') }}">{{ __('Forget Password') }}</a>
+  </div> 
+  <div class="form-floating">
     <p class="mt-5 mb-3 text-muted">&copy; 2021–2023</p>
-    <p class="mt-5 mb-3 text-muted">Technical Consultancy,Arafat Ur Rahman</p>
+    <p class="mt-1 text-muted">Technical Consultancy,Arafat Ur Rahman</p>
 
   </div>
 </main>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title> অনলাইন বদলী ব্যবস্থাপনা  </title>
+    <title> অফিসার-বদলি সহায়ক ডেটাবেজ সিস্টেম </title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,7 +27,7 @@
         body {
             font-family: 'Nikosh';
             font-size: 20px;
-            padding-bottom: 12%;
+             
         }
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 255, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
@@ -42,9 +42,11 @@
     </style>
     <style>
         footer {
-            position: absolute; /* Remove absolute positioning for better responsiveness */
-            bottom: 0;
+            position: relative; /* Remove absolute positioning for better responsiveness */
+            bottom: 0px;
             width: 100%;
+            text-align: center;
+            margin-top: auto;
         }
     
         footer p {
@@ -75,7 +77,7 @@
     <h4 align="center"><img src="{{asset('gov.png')}}" style="width:20px;height:20px;" /> গণপ্রজাতন্ত্রী বাংলাদেশ সরকার </h4> 
     <h1 align="center"> আইন,বিচার ও সংসদ বিষয়ক মন্ত্রণালয়  </h1> 
     <h2 align="center"> আইন ও বিচার বিভাগ  </h2>
-    <h4 align="center"> অনলাইন বদলী ব্যবস্থাপনা    </h4>  
+    <h4 align="center"> অফিসার-বদলি সহায়ক ডেটাবেজ সিস্টেম   </h4>  
     <h4 align="center">     </h4>
 </div>
 <nav class="navbar navbar-custom navbar-expand-sm navbar-light  " style="height:50px;z-index:1">
@@ -108,7 +110,7 @@
         </div>
 </nav>
 
-<main class="py-4 mb-4">
+<main class="py-4 mb-4" >
     @yield('content')
 </main>
 

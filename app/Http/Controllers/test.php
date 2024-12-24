@@ -72,7 +72,7 @@ class test extends Controller
         $EndTime = Carbon::now();
         $diffInMinutes = $startTime->diffInSeconds($EndTime);
       
-        if($diffInMinutes<=59){
+        if($diffInMinutes<5){
               if($request->otp==session('number')){
             return view('auth.forget33');
                                 }
@@ -103,12 +103,18 @@ class test extends Controller
                 
     }
 public function forget44(Request $request){
-          $pwd11=Hash::make($request->password);
+          
+           $validated=$request->validate([
+            'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+
+           ]);
+    
+         $pwd11=Hash::make($validated['password']);
           DB::table('users')
         ->where('email','=',session('email11'))
         
         ->update(['password' => $pwd11]);
-
+     return view('auth.login');
           
 }
      

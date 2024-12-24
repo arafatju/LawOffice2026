@@ -324,8 +324,8 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                     <div class="accordion-body">
  
                         <div class="card">
-                            <div class="card-body">
-                            
+                            <div class="card-body ">
+                               <div class="table-responsive"> 
                                 <table class="table table-bordered table-striped">
                                     <thead class="table-success">
                                         <tr>
@@ -350,7 +350,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                         @endforeach
                                     </tbody>
                                 </table>
-                                
+                            </div>
                           
                              </div>
                              <div class="card-footer text-center">

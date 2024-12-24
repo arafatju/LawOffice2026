@@ -9,11 +9,11 @@
  
   
 @section('content')
-<div class="row justify-content-center mt-2">
+<div class="row justify-content-center mt-2  ">
         
                                 
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-md-6 py-2  ">
+            <div class="card mb-4  m-2">
                 <div class="card-header text-center"><h3>{{ __(' স্বামী/স্ত্রী সম্পর্কে তথ্য ') }}</h3></div>
                  
 

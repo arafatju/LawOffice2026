@@ -13,8 +13,8 @@
  
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-8 py-2">
+            <div class="card mb-4">
                 <div class="card-header text-center"><h3>{{ __(' বদলী কেন ও পছন্দের জেলা     ') }}</h3></div>
 
                 <div class="card-body">
