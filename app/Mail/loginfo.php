@@ -10,15 +10,15 @@ use Illuminate\Queue\SerializesModels;
 class loginfo extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $id;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        
+        $this->id=$id; 
     }
 
     /**
@@ -28,6 +28,7 @@ class loginfo extends Mailable
      */
     public function build()
     {
-        return $this->view('Email.info');
+        return $this->view('Email.info')
+                    ->subject($this->id);
     }
 }

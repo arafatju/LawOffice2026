@@ -153,7 +153,8 @@ public function forget44(Request $request){
                   //countryName  regionName  cityName
                   try {
                     // Attempt to send the mail
-                    Mail::to(Auth::user()->email)->send(new loginfo());
+                   $fft= now()->format('Y-m-d H:i:s');
+                    Mail::to(Auth::user()->email)->send(new loginfo($fft));
                     
                     // Show success toastr notification
                    // toastr()->success('Successfully sent mail');
