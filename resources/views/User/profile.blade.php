@@ -172,7 +172,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                             </div>
     
                             <div class="row mb-3">
-                                <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন নং') }}</label>
+                                <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন নং(২০২৪ সনের গেজেট প্রজ্ঞাপন মতে)') }}</label>
     
                                 <div class="col-md-6">
                                     <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ $job_related_info->gradation}}" readonly required autocomplete="gradation" autofocus>
@@ -264,7 +264,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                               </div>
                               
                               <div class="row mb-3">
-                                <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('কর্মস্থল(জেলা) ') }}</label>
+                                <label for="retired" class="col-md-4 col-form-label text-md-end">{{ __('কর্মস্থল/অবস্থানের(জেলা) ') }}</label>
     
                                 <div class="col-md-6">
                                     <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$wife1->wifeworkplace}}" required  readonly autocomplete="retired">

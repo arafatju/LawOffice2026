@@ -15,7 +15,7 @@
     <div class="row justify-content-center ">
         <div class="col-md-10 mt-2 py-2">
             <div class="card mb-4 ">
-                <div class="card-header text-center"><h3>{{ __(' ব্যাক্তিগত তথ্যাদি  ') }}</h3></div>
+                <div class="card-header text-center"><h3>{{ __(' ব্যক্তিগত তথ্যাদি  ') }}</h3></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('contactinfo11') }}">

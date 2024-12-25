@@ -46,7 +46,7 @@
                             <label for="profession" class="col-md-4 col-form-label text-md-end">{{ __('পেশা ') }}</label>
 
                             <div class="col-md-6">
-                            <select id="profession" class="form-control @error('profession') is-invalid @enderror" name="profession"  required  autofocus>
+                            <select id="profession" class="form-control @error('profession') is-invalid @enderror" name="profession"     autofocus>
                                
                         
         
@@ -91,7 +91,7 @@
 
                          
                         <div class="row mb-3">
-                            <label for="wifeworkplace" class="col-md-4 col-form-label text-md-end">{{ __('কর্মস্থল(জেলা)') }}</label>
+                            <label for="wifeworkplace" class="col-md-4 col-form-label text-md-end">{{ __('কর্মস্থল/অবস্থানের(জেলা)') }}</label>
 
                             <div class="col-md-6">
                             

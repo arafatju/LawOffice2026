@@ -813,11 +813,17 @@ public function dashboard()
     public function all_info(){
         $personal = personalinfo::where('userid',Auth::user()->userid)->get();
         $wife= wifeinfo::where('userid', Auth::user()->userid)->get();  
-        $child= workingbefore::where('userid',Auth::user()->userid)->get();  
-        
+        $child11= childinfo::where('userid',Auth::user()->userid)->get();  
+        $office_now=workingnow::where('userid',Auth::user()->userid)->get();  
+        $office_before=workingbefore::where('userid',Auth::user()->userid)->get(); 
+        $transfer=preferred111::where('userid',Auth::user()->userid)->get(); 
         $html = View::make('PDF.all', [
             'personal' => $personal,
            'wife' => $wife,
+           'child11'=>$child11,
+           'office_now'=>$office_now,
+            'office_before'=>$office_before,
+            'transfer'=>$transfer,
           //  'working_before' => $working_before
         ])->render();
         
