@@ -15,7 +15,7 @@
         }
         #users-table th, #users-table td {
             border: none; /* No individual cell borders */
-            text-align: center;
+            text-align: left;
         }
         #users-table tr {
             border-top: 1px solid black; /* Top border for rows */

@@ -11,7 +11,7 @@ use App\Models\release111;
 use App\Models\workingnow;
 use App\Models\workingbefore;
 use App\Models\devicedetails;
-
+use App\Http\Controllers\ConverterController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -197,7 +197,11 @@ public function forget44(Request $request){
     }
 
     public function customRegistration(Request $request)
-    {  
+    {    
+        $converter = new ConverterController();
+ $request->merge([
+        'serviceid' => $converter->bn2en($request->serviceid),
+    ]);
        $validated=$request->validate([
             'name' => 'required|string|max:30',
             'district' => 'required|string|max:30',
@@ -206,7 +210,7 @@ public function forget44(Request $request){
 
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-            'serviceid'=>'required|string|max:20',
+            'serviceid'=>['required','string','size:10','regex:/^(199[0-9]|20[0-2][0-9]|2030)[0-9]{6}$/'],
             'mobile'=>'required|string|max:20'
         ]);
         

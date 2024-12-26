@@ -10,8 +10,8 @@
   
 @section('content')
  
-<div class="row justify-content-center mt-4">
-    <div class="col-md-10"> 
+<div class="row justify-content-center mt-4 mb-4 py-4">
+    <div class="col-md-10 mb-4"> 
         <div class="card">
 
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -70,7 +70,7 @@
         </div> 
         </div>
     </div>
-    </div>
+     
 
 </div>
 
