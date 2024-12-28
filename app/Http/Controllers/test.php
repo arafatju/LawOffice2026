@@ -180,7 +180,7 @@ public function forget44(Request $request){
 
 
 
-            if(Auth::user()->role=='userdr')  {toastr('Successfully Logged in'); return redirect("dash2");}
+            if(Auth::user()->role=='userdr')  {toastr('Successfully Logged in'); return redirect("newdash");}
         
             else if(Auth::user()->role=='usersr'){ 
                 

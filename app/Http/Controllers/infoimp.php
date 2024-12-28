@@ -840,6 +840,9 @@ public function dashboard()
 
  
     }
+    public function newdash(){
+        return view('DR.newdashboard');
+    }
     public function dash2()
     {   
         if(Auth::check()){

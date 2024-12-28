@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Route::get('/test',function() {
-         return view('test');
+         return view('DR.newdashboard');
 });
 Auth::routes([
     'register' => false,
@@ -59,6 +59,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     
     Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
     Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
+    Route::get('/newdash', [infoimp::class, 'newdash'])->name('newdash');
 
     Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
 
