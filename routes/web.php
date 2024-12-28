@@ -56,7 +56,11 @@ All Normal Users Routes List
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
-    
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::post('users/{id}/change-password', [UserController::class, 'changePassword'])->name('users.change-password');
+Route::post('users/{id}/change-email', [UserController::class, 'changeEmail'])->name('users.change-email');
+Route::get('/usermanagement', [infoimp::class, 'usermanagement'])->name('usermanagement');
+
     Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
     Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
     Route::get('/newdash', [infoimp::class, 'newdash'])->name('newdash');

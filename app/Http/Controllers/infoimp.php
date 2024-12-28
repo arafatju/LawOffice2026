@@ -841,7 +841,27 @@ public function dashboard()
  
     }
     public function newdash(){
+      //  $connectedUsers = \DB::table('sessions')->count();
+
         return view('DR.newdashboard');
+    }
+    public function usermanagement(){
+        $users = User::query();
+
+    return DataTables::of($users)
+        ->addColumn('action', function ($user) {
+            $deleteUrl = route('userdelete11', $user->userid);
+            $changePasswordUrl = route('userchangepassword11', $user->userid);
+            $changeEmailUrl = route('userchangeemail11', $user->userid);
+
+            return '
+                <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->userid . '">Delete</button>
+                <button class="btn btn-sm btn-warning change-password" data-id="' . $user->userid . '">Change Password</button>
+                <button class="btn btn-sm btn-info change-email" data-id="' . $user->userid . '">Change Email</button>
+            ';
+        })
+        ->rawColumns(['action']) // Ensure HTML is rendered
+        ->make(true);
     }
     public function dash2()
     {   
