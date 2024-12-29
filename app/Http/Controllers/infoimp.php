@@ -846,22 +846,92 @@ public function dashboard()
         return view('DR.newdashboard');
     }
     public function usermanagement(){
-        $users = User::query();
-
+        $users = User::all(); 
     return DataTables::of($users)
         ->addColumn('action', function ($user) {
             $deleteUrl = route('userdelete11', $user->userid);
             $changePasswordUrl = route('userchangepassword11', $user->userid);
             $changeEmailUrl = route('userchangeemail11', $user->userid);
+            $userpdf = route('userpdf111', $user->userid);
 
             return '
-                <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->userid . '">Delete</button>
-                <button class="btn btn-sm btn-warning change-password" data-id="' . $user->userid . '">Change Password</button>
-                <button class="btn btn-sm btn-info change-email" data-id="' . $user->userid . '">Change Email</button>
-            ';
+            <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->userid . '" data-url="' . $deleteUrl . '">Delete</button>
+            <button class="btn btn-sm btn-warning change-password" data-id="' . $user->userid . '" data-url="' . $changePasswordUrl . '">Change Password</button>
+            <button class="btn btn-sm btn-info change-email" data-id="' . $user->userid . '" data-url="' . $changeEmailUrl . '">Change Email</button>
+    <button class="btn btn-sm btn-info view-pdf" data-id="' . $user->userid . '" data-url="' . route('userpdf111', $user->userid) . '">View PDF</button>        ';
         })
-        ->rawColumns(['action']) // Ensure HTML is rendered
+         
+        ->rawColumns(['name','serviceid','action']) // Ensure HTML is rendered
         ->make(true);
+    }
+    public function userdelete11(Request $request, $userId)
+    {
+        try {
+            $user = User::where('userid', $userId)->firstOrFail();
+            $user->delete();
+            $user = personalinfo::where('userid', $userId)->firstOrFail();
+            $user->delete();
+            $user = wifeinfo::where('userid', $userId)->firstOrFail();
+            $user->delete();
+            $user = workingnow::where('userid', $userId)->firstOrFail();
+            $user->delete();
+            $user = childinfo::where('userid', $userId)->delete();
+            $user = workingbefore::where('userid', $userId)->delete();
+            $user = preferred11::where('userid', $userId)->firstOrFail();
+            $user->delete();
+            return response()->json(['success' => 'User deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500); // Return the exception message
+        }
+    }
+    public function userchangepassword11(Request $request, $userId){
+        $user = User::where('userid', $userId)->firstOrFail();
+        $user->password = Hash::make($request->password); // Ensure password is hashed
+        $user->save();
+    
+        return response()->json(['success' => 'Password changed successfully.']);
+    }
+    public function userchangeemail11(Request $request,$userId){
+        $user = User::where('userid', $userId)->firstOrFail();
+        $user->email = $request->email; // Ensure password is hashed
+        $user->save();
+        $user = personalinfo::where('userid', $userId)->firstOrFail();
+        $user->email = $request->email; // Ensure password is hashed
+        $user->save();
+        return response()->json(['success' => 'Email changed successfully.']);
+   
+    }
+    public function userpdf111(Request $request,$userId){
+        $personal = personalinfo::where('userid',$userId)->get();
+        $wife= wifeinfo::where('userid', $userId)->get();  
+        $child11= childinfo::where('userid',$userId)->get();  
+        $office_now=workingnow::where('userid',$userId)->get();  
+        $office_before=workingbefore::where('userid',$userId)->get(); 
+        $transfer=preferred111::where('userid',$userId)->get(); 
+        $html = View::make('PDF.all', [
+            'personal' => $personal,
+           'wife' => $wife,
+           'child11'=>$child11,
+           'office_now'=>$office_now,
+            'office_before'=>$office_before,
+            'transfer'=>$transfer,
+          //  'working_before' => $working_before
+        ])->render();
+        
+    $mpdf = new Mpdf([
+        'format' => 'A4', // Letter page size
+        'orientation' => 'P', // Landscape orientation
+        'default_font' => 'nikosh', // বাংলা ফন্ট সাপোর্ট
+        'default_font_size'=>'10',
+        'margin_left' => 2.54,  // 0.1 inch = 2.54 mm
+            'margin_right' => 2.54,
+    ]);
+    $mpdf->WriteHTML($html);
+    return response()->streamDownload(
+        fn() => $mpdf->Output(),
+        "User_Report_$userId.pdf"
+    );
+
     }
     public function dash2()
     {   
@@ -1057,7 +1127,9 @@ public  function get2data(){
 
 
 }
-    
+public function getData3(){
+    return view('DR.usermanagement');
+}
     public function getData()
     {  
         

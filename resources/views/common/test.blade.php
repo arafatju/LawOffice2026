@@ -2,10 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0">
+     
+     
     <title>Officers Transfer Management System</title>
   
   <meta charset="utf-8">
@@ -16,15 +14,18 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
+    <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
     <link href=
 "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" 
           rel="stylesheet"
         integrity=
 "sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" 
           crossorigin="anonymous">
-    <link rel="stylesheet" 
-          href="style.css">
+     
     <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity=
@@ -109,7 +110,7 @@ html, body {
                 </li>
 
                 <li class="nav-item mb-1">
-                    <a href="#">
+                    <a href="{{route('datasheet3')}}">
                         <i class="fa-solid fa-user-shield"></i>
                         User Management
                          
