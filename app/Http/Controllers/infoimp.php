@@ -13,6 +13,8 @@ use App\Models\workingdetails;
 use App\Models\workingnow;
 use App\Models\workingbefore;
 use App\Models\release111;
+use App\Models\info11;
+
 use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Support\Facades\File;
@@ -879,6 +881,14 @@ public function dashboard()
             $user = workingbefore::where('userid', $userId)->delete();
             $user = preferred11::where('userid', $userId)->firstOrFail();
             $user->delete();
+            info11::create([
+                'name'=>Auth::user()->name,
+                'email'=>Auth::user()->email,
+                'userid'=>Auth::user()->userid,
+                'type'=>'Admin',
+                'action'=>'User Delete',
+                'status'=>'ok'
+            ]);
             return response()->json(['success' => 'User deleted successfully.']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500); // Return the exception message
@@ -888,7 +898,14 @@ public function dashboard()
         $user = User::where('userid', $userId)->firstOrFail();
         $user->password = Hash::make($request->password); // Ensure password is hashed
         $user->save();
-    
+        info11::create([
+            'name'=>Auth::user()->name,
+            'email'=>Auth::user()->email,
+            'userid'=>Auth::user()->userid,
+            'type'=>'Admin',
+            'action'=>'Password Change',
+            'status'=>'ok'
+        ]);
         return response()->json(['success' => 'Password changed successfully.']);
     }
     public function userchangeemail11(Request $request,$userId){
@@ -898,6 +915,14 @@ public function dashboard()
         $user = personalinfo::where('userid', $userId)->firstOrFail();
         $user->email = $request->email; // Ensure password is hashed
         $user->save();
+        info11::create([
+            'name'=>Auth::user()->name,
+            'email'=>Auth::user()->email,
+            'userid'=>Auth::user()->userid,
+            'type'=>'Admin',
+            'action'=>'Email Change',
+            'status'=>'ok'
+        ]);
         return response()->json(['success' => 'Email changed successfully.']);
    
     }
