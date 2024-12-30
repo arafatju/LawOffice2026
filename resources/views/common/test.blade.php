@@ -103,7 +103,7 @@ html, body {
             </a><hr>
             <ul class="mynav nav nav-pills flex-column mb-auto">
                 <li class="nav-item mb-1">
-                    <a href="#">
+                    <a href="{{route('newdash')}}">
                         <i class=" fa-solid fa-chart-line"></i>
                         Dashboard
                     </a>

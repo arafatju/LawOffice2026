@@ -42,16 +42,16 @@
             
                                     <div class="card-body rounded-md    ">
                                                 <div class="mb-1"> 
-                                                    New  User   <span class="notification-badge"> 1234 </span>
+                                                    New  User   <span class="notification-badge"> {{$number_new_user}} </span>
                                                 </div>
                                                <div class="mb-1">
                                                 Connected  User   <span class="notification-badge"> 1234 </span>
                                                 </div> 
                                                 <div class="mb-1">
-                                                Total  User   <span class="notification-badge"> 1234 </span>
+                                                Total  User   <span class="notification-badge"> {{$number_user}} </span>
                                                 </div> 
                                                 <div class="mb-1">
-                                                Deleted  User   <span class="notification-badge"> 1234 </span>
+                                                Deleted  User   <span class="notification-badge"> {{$number_user_deleted}} </span>
                                                 </div> 
                                        </div>
                 

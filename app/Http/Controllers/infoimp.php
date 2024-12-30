@@ -844,8 +844,10 @@ public function dashboard()
     }
     public function newdash(){
       //  $connectedUsers = \DB::table('sessions')->count();
-
-        return view('DR.newdashboard');
+         $number_user=User::count();
+         $number_new_user=personalinfo::where( 'home_district','kk')->count();
+         $number_user_deleted=DB::table('info_details')->where('action','User Delete')->count();
+        return view('DR.newdashboard',compact('number_user','number_new_user','number_user_deleted'));
     }
     public function addoffice(){
         return view('DR.addoffice');
