@@ -61,7 +61,16 @@ Route::post('userchangepassword11/{id} ', [infoimp::class, 'userchangepassword11
 Route::post('userchangeemail11/{id} ', [infoimp::class, 'userchangeemail11'])->name('userchangeemail11');
 Route::get('/usermanagement', [infoimp::class, 'usermanagement'])->name('usermanagement');
 Route::get('/datasheet3', [infoimp::class, 'getData3'])->name('datasheet3');
- 
+Route::get('/addoffice', [infoimp::class, 'addoffice'])->name('addoffice');
+Route::get('/office2', [infoimp::class, 'office2'])->name('office2');
+Route::post('doptordelete11/{userId}', [infoimp::class, 'doptordelete11'])->name('doptordelete11');
+Route::post('/office3', [infoimp::class, 'office3'])->name('office3');
+Route::get('/emaildash1', [infoimp::class, 'emaildash1'])->name('emaildash1');
+Route::get('/emaildashboard', [infoimp::class, 'emaildashboard'])->name('emaildashboard');
+
+Route::get('/loginfo111', [infoimp::class, 'loginfo111'])->name('loginfo111');
+Route::get('/log112', [infoimp::class, 'log112'])->name('log112');
+
 Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpdf111');
     Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
     Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
@@ -128,18 +137,7 @@ Route::middleware(['auth', 'user-access:usersr'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
-    Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
-     Route::get('/loguser', [infoimp::class, 'loguser'])->name('loguser'); 
-    Route::get('/userinfo', [infoimp::class, 'userinfo'])->name('userinfo'); 
-    
-    Route::get('/pendinguser', [infoimp::class, 'pendinguser'])->name('pendinguser'); 
-
-    Route::get('/deluser/{id}', [infoimp::class, 'deluser'])->name('deluser'); 
-    Route::get('/allpic', [infoimp::class, 'allpic'])->name('allpic'); 
-
-
-});
+ 
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
    Route::get('/Newuser', [infoimp::class, 'Newuser'])->name('Newuser'); 

@@ -847,6 +847,55 @@ public function dashboard()
 
         return view('DR.newdashboard');
     }
+    public function addoffice(){
+        return view('DR.addoffice');
+    }
+    public function office2(){
+        $users = DB::table('codetable')->get(); 
+        return DataTables::of($users)
+            ->addColumn('action', function ($user) {
+                $deleteUrl = route('doptordelete11', $user->id);
+                
+    
+                return '
+                <button class="btn btn-sm btn-danger delete-user" data-id="' . $user->id . '" data-url="' . $deleteUrl . '">Delete</button>';
+                     })
+             
+            ->rawColumns(['name','status','action']) // Ensure HTML is rendered
+            ->make(true);
+    }
+    public function doptordelete11(Request $request, $userId){
+            try{
+                   $user=DB::table('codetable')->where('id',$userId)->delete();
+                return response()->json(['success' => 'User deleted successfully.']);
+
+            }
+            catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500); // Return the exception message
+            }
+    }
+    public function emaildashboard(){
+        return view('DR.emaildash');
+    }
+    public function log112(){
+        $users = DB::table('loginfo')->get(); 
+        return DataTables::of($users)
+             
+             
+            ->rawColumns(['mobile','mail','userid','Device','Browser','ip','Location']) // Ensure HTML is rendered
+            ->make(true);
+    }
+    public function loginfo111(){
+        return view('DR.log111');
+    }
+    public function emaildash1(){
+        $users = DB::table('info_details')->get(); 
+        return DataTables::of($users)
+             
+             
+            ->rawColumns(['name','userid','email','type','action']) // Ensure HTML is rendered
+            ->make(true);
+    }
     public function usermanagement(){
         $users = User::all(); 
     return DataTables::of($users)
@@ -893,6 +942,15 @@ public function dashboard()
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500); // Return the exception message
         }
+    }
+    public function office3(Request $request){
+        DB::table('codetable')->insert([
+           'name'=>$request->name,
+           'status'=>$request->status,
+           'code'=>'333'
+        ]);
+        return response()->json(['success' => 'Inserted successfully.']);
+
     }
     public function userchangepassword11(Request $request, $userId){
         $user = User::where('userid', $userId)->firstOrFail();

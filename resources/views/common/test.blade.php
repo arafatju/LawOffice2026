@@ -123,56 +123,25 @@ html, body {
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#">
+                    <a href="addoffice">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        Edit & Delete
+                       Designation & Office
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#">
+                    <a href="{{route('emaildashboard')}}">
                         <i class="fa-solid fa-user-cog"></i>
-                       Change  Password 
+                       Change  Email/Password 
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#">
-                     <i class="fa-solid fa-envelope "></i> 
-                       Change  Email 
+                    <a href="{{route('loginfo111')}}">
+                        <i class="fas fa-sign-in-alt pe-2"></i>
+                        <span class="topic"> Loginfo </span>
                     </a>
                 </li>
-                <li class="sidebar-item  nav-item mb-1">
-                    <a href="#" 
-                       class="sidebar-link collapsed" 
-                       data-bs-toggle="collapse"
-                       data-bs-target="#settings"
-                       aria-expanded="false"
-                       aria-controls="settings">
-                        <i class="fas fa-cog pe-2"></i>
-                        <span class="topic">Settings </span>
-                    </a>
-                    <ul id="settings" 
-                        class="sidebar-dropdown list-unstyled collapse" 
-                        data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="fas fa-sign-in-alt pe-2"></i>
-                                <span class="topic"> Loginfo </span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="fas fa-user-plus pe-2"></i>
-                                <span class="topic">Special Code</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="fas fa-sign-out-alt pe-2"></i>
-                                <span class="topic">Device Registration</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                
+                
                 <li class="nav-item mb-1">
                     <a href="{{route('signout')}}">
                      <i class="fas fa-sign-out-alt"></i> 
