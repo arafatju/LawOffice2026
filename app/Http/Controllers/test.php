@@ -8,6 +8,7 @@ use App\Models\wifeinfo;
 use App\Models\preferred111;
 use App\Models\workingdetails;
 use App\Models\release111;
+use App\Models\info11;
 use App\Models\workingnow;
 use App\Models\workingbefore;
 use App\Models\devicedetails;
@@ -97,7 +98,7 @@ class test extends Controller
         ->get();       
                
         $draft3 = DB::table('codetable')
-        ->select('*')->where('status','economy')
+        ->select('*')->where('status','office')
         ->get(); 
     return view('auth.registration', compact('draft1','draft2','draft3'));
                 
@@ -114,6 +115,14 @@ public function forget44(Request $request){
         ->where('email','=',session('email11'))
         
         ->update(['password' => $pwd11]);
+        info11::create([
+            'name'=>Auth::user()->name,
+            'email'=>Auth::user()->email,
+            'userid'=>Auth::user()->userid,
+            'type'=>'User',
+            'action'=>'Password Change',
+            'status'=>'ok'
+        ]);
      return view('auth.login');
           
 }

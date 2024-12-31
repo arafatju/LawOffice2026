@@ -39,7 +39,7 @@
                                     <option>{{$data->name}}   </option>
                                     
                                     @endforeach
-                                    
+                                    <option>অন্যান্য</option> 
                                     @error('designation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -155,7 +155,7 @@
                                
                                 <option>{{$data->name}}</option>
                                 @endforeach 
-                                 
+                                 <option>অন্যান্য</option> 
                                 
                                 @error('office')
                                     <span class="invalid-feedback" role="alert">

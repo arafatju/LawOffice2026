@@ -49,12 +49,7 @@ class infoimp extends Controller
 
         return view('auth.login');
     }
-     public function user(){
-         return view('DR.user');
-     }
-     public function usersr(){
-        return view('SR.user');  
-    }
+      
      
     public function chakuri(Request $request){
         $converter = new ConverterController();
@@ -180,53 +175,8 @@ class infoimp extends Controller
         ->get();
         return view('User.workbefore',compact('draft2'));
     }
-     public function release11(Request $request){
-       
-         $validated=$request->validate([
-             'go_date'=>'required|date_format:d-m-Y',
-             'sarok'=>'required|string',
-         ]);
-         $Date11 = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
-       $gg=workingnow::where('userid',Auth::user()->userid)->first();
-       if($gg && $gg->status2 == 'open'){ 
-       release111::create([
-            'userid'=>Auth::user()->userid,
-            'Go_date'=>$Date11,
-            'sarok'=>$validated['sarok']
-        ]);
-       workingnow::where('userid',Auth::user()->userid)->update([
-            'status2'=>'closed',
-            
-            
-            
-      ]);
       
- 
-
-       
-      workingbefore::create([
-        'userid' => Auth::user()->userid,
-        'district'=>$gg->district,
-        'designation'=>$gg->designation,
-        'mobile'=>$gg->mobile,
-        'status'=>'kk',
-        'situation'=>'before',
-        'start'=>$gg->start,
-        'end'=>$Date11,
-        'status2'=>'unlocked',
-        'GO_Date'=>$gg->GO_Date,
-        'sarok'=>$gg->sarok,
-        'office'=>$gg->office,
-        'GO_Date2'=>$Date11,
-        'sarok2'=>$validated['sarok']
-      ]);
-  
-      return redirect('profile')->withSuccess('Now you can edit your information of Present Working') ;
-       } 
-    } 
-    public function releasefromcurrent(){
-        return view('User.release');
-    }
+     
       public function child11(Request $request){
         $validated= $request->validate([
              
@@ -266,69 +216,8 @@ class infoimp extends Controller
     return view('User.user', compact('draft'));
          
     }
-     public function section7(){
-        if(Auth::check()){
-            $count_user1 = DB::table('users')->where('role', 'user')->count();
-            $count_user2 = DB::table('users')->where('role', 'verified1')->count();
-            $count_accept = DB::table('users')->where('role', 'userone')->count();
-            $user_number=$count_user1+$count_user2;
-             
-            return view('SR.dashboard',compact('count_accept','user_number' ));
-           
- 
-           
-                     }
-    
-    
      
-
-    return redirect("login")->withSuccess('You are not allowed to access');
-       
-    }
-    public function budgetcode(Request $request){
-        $validated = $request->validate([
-            'code_status' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
-        ]);
-        if($validated['code_status']=='economy'){
-        DB::table('codetable')->insert([
-            'code' => 999,
-            'name' => $validated['name'],
-            'status'=>'economy',
-             
-             
-             
-        ]);       toastr('Successfully Added');                 }
-        else if( $validated['code_status']=='designation'){
-            DB::table('codetable')->insert([
-                'code' => '1111',
-                'name' => $validated['name'],
-                'status'=>'designation',
-                 
-                 
-                 
-            ]);  toastr('Successfully Added');
-        }
-        else if( $validated['code_status']=='district'){
-            DB::table('codetable')->insert([
-                'code' =>  '2222',
-                'name' => $validated['name'],
-                'status'=>'district',
-                 
-                 
-                 
-            ]);  toastr('Successfully Added');
-        }
-
-        $draft = DB::table('codetable')
-        ->select('*')
-        ->get(); 
-               
-               
-      
-    return view('SR.code11', compact('draft'));
-        
-    }
+    
     public function contactinfo11(Request $request){
 
          $validated=$request->validate([
@@ -406,7 +295,7 @@ class infoimp extends Controller
     public function workplace(){
         $draft = DB::table('codetable')
         ->select('*')
-        ->where('status','economy')
+        ->where('status','office')
         ->get();
         $draft2  = workingbefore::where('userid',Auth::user()->userid)
         ->get();
@@ -414,53 +303,7 @@ class infoimp extends Controller
     return view('User.workplace', compact('draft','draft2'));
     }
     
-    public function editme(Request $request){
-        $validated = $request->validate([
-            'code11' => 'required|string|max:255',
-            'financial2324' => 'required|string|max:255',
-            'allotment' => 'required|integer|min:1|max:9223372036854775807', // For signed BIGINT
-            'financial2425' => 'required|string|max:255',
-             'allotment3' => 'required|integer|min:1|max:9223372036854775807',
-            'allotment2' => 'required|integer|min:1|max:9223372036854775807', // For signed BIGINT
-            'opinion' => 'required|string|max:255',
-
-        ]);
-        $lastId = DB::table('user_budget')->latest('id')->value('id');
-        DB::table('user_budget')->insert([
-            'code11' => $validated['code11'],
-            'username' => Auth::user()->name,
-            'email'=> Auth::user()->email,
-            'mobile'=> Auth::user()->mobile,
-            'Designation'=> Auth::user()->Designation,
-            'District'=> Auth::user()->District,
-            'status'=>'pending',
-            'financial2324'=>$validated['financial2324'],
-            'allotment'=>$validated['allotment'],
-            'allotment2'=>$validated['allotment2'],
-            'allotment3'=>$validated['allotment3'],
-            'opinion'=>$validated['opinion'],
-            'financial2425'=>$validated['financial2425'],
-            'applicationid'=>Auth::user()->mobile.$lastId,
-
-             
-             
-             
-        ]);
-        toastr('Successfully Saved Draft data');
-        $draft = DB::table('codetable')
-        ->select('*')
-        ->get();
-
-    return view('User.user', compact('draft'));
-        
-    }
-    public function finacialcode(){
-        $draft = DB::table('codetable')
-        ->select('*')
-        ->get();
-
-    return view('SR.code11', compact('draft'));
-    }
+    
     public function delete111(Request $request){
         $id=decrypt($request->id);
         childinfo::where('id',$id)->delete();
@@ -490,313 +333,9 @@ class infoimp extends Controller
         
                              }
       
-      
-    
-    
-    
-    public function verificationinfo(){
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('status','=', 'Forwarded')
-        ->paginate();
-
-    return view('SR.verificationinfo', compact('draftdata'));
-
-        
-
-    }
-    public function budgetstatusfinal1(Request $request){
-        DB::table('user_budget')
-        ->where('status','=','Forwarded')
-        ->where('applicationid','=',$request->id)
-        ->update(['status' => "Waiting"]);
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('status','=', 'Forwarded')
-        ->paginate();
-        toastr('Successfully Sent to Admin Approval ');
-
-    return view('SR.verificationinfo', compact('draftdata')); 
-
-    } 
-    
-    public function inactiveuserlist(Request $request){
-        DB::table('users')
-         
-        ->where('email','=',$request->id)
-        ->update(['role' => "inactive"]);
-       return redirect()->route('showinactive');
-    }
-       public function showinactive(){
-        $draftdata=DB::table('users')
-        ->select('*')
-        ->where('role','=','inactive')
-        ->paginate();
-       return view('DR.inactive1122',compact('draftdata'));
-
-    }
-    
-    public function finalstage(){
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('status','=', 'Waiting')
-        
-        ->paginate();
-
-    return view('DR.finalstage', compact('draftdata'));
-    }
-
-    public function userlist1122(){
-        $draftdata=DB::table('users')
-        ->select('*')
-        ->where('role','=','userone')
-        ->paginate();
-       return view('DR.userlist1122',compact('draftdata'));
-    }
-    public function finalstage1123(Request $request){
-        
        
-        
-        
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-         ->where('District','like','%'.$request->district.'%')
-         ->where('Designation','like','%'.$request->designation.'%')
-         ->where('code11','like', '%'.$request->code.'%')
-        ->where('status','Accepted')
-        ->paginate();
-        $draft1 = DB::table('codetable')
-        ->select('*')->where('status','designation')
-        ->get(); 
-        $draft2 = DB::table('codetable')
-        ->select('*')->where('status','district')
-        ->get();       
-        $draft3 = DB::table('codetable')
-        ->select('*')->where('status','economy')
-        ->get();      
-      
-     
-
-    return view('DR.final11', compact('draftdata','draft1','draft2','draft3'));
-  
-
-    }
-    public function finalstage1122(){
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-         
-        ->where('status','=','Accepted')
-        ->paginate();
-        $draft1 = DB::table('codetable')
-        ->select('*')->where('status','designation')
-        ->get(); 
-        $draft2 = DB::table('codetable')
-        ->select('*')->where('status','district')
-        ->get();       
-        $draft3 = DB::table('codetable')
-        ->select('*')->where('status','economy')
-        ->get();      
-      
-     
-
-    return view('DR.final11', compact('draftdata','draft1','draft2','draft3'));
-    }
-    public function acceptfinal(Request $request){
-       
-        
-       
-        DB::table('user_budget')
-        ->where('status','=','Waiting')
-        ->where('applicationid','=',$request->id)
-        ->update(['status' => "Accepted"]);
-
-        $user_mail=DB::table('user_budget')
-            ->select('email')
-            ->where('applicationid','=',$request->id)
-            ->first();
-            try { 
-                // Attempt to send the mail
-                 Mail::to($user_mail->email)->send(new userinfo($request->id));
-                // Show success toastr notification
-               toastr()->success('Successfully sent mail');
-           } catch (\Exception $e) {
-                // Handle failure and show error toastr notification
-               // toastr()->error('Mail Sent Error: ' . $e->getMessage());
-            }
-      
-        
-        return redirect()->route('finalstage');
-            
-
-    }
-    public function budgetback11(Request $request){
-      
-        $rrt=DB::table('user_budget')
-        ->select('status')
-        ->where('applicationid','=',decrypt($request->id))
-        ->first();
-        if($rrt->status=='Waiting'){ 
-      
-      
-        DB::table('user_budget')
-        ->where('status','=','Waiting')
-        ->where('applicationid','=',decrypt($request->id))
-        ->update(['status' => "Forwarded"]);
-
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('status','=', 'Waiting')
-        ->orwhere('status','=','Accepted')
-        ->paginate();
-        toastr('Successfully sent back  ');
-    return view('DR.finalstage', compact('draftdata'));
-        }
-           else {
-            return redirect()->back();
-           }
-
-    }
-    public function budgetback(Request $request){
-        DB::table('user_budget')
-        ->where('status','=','Forwarded')
-        ->where('applicationid','=',decrypt($request->id))
-        ->update(['status' => "pending"]);
-
-        $draftdata = DB::table('user_budget')
-        ->select('*')
-        ->where('status','=', 'Forwarded')
-        ->paginate();
-        toastr('Successfully Sent back  ');
-    return view('SR.verificationinfo', compact('draftdata'));
-
-         
-    }
-    public function sendtoict(){
-        $draftdata=DB::table('users')
-        ->select('*')
-        ->where('role','=','user')
-        ->paginate(3);
-       return view('SR.sendtoict',compact('draftdata'));
-
-         
-    }
-    public function finaluser(){
-        $draftdata=DB::table('users')
-        ->select('*')
-        ->where('role','=','verified1')
-        ->paginate();
-       return view('DR.finaluser',compact('draftdata'));
-
-         
-    }
-    public function userstatus22(Request $request){
-        DB::table('users')
-      ->where('email','=',$request->id)
-      ->update(['role' => 'userone' ]);
-      $draftdata=DB::table('users')
-      ->select('*')
-      ->where('role','=','verified1')
-      ->paginate(3);
-      toastr('Successfully Accepted User ');
-     return view('DR.finaluser',compact('draftdata'));
-    }
-    public function userstatus11(Request $request){
-         
-      DB::table('users')
-      ->where('id','=',$request->id)
-      ->update(['role' => 'verified1' ]);
-      $draftdata=DB::table('users')
-      ->select('*')
-      ->where('role','=','user')
-      ->paginate(3);
-      toastr('Successfully Sent for final Acceptance ');
-
-
-      return view('SR.sendtoict',compact('draftdata')) ;
-       
-    }
-    public function overalldel11(Request $request){
-        $tablenn=$request->name;
-        $id= $request->id;
-      DB::table($tablenn)
-      ->where('id','=',$id)
-      ->delete();
-      $draftdata=DB::table('users')
-        ->select('*')
-        ->where('role','=','verified1')
-        ->paginate();
-        toastr('Successfully Deleted  ');
-       return view('DR.finaluser',compact('draftdata'));
-
-
-
-
-  }  
-    public function overalldel(Request $request){
-          $tablenn=$request->name;
-          $id= $request->id;
-        DB::table($tablenn)
-        ->where('id','=',$id)
-        ->delete();
-        $draftdata=DB::table('users')
-        ->select('*')
-        ->where('role','=','user')
-        ->paginate(3);
-        toastr('Successfully deleted ');
-       return view('SR.sendtoict',compact('draftdata'));
-
-
-
-    }
-    public function srdel(Request $request){
-         
-        
-        $tablenn=$request->name;
-        $id=decrypt($request->id);
-      DB::table($tablenn)
-      ->where('id','=',$id)
-      ->delete();
-      $draft = DB::table('codetable')
-      ->select('*')
-      ->get();
-      toastr('Successfully Deleted');
-  return view('SR.code11', compact('draft'));
-
-
-
-  }
-
      
     
-
-     
- 
-    public function overallverification(Request $request){
-        $tablenn=$request->name;
-        $id=decrypt($request->id);
-      DB::table($tablenn)
-      ->where('id','=',$id)
-      ->update(['status' => 'ok' ]);
-      return view('SR.verificationinfo');
-
-
-
-  }
-  
- 
- 
- 
-public function admin(){
-    return view('AR.user');
-}
-public function admindash(){
-    return view('AR.dashboard');
-}
-public function Newuser(){
-    
-    return view('Newok.Newuser');
-}
-  
 public function dashboard()
     {   
         if(Auth::check()){
@@ -845,9 +384,30 @@ public function dashboard()
     public function newdash(){
       //  $connectedUsers = \DB::table('sessions')->count();
          $number_user=User::count();
-         $number_new_user=personalinfo::where( 'home_district','kk')->count();
+         $number_end_user=User::where( 'role','userone')->count();
+         $number_admin_user=User::where( 'role','userdr')->count();
+
          $number_user_deleted=DB::table('info_details')->where('action','User Delete')->count();
-        return view('DR.newdashboard',compact('number_user','number_new_user','number_user_deleted'));
+         
+
+        $password_changed_admin=DB::table('info_details')->where('action','Password Change')
+           ->where('type','Admin')->count();
+           $password_changed_user=DB::table('info_details')->where('action','Password Change')
+           ->where('type','User')->count();
+
+           $email_changed_admin=DB::table('info_details')->where('action','Email Change')
+           ->where('type','Admin')->count();   
+           
+           $logged_by_mobile=DB::table('loginfo')
+           ->whereIn('Device', ['iOS', 'AndroidOS'])
+           ->count(); 
+           $total_logged=DB::table('loginfo')->count();
+           $admin=User::where('role','userdr')->select('email')->get();
+           $count11=0;
+           foreach($admin as $admin11){
+            $count11=DB::table('loginfo')->where('mail',$admin11->email)->count()+$count11;
+           }
+           return view('DR.newdashboard',compact('count11','total_logged','logged_by_mobile','email_changed_admin','number_user','number_end_user','number_admin_user','number_user_deleted','password_changed_admin','password_changed_user'));
     }
     public function addoffice(){
         return view('DR.addoffice');
@@ -1031,56 +591,7 @@ public function dashboard()
   
         return redirect("login")->withSuccess('You are not allowed to access');
     }
-    public function result123(){
-         
-    // Execute the query
-    $results = DB::table('personalinfo as p')
-        ->join('childinfo as c', 'p.userid', '=', 'c.userid')
-        ->join('preferred_five_districts as prf', 'p.userid', '=', 'prf.userid')
-        ->join('release_details as rls', 'p.userid', '=', 'rls.userid')
-        ->join('wifeinfo as w', 'p.userid', '=', 'w.userid')
-        ->join('working_history_officer as whf_current', 'p.userid', '=', 'whf_current.userid')
-        ->join('working_history_officer as whf_before', 'p.userid', '=', 'whf_before.userid')
-        ->where('whf_current.situation', 'present')
-        ->where('whf_before.situation', 'before')
-        ->orderBy('whf_current.start')
-        ->orderBy('whf_current.designation')
-        ->orderBy('whf_current.district')
-        ->select(
-            'p.id as id',
-            'p.name',
-            'p.home_district',
-            'p.serviceid',
-            'p.gradation',
-            'p.marital_status',
-            'whf_current.district as current_district',
-            'whf_current.designation as current_designation',
-            'whf_current.office as current_office',
-            'whf_current.start as current_start',
-            'whf_before.district as before_district',
-            'w.wifename as wife_name',
-            'w.profession as wife_profession',
-            'w.designation as wife_designation',
-            'w.wifeworkplace',
-            'w.wifehomedistrict',
-            'c.name as child_name',
-            'c.age as child_age',
-            'c.educationtype as child_educationtype',
-            'c.educationlocation as child_educationlocation',
-            'prf.district as preferred_district',
-            'prf.reason as preferred_reason'
-        )
-        ->get();
-
-    // Dump the results and stop execution
-    dd($results);
-    $carbonDiff = $carbonNow->diff(Carbon::parse($$results->current_start));
-
-    // Format the difference as "X years, Y months, Z days"
-    $carbonDiffFormatted = $carbonDiff->y . ' years, ' . $carbonDiff->m . ' months, ' . $carbonDiff->d . ' days';
-    dd($carbonDiffFormatted);
-   
-}
+    
 public  function get2data(){
 
     $converter = new ConverterController();
@@ -1220,62 +731,19 @@ public function getData3(){
         
         $converter = new ConverterController();
 
-        // Call the en2bn method
-       // $bengaliNumber = $converter->en2bn(12345);
-    /*
-        $results = DB::table('personalinfo as p')
-        ->join('childinfo as c', 'p.userid', '=', 'c.userid')
-        ->join('preferred_five_districts as prf', 'p.userid', '=', 'prf.userid')
-        ->join('release_details as rls', 'p.userid', '=', 'rls.userid')
-        ->join('wifeinfo as w', 'p.userid', '=', 'w.userid')
-        ->join('working_history_officer as whf_current', 'p.userid', '=', 'whf_current.userid')
-        ->join('working_history_officer as whf_before', 'p.userid', '=', 'whf_before.userid')
-        ->where('whf_current.situation','present')
-        ->where('whf_before.situation','before')
-         
-         ->distinct()
-        ->select(
-            'p.userid as userid11',
-            'p.id as id',
-            'p.name',
-        'p.home_district',
-        'p.serviceid',
-        'p.gradation',
-        'p.marital_status',
-        'whf_current.district as current_district',
-        'whf_current.designation as current_designation',
-        'whf_current.office as current_office',
-        'whf_current.start as current_start',
-        'whf_before.district as before_district',
-        'w.wifename as wife_name',
-        'w.profession as wife_profession',
-        'w.designation as wife_designation',
-        'w.wifeworkplace',
-        'w.wifehomedistrict',
-        'c.name as child_name',
-        'c.age as child_age',
-        'c.educationtype as child_educationtype',
-        'c.educationlocation as child_educationlocation',
-        'prf.district as preferred_district',
-        'prf.reason as preferred_reason'
-        )
-        ->get();
-             */     
+        
         $data = [];
-       // $results = $results->unique('userid11');
+       
        $results=workingnow::all();
         foreach ($results as $user) {
-            // Carbon instance for current date
+             
             $carbonNow = Carbon::now();
 
-            // Calculate the difference between the current date and the created_at date
-            $carbonDiff = $carbonNow->diff(Carbon::parse($user->start));
+             $carbonDiff = $carbonNow->diff(Carbon::parse($user->start));
 
-            // Format the difference as "X years, Y months, Z days"
-            $carbonDiffFormatted = $converter->en2bn($carbonDiff->y) . ' বছর , ' . $converter->en2bn($carbonDiff->m) . ' মাস , ' . $converter->en2bn($carbonDiff->d) . ' দিন';
+             $carbonDiffFormatted = $converter->en2bn($carbonDiff->y) . ' বছর , ' . $converter->en2bn($carbonDiff->m) . ' মাস , ' . $converter->en2bn($carbonDiff->d) . ' দিন';
              
-            // Combine user details into the first column
-            $user11=personalinfo::where('userid',$user->userid)->first();
+             $user11=personalinfo::where('userid',$user->userid)->first();
 
             $userDetails = '
                 <div><b>১.নাম:</b> ' .$user11->name . '</div>
@@ -1325,8 +793,8 @@ public function getData3(){
                 }
             
                 $Child_info .= '</tbody></table>';
-              //  $ddd = implode(',', $user->before_district ?? []);
-              $info12=workingbefore::where('userid',$user->userid)->get();
+             
+                $info12=workingbefore::where('userid',$user->userid)->get();
                          $before13='';
                   foreach($info12 as $before12)
                                   {
@@ -1339,11 +807,9 @@ public function getData3(){
                   <div><b>১৯. মেয়াদ (বর্তমান কর্মস্থল )    :</b> ' . $carbonDiffFormatted. '</div>';
              
                 
-            // Add combined details and formatted carbon diff into the data array
+ 
 
-
-//   $Designation  $Working_district  $Working_office   $Join_office   $Marriage $Last  $Child_info  $PreviousDist
-        
+         
             $data[] = [
                 'id'=>$user->id,
                 'user_details' => $userDetails,
@@ -1358,9 +824,7 @@ public function getData3(){
                 'previous'=>$PreviousDist,
                 
 
-                //'carbon_diff' => $carbonDiffFormatted,  // Display formatted carbon diff
-                //'action' => '<button class="btn btn-sm btn-info">Details</button>',
-            ];
+             ];
         }
 
         return DataTables::of($data)

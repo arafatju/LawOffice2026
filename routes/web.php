@@ -20,9 +20,7 @@ use App\Http\Controllers\test;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/test',function() {
-         return view('DR.newdashboard');
-});
+ 
 Auth::routes([
     'register' => false,
     'reset' => false,
@@ -55,7 +53,7 @@ All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
-    Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
+   // Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     Route::post('userdelete11/{userId}', [infoimp::class, 'userdelete11'])->name('userdelete11');
 Route::post('userchangepassword11/{id} ', [infoimp::class, 'userchangepassword11'])->name('userchangepassword11');
 Route::post('userchangeemail11/{id} ', [infoimp::class, 'userchangeemail11'])->name('userchangeemail11');
@@ -76,21 +74,21 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
     Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
     Route::get('/newdash', [infoimp::class, 'newdash'])->name('newdash');
 
-    Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
+   // Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
 
     Route::get('/userlist1122', [infoimp::class, 'userlist1122'])->name('userlist1122'); 
     
-    Route::get('/inactiveuserlist/{id}', [infoimp::class, 'inactiveuserlist'])->name('inactiveuserlist'); 
+   // Route::get('/inactiveuserlist/{id}', [infoimp::class, 'inactiveuserlist'])->name('inactiveuserlist'); 
 
 
-    Route::post('/finalstage1123', [infoimp::class, 'finalstage1123'])->name('finalstage1123'); 
+   // Route::post('/finalstage1123', [infoimp::class, 'finalstage1123'])->name('finalstage1123'); 
 
-    Route::get('/finalstage1122', [infoimp::class, 'finalstage1122'])->name('finalstage1122'); 
-    Route::get('/acceptfinal/{id}', [infoimp::class, 'acceptfinal'])->name('acceptfinal'); 
-    Route::get('/budgetback11/{id}', [infoimp::class, 'budgetback11'])->name('budgetback11'); 
+    //Route::get('/finalstage1122', [infoimp::class, 'finalstage1122'])->name('finalstage1122'); 
+    //Route::get('/acceptfinal/{id}', [infoimp::class, 'acceptfinal'])->name('acceptfinal'); 
+  //  Route::get('/budgetback11/{id}', [infoimp::class, 'budgetback11'])->name('budgetback11'); 
 
     Route::get('/dash2', [infoimp::class, 'dash2'])->name('dash2'); 
-    Route::get('/finaluser', [infoimp::class, 'finaluser'])->name('finaluser');
+   // Route::get('/finaluser', [infoimp::class, 'finaluser'])->name('finaluser');
     Route::get('/dashboard', [infoimp::class, 'dashboard'])->name('dashboard'); 
     
     Route::get('/user', [infoimp::class, 'user'])->name('user'); 
@@ -103,46 +101,15 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
        Route::get('/userstatus', [infoimp::class, 'userstatus'])->name('userstatus'); 
      
        
-       Route::get('/finalstage', [infoimp::class, 'finalstage'])->name('finalstage'); 
+       //Route::get('/finalstage', [infoimp::class, 'finalstage'])->name('finalstage'); 
        Route::get('/overalldel11/{id}/{name}', [infoimp::class, 'overalldel11'])->name('overalldel11'); 
 
        
 });
 
-Route::middleware(['auth', 'user-access:usersr'])->group(function () {
-    Route::get('/srdel/{name}/{id}', [infoimp::class, 'srdel'])->name('srdel'); 
-    Route::get('/budgetstatusfinal1/{id}', [infoimp::class, 'budgetstatusfinal1'])->name('budgetstatusfinal1'); 
-    
-    Route::get('/budgetback/{id}', [infoimp::class, 'budgetback'])->name('budgetback'); 
-
-    Route::get('/overalldel/{id}/{name}', [infoimp::class, 'overalldel'])->name('overalldel'); 
-
-    Route::get('/verificationinfo', [infoimp::class, 'verificationinfo'])->name('verificationinfo'); 
-
-     Route::get('/finacialcode', [infoimp::class, 'finacialcode'])->name('finacialcode'); 
-
-    Route::post('/budgetcode', [infoimp::class, 'budgetcode'])->name('budgetcode'); 
-
-    Route::get('/section7', [infoimp::class, 'section7'])->name('section7'); 
-    Route::get('/usersr', [infoimp::class, 'usersr'])->name('usersr'); 
-     
  
-       Route::get('/deletesr', [infoimp::class, 'deletesr'])->name('deletesr'); 
-    Route::get('/sendtoict', [infoimp::class, 'sendtoict'])->name('sendtoict'); 
-     Route::get('/srloguser', [infoimp::class, 'srloguser'])->name('srloguser'); 
-    Route::get('/adminstatus', [infoimp::class, 'adminstatus'])->name('adminstatus'); 
-     
-    Route::get('/userstatus11/{id}', [infoimp::class, 'userstatus11'])->name('userstatus11'); 
-
-
-});
-
  
-
-Route::middleware(['auth', 'user-access:user'])->group(function () {
-   Route::get('/Newuser', [infoimp::class, 'Newuser'])->name('Newuser'); 
-
-});
+ 
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
     Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 

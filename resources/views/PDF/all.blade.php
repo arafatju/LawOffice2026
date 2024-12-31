@@ -164,7 +164,7 @@ td:nth-child(2) {
         </tbody>
     </table>
     <table>
-        <caption>Transfer Related</caption>
+        <caption>Transfer Reason / Preferred district</caption>
          
 
         <tbody>
