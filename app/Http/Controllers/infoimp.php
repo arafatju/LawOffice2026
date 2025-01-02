@@ -351,6 +351,12 @@ public function dashboard()
   
         return redirect("login")->withSuccess('You are not allowed to access');
     }
+    public function deviceregister(){
+        return view('DR.device');
+    }
+    public function special11(){
+        return view('DR.device11');
+    }
     public function all_info(){
         $personal = personalinfo::where('userid',Auth::user()->userid)->get();
         $wife= wifeinfo::where('userid', Auth::user()->userid)->get();  

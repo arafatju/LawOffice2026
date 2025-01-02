@@ -52,7 +52,7 @@ Auth::routes();
 All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
-Route::middleware(['auth', 'user-access:userdr'])->group(function () {
+Route::middleware(['auth', 'user-access:userdr','check.device.agent'])->group(function () {
    // Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     Route::post('userdelete11/{userId}', [infoimp::class, 'userdelete11'])->name('userdelete11');
 Route::post('userchangepassword11/{id} ', [infoimp::class, 'userchangepassword11'])->name('userchangepassword11');
@@ -107,9 +107,13 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
        
 });
 
+Route::middleware(['auth', 'user-access:userdr'])->group(function () {
+    Route::get('/device.register', [infoimp::class, 'deviceregister'])->name('device.register'); 
+    Route::get('/sendotp', [infoimp::class, 'sendotp'])->name('sendotp'); 
+    Route::get('/special11', [infoimp::class, 'special11'])->name('special11'); 
+
  
- 
- 
+});
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
     Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
