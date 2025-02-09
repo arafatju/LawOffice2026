@@ -108,34 +108,34 @@ class infoimp extends Controller
     public function workingbefore (Request $request){
         $validated = $request->validate([
             'district1' => 'required|string',
-           /* 'designation1' => 'required|string',
+            'designation1' => 'required|string',
             'office1'=> 'required|string',
             'join1'=>'required|date_format:d-m-Y' ,
             'go_date' => 'required|date_format:d-m-Y',
             'release1' => 'required|date_format:d-m-Y',
-            'sarok' => 'required|string',  */
+            'sarok' => 'nullable|string', 
 
         ]);
-     /*    $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
+        $JoinDate = Carbon::createFromFormat('d-m-Y', $validated['join1'])->format('Y-m-d');
         $godate = Carbon::createFromFormat('d-m-Y', $validated['go_date'])->format('Y-m-d');
-        $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');  */
+        $release = Carbon::createFromFormat('d-m-Y', $validated['release1'])->format('Y-m-d');  
         workingbefore::create([
              'userid'=>Auth::user()->userid,
             'district' => $validated['district1'],
             'mobile'=>Auth::user()->mobile,
-            /*   'designation' => trim($validated['designation1']),
+              'designation' => trim($validated['designation1']),
             'office'=>$validated['office1']  ,
             'start'=> $JoinDate,
-            'end'=>$release ,
+            
            'GO_Date'=> $godate,
            'GO_Date2'=> '20-02-02',
-            'sarok'=>$validated['sarok'],
+            'sarok'=> $validated['sarok'],
             'sarok2'=>'kkk',
             'status'=>'empty',
             'situation'=>'before',
             'end'=>$release,
            
-            'status2'=>'nolocked',*/
+            'status2'=>'nolocked',
  
 
         ]);
