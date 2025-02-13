@@ -44,7 +44,12 @@
                                         <tr>
                                             <th>Serial</th>
                                             <th>জেলা</th>
-                                            
+                                            <th>পদবী  </th>
+                                            <th> আদালত/দপ্তর  </th>
+                                            <th>যোগদানের তারিখ  </th>
+                                            <th>অবমুক্তির তারিখ   </th>
+                                            <th>জিওর তারিখ </th>
+                                            <th> স্মারক নাম্বার   </th>
                                             <th> Action </th>
                                         </tr>
                                     </thead>
@@ -53,7 +58,12 @@
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$data->district}}</td>
-                                             
+                                            <td>{{$data->designation}}</td>
+                                            <td>{{$data->office}}</td>
+                                            <td>{{$data->start}}</td>
+                                            <td>{{$data->end}}</td>
+                                            <td>{{$data->GO_Date}}</td>
+                                            <td>{{$data->sarok}}</td>
                                             <td> 
                                               <a href="{{route('delete112',['id'=>encrypt($data->id)])}}">
                                                 <img src="{{ asset('delete.png') }}" alt="Back" width="20" height="20">
@@ -173,8 +183,39 @@
 
                             
                         </div>
-                            
-                    
+
+                    <div class="mb-3">
+                        <label for="designation1" class=" form-label  ">{{ __('পদবী') }}</label>
+                        <input type="text" id="designation1" class="form-control @error('designation1') is-invalid @enderror" name="designation1"  required   >
+
+                    </div>   
+                        
+                    <div class="mb-3">
+                        <label for="office1" class=" form-label  ">{{ __('  আদালত/দপ্তর ') }}</label>
+                        <input type="text" id="office1" class="form-control @error('office1') is-invalid @enderror" name="office1"  required   >
+                        
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="join1" class=" form-label  ">{{ __(' যোগদানের তারিখ ') }}</label>
+                        <input type="text" id="join1" class="form-control @error('join1') is-invalid @enderror" name="join1"  required   >
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="go_date" class=" form-label  ">{{ __(' জিওর তারিখ  ') }}</label>
+                        <input type="text" id="go_date" class="form-control @error('go_date') is-invalid @enderror" name="go_date"      >
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="release1" class=" form-label  ">{{ __(' অবমুক্তির তারিখ  ') }}</label>
+                        <input type="text" id="release1" class="form-control @error('release1') is-invalid @enderror" name="release1"  required   >
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="sarok" class=" form-label  ">{{ __('  স্মারক নাম্বার  ') }}</label>
+                        <input type="text" id="sarok" class="form-control @error('release1') is-invalid @enderror" name="sarok"      >
+                        
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -187,11 +228,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        flatpickr('#start', {
-            enableTime: false, // Optional, depending on whether you need time selection
-            dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
-        });
-        flatpickr('#GO_Date', {
+        flatpickr('#join1', {
             enableTime: false, // Optional, depending on whether you need time selection
             dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
         });
@@ -199,14 +236,12 @@
             enableTime: false, // Optional, depending on whether you need time selection
             dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
         });
-        flatpickr('#join1', {
-            enableTime: false, // Optional, depending on whether you need time selection
-            dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
-        });
         flatpickr('#release1', {
             enableTime: false, // Optional, depending on whether you need time selection
             dateFormat: 'd-m-Y', // Format for DD-MM-YYYY
         });
+        
+         
     });
 </script>
 @endsection

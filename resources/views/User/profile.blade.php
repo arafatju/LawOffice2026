@@ -472,20 +472,40 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         <div class="card">
                             <div class="card-body">
                             
-
+                                <table class="table table-bordered table-striped">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <th>Serial</th>
+                                            <th>জেলা</th>
+                                            <th>পদবী  </th>
+                                            <th> আদালত/দপ্তর  </th>
+                                            <th>যোগদানের তারিখ  </th>
+                                            <th>অবমুক্তির তারিখ   </th>
+                                            <th>জিওর তারিখ </th>
+                                            <th> স্মারক নাম্বার   </th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($working_before as $data)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$data->district}}</td>
+                                            <td>{{$data->designation}}</td>
+                                            <td>{{$data->office}}</td>
+                                            <td>{{$data->start}}</td>
+                                            <td>{{$data->end}}</td>
+                                            <td>{{$data->GO_Date}}</td>
+                                            <td>{{$data->sarok}}</td>
+                                             
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                                  
 
 
-                                <table class="table table-bordered table-striped">
-                                     
-                                    <tbody>
-                                         <tr>
-                                      
-                                         <th class="table-success">জেলা</th>  <td>  {{ $working_before->pluck('district')->implode(', ') }}</td>
-                                         
-                                        </tr>
-                                     </tbody>
-                                </table>
+                                 
       
                                
                               
