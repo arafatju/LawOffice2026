@@ -18,10 +18,10 @@
     <div class="d-flex justify-content-center">
         <!-- Image Preview -->
         <img id="profilePreview" 
-             src="{{ asset('11.jpg') }}" 
+             src="{{ asset('j1.png') }}" 
              alt="Profile Picture" 
              class="rounded-circle shadow" 
-             style="width: 170px; height: 150px; object-fit: contain; cursor: pointer; border: 3px solid #ddd;">
+             style="width: 170px; height: 150px; object-fit: cover; cursor: pointer; border: 3px solid #ddd;">
     </div>
 </div>
 
