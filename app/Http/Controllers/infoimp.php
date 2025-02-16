@@ -221,6 +221,7 @@ class infoimp extends Controller
     public function contactinfo11(Request $request){
 
          $validated=$request->validate([
+         'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
           'dob'=>'date|required',
           'name'=>'string|required|max:60',
           'mobile'=>'string|required|max:20',
@@ -229,13 +230,23 @@ class infoimp extends Controller
          ]);
 
         $StartDate = Carbon::createFromFormat('d-m-Y', $validated['dob'])->format('Y-m-d');
-     
+        $user = auth()->user();
+
+        // Delete old profile picture if it exists
+         
+    
+        // Store new profile picture
+        $file = $request->file('profile_picture');
+        $filename = $user->userid.'.'.$file->getClientOriginalExtension();
+        $file->storeAs('upload/pictures', $filename);
+    
          User::where('userid',Auth::user()->userid)
             ->update([
                 'name'=>$validated['name'],
                 
                 'mobile'=>$validated['mobile'],
-                
+                'avatar' => $filename,
+                    
             ]);
            personalinfo::where('userid',Auth::user()->userid)
             ->update([

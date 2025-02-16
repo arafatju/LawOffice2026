@@ -352,7 +352,7 @@ public function forget44(Request $request){
         'mobile'=>$data['mobile'],
         'role'=>'userone',
         
-        'avatar'=>'kk',
+        'avatar'=>'j1.png',
          'serviceid'=>$data['serviceid'],
          'doptor'=>trim($data['office']),
          'userid'=>$userid,
