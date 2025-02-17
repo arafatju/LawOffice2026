@@ -74,7 +74,16 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                         <div class="card">
                             <div class="card-body">
                             
-                                  
+                                <div class="row mb-3">
+                                    <div class="d-flex justify-content-center">
+                                        <!-- Image Preview -->
+                                        <img id="profilePreview" 
+                                         src="{{  asset('upload/pictures/'.Auth::user()->avatar) }}"  
+                                         alt="Profile Picture" 
+                                         class="rounded-circle shadow" 
+                                         style="width: 170px; height: 150px; object-fit: cover; cursor: pointer; border: 3px solid #ddd;">
+                                    </div>
+                                </div>
                              
                               <div class="row mb-3">
                                   <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('নাম  ') }}</label>

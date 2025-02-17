@@ -233,19 +233,17 @@ class infoimp extends Controller
         $user = auth()->user();
 
         // Delete old profile picture if it exists
-         
-    
+        $imageName = Auth::user()->userid.'.'.$request->file('profile_picture')->extension();  
+        $request->file('profile_picture')->move(public_path('upload/pictures/'), $imageName);          //  unlink("upload/kazi/picture/".$draftdata->picture);
         // Store new profile picture
-        $file = $request->file('profile_picture');
-        $filename = $user->userid.'.'.$file->getClientOriginalExtension();
-        $file->storeAs('upload/pictures', $filename);
+         
     
          User::where('userid',Auth::user()->userid)
             ->update([
                 'name'=>$validated['name'],
                 
                 'mobile'=>$validated['mobile'],
-                'avatar' => $filename,
+                'avatar' => $imageName,
                     
             ]);
            personalinfo::where('userid',Auth::user()->userid)

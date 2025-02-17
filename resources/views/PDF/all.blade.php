@@ -44,6 +44,11 @@ td:nth-child(2) {
  
 <body>
 <h1 style="text-align:center"> Oficers Transfer Database System </h1>
+<div style="text-align:center;">
+    <img src="{{ public_path('upload/pictures/'.Auth::user()->avatar) }}" 
+         alt="Profile Picture" 
+         style="width: 80px; height: 80px; border-radius: 50%;">
+</div>
 <h4 style="text-align:center;">USERID:    {{Auth::user()->userid}} </h4> 
     <table  >
         <caption>Personal Information</caption>
