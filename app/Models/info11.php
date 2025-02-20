@@ -15,8 +15,8 @@ class info11 extends Model
         'name',
         'userid',
          
-        'email',
-        'type',
+        'applicationid',
+         
         'action',
         'status',
          

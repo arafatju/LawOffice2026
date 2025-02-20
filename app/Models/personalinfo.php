@@ -9,20 +9,20 @@ class personalinfo extends Model
 {
     use HasFactory;
     protected $table = 'personalinfo'; // Only needed if table name is not plural or different
-
+    
      
     protected $fillable = [
         'userid',
         'mobile',
         'name',
-        'marital_status',
-        'join',
-        'retired',
-        'email',
-        'serviceid',
-        'gradation',
-        'home_district',
-        'dob'
+        'father',
+        'mother',
+        'dob',
+        'permanent',
+        'nid',
+        'district',
+        'present',
+        'email'
     ];
 
 }

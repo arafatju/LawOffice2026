@@ -19,15 +19,14 @@ class Userstable extends Migration
             
             $table->string('name');
             $table->string('password');
-            $table->string('designation');
+            $table->string('userid');
             $table->string('district');
             $table->string('device');
             $table->string('location');
             $table->string('mobile')->unique();
             $table->string('avatar');
             $table->string('role');  
-            $table->string('doptor');
-            $table->string('serviceid')->unique(); 
+            
             $table->timestamps();
 
              

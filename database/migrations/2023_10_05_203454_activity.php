@@ -19,12 +19,16 @@ class Activity extends Migration
             $table->string('userid')->unique();
             $table->string('mobile')->unique();
             $table->string('name');
-            $table->string('marital_status');
-            $table->string('join');
-            $table->string('retired');
+            $table->string('father');
+            $table->string('mother');
+            $table->string('dob');
+            $table->string('permanent');
+            $table->string('nid');
+            $table->string('district');
+           
+            $table->string('present');
             $table->string('email')->unique();
-            $table->string('serviceid')->unique();
-            $table->string('gradation')->unique();
+            
            $table->timestamps()  ;                   
             
 

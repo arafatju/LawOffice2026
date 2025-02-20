@@ -15,6 +15,7 @@ class Browser extends Migration
     {
         Schema::create('device_details', function (Blueprint $table) {
             $table->id();
+            $table->string('userid');  
             $table->string('browser');  
             $table->string('browser_version');  
             $table->string('device'); //30 words

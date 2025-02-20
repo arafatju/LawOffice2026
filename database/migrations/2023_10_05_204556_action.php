@@ -14,13 +14,13 @@ class Action extends Migration
    
     public function up()
     {
-        Schema::create('officeinfo', function (Blueprint $table) {
+        Schema::create('apllicationinfo', function (Blueprint $table) {
             $table->id();
-            $table->string('district');
-            $table->string('designation');
+            $table->string('status');
+             
             $table->string('userid');
              
-           
+            $table->string('applicationid');
  
             
 
@@ -38,6 +38,6 @@ class Action extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('officeinfo');
+        Schema::dropIfExists('apllicationinfo');
     }
 }

@@ -9,7 +9,7 @@ class devicedetails extends Model
 {
     use HasFactory;
     protected $table = 'device_details'; // Only needed if table name is not plural or different
-
+     
      
     protected $fillable = [
         'userid', 

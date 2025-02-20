@@ -17,8 +17,8 @@ class Info extends Migration
             $table->id();
             $table->string('name');  
             $table->string('userid');  
-            $table->string('email'); //30 words
-            $table->string('type');
+            $table->string('applicationid');  
+           
             $table->string('action');
             $table->string('status');
             $table->timestamps();

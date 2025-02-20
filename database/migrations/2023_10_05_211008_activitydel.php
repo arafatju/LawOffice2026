@@ -9,15 +9,14 @@ class Activitydel extends Migration
      
     public function up()
     {
-        Schema::create('wifeinfo', function (Blueprint $table) {
+        Schema::create('educationinfo', function (Blueprint $table) {
             $table->id();
              $table->string('userid')->unique();
-            $table->string('wifename');
-             $table->string('profession');
-             $table->string('designation');
-             $table->string('wifeworkplace');
-             $table->string('wifehomedistrict');
-             $table->string('kids_number');
+            $table->string('sscpass');
+             $table->string('hscpass');
+             $table->string('edu1');
+             $table->string('edu2');
+            
              $table->timestamps();
                                                                 });
     }
@@ -29,6 +28,6 @@ class Activitydel extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wifeinfo');
+        Schema::dropIfExists('educationinfo');
     }
 }

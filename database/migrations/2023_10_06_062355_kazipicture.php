@@ -9,15 +9,17 @@ class Kazipicture extends Migration
      
     public function up()
     {
-        Schema::create('childinfo', function (Blueprint $table) {
+        Schema::create('notaryinfo', function (Blueprint $table) {
             $table->id();
             $table->string('userid');
-            $table->string('name');
-            $table->string('age');
-            $table->string('status');
-            $table->string('educationtype'); // class 1 2 school(1-6)- 6-10 college univ 
-            $table->string('educationlocation');
-            $table->string('educationname');  //varsity name
+            $table->string('barnumber');
+            $table->string('bardate');
+            $table->string('exp');
+            $table->string('notarysarok'); // class 1 2 school(1-6)- 6-10 college univ 
+            $table->string('natarydate');
+            $table->string('area');  //varsity name
+            $table->string('renewdate'); 
+            $table->string('lastrenewdate'); 
             $table->timestamps();
              
                                                                });
@@ -30,6 +32,6 @@ class Kazipicture extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userpicture');
+        Schema::dropIfExists('notaryinfo');
     }
 }
