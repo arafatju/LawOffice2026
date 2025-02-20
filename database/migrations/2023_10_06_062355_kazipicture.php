@@ -14,6 +14,8 @@ class Kazipicture extends Migration
             $table->string('userid');
             $table->string('barnumber');
             $table->string('bardate');
+            $table->string('lawnumber');
+            $table->string('lawdate');
             $table->string('exp');
             $table->string('notarysarok'); // class 1 2 school(1-6)- 6-10 college univ 
             $table->string('natarydate');
