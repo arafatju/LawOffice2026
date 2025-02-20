@@ -14,11 +14,12 @@ class Loginfo extends Migration
             $table->string('district');
             $table->string('mobile');
             $table->string('mail');
-            $table->string('time');
+            $table->string('name');
             $table->string('Device');
             $table->string('Browser');
             $table->string('ip');
             $table->string('Location');
+            $table->timestamps();
              
                                                                });
     }
