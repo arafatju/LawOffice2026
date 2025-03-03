@@ -274,17 +274,8 @@ class infoimp extends Controller
            return redirect('profile')->withSuccess('Updated Successfully Transfer request');
   }
   public function profile(Request $request){
-        $job_related_info=personalinfo::where('userid',Auth::user()->userid)->first();
-        
-        $wife=wifeinfo::where('userid',Auth::user()->userid)->get();
-        $child11=childinfo::where('userid',Auth::user()->userid)->get();
-        $working_present=workingnow::where('userid',Auth::user()->userid)
-                     ->get();
-        $working_before=workingbefore::where('userid',Auth::user()->userid)
-                     ->get();  
-         $transfer=preferred111::where('userid',Auth::user()->userid)->get();
-        // $contact11=                   
-    return view('User.profile',compact('job_related_info', 'wife','child11','working_present','working_before','transfer'));
+                      
+    return view('common.notary');
   }
     public function contactinfo(Request $request){
           $home=personalinfo::where('userid', Auth::user()->userid)

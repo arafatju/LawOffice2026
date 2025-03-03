@@ -108,7 +108,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                   <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('   জন্ম তারিখ   ') }}</label>
       
                                   <div class="col-md-6">
-                                  <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ $job_related_info->dob }}" required readonly autofocus>
+                                  <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{  }}" required readonly autofocus>
       
                                    
                                       
@@ -124,7 +124,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                       
                                  
                                   <div class="col-md-6">
-                                      <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$job_related_info->home_district}}" required  readonly autocomplete="retired">
+                                      <input id="retired" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{ }}" required  readonly autocomplete="retired">
       
                                       
                                   </div>
@@ -135,7 +135,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                             <label for="marital_status" class="col-md-4 col-form-label text-md-end">{{ __('বৈবাহিক অবস্থা ') }}</label>
 
                             <div class="col-md-6">
-                            <input id="retir11ed" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{$job_related_info->marital_status}}" required  readonly autocomplete="retired">
+                            <input id="retir11ed" type="text" class="form-control @error('retired') is-invalid @enderror" name="retired" value="{{ }}" required  readonly autocomplete="retired">
 
 
                             </div>
@@ -175,7 +175,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                 <label for="serviceid" class="col-md-4 col-form-label text-md-end">{{ __('সার্ভিস আইডি ') }}</label>
     
                                 <div class="col-md-6">
-                                    <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{ $job_related_info->serviceid}} "  readonly required autocomplete="serviceid" autofocus>
+                                    <input id="serviceid" type="text" class="form-control @error('serviceid') is-invalid @enderror" name="serviceid" value="{{  }} "  readonly required autocomplete="serviceid" autofocus>
     
                                 </div>
                             </div>
@@ -184,7 +184,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                 <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('গ্রেডেশন নং(২০২৪ সনের গেজেট প্রজ্ঞাপন মতে)') }}</label>
     
                                 <div class="col-md-6">
-                                    <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{ $job_related_info->gradation}}" readonly required autocomplete="gradation" autofocus>
+                                    <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{  }}" readonly required autocomplete="gradation" autofocus>
      
                                 </div>
                             </div>
@@ -194,7 +194,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                 <label for="join" class="col-md-4 col-form-label text-md-end">{{ __('  চাকুরীর প্রথম  যোগদানের তারিখ ') }}</label>
     
                                 <div class="col-md-6">
-                                <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{ $job_related_info->join }}" required readonly autofocus>
+                                <input id="join" type="text" class="form-control @error('join') is-invalid @enderror" name="join" value="{{   }}" required readonly autofocus>
     
                                  
                                     
@@ -242,7 +242,7 @@ $controller = app(App\Http\Controllers\ConverterController::class);
                                   <label for="gradation" class="col-md-4 col-form-label text-md-end">{{ __('স্বামী / স্ত্রীর নাম') }}</label>
       
                                   <div class="col-md-6">
-                                      <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="{{$wife1->wifename}}" readonly required autocomplete="gradation" autofocus>
+                                      <input id="gradation" type="text" class="form-control @error('gradation') is-invalid @enderror" name="gradation" value="#" readonly required autocomplete="gradation" autofocus>
        
                                   </div>
                               </div>

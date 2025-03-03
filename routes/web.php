@@ -18,7 +18,7 @@ use App\Http\Controllers\test;
 */
 
 Route::get('/', function () {
-    return view('auth.login11');
+    return view('auth.login');
 });
  
 Auth::routes([

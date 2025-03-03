@@ -90,19 +90,20 @@ class test extends Controller
     public function registration()
     {
        
-        $draft1 = DB::table('codetable')
-        ->select('*')->where('status','designation')
-        ->get(); 
-        $draft2 = DB::table('codetable')
-        ->select('*')->where('status','district')
-        ->get();       
+      //  $draft1 = DB::table('codetable')
+      //  ->select('*')->where('status','designation')
+      //  ->get(); 
+      //  $draft2 = DB::table('codetable')
+      //  ->select('*')->where('status','district')
+      //  ->get();       
                
-        $draft3 = DB::table('codetable')
-        ->select('*')->where('status','office')
-        ->get(); 
-    return view('auth.registration', compact('draft1','draft2','draft3'));
-                
-    }
+      //  $draft3 = DB::table('codetable')
+      //  ->select('*')->where('status','office')
+      //  ->get(); 
+  //  return view('auth.registration', compact('draft1','draft2','draft3'));
+  return view('auth.registration');            
+   
+}
 public function forget44(Request $request){
           
            $validated=$request->validate([
@@ -174,10 +175,10 @@ public function forget44(Request $request){
                 
                      //Device Location ip Browser 
                      DB::table('loginfo')->insert([
-                      'district' => Auth::user()->district,
+                      'name'=>Auth::user()->name,
                       'mobile' => Auth::user()->mobile,
                       'mail'=>Auth::user()->email,
-                       'time'=>date("Y-m-d H:i:s", strtotime('now')),
+                        
                       'Device'=>$platform,
                       'Browser'=>$browser,
                       'ip'=>$ip,
@@ -209,18 +210,18 @@ public function forget44(Request $request){
     {    
         $converter = new ConverterController();
  $request->merge([
-        'serviceid' => $converter->bn2en($request->serviceid),
+        'mobile' => $converter->bn2en($request->mobile),
     ]);
        $validated=$request->validate([
-            'name' => 'required|string|max:30',
-            'district' => 'required|string|max:30',
-            'designation' => 'required|string|max:100',
-            'office' => 'required|string|max:100',
+            'name' => 'required|string|max:35',
+           // 'district' => 'required|string|max:30',
+          //  'designation' => 'required|string|max:100',
+           // 'office' => 'required|string|max:100',
 
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-            'serviceid'=>['required','string','size:10','regex:/^(199[0-9]|20[0-2][0-9]|2030)[0-9]{6}$/'],
-            'mobile'=>'required|string|max:20'
+            //'serviceid'=>['required','string','size:10','regex:/^(199[0-9]|20[0-2][0-9]|2030)[0-9]{6}$/'],
+            'mobile'=>'required|string|max:15'
         ]);
         
         
@@ -270,57 +271,7 @@ public function forget44(Request $request){
         'device_version'=>$platform_version
         ]);
       
-      childinfo::create([
-       'userid' => $userid,
-       'name'=>'gg', 
-        'age'=>'gg', 
-        'educationtype'=>'gg', 
-        'educationlocation'=>'gg', 
-        'educationname'=>'gg',
-      ]);
-      wifeinfo::create([
-        'userid' => $userid,
-        'wifename'=>'kk', 
-        'profession'=>'kk', 
-        'designation'=>'kk', 
-        'wifeworkplace'=>'kk', 
-        'wifehomedistrict'=>'kk', 
-        'kids_number'=>'kk'
-       ]);
-       workingnow::create([
-        'userid' => $userid,
-        'district'=>Auth::user()->district,
-        'designation'=>Auth::user()->designation,
-        'mobile'=>Auth::user()->mobile,
-        'status'=>'kk',
-        'situation'=>'present',
-        'start'=>'2022-02-02',
-         
-        'status2'=>'closed',
-        'GO_Date'=>'2022-02-02',
-        'sarok'=>'2022-02-02',
-        'office'=>Auth::user()->doptor
-       ]);
-       personalinfo::create([
-        'userid' => $userid,
-         
-        'mobile'=>Auth::user()->mobile,
-        'name'=>Auth::user()->name ,
-        'marital_status'=>'kk',
-        'join'=>'2022-02-02',
-        'retired'=>'2022-02-02',
-        'email'=>Auth::user()->email,
-        'serviceid'=>Auth::user()->serviceid,
-        'gradation'=>22,
-        'home_district'=>'kk',
-        'dob'=>'1990-01-01'
-       ]);
-
-       preferred111::create([
-        'userid' => $userid,
-        'district'=>'kk', 
-        'reason'=>'kk'
-       ]);
+       
         
      
 
@@ -345,16 +296,16 @@ public function forget44(Request $request){
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'district' =>trim($data['district']),
-        'designation'=>trim($data['designation']),
+      //  'district' =>trim($data['district']),
+       // 'designation'=>trim($data['designation']),
         'location'=>$currentUserInfo,
         'device'=>$platform,
         'mobile'=>$data['mobile'],
         'role'=>'userone',
         
         'avatar'=>'j1.png',
-         'serviceid'=>$data['serviceid'],
-         'doptor'=>trim($data['office']),
+        // 'serviceid'=>$data['serviceid'],
+        // 'doptor'=>trim($data['office']),
          'userid'=>$userid,
       ]);
     }    

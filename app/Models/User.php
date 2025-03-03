@@ -23,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         
-        'district',
+         
         'device',
         'location',
         'mobile',

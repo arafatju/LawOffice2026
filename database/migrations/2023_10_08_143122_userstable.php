@@ -20,7 +20,7 @@ class Userstable extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('userid');
-            $table->string('district');
+           
             $table->string('device');
             $table->string('location');
             $table->string('mobile')->unique();
