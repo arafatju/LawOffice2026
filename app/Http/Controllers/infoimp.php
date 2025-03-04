@@ -275,7 +275,7 @@ class infoimp extends Controller
   }
   public function profile(Request $request){
                       
-    return view('common.notary');
+    return view('User.NotaryDashboard');
   }
     public function contactinfo(Request $request){
           $home=personalinfo::where('userid', Auth::user()->userid)
