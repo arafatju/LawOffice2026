@@ -48,12 +48,16 @@
         </div>
     </div>
 </div>
+<div class="d-flex justify-content-end mb-1"><a href="#">
+    <button class="btn btn-primary"> <i class="bi bi-plus-lg"></i> New Application</button>
+</a> 
+</div>
 <table class="table table-border ">
     <tr>
         <th>Application id</th> 
     
         <th> Application Status</th> 
-        <th> Action11</th> 
+        <th> Action</th> 
     </tr>
     <tr>
         <td> Application id</td> 

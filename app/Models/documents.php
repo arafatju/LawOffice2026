@@ -12,7 +12,7 @@ class documents extends Model
      
      
     protected $fillable = [
-        'userid', 
+        'applicationid', 
         'image', 
         'signature', 
         'barcertificate', 

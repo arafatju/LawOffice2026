@@ -200,7 +200,7 @@ public function forget44(Request $request){
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
         else if(Auth::user()->role=='user') { toastr('Successfully Logged in');return redirect("Newuser") ; }
-        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("profile") ; }
+        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("NotaryDashboard") ; }
                                                                     }
   
           return redirect("login")->withError('Login details are not valid');

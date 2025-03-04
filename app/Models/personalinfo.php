@@ -12,7 +12,7 @@ class personalinfo extends Model
     
      
     protected $fillable = [
-        'userid',
+        'applicationid',
         'mobile',
         'name',
         'father',

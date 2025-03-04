@@ -5,7 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\hhomeController;
 use App\Http\Controllers\infoimp;
 use App\Http\Controllers\test;
-
+use App\Http\Controllers\notaryuser;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -144,7 +144,7 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/workingbefore', [infoimp::class, 'workingbefore'])->name('workingbefore'); 
     Route::post('/contactinfo11', [infoimp::class, 'contactinfo11'])->name('contactinfo11'); 
     Route::post('/reason111', [infoimp::class, 'reason111'])->name('reason111'); 
-    Route::get('/profile', [infoimp::class, 'profile'])->name('profile');
+    Route::get('/NotaryDashboard', [notaryuser::class, 'NotaryDashboard'])->name('NotaryDashboard');
      
 
 });

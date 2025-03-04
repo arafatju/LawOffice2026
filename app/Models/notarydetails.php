@@ -12,7 +12,7 @@ class notarydetails extends Model
      
      
     protected $fillable = [
-        'userid', 
+        'applicationid', 
         'barnumber', 
         'bardate', 
         'lawnumber', 

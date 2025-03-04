@@ -13,7 +13,7 @@ class education extends Model
      
      
     protected $fillable = [
-        'userid', 
+        'applicationid', 
         'sscpass', 
         'hscpass', 
         'edu1', 
