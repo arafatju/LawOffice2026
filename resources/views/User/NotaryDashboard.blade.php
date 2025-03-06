@@ -48,7 +48,7 @@
         </div>
     </div>
 </div>
-<div class="d-flex justify-content-end mb-1"><a href="#">
+<div class="d-flex justify-content-end mb-1"><a href="{{route('new11')}}">
     <button class="btn btn-primary"> <i class="bi bi-plus-lg"></i> New Application</button>
 </a> 
 </div>
@@ -59,9 +59,10 @@
         <th> Application Status</th> 
         <th> Action</th> 
     </tr>
+    @foreach ($info as $info11 )
     <tr>
-        <td> Application id</td> 
-        <td> Application Status</td>
+        <td> {{$info11->applicationid}}</td> 
+        <td> {{$info11->status}}</td>
         <td>
             <div class="d-flex flex-wrap gap-2">
                 <button class="btn btn-primary btn-sm">View</button>
@@ -71,7 +72,7 @@
          </td>
 
     </tr>
-    
+    @endforeach
     
 </table>
 

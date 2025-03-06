@@ -13,7 +13,8 @@ use App\Models\info11;
 use App\Models\education;
 use App\Models\documents;
 use App\Models\devicedetails;
- 
+use App\Models\applicationinfo;
+
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -29,10 +30,10 @@ use Illuminate\Support\Facades\View;
 use Image;
 use DB;
 use Mpdf\Mpdf;
- use Toastr;
-  use RealRashid\SweetAlert\Facades\Alert;
-  use Dompdf\Dompdf;
-  use Dompdf\Options;
+use Toastr;
+use RealRashid\SweetAlert\Facades\Alert;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 
@@ -46,6 +47,19 @@ class notaryuser extends Controller
 
     public function NotaryDashboard(Request $request){
                       
-        return view('User.NotaryDashboard');
+        $info=applicationinfo::where('userid',Auth::user()->userid)->get();
+             return view('User.NotaryDashboard',compact('info'));
+      }
+
+      public function new11(Request $request){
+        $lastId = applicationinfo::max('id');
+        $appid='App'.$lastId+100;             
+         applicationinfo::create([
+             'userid'=>Auth::user()->userid,
+             'status'=>'Draft',
+             'applicationid'=>$appid,
+
+         ]);
+         return redirect(route('NotaryDashboard'));
       }
 }
