@@ -146,6 +146,7 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/reason111', [infoimp::class, 'reason111'])->name('reason111'); 
     Route::get('/NotaryDashboard', [notaryuser::class, 'NotaryDashboard'])->name('NotaryDashboard');
     Route::get('/new11', [notaryuser::class, 'new11'])->name('new11');
+    Route::get('/edituser/{id}', [notaryuser::class, 'edituser'])->name('edituser');
 
 
 });

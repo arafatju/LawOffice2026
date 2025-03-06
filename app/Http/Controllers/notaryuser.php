@@ -50,7 +50,18 @@ class notaryuser extends Controller
         $info=applicationinfo::where('userid',Auth::user()->userid)->get();
              return view('User.NotaryDashboard',compact('info'));
       }
-
+      public function edituser($id){
+        session(['appid' => $id]);
+        $status=applicationinfo::where('applicationid',$id)->first();
+        if($status->status=='Draft'){
+        return redirect(route('NotaryDashboard'))->withInfo('দুঃখিত');
+    
+    }
+        else 
+        {
+            return redirect(route('NotaryDashboard'))->withInfo('দুঃখিত আপনার ফাইলটি প্রক্রিয়াধীন আছে। ');  
+        }
+      }
       public function new11(Request $request){
         $lastId = applicationinfo::max('id');
         $appid='App'.$lastId+100;             
@@ -60,6 +71,6 @@ class notaryuser extends Controller
              'applicationid'=>$appid,
 
          ]);
-         return redirect(route('NotaryDashboard'));
+         return redirect(route('NotaryDashboard'))->withSuccess('নতুন আবেদনপত্র  তৈরি করা হয়েছে । ');
       }
 }

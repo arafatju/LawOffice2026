@@ -66,7 +66,9 @@
         <td>
             <div class="d-flex flex-wrap gap-2">
                 <button class="btn btn-primary btn-sm">View</button>
+                <a href="{{ route('edituser', ['id' => $info11->applicationid]) }}">
                 <button class="btn btn-warning btn-sm">Edit</button>
+                </a> 
                 <button class="btn btn-danger btn-sm">Delete</button>
             </div>  
          </td>
