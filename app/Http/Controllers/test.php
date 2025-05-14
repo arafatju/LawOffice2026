@@ -272,7 +272,14 @@ public function forget44(Request $request){
         ]);
       
        
-        
+        $lastId = applicationinfo::max('id');
+        $appid='App'.$lastId+100;             
+         applicationinfo::create([
+             'userid'=>Auth::user()->userid,
+             'status'=>'Draft',
+             'applicationid'=>$appid,
+
+         ]);
      
 
         return redirect("jobinfo")->with('You have signed-in');

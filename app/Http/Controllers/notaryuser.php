@@ -54,7 +54,7 @@ class notaryuser extends Controller
         session(['appid' => $id]);
         $status=applicationinfo::where('applicationid',$id)->first();
         if($status->status=='Draft'){
-        return redirect(route('NotaryDashboard'))->withInfo('দুঃখিত');
+            return redirect(route('NotaryDashboard'))->withInfo('দুঃখিত আপনার ফাইলটি প্রক্রিয়াধীন আছে। ');  
     
     }
         else 
