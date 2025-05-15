@@ -67,6 +67,27 @@ class notaryuser extends Controller
         return view('User.notaryinfo');
         
     }
+    public function personal11(Request $request)
+    {
+        $validated = $request->validate([
+            'applicationid' => 'required|string|max:100|unique:personalinfo,applicationid',
+            'mobile'        => 'required|string|min:10|max:15',
+            'name'          => 'required|string|max:255',
+            'father'        => 'required|string|max:255',
+            'mother'        => 'required|string|max:255',
+            'dob'           => 'required|date',
+            'permanent'     => 'required|string|max:255',
+            'nid'           => 'required|string|max:20|unique:personalinfo,nid',
+            'district'      => 'required|string|max:100',
+            'present'       => 'required|string|max:255',
+            'email'         => 'required|email|max:255|unique:personalinfo,email',
+        ]);
+
+        personalinfo::create($validated);
+
+        return redirect()->back()->with('success', 'Personal info submitted successfully!');
+    }        
+    
     public function NotaryDashboard(Request $request){
                       
         $info=applicationinfo::where('userid',Auth::user()->userid)->get();

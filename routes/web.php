@@ -152,6 +152,7 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::get('/notaryinfo', [notaryuser::class, 'notaryinfo'])->name('notaryinfo')-> middleware('check.app.status');
     Route::get('/documents', [notaryuser::class, 'documents'])->name('documents')-> middleware('check.app.status');
     Route::get('/profile', [notaryuser::class, 'profile'])->name('profile') ;
-     
+    Route::post('/personal11', [notaryuser::class, 'personal11'])->name('personal11'); 
+
 
 });
