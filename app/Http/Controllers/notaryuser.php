@@ -44,7 +44,29 @@ class notaryuser extends Controller
         $this->middleware('auth');
     }
 
+   public function personal()
+    {
+        return view('User.personal');
+    }
+    public function education()
+    {
+        return view('User.education');
+    }
+    public function documents()
+    {
+        return view('User.documents');
 
+    }
+    public function profile()
+    {
+        return view('User.profile');
+        
+    }
+    public function notaryinfo()
+    {
+        return view('User.notaryinfo');
+        
+    }
     public function NotaryDashboard(Request $request){
                       
         $info=applicationinfo::where('userid',Auth::user()->userid)->get();

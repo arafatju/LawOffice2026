@@ -147,6 +147,11 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::get('/NotaryDashboard', [notaryuser::class, 'NotaryDashboard'])->name('NotaryDashboard');
     Route::get('/new11', [notaryuser::class, 'new11'])->name('new11');
     Route::get('/edituser/{id}', [notaryuser::class, 'edituser'])->name('edituser');
-
+    Route::get('/personal', [notaryuser::class, 'personal'])->name('personal')-> middleware('check.app.status');
+    Route::get('/education', [notaryuser::class, 'education'])->name('education')-> middleware('check.app.status');
+    Route::get('/notaryinfo', [notaryuser::class, 'notaryinfo'])->name('notaryinfo')-> middleware('check.app.status');
+    Route::get('/documents', [notaryuser::class, 'documents'])->name('documents')-> middleware('check.app.status');
+    Route::get('/profile', [notaryuser::class, 'profile'])->name('profile') ;
+     
 
 });

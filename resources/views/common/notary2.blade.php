@@ -167,22 +167,22 @@
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
-            <a href="dashboard.html" class="sidebar-link">
+            <a href="{{route('NotaryDashboard')}}" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
-            <a href="users.html" class="sidebar-link">
+            <a href="{{route('personal')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Personal info
             </a>
-            <a href="products.html" class="sidebar-link">
+            <a href="{{route('education')}}" class="sidebar-link">
                 <i class="bi bi-box"></i> Eduction info
             </a>
-            <a href="settings.html" class="sidebar-link">
+            <a href="{{route('notaryinfo')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Notary info
             </a>
-            <a href="settings.html" class="sidebar-link">
+            <a href="{{route('documents')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Documents
             </a>
-            <a href="profile.html" class="sidebar-link">
+            <a href="{{route('profile')}}" class="sidebar-link">
                 <i class="bi bi-person"></i> Profile
             </a>
             <a href="login.html" class="sidebar-link">
