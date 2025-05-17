@@ -14,22 +14,29 @@
 
  
 <div class="container mt-5">
-    <h2>Submit Personal Info</h2>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> Please fix the following errors:<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+     
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-gear me-2"></i>Submit Personal Info
+                    </h5>
+                    
+                </div>
+                <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Please check the form below for errors.<br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+               
 
     <form action="{{ route('personal11') }}" method="POST">
         @csrf
@@ -89,8 +96,21 @@
             <input type="email" name="email" class="form-control" value="{{ old('email') }}">
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="row mb-0">
+            <div class="col-md-8 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save me-1"></i>Save
+                </button>
+                <a href="{{ route('personal') }}" class="btn btn-secondary ms-1">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+            </div>
+        </div>
     </form>
+</div>
+</div>
+</div>
+</div> 
 </div>
 
 @endsection

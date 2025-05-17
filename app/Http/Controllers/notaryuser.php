@@ -45,26 +45,26 @@ class notaryuser extends Controller
     }
 
    public function personal()
-    {
-        return view('User.personal');
+    {   $bread11="Personal";
+        return view('User.personal',compact('bread11'));
     }
     public function education()
-    {
-        return view('User.education');
+    {    $bread11="Education";
+        return view('User.education',compact('bread11'));
     }
     public function documents()
-    {
-        return view('User.documents');
+    {   $bread11="Documents";
+        return view('User.documents',compact('bread11'));
 
     }
     public function profile()
-    {
-        return view('User.profile');
+    {   $bread11="Profile";
+        return view('User.profile',compact('bread11'));
         
     }
     public function notaryinfo()
-    {
-        return view('User.notaryinfo');
+    {   $bread11="Notary";
+        return view('User.notaryinfo',compact('bread11'));
         
     }
     public function personal11(Request $request)
@@ -91,7 +91,8 @@ class notaryuser extends Controller
     public function NotaryDashboard(Request $request){
                       
         $info=applicationinfo::where('userid',Auth::user()->userid)->get();
-             return view('User.NotaryDashboard',compact('info'));
+        $bread11="Dashboard";
+             return view('User.NotaryDashboard',compact('info','bread11'));
       }
       public function edituser($id){
         session(['appid' => $id]);

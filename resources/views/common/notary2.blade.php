@@ -208,11 +208,11 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
-                            <a href="dashboard.html">
+                            <a href="#">
                                 <i class="bi bi-house-door"></i>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">{{$bread11}}</li>
                     </ol>
                 </nav>
             </div>

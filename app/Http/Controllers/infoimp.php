@@ -211,9 +211,9 @@ class infoimp extends Controller
     }
     public function jobinfo(){
         $draft = personalinfo::where('userid',Auth::user()->userid)->get();
-
+        $bread11="Dashboard";
   
-    return view('User.user', compact('draft'));
+    return view('User.user', compact('draft','bread11'));
          
     }
      
