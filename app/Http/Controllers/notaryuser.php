@@ -90,7 +90,8 @@ class notaryuser extends Controller
     
     public function NotaryDashboard(Request $request){
                       
-        $info=applicationinfo::where('userid',Auth::user()->userid)->get();
+        $info=applicationinfo::where('userid',Auth::user()->userid)->first();
+        session(['appid' => $info->applicationid]);
         $bread11="Dashboard";
              return view('User.NotaryDashboard',compact('info','bread11'));
       }

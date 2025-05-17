@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Application Form</h2>
+    <h2 class="mb-4">ডকুমেন্ট আপলোড  </h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -15,7 +15,7 @@
         <div class="row mb-3">
             <label for="applicationid" class="col-md-4 col-form-label">Application ID <span class="text-danger">*</span></label>
             <div class="col-md-8">
-                <input id="applicationid" type="text" class="form-control @error('applicationid') is-invalid @enderror" name="applicationid" value="{{ old('applicationid') }}" required>
+                <input id="applicationid" type="text" class="form-control @error('applicationid') is-invalid @enderror" name="applicationid" value="{{ session('appid') }}" readonly>
                 @error('applicationid')
                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                 @enderror

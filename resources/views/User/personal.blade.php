@@ -20,7 +20,7 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">
-                        <i class="bi bi-gear me-2"></i>Submit Personal Info
+                        <i class="bi bi-person-circle text-success me-2"></i>ব্যাক্তিগত তথ্যাদি 
                     </h5>
                     
                 </div>
@@ -43,58 +43,60 @@
 
         <div class="mb-3">
             <label>Application ID</label>
-            <input type="text" name="applicationid" class="form-control" value="{{ old('applicationid') }}">
+            <input type="text" name="applicationid" class="form-control" value="{{ session('appid') }} "readonly>
         </div>
 
-        <div class="mb-3">
-            <label>Mobile</label>
-            <input type="text" name="mobile" class="form-control" value="{{ old('mobile') }}">
-        </div>
+        
 
         <div class="mb-3">
-            <label>Name</label>
+            <label>নাম </label>
             <input type="text" name="name" class="form-control" value="{{ old('name') }}">
         </div>
 
         <div class="mb-3">
-            <label>Father's Name</label>
+            <label>পিতার নাম </label>
             <input type="text" name="father" class="form-control" value="{{ old('father') }}">
         </div>
 
         <div class="mb-3">
-            <label>Mother's Name</label>
+            <label> মাতার নাম</label>
             <input type="text" name="mother" class="form-control" value="{{ old('mother') }}">
         </div>
 
         <div class="mb-3">
-            <label>Date of Birth</label>
-            <input type="date" name="dob" class="form-control" value="{{ old('dob') }}">
+            <label>জন্ম তারিখ     </label>
+            <input type="text" name="dob" class="form-control datepicker @error('lastrenewdate') is-invalid @enderror" value="{{ old('dob') }}">
         </div>
-
         <div class="mb-3">
-            <label>Permanent Address</label>
-            <input type="text" name="permanent" class="form-control" value="{{ old('permanent') }}">
-        </div>
-
-        <div class="mb-3">
-            <label>National ID (NID)</label>
+            <label>এন আই ডি </label>
             <input type="text" name="nid" class="form-control" value="{{ old('nid') }}">
         </div>
+        <div class="mb-3">
+            <label>মোবাইল</label>
+            <input type="text" name="mobile" class="form-control" value="{{ old('mobile') }}">
+        </div>
+        <div class="mb-3">
+            <label>ইমেইল</label>
+            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+        </div>
+        
+
+       
 
         <div class="mb-3">
-            <label>District</label>
+            <label>নিজ জেলা</label>
             <input type="text" name="district" class="form-control" value="{{ old('district') }}">
         </div>
-
         <div class="mb-3">
-            <label>Present Address</label>
+            <label>স্থায়ী ঠিকানা </label>
+            <input type="text" name="permanent" class="form-control" value="{{ old('permanent') }}">
+        </div>
+        <div class="mb-3">
+            <label>বর্তমান ঠিকানা</label>
             <input type="text" name="present" class="form-control" value="{{ old('present') }}">
         </div>
 
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
-        </div>
+        
 
         <div class="row mb-0">
             <div class="col-md-8 offset-md-4">
@@ -112,5 +114,16 @@
 </div>
 </div> 
 </div>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize flatpickr for all date inputs
+        flatpickr(".datepicker", {
+            dateFormat: "Y-m-d",
+            allowInput: true,
+            altInput: true,
+            altFormat: "F j, Y",
+            placeholder: "Select date"
+        });
+    });
+</script>
 @endsection

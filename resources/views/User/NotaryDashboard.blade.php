@@ -56,17 +56,15 @@
         <th> Date </th> 
         <th> Action</th> 
     </tr>
-    @foreach ($info as $info11 )
-    <tr>
-        <td> {{$info11-> id}}</td> 
-        <td> {{$info11->created_at}}</td>
+     <tr>
+        <td> {{$info-> id}}</td> 
+        <td> {{$info->created_at}}</td>
          <td>
-            {{$info11->status}}
+            {{$info->status}}
          </td> 
 
     </tr>
-    @endforeach
-    
+     
 </table>
 
 @endsection
