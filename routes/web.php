@@ -154,6 +154,15 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::get('/profile', [notaryuser::class, 'profile'])->name('profile') ;
     Route::post('/personal11', [notaryuser::class, 'personal11'])->name('personal11'); 
     Route::post('/docunotary', [notaryuser::class, 'docunotary'])->name('docunotary'); 
-
+    Route::get('/secure-file/{appid}/{filename}', function ($appid, $filename) {
+        $path = storage_path("app/private/uploads/{$appid}/{$filename}");
+    
+        if (!file_exists($path)) {
+            abort(404);
+        }
+    
+        return response()->file($path);
+    })->name('secure.image');
+    
 
 });

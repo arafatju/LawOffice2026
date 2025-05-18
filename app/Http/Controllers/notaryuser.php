@@ -60,7 +60,12 @@ class notaryuser extends Controller
     }
     public function profile()
     {   $bread11="Profile";
-        return view('User.profile',compact('bread11'));
+
+        $personalInfo=personalinfo::where('applicationid',session('appid'))->first();
+        $educationInfo=education::where('applicationid',session('appid'))->first();
+        $documents=documents::where('applicationid',session('appid'))->first();
+        $notaryInfo=notarydetails::where('applicationid',session('appid'))->first();
+        return view('User.profile',compact('bread11','personalInfo','educationInfo','documents','notaryInfo'));
         
     }
     public function notaryinfo()
@@ -87,33 +92,33 @@ class notaryuser extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = 'image.' . $image->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("uploads/{$appId}", $image, $imageName);
+            Storage::disk('secure')->putFileAs("{$appId}", $image, $imageName);
             $data['image'] = $imageName;
         }
     
         if ($request->hasFile('signature')) {
             $signature = $request->file('signature');
             $signatureName = 'signature.' . $signature->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("uploads/{$appId}", $signature, $signatureName);
+            Storage::disk('secure')->putFileAs("{$appId}", $signature, $signatureName);
        
             $data['signature'] = $signatureName;
         }
         if ($request->hasFile('barcertificate')) {
             $barcertificate = $request->file('barcertificate');
             $barcertificateName = 'barcertificate.' . $barcertificate->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("uploads/{$appId}", $barcertificate, $barcertificateName);
+            Storage::disk('secure')->putFileAs("{$appId}", $barcertificate, $barcertificateName);
             $data['barcertificate'] = $barcertificateName;    
         }
         if ($request->hasFile('notarycertificate')) {
             $notarycertificate = $request->file('notarycertificate');
             $notarycertificateName = 'notarycertificate.' . $notarycertificate->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("uploads/{$appId}", $notarycertificate, $notarycertificateName);
+            Storage::disk('secure')->putFileAs("{$appId}", $notarycertificate, $notarycertificateName);
             $data['notarycertificate'] = $notarycertificateName;
         }
         if ($request->hasFile('nidcertificate')) {
             $nidcertificate = $request->file('nidcertificate');
             $nidcertificateName = 'nidcertificate.' . $nidcertificate->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("uploads/{$appId}", $nidcertificate, $nidcertificateName);
+            Storage::disk('secure')->putFileAs("{$appId}", $nidcertificate, $nidcertificateName);
             $data['nidcertificate'] = $nidcertificateName;
         }
         documents::updateOrCreate(
@@ -133,7 +138,7 @@ class notaryuser extends Controller
     public function personal11(Request $request)
     {
         $validated = $request->validate([
-            'applicationid' => 'required|string|max:100|unique:personalinfo,applicationid',
+            'applicationid' => 'required|string|max:100 ',
             'mobile'        => 'required|string|min:10|max:15',
             'name'          => 'required|string|max:255',
             'father'        => 'required|string|max:255',
@@ -146,7 +151,17 @@ class notaryuser extends Controller
             'email'         => 'required|email|max:255|unique:personalinfo,email',
         ]);
 
-        personalinfo::create($validated);
+        personalinfo::updateOrCreate(
+            ['applicationid' => $validated['applicationid']],
+            $validated
+        );
+        info11::create([
+            'name' => Auth::user()->name,
+            'userid' => Auth::user()->userid, // or any valid user ID
+            'applicationid' => $validated['applicationid'],
+            'action' => 'Personal Info',
+            'status' => 'Draft',
+        ]);
 
         return redirect()->back()->with('success', 'Personal info submitted successfully!');
     }        
