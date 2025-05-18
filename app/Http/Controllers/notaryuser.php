@@ -15,6 +15,7 @@ use App\Models\documents;
 use App\Models\devicedetails;
 use App\Models\applicationinfo;
 
+use Illuminate\Support\Facades\Storage;
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -67,6 +68,68 @@ class notaryuser extends Controller
         return view('User.notaryinfo',compact('bread11'));
         
     }
+    public function docunotary(Request $request)
+    {
+
+        $request->validate([
+            'applicationid' => 'required|string',
+            'image' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
+            'signature' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
+            'barcertificate' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
+            'notarycertificate' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
+            'nidcertificate' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
+        ]);
+    
+        $appId = $request->applicationid;
+        $data = [
+            'applicationid' => $appId,
+        ];
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = 'image.' . $image->getClientOriginalExtension();
+            Storage::disk('secure')->putFileAs("uploads/{$appId}", $image, $imageName);
+            $data['image'] = $imageName;
+        }
+    
+        if ($request->hasFile('signature')) {
+            $signature = $request->file('signature');
+            $signatureName = 'signature.' . $signature->getClientOriginalExtension();
+            Storage::disk('secure')->putFileAs("uploads/{$appId}", $signature, $signatureName);
+       
+            $data['signature'] = $signatureName;
+        }
+        if ($request->hasFile('barcertificate')) {
+            $barcertificate = $request->file('barcertificate');
+            $barcertificateName = 'barcertificate.' . $barcertificate->getClientOriginalExtension();
+            Storage::disk('secure')->putFileAs("uploads/{$appId}", $barcertificate, $barcertificateName);
+            $data['barcertificate'] = $barcertificateName;    
+        }
+        if ($request->hasFile('notarycertificate')) {
+            $notarycertificate = $request->file('notarycertificate');
+            $notarycertificateName = 'notarycertificate.' . $notarycertificate->getClientOriginalExtension();
+            Storage::disk('secure')->putFileAs("uploads/{$appId}", $notarycertificate, $notarycertificateName);
+            $data['notarycertificate'] = $notarycertificateName;
+        }
+        if ($request->hasFile('nidcertificate')) {
+            $nidcertificate = $request->file('nidcertificate');
+            $nidcertificateName = 'nidcertificate.' . $nidcertificate->getClientOriginalExtension();
+            Storage::disk('secure')->putFileAs("uploads/{$appId}", $nidcertificate, $nidcertificateName);
+            $data['nidcertificate'] = $nidcertificateName;
+        }
+        documents::updateOrCreate(
+            ['applicationid' => $appId],
+            $data
+        );
+        info11::create([
+            'name' => Auth::user()->name,
+            'userid' => Auth::user()->userid, // or any valid user ID
+            'applicationid' => $appId,
+            'action' => 'Upload Document',
+            'status' => 'Draft',
+        ]);
+        return back()->with('success', 'Sensitive files securely uploaded.');
+
+    } 
     public function personal11(Request $request)
     {
         $validated = $request->validate([

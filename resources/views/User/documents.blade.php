@@ -3,12 +3,14 @@
 @section('content')
 <div class="container">
     <h2 class="mb-4">ডকুমেন্ট আপলোড  </h2>
+    <p class="mb-4">ফাইল .jpg অথবা .jpeg অথবা .pdf  হতে হবে এবং ফাইলে সাইজ সর্বোচ্চ ১ মেগা   </p>
 
+    {{-- Display validation errors --}}
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('personal11') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('docunotary') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         {{-- Application ID --}}
@@ -24,7 +26,7 @@
 
         {{-- Image --}}
         <div class="row mb-3">
-            <label for="image" class="col-md-4 col-form-label">Image</label>
+            <label for="image" class="col-md-4 col-form-label">ছবি</label>
             <div class="col-md-8">
                 <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                 @error('image')
@@ -35,7 +37,7 @@
 
         {{-- Signature --}}
         <div class="row mb-3">
-            <label for="signature" class="col-md-4 col-form-label">Signature</label>
+            <label for="signature" class="col-md-4 col-form-label">  স্বাক্ষর</label>
             <div class="col-md-8">
                 <input id="signature" type="file" class="form-control @error('signature') is-invalid @enderror" name="signature">
                 @error('signature')
@@ -46,7 +48,7 @@
 
         {{-- Bar Certificate --}}
         <div class="row mb-3">
-            <label for="barcertificate" class="col-md-4 col-form-label">Bar Certificate</label>
+            <label for="barcertificate" class="col-md-4 col-form-label">বার কাউন্সিলের সার্টিফিকেট </label>
             <div class="col-md-8">
                 <input id="barcertificate" type="file" class="form-control @error('barcertificate') is-invalid @enderror" name="barcertificate">
                 @error('barcertificate')
@@ -57,7 +59,7 @@
 
         {{-- Notary Certificate --}}
         <div class="row mb-3">
-            <label for="notarycertificate" class="col-md-4 col-form-label">Notary Certificate</label>
+            <label for="notarycertificate" class="col-md-4 col-form-label">নোটারই সার্টিফিকেট</label>
             <div class="col-md-8">
                 <input id="notarycertificate" type="file" class="form-control @error('notarycertificate') is-invalid @enderror" name="notarycertificate">
                 @error('notarycertificate')
@@ -68,7 +70,7 @@
 
         {{-- NID Certificate --}}
         <div class="row mb-3">
-            <label for="nidcertificate" class="col-md-4 col-form-label">NID Certificate</label>
+            <label for="nidcertificate" class="col-md-4 col-form-label">এন আই ডি   </label>
             <div class="col-md-8">
                 <input id="nidcertificate" type="file" class="form-control @error('nidcertificate') is-invalid @enderror" name="nidcertificate">
                 @error('nidcertificate')
