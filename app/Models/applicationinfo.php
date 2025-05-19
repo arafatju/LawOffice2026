@@ -18,4 +18,8 @@ class applicationinfo extends Model
          
          
     ];
+    public function personalinfo()
+{
+    return $this->belongsTo(personalinfo::class, 'applicationid', 'applicationid');
+}
 }

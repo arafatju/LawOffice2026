@@ -24,5 +24,8 @@ class personalinfo extends Model
         'present',
         'email'
     ];
-
+    public function applications()
+    {
+        return $this->hasMany(ApplicationInfo::class, 'applicationid', 'applicationid');
+    }
 }

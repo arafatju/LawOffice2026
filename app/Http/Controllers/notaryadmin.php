@@ -51,7 +51,7 @@ class notaryadmin extends Controller
     public function newdash()
     {
          $bread11="Dashboard";
-        $application = applicationinfo::where('status', 'Processing')->get();
+        $application = applicationinfo::with('personalinfo')->where('status', 'Processing')->get();
         return view('DR.newdashboard', compact('bread11', 'application'));
     }
 }
