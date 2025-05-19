@@ -9,6 +9,7 @@ use App\Models\preferred111;
 use App\Models\workingdetails;
 use App\Models\release111;
 use App\Models\info11;
+use App\Models\applicationinfo;
 use App\Models\workingnow;
 use App\Models\workingbefore;
 use App\Models\devicedetails;
@@ -282,7 +283,7 @@ public function forget44(Request $request){
          ]);
      
 
-        return redirect("jobinfo")->with('You have signed-in');
+        return redirect("NotaryDashboard")->with('You have signed-in');
     }
 
     public function create(array $data)

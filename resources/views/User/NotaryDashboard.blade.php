@@ -54,7 +54,8 @@
         <th>id</th> 
     
         <th> Date </th> 
-        <th> Action</th> 
+        <th> Status </th> 
+        <th> Action </th>
     </tr>
      <tr>
         <td> {{$info-> id}}</td> 
@@ -62,9 +63,45 @@
          <td>
             {{$info->status}}
          </td> 
-
+        <td>
+            <a href="{{ route('personal11', $info->applicationid) }}" 
+                class="btn btn-primary" 
+                onclick="event.preventDefault(); doubleConfirm('{{ route('sendto111', $info->applicationid) }}');">
+                Send
+             </a>
+                         
     </tr>
      
 </table>
 
+<script>
+    function doubleConfirm(url) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to send this?Did you check all the information Properly?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, continue',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Final Confirmation',
+                    text: "You can not edit after sending.  Proceed?",
+                    
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, send it',
+                    cancelButtonText: 'Back'
+                }).then((result2) => {
+                    if (result2.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            }
+        });
+    }
+    </script>
+    
 @endsection
+

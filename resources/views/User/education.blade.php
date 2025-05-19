@@ -28,7 +28,7 @@
                     
                
 
-    <form action="{{ route('personal11') }}" method="POST">
+    <form action="{{ route('educationstore') }}" method="POST">
         @csrf
  
        

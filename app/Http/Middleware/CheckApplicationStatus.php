@@ -26,7 +26,7 @@ class CheckApplicationStatus
         if (!$application || $application !== 'Draft') {
             return redirect()
                 ->route('NotaryDashboard') // Replace with your actual dashboard route name
-                ->with('warning', 'Access denied. Application is not in draft status.');
+                ->with('warning', 'আপনার ফাইলটি  ইতোমধ্যে পাঠান হয়েছে । বর্তমানে সেটা প্রক্রিয়াধীন আছে  বিধায় সংশোধন করতে পারবেন না । ');
         }
 
         return $next($request);

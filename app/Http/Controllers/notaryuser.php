@@ -135,6 +135,83 @@ class notaryuser extends Controller
         return back()->with('success', 'Sensitive files securely uploaded.');
 
     } 
+    
+    public function educationstore(Request $request)
+    {
+        $validated = $request->validate([
+            'applicationid' => 'required',
+            'sscpass' => 'required|string|max:10',
+            'hscpass' => 'required|string|max:10',
+            'edu1' => 'required|string|max:10',
+            'edu2' => 'nullable|string|max:10',
+        ]);
+
+        education::updateOrCreate(
+            ['applicationid' => $validated['applicationid']],
+            $validated
+        );
+        info11::create([
+            'name' => Auth::user()->name,
+            'userid' => Auth::user()->userid, // or any valid user ID
+            'applicationid' => $validated['applicationid'],
+            'action' => 'Education Info',
+            'status' => 'Draft',
+        ]);
+
+        return redirect()->back()->with('success', 'Education info submitted successfully!');
+    }
+    public function sendto111($id)
+    {
+        $status=applicationinfo::where('applicationid',$id)->first();
+        if($status->status=='Draft'){
+
+            applicationinfo::where('applicationid',$id)->update(['status'=>'Processing']);
+            info11::create([
+                'name' => Auth::user()->name,
+                'userid' => Auth::user()->userid, // or any valid user ID
+                'applicationid' => $id,
+                'action' => 'Send to Processing',
+                'status' => 'Processing',
+            ]);
+            return redirect(route('NotaryDashboard'))->withInfo('  আপনার ফাইলটি  প্রক্রিয়াধীন আছে। ');  
+    
+    }
+        else 
+        {
+            return redirect(route('NotaryDashboard'))->withInfo('  আপনার ফাইলটি ইতোমধ্যে পাঠান হয়েছে ।  প্রক্রিয়াধীন আছে। ');  
+        }
+    }
+    
+    public function notarystore(Request $request)
+    {
+        $validated = $request->validate([
+           'applicationid' => 'required',
+            'barnumber' => 'nullable|string|max:100',
+            'bardate' => 'nullable|date',
+            'lawnumber' => 'nullable|string|max:100',
+            'lawdate' => 'nullable|date',
+            'exp' => 'nullable|string|max:100',
+            'notarysarok' => 'nullable|string|max:100',
+            'natarydate' => 'nullable|date',
+            'area' => 'nullable|string|max:255',
+            'renewdate' => 'nullable|date',
+            'lastrenewdate' => 'nullable|date',
+        ]);
+         
+        notarydetails::updateOrCreate(
+            ['applicationid' => $validated['applicationid']],
+            $validated
+        );
+        info11::create([
+            'name' => Auth::user()->name,
+            'userid' => Auth::user()->userid, // or any valid user ID
+            'applicationid' => $validated['applicationid'],
+            'action' => 'Notary Info',
+            'status' => 'Draft',
+        ]);
+
+        return redirect()->back()->with('success', 'Notary info submitted successfully!');
+    }
     public function personal11(Request $request)
     {
         $validated = $request->validate([

@@ -25,7 +25,7 @@
                         </div>
                     @endif
                     
-                    <form method="POST" action="{{ route('personal11') }}">
+                    <form method="POST" action="{{ route('notarystore') }}">
                         @csrf
                         
                         <div class="row mb-3">
@@ -89,9 +89,9 @@
                         </div>
                         
                         <div class="row mb-3">
-                            <label for="exp" class="col-md-4 col-form-label">নোটারি  সনদ শেষ তারিখ </label>
+                            <label for="exp" class="col-md-4 col-form-label">অভিজ্ঞতা ( বছর )  </label>
                             <div class="col-md-8">
-                                <input id="exp" type="text" class="form-control datepicker @error('exp') is-invalid @enderror" name="exp" value="{{ old('exp') }}" autocomplete="off">
+                                <input id="exp" type="text" class="form-control   @error('exp') is-invalid @enderror" name="exp" value="{{ old('exp') }}" autocomplete="off">
                                 @error('exp')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

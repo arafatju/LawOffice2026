@@ -6,6 +6,7 @@ use App\Http\Controllers\hhomeController;
 use App\Http\Controllers\infoimp;
 use App\Http\Controllers\test;
 use App\Http\Controllers\notaryuser;
+use App\Http\Controllers\notaryadmin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,7 +53,7 @@ Auth::routes();
 All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
-Route::middleware(['auth', 'user-access:userdr','check.device.agent'])->group(function () {
+Route::middleware(['auth', 'user-access:userdr'])->group(function () {
    // Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
     Route::post('userdelete11/{userId}', [infoimp::class, 'userdelete11'])->name('userdelete11');
 Route::post('userchangepassword11/{id} ', [infoimp::class, 'userchangepassword11'])->name('userchangepassword11');
@@ -72,7 +73,6 @@ Route::get('/log112', [infoimp::class, 'log112'])->name('log112');
 Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpdf111');
     Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
     Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
-    Route::get('/newdash', [infoimp::class, 'newdash'])->name('newdash');
 
    // Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
 
@@ -104,7 +104,8 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
        //Route::get('/finalstage', [infoimp::class, 'finalstage'])->name('finalstage'); 
        Route::get('/overalldel11/{id}/{name}', [infoimp::class, 'overalldel11'])->name('overalldel11'); 
 
-       
+       Route::get('/newdash', [notaryadmin::class, 'newdash'])->name('newdash');
+
 });
 
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
@@ -153,6 +154,12 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::get('/documents', [notaryuser::class, 'documents'])->name('documents')-> middleware('check.app.status');
     Route::get('/profile', [notaryuser::class, 'profile'])->name('profile') ;
     Route::post('/personal11', [notaryuser::class, 'personal11'])->name('personal11'); 
+   
+    Route::post('/notarystore', [notaryuser::class, 'notarystore'])->name('notarystore'); 
+    Route::get('/sendto111/{id}', [notaryuser::class, 'sendto111'])->name('sendto111');
+
+    Route::post('/educationstore', [notaryuser::class, 'educationstore'])->name('educationstore'); 
+
     Route::post('/docunotary', [notaryuser::class, 'docunotary'])->name('docunotary'); 
     Route::get('/secure-file/{appid}/{filename}', function ($appid, $filename) {
         $path = storage_path("app/private/uploads/{$appid}/{$filename}");

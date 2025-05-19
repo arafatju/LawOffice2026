@@ -1,5 +1,5 @@
 
-@extends('common.test')
+@extends('common.admin')
  
  
   
@@ -8,124 +8,103 @@
       
  
   
- @section('content')
+@section('content')
 
 
 
 
-<div class="bg-light flex-fill">
-            <div class="p-2 d-md-none d-flex text-white bg-success">
-                <a href="#" class="text-white" 
-                   data-bs-toggle="offcanvas"
-                   data-bs-target="#bdSidebar">
-                    <i class="fa-solid fa-bars"></i>
-                </a>
-                <span class="ms-3">OTMS Dashboard</span>
+<h2>Dashboard Overview</h2>
+<div class="row mt-4">
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">License Status</h5>
+                <p class="card-text h3">N/A</p>
             </div>
-            <div class="p-4">
-                <nav style="--bs-breadcrumb-divider:'>';font-size:14px">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <i class="fa-solid fa-house"></i>
-                        </li>
-                        <li class="breadcrumb-item">Dashboard</li>
-                         
-                    </ol>
-                </nav>
-
-                <hr>
-                
-                <div class="row   justify-content-center">
-                    
-                        <div class="card w-25  bg-primary  text-center m-1" >
-                                     <div class="card-header" > User </div>
-            
-                                    <div class="card-body rounded-md    ">
-                                                <div class="mb-1"> 
-                                                    End   User   <span class="notification-badge"> {{$number_end_user}}</span>
-                                                </div>
-                                                <div class="mb-1"> 
-                                                    Admin   User   <span class="notification-badge"> {{$number_admin_user}}</span>
-                                                </div>
-                                                <div class="mb-1">
-                                                Total  User   <span class="notification-badge"> {{$number_user}} </span>
-                                                </div> 
-                                                <div class="mb-1">
-                                                  User Deleted  <span class="notification-badge"> {{$number_user_deleted}} </span>
-                                                </div> 
-                                       </div>
-                
-                       
-                    </div>
-                    
-                                 <div class="card w-25  bg-primary  text-center m-1 " >
-                                        <div class="card-header" > Password Changed </div>
-            
-                                        <div class="card-body rounded-md  ">
-                                                    <div class="mb-1 mt-2"> 
-                                                        Changed by User   <span class="notification-badge"> {{$password_changed_user }} </span>
-                                                    </div>
-                                                     <div class="mb-1">
-                                                    Changed by    Admin    <span class="notification-badge"> {{$password_changed_admin}} </span>
-                                                    </div> 
-                                        </div>
-                
-                                
-                            </div>
-                            
-                                <div class="card w-25  bg-primary  text-center m-1" >
-                                     <div class="card-header" > Email Changed </div>
-            
-                                        <div class="card-body rounded-md  ">
-                                                <div class="mb-1 mt-2"> 
-                                                    Changed by Admin   <span class="notification-badge"> {{$email_changed_admin}} </span>
-                                                </div>
-                                           
-                                        </div>
-                
-                                 
-</div>      
-       <div class="row justify-content-center" >
-                        <div class="card w-25  bg-primary  text-center m-1" >
-                                  <div class="card-header" > Log info </div>
-            
-                                    <div class="card-body rounded-md  ">
-                                                <div class="mb-1 mt-2"> 
-                                                   Total Logged in    <span class="notification-badge"> {{$total_logged}} </span>
-                                                </div>
-                                                <div class="mb-1 mt-2"> 
-                                                   Admin Logged in    <span class="notification-badge"> {{$count11}} </span>
-                                                </div>
-                                                <div class="mb-1 mt-2"> 
-                                                   User Logged in    <span class="notification-badge">  {{$total_logged-$count11}} </span>
-                                                </div>
-                                                <div class="mb-1 mt-2"> 
-                                                     Logged by mobile    <span class="notification-badge"> {{$logged_by_mobile}} </span>
-                                                </div>
-                                                <div class="mb-1 mt-2"> 
-                                                     Logged by Desktop    <span class="notification-badge"> {{$total_logged-$logged_by_mobile}} </span>
-                                                </div>
-                                           
-                            </div>
-</div>
-                            <div class="card w-25  bg-primary  text-center m-1" >
-                                       <div class="card-header" >  Special Code  </div>
-            
-                                      <div class="card-body rounded-md  ">
-                                                <div class="mb-1 mt-2"> 
-                                                    generated by Admin   <span class="notification-badge"> 1234 </span>
-                                                </div>
-                                                <div class="mb-1 mt-2"> 
-                                                    Expired date  <span class="notification-badge"> 1234 </span>
-                                                </div>
-                                           
-                                       </div>
-                
-                            </div>
-                
-                        </div>
-                   
-            </div>
-
         </div>
-        @endsection
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Last Renewal Date</h5>
+                <p class="card-text h3">N/A </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Next Renewal Date</h5>
+                <p class="card-text h3">N/A </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Appliction id </h5>
+                <p class="card-text h3">Draft</p>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<table class="table table-border ">
+    <tr class="bg-primary text-white">
+        <th>id</th> 
+    
+        <th> Date </th> 
+        <th> Status </th> 
+        <th> Action </th>
+    </tr>
+    @foreach ($application as $info)
+        
+    
+    <tr>
+        <td> {{$info-> id}}</td> 
+        <td> {{$info->created_at}}</td>
+         <td>
+            {{$info->status}}
+         </td> 
+        <td>
+            <a href="{{ route('personal11', $info->applicationid) }}" 
+                class="btn btn-primary" 
+                onclick="event.preventDefault(); doubleConfirm('{{ route('sendto111', $info->applicationid) }}');">
+                Send
+             </a>
+                         
+    </tr>
+    @endforeach 
+</table>
+
+<script>
+    function doubleConfirm(url) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to send this?Did you check all the information Properly?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, continue',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Final Confirmation',
+                    text: "You can not edit after sending.  Proceed?",
+                    
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, send it',
+                    cancelButtonText: 'Back'
+                }).then((result2) => {
+                    if (result2.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            }
+        });
+    }
+    </script>
+    
+@endsection
+

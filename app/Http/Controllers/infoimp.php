@@ -14,7 +14,7 @@ use App\Models\workingnow;
 use App\Models\workingbefore;
 use App\Models\release111;
 use App\Models\info11;
-
+use App\Models\applicationinfo;
 use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Support\Facades\File;
@@ -210,7 +210,7 @@ class infoimp extends Controller
         return redirect('profile')->withSuccess('Updated');
     }
     public function jobinfo(){
-        $draft = personalinfo::where('userid',Auth::user()->userid)->get();
+        $draft = applicationinfo::where('userid',Auth::user()->userid)->first();
         $bread11="Dashboard";
   
     return view('User.user', compact('draft','bread11'));
