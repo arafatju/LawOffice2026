@@ -26,6 +26,38 @@ class notarydetails extends Model
          
          
     ];
+    public function isApproved()
+    {
+        // If equal, the application is approved
+        return $this->renewdate === $this->lastrenewdate;
+    }
+    
+    /**
+     * Check if application is expired
+     * 
+     * @return bool
+     */
+    public function isExpired()
+    {
+        // If not equal, the application is expired
+        return $this->renewdate !== $this->lastrenewdate;
+    }
+    
+    /**
+     * Scope for approved applications (renewdate equals lastrenewdate)
+     */
+    public function scopeApproved($query)
+    {
+        return $query->whereRaw('renewdate = lastrenewdate');
+    }
+    
+    /**
+     * Scope for expired applications (renewdate does not equal lastrenewdate)
+     */
+    public function scopeExpired($query)
+    {
+        return $query->whereRaw('renewdate != lastrenewdate');
+    }
     
 
 }

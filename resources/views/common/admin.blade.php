@@ -167,24 +167,25 @@
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
-            <a href="{{route('NotaryDashboard')}}" class="sidebar-link">
+            <a href="{{route('newdash')}}" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
             <a href="{{route('personal')}}" class="sidebar-link">
-                <i class="bi bi-people"></i> Personal info
-            </a>
-            <a href="{{route('education')}}" class="sidebar-link">
-                <i class="bi bi-box"></i> Eduction info
-            </a>
-            <a href="{{route('notaryinfo')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Notary info
-            </a>
-            <a href="{{route('documents')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Documents
-            </a>
-            <a href="{{route('profile')}}" class="sidebar-link">
-                <i class="bi bi-person"></i> Profile
-            </a>
+                <i class="bi bi-check-circle"></i> Approved Applications
+               </a>
+               <a href="{{route('education')}}" class="sidebar-link">
+               <i class="bi bi-file-earmark-text"></i> Published Applications
+               </a>
+               <a href="{{route('notaryinfo')}}" class="sidebar-link">
+               <i class="bi bi-clock-history"></i> Expired Applications
+               </a>
+
+               <a href="{{route('notaryinfo')}}" class="sidebar-link">
+                <i class="bi bi-info-circle"></i> Loginfo
+               </a>
+               <a href="{{route('notaryinfo')}}" class="sidebar-link">
+               <i class="bi bi-activity"></i> Activities
+               </a>
             <a href="login.html" class="sidebar-link">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>

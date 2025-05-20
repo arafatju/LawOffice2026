@@ -121,6 +121,9 @@
                                     onclick="event.preventDefault(); doubleConfirm('{{ route('sendto111', $info->applicationid) }}');">
                                     <span class="fa fa-check"></span> Approve
                                 </a>
+                                <a href="#" class="btn btn-secondary btn-sm">
+                                    <span class="fa fa-arrow-left"></span>File Back
+                                    </a>
                                 <a href="#" class="btn btn-danger btn-sm"
                                     onclick="event.preventDefault(); deleteConfirm('{{ route('sendto111', $info->applicationid) }}');">
                                     <span class="fa fa-trash"></span> Delete
