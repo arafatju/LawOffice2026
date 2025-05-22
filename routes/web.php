@@ -105,8 +105,23 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
        Route::get('/overalldel11/{id}/{name}', [infoimp::class, 'overalldel11'])->name('overalldel11'); 
 
        Route::get('/newdash', [notaryadmin::class, 'newdash'])->name('newdash');
-
-});
+       Route::get('/approved', [notaryadmin::class, 'approved'])->name('approved');
+         Route::get('/expired', [notaryadmin::class, 'expired'])->name('expired');
+         Route::get('/viewlist/{id}', [notaryadmin::class, 'viewlist'])->name('viewlist');
+        Route::get('/deletelist/{id}', [notaryadmin::class, 'deletelist'])->name('deletelist');
+         Route::get('/approvedList/{id}', [notaryadmin::class, 'approvedList'])->name('approvedList');
+        Route::get('/expiredList/{id}', [notaryadmin::class, 'expiredList'])->name('expiredList');
+        Route::get('/secure-file11/{appid}/{filename}', function ($appid, $filename) {
+            $path = storage_path("app/private/uploads/{$appid}/{$filename}");
+        
+            if (!file_exists($path)) {
+                abort(404);
+            }
+        
+            return response()->file($path);
+        })->name('secure.image11');
+        Route::get('/back111/{id}', [notaryadmin::class, 'back111'])->name('back111');
+    });
 
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/device.register', [infoimp::class, 'deviceregister'])->name('device.register'); 
@@ -115,6 +130,13 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
  
 });
+Route::middleware(['auth'])->get('/secure-file-common/{appid}/{filename}', function ($appid, $filename) {
+    $path = storage_path("app/private/uploads/{appid}/{$filename}");
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    return response()->file($path);
+})->name('secure.image.common');
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
     Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 

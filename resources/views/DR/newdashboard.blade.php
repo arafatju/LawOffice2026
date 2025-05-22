@@ -114,17 +114,17 @@
                                 {{$info->status}}
                             </td>
                             <td>
-                                <a href="{{ route('personal11', $info->applicationid) }}" class="btn btn-info btn-sm mr-1">
+                                <a href="{{ route('viewlist', $info->applicationid) }}" class="btn btn-info btn-sm mr-1">
                                     <span class="fa fa-eye"></span> View
                                 </a>
-                                <a href="#" class="btn btn-success btn-sm mr-1"
-                                    onclick="event.preventDefault(); doubleConfirm('{{ route('sendto111', $info->applicationid) }}');">
+                                <a href="{{ route('approvedList', $info->applicationid) }}" class="btn btn-success btn-sm mr-1"
+                                    onclick="event.preventDefault(); doubleConfirm('{{ route('approvedList', $info->applicationid) }}');">
                                     <span class="fa fa-check"></span> Approve
                                 </a>
-                                <a href="#" class="btn btn-secondary btn-sm">
+                                <a href="{{route('back111',$info->applicationid)}}" class="btn btn-secondary btn-sm">
                                     <span class="fa fa-arrow-left"></span>File Back
                                     </a>
-                                <a href="#" class="btn btn-danger btn-sm"
+                                <a href="{{ route('deletelist', $info->applicationid) }}" class="btn btn-danger btn-sm"
                                     onclick="event.preventDefault(); deleteConfirm('{{ route('sendto111', $info->applicationid) }}');">
                                     <span class="fa fa-trash"></span> Delete
                                 </a>

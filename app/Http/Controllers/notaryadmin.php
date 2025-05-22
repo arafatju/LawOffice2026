@@ -54,11 +54,78 @@ class notaryadmin extends Controller
         $application = applicationinfo::with('personalinfo')->where('status', 'Processing')->get();
         return view('DR.newdashboard', compact('bread11', 'application'));
     }
-    public function approvedList()
+    public function viewlist($id)
     {
-        $approvedApplications = NotaryInfo::approved()->get();
         
-        return view('notary.approved', compact('approvedApplications'));
+        $bread11="Profile";
+        session(['appid'=>$id]);
+        $personalInfo=personalinfo::where('applicationid',session('appid'))->first();
+        $educationInfo=education::where('applicationid',session('appid'))->first();
+        $documents=documents::where('applicationid',session('appid'))->first();
+        $notaryInfo=notarydetails::where('applicationid',session('appid'))->first();
+        return view('User.profile',compact('bread11','personalInfo','educationInfo','documents','notaryInfo'));
+  }
+    public function back111($id)
+    {
+        $status=applicationinfo::where('applicationid',$id)->first();
+        if($status->status=='Approved'){
+
+            applicationinfo::where('applicationid',$id)->update(['status'=>'Processing']);
+            info11::create([
+                'name' => Auth::user()->name,
+                'userid' => Auth::user()->userid, // or any valid user ID
+                'applicationid' => $id,
+                'action' => 'Back to Processing',
+                'status' => 'Fileback',
+            ]);
+            return redirect()->back()->withInfo(' File Sent to Processing Successfully');  
+    
+    }
+        elseif($status->status=='Processing'){
+
+            applicationinfo::where('applicationid',$id)->update(['status'=>'Draft']);
+            info11::create([
+                'name' => Auth::user()->name,
+                'userid' => Auth::user()->userid, // or any valid user ID
+                'applicationid' => $id,
+                'action' => 'Back to User',
+                'status' => 'Fileback',
+            ]);
+            return redirect()->back()->withInfo(' File Sent to User Successfully');  
+        }
+         
+       
+       
+       
+       
+    }
+    public function deletelist($id)
+    {
+        $bread11="Processing List";
+        $application = applicationinfo::with('personalinfo')->where('status', 'Processing')->get();
+        return view('DR.processing', compact('bread11', 'application'));
+    }
+   public function approvedList($id)
+    {
+        applicationinfo::where('applicationid',$id)->update(['status'=>'Approved']);
+        info11::create([
+            'name' => Auth::user()->name,
+            'userid' => Auth::user()->userid, // or any valid user ID
+            'applicationid' => $id,
+            'action' => 'Approved Application',
+            'status' => 'Sent for Publishing',
+        ]);
+
+        return redirect(route('approved'))->withSuccess('  File Approved Successfully');  
+
+          }
+   
+    public function approved()
+    {
+        $bread11="Approved List";
+        $application = applicationinfo::with('personalinfo')->where('status', 'Approved')->get();
+        return view('DR.approved', compact('bread11', 'application'));
+    
     }
     
     /**
@@ -66,17 +133,22 @@ class notaryadmin extends Controller
      */
     public function expiredList()
     {
-        $expiredApplications = NotaryInfo::expired()->get();
+
+
+        //$approvedApplications = NotaryInfo::approved()->get();
+        
+        //return view('DR.approved', compact('approvedApplications'));
+       // $expiredApplications = NotaryInfo::expired()->get();
         
 // You can also chain scopes with other query methods:
-$recentApprovedApplications = NotaryInfo::approved()->where('natarydate', '>=', now()->subYear())->get();
+//$recentApprovedApplications = NotaryInfo::approved()->where('natarydate', '>=', now()->subYear())->get();
 
 // Or combine with pagination:
-$paginatedExpired = NotaryInfo::expired()->paginate(10);
+//$paginatedExpired = NotaryInfo::expired()->paginate(10);
 
 // Or use with ordering:
 $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
-        return view('notary.expired', compact('expiredApplications'));
+        return view('notary.expired', compact('oldestExpired'));
     }
     
     /**
