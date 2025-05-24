@@ -117,8 +117,8 @@
                                 <a href="{{ route('viewlist', $info->applicationid) }}" class="btn btn-info btn-sm mr-1">
                                     <span class="fa fa-eye"></span> View
                                 </a>
-                                <a href="{{ route('approvedList', $info->applicationid) }}" class="btn btn-success btn-sm mr-1"
-                                    onclick="event.preventDefault(); doubleConfirm('{{ route('approvedList', $info->applicationid) }}');">
+                                <a href="{{ route('publishedList', $info->applicationid) }}" class="btn btn-success btn-sm mr-1"
+                                    onclick="event.preventDefault(); doubleConfirm('{{ route('publishedList', $info->applicationid) }}');">
                                     <span class="fa fa-check"></span> Publish
                                 </a>
                                 <a href="{{route('back111',$info->applicationid)}}" class="btn btn-secondary btn-sm">

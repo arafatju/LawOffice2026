@@ -63,7 +63,7 @@ class notaryadmin extends Controller
         $educationInfo=education::where('applicationid',session('appid'))->first();
         $documents=documents::where('applicationid',session('appid'))->first();
         $notaryInfo=notarydetails::where('applicationid',session('appid'))->first();
-        return view('User.profile',compact('bread11','personalInfo','educationInfo','documents','notaryInfo'));
+        return view('DR.profile',compact('bread11','personalInfo','educationInfo','documents','notaryInfo'));
   }
     public function back111($id)
     {
@@ -127,9 +127,36 @@ class notaryadmin extends Controller
         return view('DR.approved', compact('bread11', 'application'));
     
     }
+    public function publishedList($id)
+    {
+        applicationinfo::where('applicationid',$id)->update(['status'=>'Published']);
+        info11::create([
+            'name' => Auth::user()->name,
+            'userid' => Auth::user()->userid, // or any valid user ID
+            'applicationid' => $id,
+            'action' => 'Published Application',
+            'status' => 'Sent for Publishing',
+        ]);
+
+        return redirect(route('published'))->withSuccess('  File Published Successfully');  
+    }
+    public function published()
+    {
+        $bread11="Published List";
+        $application = applicationinfo::with('personalinfo')->where('status', 'Published')->get();
+        return view('DR.published', compact('bread11', 'application'));
     
-    /**
-     * Display list of expired applications
+    }
+    /**Get notaries expiring within 30 days
+$expiringSoon = notarydetails::expiringSoon()->get();
+
+// Check individual notary status
+$notary = notarydetails::find(1);
+if ($notary->isExpired()) {
+    echo "This notary is expired";
+} elseif ($notary->isRenewalDueSoon()) {
+    echo "Renewal due soon: " . $notary->getRenewalStatus();
+}
      */
     public function expiredList()
     {
@@ -150,10 +177,38 @@ class notaryadmin extends Controller
 $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         return view('notary.expired', compact('oldestExpired'));
     }
+    public function expired()
+    {
+        $bread11="Expired List";
+        // First get the expired application IDs
+        $expiredApplicationIds = notarydetails::expired()
+        ->orderBy('natarydate', 'asc')
+        ->pluck('applicationid');
+
+        // Then get the applications with personal info
+        $application = applicationinfo::with('personalinfo')
+        ->whereIn('applicationid', $expiredApplicationIds)
+        ->get();
+        return view('DR.expired', compact('bread11', 'application'));
     
-    /**
+    }
+    public function valid111()
+    {
+        $bread11="Valid List";
+        $expiredApplicationIds = notarydetails::approved()
+        ->orderBy('natarydate', 'asc')
+        ->pluck('applicationid');
+
+        // Then get the applications with personal info
+        $application = applicationinfo::with('personalinfo')
+        ->whereIn('applicationid', $expiredApplicationIds)
+        ->get();
+        return view('DR.valid111', compact('bread11', 'application'));
+    
+    }
+                /*
      * Check application status
-     */
+   
     public function checkStatus($applicationId)
     {
         $application = NotaryInfo::where('applicationid', $applicationId)->first();
@@ -165,5 +220,5 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         $status = $application->isApproved() ? 'approved' : 'expired';
         
         return redirect()->back()->with('info', "Application status: {$status}");
-    }
+    }  */
 }

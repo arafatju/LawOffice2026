@@ -170,13 +170,16 @@
             <a href="{{route('newdash')}}" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
-            <a href="{{route('personal')}}" class="sidebar-link">
+            <a href="{{route('approved')}}" class="sidebar-link">
                 <i class="bi bi-check-circle"></i> Approved Applications
                </a>
-               <a href="{{route('education')}}" class="sidebar-link">
+               <a href="{{route('published')}}" class="sidebar-link">
                <i class="bi bi-file-earmark-text"></i> Published Applications
                </a>
-               <a href="{{route('notaryinfo')}}" class="sidebar-link">
+               <a href="{{route('valid111')}}" class="sidebar-link">
+                <i class="bi bi-clock-history"></i> Valid Applications
+                </a>
+               <a href="{{route('expired')}}" class="sidebar-link">
                <i class="bi bi-clock-history"></i> Expired Applications
                </a>
 

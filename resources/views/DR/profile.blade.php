@@ -13,7 +13,7 @@
                         <!-- Documents - Profile Image -->
                         <div class="col-md-3 text-center mb-4">
                             @if(isset($documents->image) && !empty($documents->image))
-                            <img src="{{ route('secure.image', ['appid' => session('appid'), 'filename' => $documents->image]) }}" alt="Profile Image" class="img-fluid rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;">
+                            <img src="{{ route('secure.image11', ['appid' => session('appid'), 'filename' => $documents->image]) }}" alt="Profile Image" class="img-fluid rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;">
                             @else
                                 <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 200px; height: 200px;">
                                     <i class="fas fa-user fa-5x text-secondary"></i>
@@ -170,7 +170,7 @@
                                             <h6 class="mb-0">Signature</h6>
                                            
                                             @if(isset($documents->signature) && !empty($documents->signature))
-                                            <a href="{{ route('secure.image.common', ['appid' => session('appid'), 'filename' => $documents->signature]) }}"
+                                            <a href="{{ route('secure.image11', ['appid' => session('appid'), 'filename' => $documents->signature]) }}"
                                                 class="btn btn-sm btn-outline-primary mt-2" target="_blank">View</a>
                                                                                          @else
                                                 <span class="badge badge-secondary mt-2">Not Uploaded</span>
@@ -184,7 +184,7 @@
                                             <i class="fas fa-certificate fa-2x mb-2 text-info"></i>
                                             <h6 class="mb-0">Bar Certificate</h6>
                                             @if(isset($documents->barcertificate) && !empty($documents->barcertificate))
-                                            <a href="{{ route('secure.image.common', ['appid' => session('appid'), 'filename' => $documents->barcertificate]) }}" class="btn btn-sm btn-outline-primary mt-2" target="_blank">View</a>
+                                            <a href="{{ route('secure.image11', ['appid' => session('appid'), 'filename' => $documents->barcertificate]) }}" class="btn btn-sm btn-outline-primary mt-2" target="_blank">View</a>
                                             @else
                                                 <span class="badge badge-secondary mt-2">Not Uploaded</span>
                                             @endif
@@ -197,7 +197,7 @@
                                             <i class="fas fa-scroll fa-2x mb-2 text-success"></i>
                                             <h6 class="mb-0">Notary Certificate</h6>
                                             @if(isset($documents->notarycertificate) && !empty($documents->notarycertificate))
-                                            <a href="{{ route('secure.image.common', ['appid' => session('appid'), 'filename' => $documents->notarycertificate]) }}"
+                                            <a href="{{ route('secure.image11', ['appid' => session('appid'), 'filename' => $documents->notarycertificate]) }}"
                                                 class="btn btn-sm btn-outline-primary mt-2"
                                                 target="_blank">View</a>
                                                                                          @else
