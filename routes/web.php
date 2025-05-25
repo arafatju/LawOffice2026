@@ -120,9 +120,9 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
         
             return response()->file($path);
         })->name('secure.image11');
-
+        Route::get('/loginfo/data', [notaryadmin::class, 'getData'])->name('loginfo.data');
         Route::get('/valid111', [notaryadmin::class, 'valid111'])->name('valid111');
-
+        Route::get('/loginfo11', [notaryadmin::class, 'loginfo11'])->name('loginfo11');
         Route::get('/publishedList/{id}', [notaryadmin::class, 'publishedList'])->name('publishedList');
         Route::get('/published', [notaryadmin::class, 'published'])->name('published');
         Route::get('/back111/{id}', [notaryadmin::class, 'back111'])->name('back111');

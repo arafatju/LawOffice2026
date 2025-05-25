@@ -19,7 +19,16 @@ class applicationinfo extends Model
          
     ];
     public function personalinfo()
-{
-    return $this->belongsTo(personalinfo::class, 'applicationid', 'applicationid');
-}
+    {
+        return $this->belongsTo(personalinfo::class, 'applicationid', 'applicationid');
+    }
+    public static function countApproved()
+    {
+        return self::where('status', 'Approved')->count();
+    }
+
+    public static function countProcessing()
+    {
+        return self::where('status', 'Processing')->count();
+    }
 }

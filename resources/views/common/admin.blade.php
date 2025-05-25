@@ -173,22 +173,26 @@
             <a href="{{route('approved')}}" class="sidebar-link">
                 <i class="bi bi-check-circle"></i> Approved Applications
                </a>
-               <a href="{{route('published')}}" class="sidebar-link">
-               <i class="bi bi-file-earmark-text"></i> Published Applications
-               </a>
-               <a href="{{route('valid111')}}" class="sidebar-link">
-                <i class="bi bi-clock-history"></i> Valid Applications
-                </a>
-               <a href="{{route('expired')}}" class="sidebar-link">
-               <i class="bi bi-clock-history"></i> Expired Applications
-               </a>
+                        <a href="{{ route('published') }}" class="sidebar-link">
+                <i class="bi bi-journal-check"></i> Published Applications
+            </a>
 
-               <a href="{{route('notaryinfo')}}" class="sidebar-link">
-                <i class="bi bi-info-circle"></i> Loginfo
-               </a>
-               <a href="{{route('notaryinfo')}}" class="sidebar-link">
-               <i class="bi bi-activity"></i> Activities
-               </a>
+            <a href="{{ route('valid111') }}" class="sidebar-link">
+                <i class="bi bi-check-circle"></i> Valid Applications
+            </a>
+
+            <a href="{{ route('expired') }}" class="sidebar-link">
+                <i class="bi bi-calendar-x"></i> Expired Applications
+            </a>
+
+            <a href="{{ route('loginfo11') }}" class="sidebar-link">
+                <i class="bi bi-info-circle"></i> Log Info
+            </a>
+
+            <a href="{{ route('notaryinfo') }}" class="sidebar-link">
+                <i class="bi bi-graph-up-arrow"></i> Activities
+            </a>
+
             <a href="login.html" class="sidebar-link">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>

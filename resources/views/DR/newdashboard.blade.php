@@ -13,7 +13,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                   Processing</div>
-                            <div class="h3 mb-0 font-weight-bold text-gray-800">N/A</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">{{$processing}}</div>
                         </div>
                         <div class="col-auto">
                             <span class="fa fa-clipboard-list fa-2x text-gray-300"></span>
@@ -30,7 +30,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Approved</div>
-                            <div class="h3 mb-0 font-weight-bold text-gray-800">N/A</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">{{$approved}}</div>
                         </div>
                         <div class="col-auto">
                             <span class="fa fa-check-circle fa-2x text-gray-300"></span>
@@ -46,8 +46,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Published</div>
-                            <div class="h3 mb-0 font-weight-bold text-gray-800">N/A</div>
+                                Valid </div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800">{{$validCount}}</div>
                         </div>
                         <div class="col-auto">
                             <span class="fa fa-globe fa-2x text-gray-300"></span>
@@ -64,7 +64,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Expired</div>
-                            <div class="h3 mb-0 font-weight-bold text-purple-800">Draft</div>
+                            <div class="h3 mb-0 font-weight-bold text-purple-800">{{$expiredCount}}</div>
                         </div>
                         <div class="col-auto">
                             <span class="fa fa-calendar-times fa-2x text-gray-300"></span>

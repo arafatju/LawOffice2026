@@ -52,8 +52,16 @@ class notaryadmin extends Controller
     {
          $bread11="Dashboard";
         $application = applicationinfo::with('personalinfo')->where('status', 'Processing')->get();
-        return view('DR.newdashboard', compact('bread11', 'application'));
+       
+            $approved = applicationinfo::countApproved();
+            $processing = applicationinfo::countProcessing();
+         $validCount = notarydetails::approved()->count();
+         $expiredCount = notarydetails::expired()->count();
+
+
+        return view('DR.newdashboard', compact('bread11', 'application','approved', 'processing', 'validCount', 'expiredCount'));
     }
+    
     public function viewlist($id)
     {
         
@@ -123,8 +131,12 @@ class notaryadmin extends Controller
     public function approved()
     {
         $bread11="Approved List";
+        $approved = applicationinfo::countApproved();
+            $processing = applicationinfo::countProcessing();
+         $validCount = notarydetails::approved()->count();
+         $expiredCount = notarydetails::expired()->count();
         $application = applicationinfo::with('personalinfo')->where('status', 'Approved')->get();
-        return view('DR.approved', compact('bread11', 'application'));
+        return view('DR.approved', compact('bread11', 'application', 'approved', 'processing', 'validCount', 'expiredCount'));
     
     }
     public function publishedList($id)
@@ -143,8 +155,12 @@ class notaryadmin extends Controller
     public function published()
     {
         $bread11="Published List";
+         $approved = applicationinfo::countApproved();
+            $processing = applicationinfo::countProcessing();
+         $validCount = notarydetails::approved()->count();
+         $expiredCount = notarydetails::expired()->count();
         $application = applicationinfo::with('personalinfo')->where('status', 'Published')->get();
-        return view('DR.published', compact('bread11', 'application'));
+        return view('DR.published', compact('bread11', 'application', 'approved', 'processing', 'validCount', 'expiredCount'));
     
     }
     /**Get notaries expiring within 30 days
@@ -189,9 +205,33 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         $application = applicationinfo::with('personalinfo')
         ->whereIn('applicationid', $expiredApplicationIds)
         ->get();
-        return view('DR.expired', compact('bread11', 'application'));
+          
+         $validCount = notarydetails::approved()->count();
+         $expiredCount = notarydetails::expired()->count();
+        return view('DR.expired', compact('bread11', 'application', 'validCount', 'expiredCount'));
     
     }
+    public function loginfo11()
+    {
+        $bread11="Loginfo List";
+        $application = DB::table('loginfo')->select('*')->orderBy('created_at', 'desc')->paginate(10);
+        return view('DR.logdr', compact('bread11', 'application'));     
+    }
+    public function getData(Request $request)
+{
+    $data = DB::table('loginfo')->select([
+        'name', 'mail', 'mobile', 'ip', 'Location', 'Device', 'Browser', 'created_at'
+    ]);
+    if ($request->has('mobile') && !empty($request->mobile)) {
+        $data->where('mobile', 'like', '%' . $request->mobile . '%');
+    }
+    if ($request->has('name') && !empty($request->name)) {
+        $data->where('name', 'like', '%' . $request->name . '%');
+    }
+
+    return datatables()->of($data)->make(true);
+}
+
     public function valid111()
     {
         $bread11="Valid List";
@@ -203,7 +243,10 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         $application = applicationinfo::with('personalinfo')
         ->whereIn('applicationid', $expiredApplicationIds)
         ->get();
-        return view('DR.valid111', compact('bread11', 'application'));
+         
+         $validCount = notarydetails::approved()->count();
+         $expiredCount = notarydetails::expired()->count();
+        return view('DR.valid111', compact('bread11', 'application', 'validCount', 'expiredCount'));
     
     }
                 /*

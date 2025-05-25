@@ -184,7 +184,7 @@ public function forget44(Request $request){
                       'Browser'=>$browser,
                       'ip'=>$ip,
                       'Location'=>session('user_data_city'),
-                      
+'created_at' => Carbon::now(),
                        
                   ]);
                      
