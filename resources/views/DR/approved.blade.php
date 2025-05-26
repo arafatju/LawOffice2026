@@ -79,60 +79,25 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Applications</h6>
-            <div class="col-md-4 ml-auto">
-                <div class="input-group">
-                    <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Search applications...">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <span class="fa fa-search"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+             
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr class="bg-primary text-white">
-                            <th>App ID</th>
-                            <th> Name</th>
-                            <th>Mobile</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="applicationTableBody">
-                        @foreach ($application as $info)
-                        <tr>
-                            <td>{{$info->applicationid}}</td>
-                            <td>{{  ($info->personalinfo->name ?? 'N/A')}}</td>
-                            <td>{{  ($info->personalinfo->mobile ?? 'N/A')}}</td>
-                            <td>{{$info->created_at}}</td>
-                            <td>
-                                {{$info->status}}
-                            </td>
-                            <td>
-                                <a href="{{ route('viewlist', $info->applicationid) }}" class="btn btn-info btn-sm mr-1">
-                                    <span class="fa fa-eye"></span> View
-                                </a>
-                                <a href="{{ route('publishedList', $info->applicationid) }}" class="btn btn-success btn-sm mr-1"
-                                    onclick="event.preventDefault(); doubleConfirm('{{ route('publishedList', $info->applicationid) }}');">
-                                    <span class="fa fa-check"></span> Publish
-                                </a>
-                                <a href="{{route('back111',$info->applicationid)}}" class="btn btn-secondary btn-sm">
-                                    <span class="fa fa-arrow-left"></span>File Back
-                                    </a>
-                                <a href="{{ route('deletelist', $info->applicationid) }}" class="btn btn-danger btn-sm"
-                                    onclick="event.preventDefault(); deleteConfirm('{{ route('sendto111', $info->applicationid) }}');">
-                                    <span class="fa fa-trash"></span> Delete
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+    <table class="table table-bordered" id="applicationsTable" width="100%">
+        <thead>
+            <tr class="bg-primary text-white">
+                <th>App ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
             </div>
         </div>
     </div>
@@ -140,6 +105,29 @@
 
 <!-- SweetAlert2 Script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $('#applicationsTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ url()->current() }}",
+        columns: [
+            { data: 'applicationid', name: 'applicationid' },
+            { data: 'name', name: 'personalinfo.name' },
+            { data: 'mobile', name: 'personalinfo.mobile' },
+            { data: 'created_at', name: 'created_at' },
+            { data: 'status', name: 'status' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+});
+</script>
 
 <script>
     function doubleConfirm(url) {

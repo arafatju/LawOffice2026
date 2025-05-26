@@ -48,18 +48,43 @@ class notaryadmin extends Controller
     {
         $this->middleware('auth');
     }
-    public function newdash()
+    public function newdash(Request $request)
     {
          $bread11="Dashboard";
-        $application = applicationinfo::with('personalinfo')->where('status', 'Processing')->get();
-       
+         if ($request->ajax()) {
+        $data = applicationinfo::with('personalinfo')->where('status','Processing')->get();
+
+        return DataTables::of($data)
+            ->addColumn('name', function($row) {
+                return $row->personalinfo->name ?? 'N/A';
+            })
+            ->addColumn('mobile', function($row) {
+                return $row->personalinfo->mobile ?? 'N/A';
+            })
+            ->addColumn('action', function($row) {
+                $view = route('viewlist', $row->applicationid);
+                $approve = route('approvedList', $row->applicationid);
+                $back = route('back111', $row->applicationid);
+                $delete = route('sendto111', $row->applicationid);
+
+                return '
+                    <a href="'.$view.'" class="btn btn-info btn-sm mr-1"><i class="fa fa-eye"></i> View</a>
+                    <a href="'.$approve.'" class="btn btn-success btn-sm mr-1" onclick="event.preventDefault(); doubleConfirm(\''.$approve.'\');"><i class="fa fa-check"></i> Approve</a>
+                    <a href="'.$back.'" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-left"></i> File Back</a>
+                    <a href="'.$delete.'" class="btn btn-danger btn-sm" onclick="event.preventDefault(); deleteConfirm(\''.$delete.'\');"><i class="fa fa-trash"></i> Delete</a>
+                ';
+            })
+            ->rawColumns(['action']) // allow HTML in action column
+            ->make(true);
+    }
+        
             $approved = applicationinfo::countApproved();
             $processing = applicationinfo::countProcessing();
          $validCount = notarydetails::approved()->count();
          $expiredCount = notarydetails::expired()->count();
 
 
-        return view('DR.newdashboard', compact('bread11', 'application','approved', 'processing', 'validCount', 'expiredCount'));
+        return view('DR.newdashboard', compact('bread11','approved', 'processing', 'validCount', 'expiredCount'));
     }
     
     public function viewlist($id)
@@ -127,16 +152,50 @@ class notaryadmin extends Controller
         return redirect(route('approved'))->withSuccess('  File Approved Successfully');  
 
           }
-   
-    public function approved()
+     public function renew($id, $previous, $next)
+{
+ $notary = notarydetails::where('applicationid', $id)->firstOrFail();
+
+    $success = $notary->renewDates($previous, $next);
+
+    if ($success) {
+        return redirect()->back()->with('success', 'Renewal dates updated successfully.');
+    } else {
+        return redirect()->back()->with('error', 'Failed to update renewal dates.');
+    }
+}
+
+    public function approved(Request $request)
     {
         $bread11="Approved List";
+
+        if ($request->ajax()) {
+        $data = applicationinfo::with('personalinfo')->where('status', 'Approved')->get();
+
+
+        return DataTables::of($data)
+            ->addColumn('name', function($row) {
+                return $row->personalinfo->name ?? 'N/A';
+            })
+            ->addColumn('mobile', function($row) {
+                return $row->personalinfo->mobile ?? 'N/A';
+            })
+            ->addColumn('action', function($row){
+                $view = '<a href="'.route('viewlist', $row->applicationid).'" class="btn btn-info btn-sm"><span class="fa fa-eye"></span> View</a>';
+                $publish = '<a href="'.route('publishedList', $row->applicationid).'" onclick="event.preventDefault(); doubleConfirm(\''.route('publishedList', $row->applicationid).'\');" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Publish</a>';
+                $back = '<a href="'.route('back111', $row->applicationid).'" class="btn btn-secondary btn-sm"><span class="fa fa-arrow-left"></span> File Back</a>';
+                $delete = '<a href="'.route('deletelist', $row->applicationid).'" onclick="event.preventDefault(); deleteConfirm(\''.route('sendto111', $row->applicationid).'\');" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span> Delete</a>';
+                return $view . ' ' . $publish . ' ' . $back . ' ' . $delete;
+            })
+            ->rawColumns(['action']) // Important: render HTML
+            ->make(true);
+         }
+    
         $approved = applicationinfo::countApproved();
             $processing = applicationinfo::countProcessing();
          $validCount = notarydetails::approved()->count();
          $expiredCount = notarydetails::expired()->count();
-        $application = applicationinfo::with('personalinfo')->where('status', 'Approved')->get();
-        return view('DR.approved', compact('bread11', 'application', 'approved', 'processing', 'validCount', 'expiredCount'));
+        return view('DR.approved', compact('bread11','approved', 'processing', 'validCount', 'expiredCount'));
     
     }
     public function publishedList($id)
@@ -152,15 +211,40 @@ class notaryadmin extends Controller
 
         return redirect(route('published'))->withSuccess('  File Published Successfully');  
     }
-    public function published()
+    public function published(Request $request)
     {
         $bread11="Published List";
+
+        if ($request->ajax()) {
+            $data = applicationinfo::with('personalinfo')->where('status', 'Published')->get();
+
+           return DataTables::of($data)
+        ->addColumn('name', function($row) {
+            return $row->personalinfo->name ?? 'N/A';
+        })
+        ->addColumn('mobile', function($row) {
+            return $row->personalinfo->mobile ?? 'N/A';
+        })
+        ->addColumn('license_status', function($row) {
+            $notary = \App\Models\notarydetails::where('applicationid', $row->applicationid)->first();
+            return ($notary && $notary->isExpired()) ? 'Expired' : 'Valid';
+        })
+        ->addColumn('action', function($row){
+            $view = '<a href="'.route('viewlist', $row->applicationid).'" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> View</a>';
+            $fileBack = '<a href="'.route('back111', $row->applicationid).'" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-left"></i> File Back</a>';
+            $delete = '<a href="'.route('deletelist', $row->applicationid).'" class="btn btn-danger btn-sm" onclick="event.preventDefault(); deleteConfirm(\''.route('sendto111', $row->applicationid).'\');"><i class="fa fa-trash"></i> Delete</a>';
+            return $view . ' ' . $fileBack . ' ' . $delete;
+        })
+        ->rawColumns(['action']) // allow HTML in action column
+        ->make(true);
+            
+            }
          $approved = applicationinfo::countApproved();
             $processing = applicationinfo::countProcessing();
          $validCount = notarydetails::approved()->count();
          $expiredCount = notarydetails::expired()->count();
         $application = applicationinfo::with('personalinfo')->where('status', 'Published')->get();
-        return view('DR.published', compact('bread11', 'application', 'approved', 'processing', 'validCount', 'expiredCount'));
+        return view('DR.published', compact('bread11','approved', 'processing', 'validCount', 'expiredCount'));
     
     }
     /**Get notaries expiring within 30 days
@@ -193,7 +277,7 @@ if ($notary->isExpired()) {
 $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         return view('notary.expired', compact('oldestExpired'));
     }
-    public function expired()
+    public function expired(Request $request)
     {
         $bread11="Expired List";
         // First get the expired application IDs
@@ -202,13 +286,50 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         ->pluck('applicationid');
 
         // Then get the applications with personal info
-        $application = applicationinfo::with('personalinfo')
+         
+           if ($request->ajax()) {
+        $data = applicationinfo::with('personalinfo')
         ->whereIn('applicationid', $expiredApplicationIds)
         ->get();
-          
+        return DataTables::of($data)
+            ->addColumn('name', function($row){
+                return $row->personalinfo->name ?? 'N/A';
+            })
+            ->addColumn('mobile', function($row){
+                return $row->personalinfo->mobile ?? 'N/A';
+            })
+                        ->addColumn('action', function($row){
+                $view = route('viewlist', $row->applicationid);
+                $publish = route('publishedList', $row->applicationid);
+                $back = route('back111', $row->applicationid);
+                $delete = route('sendto111', $row->applicationid);
+
+                $btn = '
+                    <a href="'.$view.'" class="btn btn-info btn-sm mr-1">
+                        <span class="fa fa-eye"></span> View
+                    </a>
+                    <a href="#" class="btn btn-success btn-sm mr-1" onclick="event.preventDefault(); doubleConfirm(\''.$publish.'\')">
+                        <span class="fa fa-check"></span> Publish
+                    </a>
+                    <a href="'.$back.'" class="btn btn-secondary btn-sm mr-1">
+                        <span class="fa fa-arrow-left"></span> File Back
+                    </a>
+                    <a href="#" class="btn btn-danger btn-sm mr-1" onclick="event.preventDefault(); deleteConfirm(\''.$delete.'\')">
+                        <span class="fa fa-trash"></span> Delete
+                    </a>
+                    <a href="#" class="btn btn-warning btn-sm" onclick="event.preventDefault(); renewPrompt(\''.$row->applicationid.'\')">
+                        <span class="fa fa-redo"></span> Renew
+                    </a>
+                ';
+
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
          $validCount = notarydetails::approved()->count();
          $expiredCount = notarydetails::expired()->count();
-        return view('DR.expired', compact('bread11', 'application', 'validCount', 'expiredCount'));
+        return view('DR.expired', compact('bread11', 'validCount', 'expiredCount'));
     
     }
     public function loginfo11()

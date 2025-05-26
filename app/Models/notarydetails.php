@@ -45,6 +45,13 @@ class notarydetails extends Model
         // If renewdate is today or in the future, the application is approved
         return $this->renewdate && $this->renewdate >= now()->startOfDay();
     }
+public function renewDates($previous, $next)
+{
+    $this->lastrenewdate = Carbon::parse($previous)->startOfDay();
+    $this->renewdate = Carbon::parse($next)->startOfDay();
+    
+    return $this->save();
+}
 
     /**
      * Check if application is expired (renewdate has passed)

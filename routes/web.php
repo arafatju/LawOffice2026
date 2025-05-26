@@ -111,6 +111,9 @@ Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpd
         Route::get('/deletelist/{id}', [notaryadmin::class, 'deletelist'])->name('deletelist');
          Route::get('/approvedList/{id}', [notaryadmin::class, 'approvedList'])->name('approvedList');
         Route::get('/expiredList/{id}', [notaryadmin::class, 'expiredList'])->name('expiredList');
+       Route::get('/renew/{id}/{previous}/{next}', [notaryadmin::class, 'renew'])->name('renew.application');
+
+       
         Route::get('/secure-file11/{appid}/{filename}', function ($appid, $filename) {
             $path = storage_path("app/private/uploads/{$appid}/{$filename}");
         
