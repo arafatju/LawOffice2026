@@ -19,7 +19,17 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">License Status</h5>
-                <p class="card-text h3">N/A</p>
+                <p class="card-text h3"> 
+                  @if ($info->status== 'Published')  
+                    @if  ($notary->isExpired())
+                    Expired 
+            
+                    @else
+                   Valid
+                    @endif 
+                 @else
+                         N/A
+            @endif</p>
             </div>
         </div>
     </div>
@@ -27,7 +37,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Last Renewal Date</h5>
-                <p class="card-text h3">N/A </p>
+                <p class="card-text h3">{{ \Carbon\Carbon::parse($notary->lastrenewdate)->format('F j, Y') }} </p>
             </div>
         </div>
     </div>
@@ -35,15 +45,30 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Next Renewal Date</h5>
-                <p class="card-text h3">N/A </p>
+                <p class="card-text h3">{{ \Carbon\Carbon::parse($notary->renewdate)->format('F j, Y') }} </p>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Appliction id </h5>
-                <p class="card-text h3">Draft</p>
+                <h5 class="card-title">Days to Expire </h5>
+                <p class="card-text h3"> 
+
+                    @php
+                $days = $notary->getDaysUntilExpiry();
+            @endphp
+
+            @if (is_null($days))
+                Unknown
+            @elseif ($days < 0)
+                Expired {{ abs($days) }} days ago
+            @elseif ($days == 0)
+                Expires Today
+            @else
+                {{ $days }} days left
+            @endif
+                </p>
             </div>
         </div>
     </div>
@@ -64,11 +89,15 @@
             {{$info->status}}
          </td> 
         <td>
+                    @if ($info->status === 'Draft')
             <a href="{{ route('personal11', $info->applicationid) }}" 
-                class="btn btn-primary" 
-                onclick="event.preventDefault(); doubleConfirm('{{ route('sendto111', $info->applicationid) }}');">
-                Send
-             </a>
+            class="btn btn-primary" 
+            onclick="event.preventDefault(); doubleConfirm('{{ route('sendto111', $info->applicationid) }}');">
+            Send
+            </a>
+            @else Sent
+        @endif
+
                          
     </tr>
      

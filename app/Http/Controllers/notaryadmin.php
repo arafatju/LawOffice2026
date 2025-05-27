@@ -353,7 +353,7 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
     return datatables()->of($data)->make(true);
 }
 
-    public function valid111()
+    public function valid111(Request $request)
     {
         $bread11="Valid List";
         $expiredApplicationIds = notarydetails::approved()
@@ -361,13 +361,32 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
         ->pluck('applicationid');
 
         // Then get the applications with personal info
-        $application = applicationinfo::with('personalinfo')
+        
+         if ($request->ajax()) {
+$applications = applicationinfo::with('personalinfo')
         ->whereIn('applicationid', $expiredApplicationIds)
         ->get();
-         
+        return DataTables::of($applications)
+            ->addColumn('name', function ($row) {
+                return $row->personalinfo->name ?? 'N/A';
+            })
+            ->addColumn('mobile', function ($row) {
+                return $row->personalinfo->mobile ?? 'N/A';
+            })
+            ->addColumn('action', function ($row) {
+                $view = '<a href="' . route('viewlist', $row->applicationid) . '" class="btn btn-info btn-sm mr-1"><span class="fa fa-eye"></span> View</a>';
+                $publish = '<a href="' . route('publishedList', $row->applicationid) . '" class="btn btn-success btn-sm mr-1" onclick="event.preventDefault(); doubleConfirm(\'' . route('publishedList', $row->applicationid) . '\');"><span class="fa fa-check"></span> Publish</a>';
+                $back = '<a href="' . route('back111', $row->applicationid) . '" class="btn btn-secondary btn-sm"><span class="fa fa-arrow-left"></span> File Back</a>';
+                $delete = '<a href="' . route('deletelist', $row->applicationid) . '" class="btn btn-danger btn-sm" onclick="event.preventDefault(); deleteConfirm(\'' . route('sendto111', $row->applicationid) . '\');"><span class="fa fa-trash"></span> Delete</a>';
+                return $view . $publish . $back . $delete;
+            })
+            ->rawColumns(['action']) // Important to render HTML
+            ->make(true);
+    }
+
          $validCount = notarydetails::approved()->count();
          $expiredCount = notarydetails::expired()->count();
-        return view('DR.valid111', compact('bread11', 'application', 'validCount', 'expiredCount'));
+        return view('DR.valid111', compact('bread11','validCount', 'expiredCount'));
     
     }
                 /*
