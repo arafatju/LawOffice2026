@@ -101,7 +101,7 @@
                         </div>
                         
                         <div class="row mb-3">
-                            <label for="notarysarok" class="col-md-4 col-form-label">নোটারি স্মারক ন্মাবার </label>
+                            <label for="notarysarok" class="col-md-4 col-form-label">নোটারি স্মারক   </label>
                             <div class="col-md-8  ">
                                  
                                     <input id="notarysarok" type="text" class="form-control  @error('notarysarok') is-invalid @enderror" name="notarysarok" value="  {{ old('notarysarok') }}">
@@ -139,7 +139,7 @@
                         </div>
                         
                         <div class="row mb-3">
-                            <label for="renewdate" class="col-md-4 col-form-label">সনদ নবায়নের তারিখ  </label>
+                            <label for="renewdate" class="col-md-4 col-form-label">পরবর্তী নবায়ন </label>
                             <div class="col-md-8">
                                 <input id="renewdate" type="text" class="form-control datepicker @error('renewdate') is-invalid @enderror" name="renewdate" value="{{ old('renewdate') }}" autocomplete="off">
                                 @error('renewdate')

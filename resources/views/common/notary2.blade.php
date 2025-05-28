@@ -161,32 +161,33 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <!-- Logo/Brand -->
-        <div class="p-3 app-title">
-            <h4 class="m-0">Welcome to Notary Portal </h4>
+        <div class="p-3 app-title text-center">
+                    <img src="gov.png" alt="Government Logo" class="img-fluid mb-2" style="max-height: 60px;">
+            <h4 class="m-0">নোটারি  পোর্টাল  </h4>
         </div>
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
             <a href="{{route('NotaryDashboard')}}" class="sidebar-link">
-                <i class="bi bi-house-door"></i> Dashboard
+                <i class="bi bi-house-door"></i> ড্যাশবোর্ড
             </a>
             <a href="{{route('personal')}}" class="sidebar-link">
-                <i class="bi bi-people"></i> Personal info
+                <i class="bi bi-people"></i> ব্যাক্তিগত  তথ্যাদি    
             </a>
             <a href="{{route('education')}}" class="sidebar-link">
-                <i class="bi bi-box"></i> Eduction info
+                <i class="bi bi-box"></i> শিক্ষা সংক্রান্ত তথ্যাদি
             </a>
             <a href="{{route('notaryinfo')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Notary info
+                <i class="bi bi-gear"></i>  নোটারই তথ্যাদি
             </a>
             <a href="{{route('documents')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Documents
+                <i class="bi bi-gear"></i>  ডকুমেন্ট আপলোড
             </a>
             <a href="{{route('profile')}}" class="sidebar-link">
-                <i class="bi bi-person"></i> Profile
+                <i class="bi bi-person"></i> প্রোফাইল
             </a>
-            <a href="login.html" class="sidebar-link">
-                <i class="bi bi-box-arrow-right"></i> Logout
+            <a href="{{route('signout')}}" class="sidebar-link">
+                <i class="bi bi-box-arrow-right"></i> লগআউট
             </a>
         </div>
     </div>

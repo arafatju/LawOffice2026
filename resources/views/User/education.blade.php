@@ -43,7 +43,6 @@
                 @enderror
             </div>
         </div>
-
         <div class="row mb-3">
             <label for="sscpass" class="col-md-4 col-form-label">এস সি পাসের সন  <span class="text-danger">*</span></label>
             <div class="col-md-8">

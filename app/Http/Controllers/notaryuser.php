@@ -248,7 +248,7 @@ class notaryuser extends Controller
         $info=applicationinfo::where('userid',Auth::user()->userid)->first();
             $notary = notarydetails::where('applicationid',$info->applicationid)->first();
         session(['appid' => $info->applicationid]);
-        $bread11="Dashboard";
+        $bread11="ড্যাশবোর্ড";
              return view('User.NotaryDashboard',compact('info','bread11','notary'));
       }
       public function edituser($id){

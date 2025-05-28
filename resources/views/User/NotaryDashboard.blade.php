@@ -13,13 +13,13 @@
 
 
 
-<h2>Dashboard Overview</h2>
+<h2>ড্যাশবোর্ড  </h2>
 <div class="row mt-4">
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">License Status</h5>
-                <p class="card-text h3"> 
+                <h5 class="card-title fw-bold text-info">License Status</h5>
+                <p class="card-text h6"> 
                   @if ($info->status== 'Published')  
                     @if  ($notary->isExpired())
                     Expired 
@@ -36,24 +36,24 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Last Renewal Date</h5>
-                <p class="card-text h3">{{ \Carbon\Carbon::parse($notary->lastrenewdate)->format('F j, Y') }} </p>
+                <h5 class="card-title text-bold fw-bold text-success">সর্বশেষ নবায়ন তারিখ     </h5>
+                <p class="card-text h6">{{ \Carbon\Carbon::parse($notary->lastrenewdate)->format('F j, Y') }} </p>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Next Renewal Date</h5>
-                <p class="card-text h3">{{ \Carbon\Carbon::parse($notary->renewdate)->format('F j, Y') }} </p>
+                <h5 class="card-title fw-bold text-primary">পরবর্তী নবায়ন তারিখ</h5>
+                <p class="card-text h6">{{ \Carbon\Carbon::parse($notary->renewdate)->format('F j, Y') }} </p>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Days to Expire </h5>
-                <p class="card-text h3"> 
+                <h5 class="card-title fw-bold text-danger">     মেয়াদ বাকি আছে </h5>
+                <p class="card-text h6"> 
 
                     @php
                 $days = $notary->getDaysUntilExpiry();
