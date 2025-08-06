@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডিজিটাল স্টোর ম্যানেজমেন্ট ড্যাশবোর্ড</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SolaimanLipi', 'Kalpurush', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a4e96 0%, #6B46C1 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .govt-logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a4e96;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            opacity: 0.1;
+            font-size: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.inventory { border-left-color: #28a745; }
+        .stat-card.sales { border-left-color: #007bff; }
+        .stat-card.customers { border-left-color: #ffc107; }
+        .stat-card.revenue { border-left-color: #dc3545; }
+
+        .stat-card.inventory::before { content: '📦'; }
+        .stat-card.sales::before { content: '💰'; }
+        .stat-card.customers::before { content: '👥'; }
+        .stat-card.revenue::before { content: '📈'; }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 16px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .inventory .stat-icon { background: #28a745; }
+        .sales .stat-icon { background: #007bff; }
+        .customers .stat-icon { background: #ffc107; }
+        .revenue .stat-icon { background: #dc3545; }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-change.positive {
+            color: #28a745;
+        }
+
+        .stat-change.negative {
+            color: #dc3545;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .main-content {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #4a4e96 0%, #6B46C1 100%);
+            color: white;
+            padding: 1.5rem;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.in-stock {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.low-stock {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.out-stock {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .action-btn.blue {
+            background: linear-gradient(135deg, #007bff 0%, #17a2b8 100%);
+        }
+
+        .action-btn.blue:hover {
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        .action-btn.orange {
+            background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+        }
+
+        .action-btn.orange:hover {
+            box-shadow: 0 8px 25px rgba(253, 126, 20, 0.3);
+        }
+
+        .action-btn.red {
+            background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+        }
+
+        .action-btn.red:hover {
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+        }
+
+        .recent-activities {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+        }
+
+        .activity-icon.sale { background: #007bff; }
+        .activity-icon.stock { background: #28a745; }
+        .activity-icon.customer { background: #ffc107; }
+        .activity-icon.order { background: #6f42c1; }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 14px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .card-header {
+                padding: 1rem;
+                font-size: 16px;
+            }
+
+            .card-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="govt-logo">🇧🇩</div>
+                <div>
+                    <div class="header-title">ডিজিটাল স্টোর ম্যানেজমেন্ট সিস্টেম</div>
+                    <div class="header-subtitle">বাংলাদেশ স্টেশনারী অফিস</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>👤</span>
+                    <span>এডমিন ব্যবহারকারী</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card inventory">
+                <div class="stat-header">
+                    <div class="stat-title">মোট পণ্য</div>
+                    <div class="stat-icon">📦</div>
+                </div>
+                <div class="stat-value">২,৪৫৬</div>
+                <div class="stat-change positive">
+                    <span>↗</span>
+                    <span>+১২% এই মাসে</span>
+                </div>
+            </div>
+
+            <div class="stat-card sales">
+                <div class="stat-header">
+                    <div class="stat-title">আজকের বিক্রয়</div>
+                    <div class="stat-icon">💰</div>
+                </div>
+                <div class="stat-value">৳৮৫,৪২০</div>
+                <div class="stat-change positive">
+                    <span>↗</span>
+                    <span>+৮% গতকালের চেয়ে</span>
+                </div>
+            </div>
+
+            <div class="stat-card customers">
+                <div class="stat-header">
+                    <div class="stat-title">মোট গ্রাহক</div>
+                    <div class="stat-icon">👥</div>
+                </div>
+                <div class="stat-value">১,২৩৪</div>
+                <div class="stat-change positive">
+                    <span>↗</span>
+                    <span>+৫% এই সপ্তাহে</span>
+                </div>
+            </div>
+
+            <div class="stat-card revenue">
+                <div class="stat-header">
+                    <div class="stat-title">মাসিক আয়</div>
+                    <div class="stat-icon">📈</div>
+                </div>
+                <div class="stat-value">৳১২,৪৫,৬৭৮</div>
+                <div class="stat-change negative">
+                    <span>↘</span>
+                    <span>-৩% গত মাসের চেয়ে</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        দ্রুত কার্যক্রম
+                    </div>
+                    <div class="card-content">
+                        <div class="quick-actions">
+                            <a href="#" class="action-btn">
+                                <span>➕</span>
+                                <span>নতুন পণ্য যোগ করুন</span>
+                            </a>
+                            <a href="#" class="action-btn blue">
+                                <span>🛒</span>
+                                <span>বিক্রয় রেকর্ড করুন</span>
+                            </a>
+                            <a href="#" class="action-btn orange">
+                                <span>👥</span>
+                                <span>গ্রাহক যোগ করুন</span>
+                            </a>
+                            <a href="#" class="action-btn red">
+                                <span>📊</span>
+                                <span>প্রতিবেদন দেখুন</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Sales -->
+                <div class="card">
+                    <div class="card-header">
+                        সাম্প্রতিক বিক্রয়
+                    </div>
+                    <div class="card-content">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>অর্ডার আইডি</th>
+                                        <th>গ্রাহকের নাম</th>
+                                        <th>পণ্য</th>
+                                        <th>পরিমাণ</th>
+                                        <th>মূল্য</th>
+                                        <th>স্ট্যাটাস</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#ORD001</td>
+                                        <td>রহিম উদ্দিন</td>
+                                        <td>কপি বই</td>
+                                        <td>৫০ পিস</td>
+                                        <td>৳২,৫০০</td>
+                                        <td><span class="status-badge completed">সম্পন্ন</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD002</td>
+                                        <td>সালমা খাতুন</td>
+                                        <td>চাল</td>
+                                        <td>১০ কেজি</td>
+                                        <td>৳৬৫০</td>
+                                        <td><span class="status-badge pending">অপেক্ষমাণ</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD003</td>
+                                        <td>করিম মিয়া</td>
+                                        <td>কলম</td>
+                                        <td>১০০ পিস</td>
+                                        <td>৳১,২০০</td>
+                                        <td><span class="status-badge completed">সম্পন্ন</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD004</td>
+                                        <td>ফাতেমা বেগম</td>
+                                        <td>তেল</td>
+                                        <td>৫ লিটার</td>
+                                        <td>৳৮৫০</td>
+                                        <td><span class="status-badge completed">সম্পন্ন</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Status -->
+                <div class="card">
+                    <div class="card-header">
+                        পণ্যের অবস্থা
+                    </div>
+                    <div class="card-content">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>পণ্যের নাম</th>
+                                        <th>বিভাগ</th>
+                                        <th>স্টক</th>
+                                        <th>মূল্য</th>
+                                        <th>স্ট্যাটাস</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>কপি বই (A4)</td>
+                                        <td>স্টেশনারী</td>
+                                        <td>১২৫ পিস</td>
+                                        <td>৳৫০</td>
+                                        <td><span class="status-badge in-stock">স্টকে আছে</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>চাল (মিনিকেট)</td>
+                                        <td>খাদ্যপণ্য</td>
+                                        <td>১৫ কেজি</td>
+                                        <td>৳৬৫</td>
+                                        <td><span class="status-badge low-stock">কম স্টক</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>কলম (নীল)</td>
+                                        <td>স্টেশনারী</td>
+                                        <td>০ পিস</td>
+                                        <td>৳১২</td>
+                                        <td><span class="status-badge out-stock">স্টক শেষ</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>সরিষার তেল</td>
+                                        <td>খাদ্যপণ্য</td>
+                                        <td>৮০ লিটার</td>
+                                        <td>৳১৭০</td>
+                                        <td><span class="status-badge in-stock">স্টকে আছে</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Recent Activities -->
+                <div class="card">
+                    <div class="card-header">
+                        সাম্প্রতিক কার্যক্রম
+                    </div>
+                    <div class="card-content">
+                        <div class="recent-activities">
+                            <div class="activity-item">
+                                <div class="activity-icon sale">💰</div>
+                                <div class="activity-details">
+                                    <div class="activity-title">নতুন বিক্রয় সম্পন্ন</div>
+                                    <div class="activity-time">৫ মিনিট আগে</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon stock">📦</div>
+                                <div class="activity-details">
+                                    <div class="activity-title">স্টক আপডেট করা হয়েছে</div>
+                                    <div class="activity-time">১৫ মিনিট আগে</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon customer">👥</div>
+                                <div class="activity-details">
+                                    <div class="activity-title">নতুন গ্রাহক নিবন্ধন</div>
+                                    <div class="activity-time">৩০ মিনিট আগে</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon order">🛒</div>
+                                <div class="activity-details">
+                                    <div class="activity-title">অর্ডার ক্যান্সেল করা হয়েছে</div>
+                                    <div class="activity-time">১ ঘন্টা আগে</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon sale">💰</div>
+                                <div class="activity-details">
+                                    <div class="activity-title">দৈনিক বিক্রয় লক্ষ্য অর্জন</div>
+                                    <div class="activity-time">২ ঘন্টা আগে</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Chart -->
+                <div class="card">
+                    <div class="card-header">
+                        বিক্রয় চার্ট
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            📊 বিক্রয় ডেটা চার্ট<br>
+                            <small>(চার্ট লাইব্রেরি ইন্টিগ্রেশন প্রয়োজন)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alert -->
+                <div class="card">
+                    <div class="card-header">
+                        স্টক সতর্কতা
+                    </div>
+                    <div class="card-content">
+                        <div style="color: #dc3545; font-weight: 600; margin-bottom: 1rem;">⚠️ কম স্টকের পণ্য</div>
+                        <div style="margin-bottom: 0.5rem;">
+                            <strong>কলম (নীল)</strong> - ০ পিস
+                        </div>
+                        <div style="margin-bottom: 0.5rem;">
+                            <strong>চাল (মিনিকেট)</strong> - ১৫ কেজি
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>পেন্সিল</strong> - ৮ পিস
+                        </div>
+                        <button style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; width: 100%;">
+                            স্টক অর্ডার করুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('আপনি কি লগআউট করতে চান?')) {
+                alert('লগআউট সফল! লগইন পেজে ফিরে যাচ্ছেন...');
+                // In real application: window.location.href = 'login.html';
+            }
+        }
+
+        // Add some interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate counters
+            const counters = document.querySelectorAll('.stat-value');
+            counters.forEach(counter => {
+                const target = parseInt(counter.innerText.replace(/[^0-9]/g, ''));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.innerText = counter.innerText; // Keep original format
+                        clearInterval(timer);
+                    }
+                }, 20);
+            });
+
+            // Add click handlers for quick actions
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const action = this.querySelector('span:last-child').textContent;
+                    alert(`"${action}" ফিচারটি শীঘ্রই আসছে!`);
+                });
+            });
+
+            // Add hover effect to table rows
+            const tableRows = document.querySelectorAll('.data-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const orderId = this.querySelector('td').textContent;
+                    alert(`অর্ডার ${orderId} এর বিস্তারিত দেখা হবে`);
+                });
+            });
+        });
+
+        // Auto-refresh data (simulation)
+        setInterval(() => {
+            // In real application, this would fetch fresh data
+            const activities = document.querySelector('.recent-activities');
+            if (activities && Math.random() > 0.8) {
+                // Simulate new activity
+                const newActivity = document.createElement('div');
+                newActivity.className = 'activity-item';
+                newActivity.innerHTML = `
+                    <div class="activity-icon sale">💰</div>
+                    <div class="activity-details">
+                        <div class="activity-title">নতুন বিক্রয় সম্পন্ন</div>
+                        <div class="activity-time">এইমাত্র</div>
+                    </div>
+                `;
+                activities.insertBefore(newActivity, activities.firstChild);
+                
+                // Keep only last 5 activities
+                const allActivities = activities.querySelectorAll('.activity-item');
+                if (allActivities.length > 5) {
+                    activities.removeChild(allActivities[allActivities.length - 1]);
+                }
+            }
+        }, 30000); // Check every 30 seconds
+
+        // Mobile menu toggle (for future enhancement)
+        function toggleMobileMenu() {
+            // Implementation for mobile menu
+            console.log('Mobile menu toggle');
+        }
+
+        // Real-time clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('bn-BD');
+            const dateString = now.toLocaleDateString('bn-BD');
+            
+            // Update time in header if element exists
+            const timeElement = document.querySelector('.current-time');
+            if (timeElement) {
+                timeElement.textContent = `${timeString} - ${dateString}`;
+            }
+        }
+
+        // Update clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+
+        // Search functionality (for future enhancement)
+        function searchItems(query) {
+            // Implementation for search
+            console.log('Searching for:', query);
+        }
+
+        // Export data functionality
+        function exportData(type) {
+            alert(`${type} ডেটা এক্সপোর্ট করা হচ্ছে...`);
+            // In real application, this would generate and download reports
+        }
+
+        // Print report functionality
+        function printReport() {
+            window.print();
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Add CSS for notification animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Simulate real-time updates
+        function simulateRealTimeUpdates() {
+            // Update stats randomly
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                if (Math.random() > 0.95) { // 5% chance of update
+                    const currentValue = parseInt(stat.textContent.replace(/[^0-9]/g, ''));
+                    const change = Math.floor(Math.random() * 10) - 5; // Random change -5 to +5
+                    const newValue = Math.max(0, currentValue + change);
+                    
+                    // Format based on the original format
+                    if (stat.textContent.includes('৳')) {
+                        stat.textContent = `৳${newValue.toLocaleString('bn-BD')}`;
+                    } else {
+                        stat.textContent = newValue.toLocaleString('bn-BD');
+                    }
+                    
+                    // Flash animation
+                    stat.style.animation = 'flash 0.5s ease';
+                    setTimeout(() => {
+                        stat.style.animation = '';
+                    }, 500);
+                }
+            });
+        }
+
+        // Add flash animation CSS
+        const flashStyle = document.createElement('style');
+        flashStyle.textContent = `
+            @keyframes flash {
+                0%, 100% { background: transparent; }
+                50% { background: rgba(255, 215, 0, 0.3); }
+            }
+        `;
+        document.head.appendChild(flashStyle);
+
+        // Run real-time updates every 10 seconds
+        setInterval(simulateRealTimeUpdates, 10000);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + N for new product
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                alert('নতুন পণ্য যোগ করার ফর্ম খোলা হবে');
+            }
+            
+            // Ctrl + S for new sale
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                alert('নতুন বিক্রয় রেকর্ডের ফর্ম খোলা হবে');
+            }
+            
+            // Ctrl + R for reports
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                alert('প্রতিবেদন পেজ খোলা হবে');
+            }
+            
+            // Escape key to close modals (for future use)
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => modal.style.display = 'none');
+            }
+        });
+
+        // Auto-save functionality (for forms)
+        function autoSave() {
+            // Implementation for auto-saving form data
+            console.log('Auto-saving data...');
+        }
+
+        // Error handling for network requests
+        function handleNetworkError(error) {
+            console.error('Network error:', error);
+            showNotification('নেটওয়ার্ক সংযোগে সমস্যা হয়েছে', 'error');
+        }
+
+        // Data validation functions
+        function validateInput(input, type) {
+            switch(type) {
+                case 'email':
+                    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+                case 'phone':
+                    return /^[\+]?[0-9\-\s]+$/.test(input);
+                case 'number':
+                    return !isNaN(input) && input > 0;
+                default:
+                    return input && input.trim().length > 0;
+            }
+        }
+
+        // Local storage functions for offline capability
+        function saveToLocalStorage(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+            } catch(e) {
+                console.error('Failed to save to localStorage:', e);
+            }
+        }
+
+        function loadFromLocalStorage(key) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : null;
+            } catch(e) {
+                console.error('Failed to load from localStorage:', e);
+                return null;
+            }
+        }
+
+        // Initialize dashboard
+        function initializeDashboard() {
+            // Load user preferences
+            const preferences = loadFromLocalStorage('userPreferences');
+            if (preferences) {
+                // Apply saved preferences
+                console.log('Loading user preferences...');
+            }
+            
+            // Check for updates
+            checkForUpdates();
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('ড্যাশবোর্ডে স্বাগতম!', 'success');
+            }, 1000);
+        }
+
+        // Check for system updates
+        function checkForUpdates() {
+            // Simulate checking for updates
+            setTimeout(() => {
+                if (Math.random() > 0.8) {
+                    showNotification('নতুন আপডেট পাওয়া গেছে', 'info');
+                }
+            }, 3000);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html>

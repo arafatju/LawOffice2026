@@ -74,67 +74,60 @@ class notaryuser extends Controller
         
     }
     public function docunotary(Request $request)
-    {
+{
+    $request->validate([
+        'applicationid' => 'required|string',
+        'image' => 'nullable|file|mimes:jpg,jpeg|max:1024',
+        'signature' => 'nullable|file|mimes:pdf|max:1024',
+        'barcertificate' => 'nullable|file|mimes:pdf|max:1024',
+        'notarycertificate' => 'nullable|file|mimes:pdf|max:1024',
+        'nidcertificate' => 'nullable|file|mimes:pdf|max:1024',
+    ]);
 
-        $request->validate([
-            'applicationid' => 'required|string',
-            'image' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
-            'signature' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
-            'barcertificate' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
-            'notarycertificate' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
-            'nidcertificate' => 'nullable|file|mimes:jpg,jpeg,pdf|max:1024',
-        ]);
-    
-        $appId = $request->applicationid;
-        $data = [
-            'applicationid' => $appId,
-        ];
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = 'image.' . $image->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("{$appId}", $image, $imageName);
-            $data['image'] = $imageName;
-        }
-    
-        if ($request->hasFile('signature')) {
-            $signature = $request->file('signature');
-            $signatureName = 'signature.' . $signature->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("{$appId}", $signature, $signatureName);
-       
-            $data['signature'] = $signatureName;
-        }
-        if ($request->hasFile('barcertificate')) {
-            $barcertificate = $request->file('barcertificate');
-            $barcertificateName = 'barcertificate.' . $barcertificate->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("{$appId}", $barcertificate, $barcertificateName);
-            $data['barcertificate'] = $barcertificateName;    
-        }
-        if ($request->hasFile('notarycertificate')) {
-            $notarycertificate = $request->file('notarycertificate');
-            $notarycertificateName = 'notarycertificate.' . $notarycertificate->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("{$appId}", $notarycertificate, $notarycertificateName);
-            $data['notarycertificate'] = $notarycertificateName;
-        }
-        if ($request->hasFile('nidcertificate')) {
-            $nidcertificate = $request->file('nidcertificate');
-            $nidcertificateName = 'nidcertificate.' . $nidcertificate->getClientOriginalExtension();
-            Storage::disk('secure')->putFileAs("{$appId}", $nidcertificate, $nidcertificateName);
-            $data['nidcertificate'] = $nidcertificateName;
-        }
-        documents::updateOrCreate(
-            ['applicationid' => $appId],
-            $data
-        );
-        info11::create([
-            'name' => Auth::user()->name,
-            'userid' => Auth::user()->userid, // or any valid user ID
-            'applicationid' => $appId,
-            'action' => 'Upload Document',
-            'status' => 'Draft',
-        ]);
-        return back()->with('success', 'Sensitive files securely uploaded.');
+    $appId = $request->applicationid;
+    $data = [
+        'applicationid' => $appId,
+    ];
 
-    } 
+    // Get existing document record to check for old files
+    $existingDocument = documents::where('applicationid', $appId)->first();
+
+    // Define file types to process
+    $fileTypes = ['image', 'signature', 'barcertificate', 'notarycertificate', 'nidcertificate'];
+
+    foreach ($fileTypes as $fileType) {
+        if ($request->hasFile($fileType)) {
+            // Delete old file if it exists
+            if ($existingDocument && $existingDocument->$fileType) {
+                $oldFilePath = "{$appId}/" . $existingDocument->$fileType;
+                if (Storage::disk('secure')->exists($oldFilePath)) {
+                    Storage::disk('secure')->delete($oldFilePath);
+                }
+            }
+
+            // Upload new file
+            $file = $request->file($fileType);
+            $fileName = $fileType . '.' . $file->getClientOriginalExtension();
+            Storage::disk('secure')->putFileAs("{$appId}", $file, $fileName);
+            $data[$fileType] = $fileName;
+        }
+    }
+
+    documents::updateOrCreate(
+        ['applicationid' => $appId],
+        $data
+    );
+
+    info11::create([
+        'name' => Auth::user()->name,
+        'userid' => Auth::user()->userid,
+        'applicationid' => $appId,
+        'action' => 'Upload Document',
+        'status' => 'Draft',
+    ]);
+
+    return back()->with('success', 'Sensitive files securely uploaded.');
+}
     
     public function educationstore(Request $request)
     {

@@ -290,6 +290,7 @@ $oldestExpired = NotaryInfo::expired()->orderBy('natarydate', 'asc')->get();
            if ($request->ajax()) {
         $data = applicationinfo::with('personalinfo')
         ->whereIn('applicationid', $expiredApplicationIds)
+        ->where('status', '=', 'Published') // Exclude Draft status
         ->get();
         return DataTables::of($data)
             ->addColumn('name', function($row){

@@ -76,14 +76,14 @@
  
 <table class="table table-border ">
     <tr class="bg-primary text-white">
-        <th>id</th> 
+        <th>Appid</th> 
     
         <th> Date </th> 
         <th> Status </th> 
         <th> Action </th>
     </tr>
      <tr>
-        <td> {{$info-> id}}</td> 
+        <td> {{$info->applicationid}}</td> 
         <td> {{$info->created_at}}</td>
          <td>
             {{$info->status}}
