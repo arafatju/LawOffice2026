@@ -16,13 +16,15 @@ class Action extends Migration
     {
         Schema::create('apllicationinfo', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
+            
              
             $table->string('userid');
              
-            $table->string('applicationid');
- 
-            
+            $table->string('action') ;
+            $table->string('role');
+            $table->string('month');
+            $table->string('year');
+             $table->timestamps()  ;  
 
 
 

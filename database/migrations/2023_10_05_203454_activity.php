@@ -19,14 +19,9 @@ class Activity extends Migration
             $table->string('userid')->unique();
             $table->string('mobile')->unique();
             $table->string('name');
-            $table->string('father');
-            $table->string('mother');
-            $table->string('dob');
-            $table->string('permanent');
-            $table->string('nid');
-            $table->string('district');
-           
-            $table->string('present');
+            $table->string('designation');
+            $table->string('office');
+             
             $table->string('email')->unique();
             
            $table->timestamps()  ;                   

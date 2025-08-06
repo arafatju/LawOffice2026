@@ -13,15 +13,12 @@ class Browser extends Migration
      */
     public function up()
     {
-        Schema::create('device_details', function (Blueprint $table) {
+        Schema::create('allotment', function (Blueprint $table) {
             $table->id();
             $table->string('userid');  
-            $table->string('browser');  
-            $table->string('browser_version');  
-            $table->string('device'); //30 words
-            $table->string('device_version');
-            $table->string('ip');
-            $table->string('region');
+            $table->string('prcode');  
+            $table->integer('quantity');  
+               $table->string('designation');
             $table->timestamps();
         });
     }
@@ -34,7 +31,7 @@ class Browser extends Migration
     public function down()
     {
          
-            Schema::dropIfExists('device_details');
+            Schema::dropIfExists('allotment');
          
     }
 }

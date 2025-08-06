@@ -165,7 +165,7 @@ public function forget44(Request $request){
                   try {
                     // Attempt to send the mail
                    $fft= now()->format('Y-m-d H:i:s');
-                    Mail::to(Auth::user()->email)->send(new loginfo($fft));
+                  //  Mail::to(Auth::user()->email)->send(new loginfo($fft));
                     
                     // Show success toastr notification
                    // toastr()->success('Successfully sent mail');
