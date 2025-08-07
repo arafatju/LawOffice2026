@@ -20,6 +20,7 @@ class Activity extends Migration
             $table->string('mobile')->unique();
             $table->string('name');
             $table->string('designation');
+             $table->string('designation2');
             $table->string('office');
              
             $table->string('email')->unique();

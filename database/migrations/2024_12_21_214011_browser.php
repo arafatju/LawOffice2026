@@ -15,10 +15,11 @@ class Browser extends Migration
     {
         Schema::create('allotment', function (Blueprint $table) {
             $table->id();
-            $table->string('userid');  
+           
             $table->string('prcode');  
             $table->integer('quantity');  
                $table->string('designation');
+               
             $table->timestamps();
         });
     }

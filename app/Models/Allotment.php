@@ -10,14 +10,11 @@ class Allotment extends Model
 {
     protected $table = 'allotment';
 
-    protected $fillable = ['userid', 'prcode', 'quantity','designation'];
+    protected $fillable = [  'prcode', 'quantity','designation'];
    protected $casts = [
         'quantity' => 'integer', // or 'decimal:2' if you used decimal
     ];
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'userid', 'userid');
-    }
+    
 
     public function product()
     {

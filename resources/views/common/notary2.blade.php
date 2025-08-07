@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title> Welcome to Notary Portal </title>
+    <title> Welcome to Store Management </title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,9 @@
     <!-- Include Toastr CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
- 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -163,31 +165,34 @@
         <!-- Logo/Brand -->
         <div class="p-3 app-title text-center">
                     <img src="gov.png" alt="Government Logo" class="img-fluid mb-2" style="max-height: 60px;">
-            <h4 class="m-0">নোটারি  পোর্টাল  </h4>
+            <h4 class="m-0">Store Management </h4>
         </div>
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
-            <a href="{{route('NotaryDashboard')}}" class="sidebar-link">
-                <i class="bi bi-house-door"></i> ড্যাশবোর্ড
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-house-door"></i> Dashboard
             </a>
             <a href="{{route('personal')}}" class="sidebar-link">
-                <i class="bi bi-people"></i> ব্যাক্তিগত  তথ্যাদি    
+                <i class="bi bi-people"></i> User Management  
             </a>
-            <a href="{{route('education')}}" class="sidebar-link">
-                <i class="bi bi-box"></i> শিক্ষা সংক্রান্ত তথ্যাদি
+            <a href="{{route('product')}}" class="sidebar-link">
+                <i class="bi bi-box"></i> Product Management
             </a>
             <a href="{{route('notaryinfo')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i>  নোটারই তথ্যাদি
+                <i class="bi bi-gear"></i> Approved list 
+            </a>
+            <a href="{{route('notaryinfo')}}" class="sidebar-link">
+                <i class="bi bi-gear"></i> Pending  list 
             </a>
             <a href="{{route('documents')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i>  ডকুমেন্ট আপলোড
+                <i class="bi bi-gear"></i>  Report 
             </a>
             <a href="{{route('profile')}}" class="sidebar-link">
-                <i class="bi bi-person"></i> প্রোফাইল
+                <i class="bi bi-person"></i> Profile
             </a>
             <a href="{{route('signout')}}" class="sidebar-link">
-                <i class="bi bi-box-arrow-right"></i> লগআউট
+                <i class="bi bi-box-arrow-right"></i> Logout 
             </a>
         </div>
     </div>

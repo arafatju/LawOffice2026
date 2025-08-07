@@ -3,15 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\childinfo;
-use App\Models\personalinfo;
-use App\Models\wifeinfo;
-use App\Models\preferred111;
-use App\Models\workingdetails;
-use App\Models\release111;
-use App\Models\info11;
-use App\Models\applicationinfo;
-use App\Models\workingnow;
-use App\Models\workingbefore;
+use App\Models\PersonalInfo;
+ 
 use App\Models\devicedetails;
 use App\Http\Controllers\ConverterController;
 use Illuminate\Support\Facades\Session;
@@ -162,17 +155,17 @@ public function forget44(Request $request){
                 session(['user_data_city' => 'Unknown Region']);
             }
                   //countryName  regionName  cityName
-                  try {
+                //  try {
                     // Attempt to send the mail
-                   $fft= now()->format('Y-m-d H:i:s');
+                 //  $fft= now()->format('Y-m-d H:i:s');
                   //  Mail::to(Auth::user()->email)->send(new loginfo($fft));
                     
                     // Show success toastr notification
                    // toastr()->success('Successfully sent mail');
-               } catch (\Exception $e) {
+              // } catch (\Exception $e) {
                     // Handle failure and show error toastr notification
                    // toastr()->error('Mail Sent Error: ' . $e->getMessage());
-                }
+               // }
                 
                      //Device Location ip Browser 
                      DB::table('loginfo')->insert([
@@ -184,14 +177,15 @@ public function forget44(Request $request){
                       'Browser'=>$browser,
                       'ip'=>$ip,
                       'Location'=>session('user_data_city'),
-'created_at' => Carbon::now(),
+ 
                        
                   ]);
                      
 
-
-
-            if(Auth::user()->role=='userdr')  {toastr('Successfully Logged in'); return redirect("newdash");}
+//userds   ds 2 usersr senior asst sec userpo section officer userdata data entry 
+//userone  granted user
+// user pendinguser 
+            if(Auth::user()->role=='userds')  {toastr('Successfully Logged in'); return redirect("newdash");}
         
             else if(Auth::user()->role=='usersr'){ 
                 
@@ -201,7 +195,7 @@ public function forget44(Request $request){
         else if(Auth::user()->role=='useradmin') { return redirect("admindash") ; }
 
         else if(Auth::user()->role=='user') { toastr('Successfully Logged in');return redirect("Newuser") ; }
-        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("NotaryDashboard") ; }
+        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("StoreDashboard") ; }
                                                                     }
   
           return redirect("login")->withError('Login details are not valid');
@@ -222,7 +216,10 @@ public function forget44(Request $request){
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             //'serviceid'=>['required','string','size:10','regex:/^(199[0-9]|20[0-2][0-9]|2030)[0-9]{6}$/'],
-            'mobile'=>'required|string|max:15'
+            'mobile'=>'required|string|max:15',
+            'office'=>'required|string|max:60',
+            'designation'=>'required|string|max:60',
+            'designation2'=>'required|string|max:60',
         ]);
         
         
@@ -272,13 +269,18 @@ public function forget44(Request $request){
         'device_version'=>$platform_version
         ]);
       
-       
-        $lastId = applicationinfo::max('id');
-        $appid='App'.$lastId+100;             
-         applicationinfo::create([
+          
+
+        $lastId = User::max('id');
+        $appid='User'.$lastId+100;             
+         PersonalInfo::create([
              'userid'=>Auth::user()->userid,
-             'status'=>'Draft',
-             'applicationid'=>$appid,
+             'name'=>$validated['name'],
+             'mobile'=>$validated['mobile'],
+             'designation'=>$validated['designation'],
+              'designation2'=>$validated['designation2'],
+            'office'=>$validated['office'],
+            'email'=>$validated['email'],
 
          ]);
      

@@ -15,7 +15,7 @@ class Kazipicture extends Migration
             $table->string('name');
             $table->string('prcode');
             $table->string('category');
-            
+             
             $table->timestamps();
              
                                                                });

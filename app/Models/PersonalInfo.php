@@ -9,7 +9,7 @@ class PersonalInfo extends Model
 {
     protected $table = 'personalinfo';
 
-    protected $fillable = ['userid', 'name', 'mobile', 'designation', 'office', 'email'];
+    protected $fillable = ['userid','designation2','name', 'mobile', 'designation', 'office', 'email'];
 
     public function user()
     {

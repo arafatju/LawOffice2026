@@ -56,8 +56,56 @@
                                 @enderror
                             </div>
                         </div>
-                      
-                       
+                       <div class="row mb-3">
+                            <label for="office" class="col-md-4 col-form-label text-md-end">{{ __('অফিস/দপ্তর') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="office" type="text" class="form-control @error('office') is-invalid @enderror" name="office" value=" " required  >
+
+                                @error('office')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                         <div class="row mb-3">
+                            <label for="designation" class="col-md-4 col-form-label text-md-end">{{ __('অফিস পদবি( PO to DS )') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="designation" type="text" class="form-control @error('designation') is-invalid @enderror" name="designation" value=" " required  >
+
+                                @error('designation')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                      <div class="row mb-3">
+                         <label for="designation2" class="col-md-4 col-form-label text-md-end">{{ __('পদবি ') }}</label>
+
+                      <div class="col-md-6">
+                       <select id="designation2" class="form-control @error('designation2') is-invalid @enderror" name="designation2" required>
+                          <option value="">-- পদবি নির্বাচন করুন --</option> {{-- Optional: default empty --}}
+                           <option value="adviser"  >উপদেষ্টা মহোদয় </option>
+                              <option value="secretary"  >সচিব</option>
+                              <option value="adsecretary"  >অতিরিক্ত সচিব</option>
+                               <option value="jointsecretary"  >যুগ্ন সচিব</option>
+                               <option value="deputysecretary"  >উপ সচিব</option>
+                               <option value="sasecretary"  >সিনিয়র সহকারী সচিব</option>
+                             <option value="assecretary"  > সহকারী সচিব</option>
+            {{-- Add more options as needed --}}
+                          </select>
+
+                          @error('designation2')
+                         <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                          @enderror
+                          </div>
+                        </div>
+
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('পাসওয়ার্ড') }}</label>
 

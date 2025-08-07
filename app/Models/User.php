@@ -46,8 +46,5 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class, 'userid', 'userid');
     }
 
-    public function allotments()
-    {
-        return $this->hasMany(Allotment::class, 'userid', 'userid');
-    }
+    
 }

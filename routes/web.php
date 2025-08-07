@@ -5,7 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\hhomeController;
 use App\Http\Controllers\infoimp;
 use App\Http\Controllers\test;
-use App\Http\Controllers\notaryuser;
+use App\Http\Controllers\Storeuser;
 use App\Http\Controllers\notaryadmin;
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ use App\Http\Controllers\notaryadmin;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('auth.login22');
 });
  
 Auth::routes([
@@ -175,7 +175,6 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     Route::post('/workingbefore', [infoimp::class, 'workingbefore'])->name('workingbefore'); 
     Route::post('/contactinfo11', [infoimp::class, 'contactinfo11'])->name('contactinfo11'); 
     Route::post('/reason111', [infoimp::class, 'reason111'])->name('reason111'); 
-    Route::get('/NotaryDashboard', [notaryuser::class, 'NotaryDashboard'])->name('NotaryDashboard');
     Route::get('/new11', [notaryuser::class, 'new11'])->name('new11');
     Route::get('/edituser/{id}', [notaryuser::class, 'edituser'])->name('edituser');
     Route::get('/personal', [notaryuser::class, 'personal'])->name('personal')-> middleware('check.app.status');
@@ -200,6 +199,11 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
     
         return response()->file($path);
     })->name('secure.image');
-    
+     
+    Route::post('/product/store', [Storeuser::class, 'store'])->name('product.store');
+
+    Route::get('/StoreDashboard', [Storeuser::class, 'StoreDashboard'])->name('StoreDashboard');
+    Route::get('/product', [Storeuser::class, 'product'])->name('product');
+
 
 });
