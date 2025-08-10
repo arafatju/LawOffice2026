@@ -94,7 +94,7 @@
                                <option value="jointsecretary"  >যুগ্ন সচিব</option>
                                <option value="deputysecretary"  >উপ সচিব</option>
                                <option value="sasecretary"  >সিনিয়র সহকারী সচিব</option>
-                             <option value="assecretary"  > সহকারী সচিব</option>
+                             <option value="assecretary"  >সহকারী সচিব</option>
             {{-- Add more options as needed --}}
                           </select>
 

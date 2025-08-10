@@ -173,7 +173,7 @@
             <a href="#" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
-            <a href="{{route('personal')}}" class="sidebar-link">
+            <a href="{{route('user11')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> User Management  
             </a>
             <a href="{{route('product')}}" class="sidebar-link">

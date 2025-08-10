@@ -9,12 +9,12 @@ use Jenssegers\Agent\Agent;
 use App\Models\User;
 use App\Http\Controllers\ConverterController;
 use App\Models\ProductInfo;
-use App\Models\personalinfo;
+ 
 use App\Models\info11;
-use App\Models\education;
+use App\Models\Allotment;
 use App\Models\documents;
 use App\Models\devicedetails;
-use App\Models\applicationinfo;
+use App\Models\ApplicationInfo;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -60,8 +60,84 @@ class Storeuser extends Controller
          //   $notary = notarydetails::where('applicationid',$info->applicationid)->first();
        // session(['appid' => $info->applicationid]);
         $bread11="Product";
-             return view('Storeuser.product',compact('bread11'));
+        $products=ProductInfo::all();
+       
+             return view('Storeuser.product',compact('bread11','products'));
       }
+     
+     public function updateQuantity(Request $request, $prcode)
+{
+    $request->validate(['quantity' => 'required|integer|min:0']);
+    $product = ProductInfo::where('prcode', $prcode)->firstOrFail();
+    $product->update(['quantity' => $request->quantity]);
+    ApplicationInfo::create([
+      'userid'=>Auth::user()->userid,
+        'action'=>'Product Updated',
+        'role'=>'Data Entry',
+        'month'=>now()->format('F'),
+        'year'=>now()->format('Y'),
+        ]);
+    return redirect()->back()->with('success', 'Quantity updated successfully.');
+}
+
+     
+     
+      public function destroyByType($type, $prcode)
+{
+    switch ($type) {
+        case 'product':
+            $model = ProductInfo::class;
+            break;
+        case 'allotment':
+            $model = AllotmentInfo::class;
+            break;
+        // add more types here as needed
+        default:
+            abort(404, 'Invalid type');
+    }
+
+    $record = $model::where('prcode', $prcode)->firstOrFail();
+    $record->delete();
+    ApplicationInfo::create([
+      'userid'=>Auth::user()->userid,
+        'action'=>'Product Deleted',
+        'role'=>'Data Entry',
+        'month'=>now()->format('F'),
+        'year'=>now()->format('Y'),
+        ]);
+    return redirect()->back()->with('success', ucfirst($type).' deleted successfully.');
+}
+public function user11(){
+     $bread11="User Management";
+     $users=User::all();
+      return view('Storeuser.user11',compact('bread11','users'));
+
+}
+public function updateByPrcode(Request $request, $prcode)
+{
+    $data = $request->validate([
+        'quantities' => 'required|array',
+        'quantities.*' => 'integer|min:0',
+    ]);
+
+    // Loop over submitted allotments and update
+    foreach ($data['quantities'] as $designation => $quantity) {
+        Allotment::updateOrCreate(
+            ['prcode' => $prcode, 'designation' => $designation],
+            ['quantity' => $quantity]
+        );
+    }
+
+    return redirect()->back()->with('success', 'Allotments updated successfully.');
+}
+
+   public function getByPrcode($prcode)
+{
+    $allotments = Allotment::where('prcode', $prcode)->get(['designation', 'quantity']);
+    return response()->json($allotments);
+}
+  
+     
       public function store(Request $request)
 {
     $request->validate([
@@ -72,8 +148,26 @@ class Storeuser extends Controller
     ]);
 
     ProductInfo::create($request->only(['name', 'prcode', 'quantity', 'category']));
+   $designations = ['উপদেষ্টা মহোদয়', 'সচিব', 'অতিরিক্ত সচিব', 'যুগ্ন সচিব', 'উপ সচিব','সিনিয়র সহকারী সচিব','সহকারী সচিব'];
 
-    return back()->with('success', 'Product inserted successfully.');
+foreach ($designations as $designation) {
+    Allotment::create([
+        'prcode' => $request['prcode'],
+        'designation' => $designation,
+        'quantity' => 1,
+    ]);
+}
+ 
+    ApplicationInfo::create([
+      'userid'=>Auth::user()->userid,
+        'action'=>'Product Creation',
+        'role'=>'Data Entry',
+        'month'=>now()->format('F'),
+        'year'=>now()->format('Y'),
+        ]);
+    
+
+    return back()->with('success', 'Product Created successfully.');
 }
 
 }

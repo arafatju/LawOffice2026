@@ -200,10 +200,18 @@ Route::middleware(['auth', 'user-access:userone'])->group(function () {
         return response()->file($path);
     })->name('secure.image');
      
+Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
+
+ Route::put('/products/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.updateQuantity');
+Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
+
+Route::delete('/delete/{type}/{prcode}', [Storeuser::class, 'destroyByType'])->name('delete.bytype');
+
     Route::post('/product/store', [Storeuser::class, 'store'])->name('product.store');
 
     Route::get('/StoreDashboard', [Storeuser::class, 'StoreDashboard'])->name('StoreDashboard');
     Route::get('/product', [Storeuser::class, 'product'])->name('product');
+    Route::get('/user11', [Storeuser::class, 'user11'])->name('user11');
 
 
 });
