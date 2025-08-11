@@ -212,6 +212,16 @@ Route::delete('/delete/{type}/{prcode}', [Storeuser::class, 'destroyByType'])->n
     Route::get('/StoreDashboard', [Storeuser::class, 'StoreDashboard'])->name('StoreDashboard');
     Route::get('/product', [Storeuser::class, 'product'])->name('product');
     Route::get('/user11', [Storeuser::class, 'user11'])->name('user11');
+        Route::get('/admin11', [Storeuser::class, 'admin11'])->name('admin11');
+             Route::get('/accpeted11', [Storeuser::class, 'accepted11'])->name('accepted11');
+  
+Route::delete('/users/{id}', [Storeuser::class, 'destroyuser'])->name('users.destroy');
+ 
+Route::put('/users/{id}/role', [Storeuser::class, 'updateRole'])->name('users.updateRole');
+
+ 
+
+Route::post('/users/password-update', [Storeuser::class, 'updatePassword'])->name('users.password.update');
 
 
 });

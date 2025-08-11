@@ -64,7 +64,51 @@ class Storeuser extends Controller
        
              return view('Storeuser.product',compact('bread11','products'));
       }
-     
+     public function admin11(){
+          $bread11="Admin User Management";
+     $users=User::all();
+        return view('Storeuser.admin11',compact('bread11','users'));
+     }
+public function destroyuser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully!');
+    }
+public function updateRole(Request $request, $id)
+{
+    $request->validate([
+        'role' => 'required|string'
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->role = $request->role;
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User role updated successfully.'
+    ]);
+}
+public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password updated successfully.');
+    }
+     public function accepted11(){
+        $bread11="Accepted User Management";
+     $users=User::all();
+        return view('Storeuser.accepted11',compact('bread11','users'));
+     }
      public function updateQuantity(Request $request, $prcode)
 {
     $request->validate(['quantity' => 'required|integer|min:0']);
