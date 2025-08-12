@@ -145,7 +145,7 @@ Route::middleware(['auth'])->get('/secure-file-common/{appid}/{filename}', funct
     }
     return response()->file($path);
 })->name('secure.image.common');
-Route::middleware(['auth', 'user-access:userone'])->group(function () {
+Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
     Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
     Route::get('/releasefromcurrent', [infoimp::class, 'releasefromcurrent'])->name('releasefromcurrent');
@@ -224,4 +224,21 @@ Route::put('/users/{id}/role', [Storeuser::class, 'updateRole'])->name('users.up
 Route::post('/users/password-update', [Storeuser::class, 'updatePassword'])->name('users.password.update');
 
 
+
+
 });
+Route::middleware(['auth', 'user-access:userone'])->group(function () {
+Route::get('/userdash', [Storeuser::class, 'userdash'])->name('userdash');
+    Route::get('/userapprovedlist', [Storeuser::class, 'userapprovedlist'])->name('userapprovedlist');
+    Route::get('/userpending', [Storeuser::class, 'userpending'])->name('userpending');
+    Route::get('/userprofile', [Storeuser::class, 'userprofile'])->name('userprofile');
+    Route::get('/userreport', [Storeuser::class, 'userreport'])->name('userreport');
+
+
+
+Route::get('/products-by-category/{category}', [Storeuser::class, 'getProductsByCategory']);
+Route::get('/product-quantity/{prcode}', [Storeuser::class, 'getProductQuantity']);
+Route::post('/save-draft', [Storeuser::class, 'saveDraft']);
+Route::post('/submit-product', [Storeuser::class, 'submitProduct']);
+
+    });

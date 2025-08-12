@@ -91,6 +91,16 @@ public function updateRole(Request $request, $id)
         'message' => 'User role updated successfully.'
     ]);
 }
+public function userdash(){
+    $bread11="Dashboard";
+      $categories = ProductInfo::whereNotNull('category')
+                        ->distinct()
+                        ->orderBy('category')
+                        ->pluck('category'); // returns a Collection
+
+        // Pass to the view that caused the error
+        return view('Storeuser.userdash', compact('bread11','categories'));
+ }
 public function updatePassword(Request $request)
     {
         $request->validate([
@@ -213,5 +223,63 @@ foreach ($designations as $designation) {
 
     return back()->with('success', 'Product Created successfully.');
 }
+
+public function getProductsByCategory($category)
+    {
+        $products = ProductInfo::where('category', $category)
+            ->select('prcode', 'name')
+            ->get();
+
+        return response()->json($products);
+    }
+
+    public function getProductQuantity($prcode)
+    {
+        $product = ProductInfo::where('prcode', $prcode)->first();
+        $userDesignation = Auth::user()->designation ?? null;
+
+        $allotment = Allotment::where('prcode', $prcode)
+            ->where('designation', $userDesignation)
+            ->first();
+
+        $warning = null;
+        if ($allotment && $product) {
+            if ($product->quantity < $allotment->quantity) {
+                $warning = "Warning: Available quantity is less than your allotment requirement ({$allotment->quantity}).";
+            }
+        }
+
+        return response()->json([
+            'quantity' => $product->quantity ?? 0,
+            'allotment_warning' => $warning
+        ]);
+    }
+
+    public function saveDraft(Request $request)
+    {
+        // Save draft to DB or session (example here for DB)
+        // $request->draft is an array of product + quantity
+        // Your save logic here...
+
+        return response()->json(['message' => 'Draft saved successfully!']);
+    }
+
+    public function submitProduct(Request $request)
+    {
+        $product = ProductInfo::where('prcode', $request->prcode)->first();
+        if (!$product) {
+            return response()->json(['success' => false, 'message' => 'Product not found.']);
+        }
+
+        // Example logic: reduce quantity
+        if ($product->quantity >= $request->quantity) {
+            $product->quantity -= $request->quantity;
+            $product->save();
+
+            return response()->json(['success' => true, 'message' => 'Product submitted successfully!']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Not enough quantity available.']);
+        }
+    }
 
 }
