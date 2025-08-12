@@ -12,7 +12,7 @@ use App\Models\ProductInfo;
  
 use App\Models\info11;
 use App\Models\Allotment;
-use App\Models\documents;
+use App\Models\Transaction;
 use App\Models\devicedetails;
 use App\Models\ApplicationInfo;
 
@@ -257,11 +257,63 @@ public function getProductsByCategory($category)
 
     public function saveDraft(Request $request)
     {
-        // Save draft to DB or session (example here for DB)
-        // $request->draft is an array of product + quantity
-        // Your save logic here...
+         try {
+        // Validate the request
+        $request->validate([
+            'draft' => 'required|array',
+            'draft.*.prcode' => 'required|string',
+            'draft.*.quantity' => 'required|integer|min:1'
+        ]);
 
-        return response()->json(['message' => 'Draft saved successfully!']);
+        $userId = Auth::user()->userid;
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+        
+        // Generate unique transaction ID
+        $maxId = Transaction::max('id') ?? 0;
+        $trid =  'Tr'.($maxId + 1);
+
+        // Prepare data for bulk insert
+        $transactionData = [];
+        foreach ($request->draft as $item) {
+            $transactionData[] = [
+                'userid' => $userId,
+                'trid' => $trid,
+                'status' => 'pending',
+                'prcode' => $item['prcode'],
+                'number' => (int) $item['quantity'],
+                'month' => $currentMonth,
+                'year' => $currentYear,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+
+        // Insert all transactions in one query
+        Transaction::insert($transactionData);
+
+         return response()->json([
+            'success' => true,
+            'message' => 'Draft saved successfully!',
+            'items_saved' => count($transactionData),
+            'trid' => $trid
+        ]);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid data provided',
+            'errors' => $e->errors()
+        ], 422);
+
+    } catch (\Exception $e) {
+        \Log::error('Error saving draft: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to save draft. Please try again.'
+        ], 500);
+    
+    }
     }
 
     public function submitProduct(Request $request)
