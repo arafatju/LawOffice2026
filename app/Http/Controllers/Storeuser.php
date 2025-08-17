@@ -9,7 +9,7 @@ use Jenssegers\Agent\Agent;
 use App\Models\User;
 use App\Http\Controllers\ConverterController;
 use App\Models\ProductInfo;
- 
+  use App\Models\PersonalInfo;
 use App\Models\info11;
 use App\Models\Allotment;
 use App\Models\Transaction;
@@ -233,27 +233,33 @@ public function getProductsByCategory($category)
         return response()->json($products);
     }
 
-    public function getProductQuantity($prcode)
-    {
-        $product = ProductInfo::where('prcode', $prcode)->first();
-        $userDesignation = Auth::user()->designation ?? null;
+   public function getProductQuantity($prcode)
+{
+    $product = ProductInfo::where('prcode', $prcode)->first();
 
-        $allotment = Allotment::where('prcode', $prcode)
-            ->where('designation', $userDesignation)
-            ->first();
+    // Get user id
+    $userId = Auth::user()->userid ;
 
-        $warning = null;
-        if ($allotment && $product) {
-            if ($product->quantity < $allotment->quantity) {
-                $warning = "Warning: Available quantity is less than your allotment requirement ({$allotment->quantity}).";
-            }
+    // Get designation from personalinfo table
+    $userDesignation = PersonalInfo::where('userid', $userId)->first();
+
+    $allotment = Allotment::where('prcode', $prcode)
+           ->whereRaw('TRIM(designation) = ?',[$userDesignation->designation2] )
+        ->first();
+
+    $warning = null;
+    if ($allotment && $product) {
+        if ($allotment->quantity) {
+            $warning = "মাসিক বরাদ্দ :উক্ত আইটেমটি  একজন  {$allotment->designation} এর জন্য  {$allotment->quantity} টি ";
         }
-
-        return response()->json([
-            'quantity' => $product->quantity ?? 0,
-            'allotment_warning' => $warning
-        ]);
     }
+
+    return response()->json([
+        'quantity' => $product->quantity ?? 0,
+        'allotment_warning' => $warning
+    ]);
+}
+
 
     public function saveDraft(Request $request)
     {
@@ -267,7 +273,7 @@ public function getProductsByCategory($category)
 
         $userId = Auth::user()->userid;
         $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month;
+        $currentMonth = Carbon::now()->format('F'); // Full month name (e.g. August)
         
         // Generate unique transaction ID
         $maxId = Transaction::max('id') ?? 0;

@@ -1,5 +1,61 @@
 @extends('common.userdashboard')
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<!-- Custom Toastr Styles -->
+<style>
+    /* Custom Toastr Colors - Blue/Primary Theme */
+    .toast-success {
+        background-color: #0d6efd !important; /* Bootstrap primary blue */
+        color: white !important;
+    }
+    
+    .toast-info {
+        background-color: #0dcaf0 !important; /* Bootstrap info blue */
+        color: white !important;
+    }
+    
+    .toast-warning {
+        background-color: #fd7e14 !important; /* Bootstrap warning orange */
+        color: white !important;
+    }
+    
+    .toast-error {
+        background-color: #dc3545 !important; /* Bootstrap danger red */
+        color: white !important;
+    }
+    
+    /* Toast title colors */
+    .toast-title {
+        color: white !important;
+        font-weight: bold !important;
+    }
+    
+    /* Toast message colors */
+    .toast-message {
+        color: white !important;
+    }
+    
+    /* Progress bar colors */
+    .toast-progress {
+        background-color: rgba(255, 255, 255, 0.4) !important;
+    }
+    
+    /* Close button color */
+    .toast-close-button {
+        color: white !important;
+        opacity: 0.8;
+    }
+    
+    .toast-close-button:hover {
+        opacity: 1;
+    }
+    
+    /* Optional: Make all toasts use primary blue color */
+    .toast-primary {
+        background-color: #0d6efd !important;
+        color: white !important;
+    }
+</style>
 
 @section('content')
 
@@ -67,7 +123,7 @@
                 </div>
 
                 <!-- Warning message -->
-                <div id="allotmentWarning" class="text-danger fw-bold mb-2" style="display:none;"></div>
+                <div id="allotmentWarning" class="text-primary fw-bold mb-2" style="display:none;"></div>
 
                 <!-- Available Quantity (readonly) -->
                 <div class="mb-3">
@@ -109,19 +165,25 @@
                 </table>
             </div>
             <div class="card-footer text-end">
-                <button id="saveDraft" class="btn btn-primary">Save Draft</button>
-                <button id="submitBtn" class="btn btn-primary">
+                
+                <button id="saveDraft" class="btn btn-primary">
                     <i class="fas fa-paper-plane"></i> Submit
                 </button>
             </div>
         </div>
     </div>
 </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Scripts - Load jQuery first, then Toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-toastr.options = {
+// Wait for both jQuery and DOM to be ready
+$(document).ready(function() {
+    
+    // Configure Toastr options
+    toastr.options = {
         "closeButton": true,
         "debug": false,
         "newestOnTop": false,
@@ -138,73 +200,99 @@ toastr.options = {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
+    
+    // Helper function to show messages
+    function showMessage(type, message, title = '') {
+        switch(type) {
+            case 'success':
+                toastr.success(message, title);
+                break;
+            case 'error':
+                toastr.error(message, title);
+                break;
+            case 'info':
+                toastr.info(message, title);
+                break;
+            case 'warning':
+                toastr.warning(message, title);
+                break;
+        }
+    }
+
     // Load products when category changes
-    document.getElementById('category').addEventListener('change', function() {
+    $('#category').on('change', function() {
         let category = this.value;
         
         // Clear previous selections
-        document.getElementById('product').innerHTML = `<option value="">-- Select Product --</option>`;
-        document.getElementById('quantity').value = '';
-        document.getElementById('demand11').value = '';
-        document.getElementById('allotmentWarning').style.display = 'none';
+        $('#product').html('<option value="">-- Select Product --</option>');
+        $('#quantity').val('');
+        $('#demand11').val('');
+        $('#allotmentWarning').hide();
         
         if (category) {
             fetch(`/products-by-category/${category}`)
                 .then(res => res.json())
                 .then(data => {
-                    let productSelect = document.getElementById('product');
+                    let productSelect = $('#product')[0];
                     data.forEach(p => {
                         productSelect.innerHTML += `<option value="${p.prcode}">${p.name}</option>`;
                     });
                 })
                 .catch(error => {
                     console.error('Error fetching products:', error);
-                    toastr.error('Error loading products');
+                    showMessage('error', 'Error loading products');
                 });
         }
     });
 
     // Show available quantity when product changes
-    document.getElementById('product').addEventListener('change', function() {
+    $('#product').on('change', function() {
         let prcode = this.value;
-        
-        // Clear demand input when product changes
-        document.getElementById('demand11').value = '';
-        document.getElementById('quantity').value = '';
-        document.getElementById('allotmentWarning').style.display = 'none';
-        
+
+        $('#demand11').val('');
+        $('#quantity').val('');
+        $('#allotmentWarning').hide();
+
         if (prcode) {
             fetch(`/product-quantity/${prcode}`)
-                .then(res => res.json())
-                .then(data => {
-                    // Set AVAILABLE quantity in readonly field
-                    document.getElementById('quantity').value = data.quantity ?? 0;
+                .then(res => res.text())
+                .then(text => {
+                    console.log("Raw Response:", text);
 
-                    // Show allotment warning
-                    let warningBox = document.getElementById('allotmentWarning');
-                    if (data.allotment_warning) {
-                        warningBox.innerText = data.allotment_warning;
-                        warningBox.style.display = 'block';
+                    try {
+                        const data = JSON.parse(text);
+                        $('#quantity').val(data.quantity ?? 0);
+
+                        let warningBox = $('#allotmentWarning');
+                        if (data.allotment_warning) {
+                            warningBox.text(data.allotment_warning);
+                            warningBox.show();
+                        }
+                    } catch (err) {
+                        console.error("JSON parse error:", err);
+                        showMessage('error', 'Invalid response from server. Check console.');
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching quantity:', error);
-                    toastr.error('Error loading product quantity');
+                    showMessage('error', 'Error loading product quantity');
                 });
         }
     });
 
-    // Add to Draft - Clean version
-    document.getElementById('addBtn').addEventListener('click', function() {
-        let productSelect = document.getElementById('product');
-        let demandQuantity = document.getElementById('demand11').value;
+    // Add to Draft
+    $('#addBtn').on('click', function() {
+        let productSelect = $('#product')[0];
+        let demandQuantity = $('#demand11').val();
         
-        // Basic validations only
+        // Basic validations
         if (!productSelect.value) {
+            showMessage('warning', 'Please select a product');
             return;
         }
 
         if (!demandQuantity || parseInt(demandQuantity) <= 0) {
+            showMessage('warning', 'Please enter a valid quantity');
             return;
         }
 
@@ -212,55 +300,65 @@ toastr.options = {
         let productCode = productSelect.value;
         let productName = productSelect.options[productSelect.selectedIndex].text;
 
+        // Check if product already exists in draft
+        let existingRow = $(`#draftTable tbody tr[data-prcode="${productCode}"]`);
+        if (existingRow.length > 0) {
+            showMessage('warning', 'Product already added to draft');
+            return;
+        }
+
         // Add to table
-        let tableBody = document.querySelector('#draftTable tbody');
-        let row = document.createElement('tr');
-        row.setAttribute('data-prcode', productCode);
-        row.innerHTML = `
-            <td>${productName}</td>
-            <td>${demandQuantity}</td>
-            <td><button class="btn btn-sm btn-danger removeBtn">Remove</button></td>
+        let tableBody = $('#draftTable tbody');
+        let row = `
+            <tr data-prcode="${productCode}">
+                <td>${productName}</td>
+                <td>${demandQuantity}</td>
+                <td><button class="btn btn-sm btn-danger removeBtn">Remove</button></td>
+            </tr>
         `;
-        tableBody.appendChild(row);
+        tableBody.append(row);
         
         // Clear form
-        document.getElementById('demand11').value = '';
+        $('#demand11').val('');
+        showMessage('success', 'Product added to draft');
     });
 
     // Remove from draft
-    document.querySelector('#draftTable').addEventListener('click', function(e) {
-        if (e.target.classList.contains('removeBtn')) {
-            e.target.closest('tr').remove();
-            toastr.success('Product removed from draft');
-        }
+    $('#draftTable').on('click', '.removeBtn', function() {
+        $(this).closest('tr').remove();
+        showMessage('success', 'Product removed from draft');
     });
 
     // Save Draft
-    document.getElementById('saveDraft').addEventListener('click', function() {
-        let rows = document.querySelectorAll('#draftTable tbody tr');
+    $('#saveDraft').on('click', function() {
+        let rows = $('#draftTable tbody tr');
         
         if (rows.length === 0) {
-            toastr.error('No items in draft to save');
+            showMessage('error', 'No items in draft to save');
             return;
         }
 
         let draftData = [];
-        rows.forEach(row => {
+        rows.each(function() {
+            let $row = $(this);
             draftData.push({
-                prcode: row.getAttribute('data-prcode'),
-                product: row.cells[0].innerText,
-                quantity: parseInt(row.cells[1].innerText)
+                prcode: $row.attr('data-prcode'),
+                product: $row.find('td:eq(0)').text(),
+                quantity: parseInt($row.find('td:eq(1)').text())
             });
         });
 
         // Show loading message
-        toastr.info('Saving draft...', 'Please wait');
+        showMessage('info', 'Sending List...', 'Please wait');
+
+        // Disable button to prevent double clicks
+        $('#saveDraft').prop('disabled', true);
 
         fetch('/save-draft', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             body: JSON.stringify({ draft: draftData })
         })
@@ -271,70 +369,87 @@ toastr.options = {
             return response.json();
         })
         .then(data => {
-            console.log('Full response:', data); // Debug log
+            console.log('Full response:', data);
             
             if (data.success === true) {
-                let message = data.message || 'Draft saved successfully!';
-                let title = 'Success';
+                let message = data.message || 'Submitted successfully!';
                 if (data.items_saved) {
                     message += ` (${data.items_saved} items saved)`;
                 }
                 if (data.trid) {
                     message += ` - ID: ${data.trid}`;
                 }
-                toastr.success(message, title);
-                console.log('Success message:', message); // Debug log
+                
+                showMessage('success', message, 'Success');
+                
+                // Clear draft table after successful save
+                $('#draftTable tbody').empty();
+                
             } else {
                 let errorMessage = data.message || 'Unknown error occurred';
-                toastr.error(errorMessage, 'Error');
-                console.log('Error message:', errorMessage); // Debug log
+                showMessage('error', errorMessage, 'Error');
             }
         })
         .catch(error => {
             console.error('Fetch error:', error);
-            toastr.error('Network error occurred. Please try again.', 'Connection Error');
+            showMessage('error', 'Failed to save draft. Please try again.', 'Network Error');
+        })
+        .finally(() => {
+            // Re-enable button
+            $('#saveDraft').prop('disabled', false);
         });
     });
 
     // Submit All Draft Items
-    document.getElementById('submitBtn').addEventListener('click', function() {
-        let rows = document.querySelectorAll('#draftTable tbody tr');
+    $('#submitBtn').on('click', function() {
+        let rows = $('#draftTable tbody tr');
         
         if (rows.length === 0) {
-            toastr.error('No items in draft to submit');
+            showMessage('error', 'No items in draft to submit');
             return;
         }
 
         let submitData = [];
-        rows.forEach(row => {
+        rows.each(function() {
+            let $row = $(this);
             submitData.push({
-                prcode: row.getAttribute('data-prcode'),
-                product: row.cells[0].innerText,
-                quantity: parseInt(row.cells[1].innerText)
+                prcode: $row.attr('data-prcode'),
+                product: $row.find('td:eq(0)').text(),
+                quantity: parseInt($row.find('td:eq(1)').text())
             });
         });
+
+        // Show loading message
+        showMessage('info', 'Submitting products...', 'Please wait');
+
+        // Disable button to prevent double clicks
+        $('#submitBtn').prop('disabled', true);
 
         fetch('/submit-products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             body: JSON.stringify({ products: submitData })
         })
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                toastr.success(data.message || 'Products submitted successfully');
+                showMessage('success', data.message || 'Products submitted successfully');
                 // Clear draft table after successful submission
-                document.querySelector('#draftTable tbody').innerHTML = '';
+                $('#draftTable tbody').empty();
             } else {
-                toastr.error(data.message || 'Error submitting products');
+                showMessage('error', data.message || 'Error submitting products');
             }
         })
         .catch(error => {
             console.error('Error submitting products:', error);
-            toastr.error('Error submitting products');
+            showMessage('error', 'Error submitting products');
+        })
+        .finally(() => {
+            // Re-enable button
+            $('#submitBtn').prop('disabled', false);
         });
     });
 
