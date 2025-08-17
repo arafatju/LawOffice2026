@@ -19,7 +19,7 @@ use App\Http\Controllers\notaryadmin;
 */
 
 Route::get('/', function () {
-    return view('auth.login22');
+    return view('auth.login');
 });
  
 Auth::routes([
