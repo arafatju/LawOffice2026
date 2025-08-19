@@ -263,64 +263,80 @@ public function getProductsByCategory($category)
 
     public function saveDraft(Request $request)
     {
-         try {
-        // Validate the request
-        $request->validate([
-            'draft' => 'required|array',
-            'draft.*.prcode' => 'required|string',
-            'draft.*.quantity' => 'required|integer|min:1'
-        ]);
+        try {
+    // Validate the request
+    $request->validate([
+        'draft' => 'required|array',
+        'draft.*.prcode' => 'required|string',
+        'draft.*.quantity' => 'required|integer|min:1'
+    ]);
 
-        $userId = Auth::user()->userid;
-        $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->format('F'); // Full month name (e.g. August)
-        
-        // Generate unique transaction ID
-        $maxId = Transaction::max('id') ?? 0;
-        $trid =  'Tr'.($maxId + 1);
-
-        // Prepare data for bulk insert
-        $transactionData = [];
-        foreach ($request->draft as $item) {
-            $transactionData[] = [
-                'userid' => $userId,
-                'trid' => $trid,
-                'status' => 'pending',
-                'prcode' => $item['prcode'],
-                'number' => (int) $item['quantity'],
-                'month' => $currentMonth,
-                'year' => $currentYear,
-                'created_at' => now(),
-                'updated_at' => now()
-            ];
-        }
-
-        // Insert all transactions in one query
-        Transaction::insert($transactionData);
-
-         return response()->json([
-            'success' => true,
-            'message' => 'Draft saved successfully!',
-            'items_saved' => count($transactionData),
-            'trid' => $trid
-        ]);
-
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Invalid data provided',
-            'errors' => $e->errors()
-        ], 422);
-
-    } catch (\Exception $e) {
-        \Log::error('Error saving draft: ' . $e->getMessage());
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to save draft. Please try again.'
-        ], 500);
+    $userId = Auth::user()->userid;
+    $currentYear = Carbon::now()->year;
+    $currentMonth = Carbon::now()->format('F'); // e.g. August
     
+    // Generate unique transaction ID
+    $maxId = Transaction::max('id') ?? 0;
+    $trid =  'Tr'.($maxId + 1);
+
+    // Prepare data for bulk insert
+    $transactionData = [];
+    $applicationData = [];
+
+    foreach ($request->draft as $item) {
+        $transactionData[] = [
+            'userid' => $userId,
+            'trid' => $trid,
+            'status' => 'pending',
+            'prcode' => $item['prcode'],
+            'number' => (int) $item['quantity'],
+            'month' => $currentMonth,
+            'year' => $currentYear,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+
+        // Save application info at the same time
+        $applicationData[] = [
+            'userid' => $userId,
+            'action' => 'draft',
+            'role' => $item['prcode'],  // store prcode here
+            'month' => $currentMonth,
+            'year' => $currentYear,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
     }
-    }
+
+    // Insert all transactions in one query
+    Transaction::insert($transactionData);
+
+    // Insert all application info in one query
+    ApplicationInfo::insert($applicationData);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Draft saved successfully!',
+        'items_saved' => count($transactionData),
+        'trid' => $trid
+    ]);
+
+} catch (\Illuminate\Validation\ValidationException $e) {
+    return response()->json([
+        'success' => false,
+        'message' => 'Invalid data provided',
+        'errors' => $e->errors()
+    ], 422);
+
+} catch (\Exception $e) {
+    \Log::error('Error saving draft: ' . $e->getMessage());
+    return response()->json([
+        'success' => false,
+        'message' => 'Failed to save draft. Please try again.'
+    ], 500);
+}
+
+}
 
     public function submitProduct(Request $request)
     {
@@ -339,5 +355,130 @@ public function getProductsByCategory($category)
             return response()->json(['success' => false, 'message' => 'Not enough quantity available.']);
         }
     }
+
+    public static  function getProductDetails($prcode)
+{
+    $product = ProductInfo::where('prcode', $prcode)->first();
+
+    
+
+    return  $product->name;
+}
+public static function getAllotmentDetails($prcode,$userid)
+{
+     
+    $userDesignation = PersonalInfo::where('userid', $userid)->first();
+
+    $allotment = Allotment::where('prcode', $prcode)
+        ->whereRaw('TRIM(designation) = ?', [$userDesignation->designation2])
+        ->first();
+
+   
+
+    return  $allotment->quantity;
+}
+public static function getTransactionDetails($prcode,$month,$userid)
+{
+    $transaction = Transaction::where('prcode', $prcode)
+                    ->where('status', 'approved')
+                    ->where('userid', $userid)
+                    ->where('month', $month)
+                    ->sum('number');
+
+     
+
+    return   $transaction;
+
+}  
+public function productpending($id){
+
+        $pendingTransactions = Transaction::where('status', 'pending')
+            ->where('userid', $id)
+            ->get();
+$bread11='Pending Products';
+    return view('Storeuser.pending112', compact('pendingTransactions','bread11'));
+}
+/*public function approveMultiple(Request $request)
+{
+    $transactionId = $request->id;
+    $numbers = $request->numbers; // array of numbers keyed by transaction row id
+
+    foreach ($numbers as $rowId => $number) {
+        $transaction = Transaction::find($rowId);
+        if ($transaction) {
+            $transaction->number = $number;
+            $transaction->status = 'approved';
+            $transaction->save();
+        }
+    }
+
+    return response()->json(['success' => true]);
+}*/  public function approveMultiple(Request $request)
+{
+    $transactionId = $request->id; // not used directly if multiple rowIds
+    $numbers = $request->numbers; // array: [transaction_row_id => approved_qty]
+
+    foreach ($numbers as $rowId => $number) {
+        $transaction = Transaction::find($rowId);
+
+        if ($transaction) {
+            // 1. Update transaction
+            $transaction->number = $number;
+            $transaction->status = 'approved';
+            $transaction->save();
+
+            // 2. Deduct quantity from productinfo
+            $product = ProductInfo::where('prcode', $transaction->prcode)->first();
+            if ($product) {
+                $product->quantity -= $number;  // deduct approved qty
+                if ($product->quantity < 0) {
+                    $product->quantity = 0; // prevent negative stock
+                }
+                $product->save();
+            }
+
+            // 3. Insert into applicationinfo
+            ApplicationInfo::create([
+                'userid' => $transaction->userid,
+                'action' => 'approved',
+                'role'   => $product->name . ' (' . $number . ')', // e.g. "Laptop (3)"
+                'month'  => now()->format('m'),
+                'year'   => now()->format('Y'),
+            ]);
+        }
+    }
+
+    return response()->json(['success' => true]);
+}
+
+
+public function approve($id)
+{
+    $transaction = Allotment::findOrFail($id);
+    $transaction->status = 'approved';
+    $transaction->save();
+
+    return redirect()->back()->with('success', 'Transaction approved successfully!');
+}
+
+public function destroy($id)
+{
+    $transaction = Allotment::findOrFail($id);
+    $transaction->delete();
+
+    return redirect()->back()->with('success', 'Transaction deleted successfully!');
+}
+
+public function productpending21()
+{
+   $pendingTransactions = Transaction::with(['user', 'product'])
+    ->where('status', 'pending')
+    ->get()
+    ->groupBy('userid');
+
+$bread11='Pending';
+
+    return view('Storeuser.pending21', compact('pendingTransactions','bread11'));
+}
 
 }

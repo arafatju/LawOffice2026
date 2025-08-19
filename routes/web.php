@@ -223,7 +223,16 @@ Route::put('/users/{id}/role', [Storeuser::class, 'updateRole'])->name('users.up
 
 Route::post('/users/password-update', [Storeuser::class, 'updatePassword'])->name('users.password.update');
 
+Route::get('/productpending/{id}', [Storeuser::class, 'productpending'])->name('productpending');
 
+ 
+
+Route::post('/transactions/{id}/approve', [Storeuser::class, 'approve'])->name('transactions.approve');
+Route::delete('/transactions/{id}', [Storeuser::class, 'destroy'])->name('transactions.delete');
+
+Route::get('/productpending21', [Storeuser::class, 'productpending21'])->name('productpending21');
+
+Route::post('/transactions/approve-multiple', [Storeuser::class, 'approveMultiple'])->name('transactions.approveMultiple');
 
 
 });
