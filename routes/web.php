@@ -234,6 +234,7 @@ Route::get('/productpending21', [Storeuser::class, 'productpending21'])->name('p
 
 Route::post('/transactions/approve-multiple', [Storeuser::class, 'approveMultiple'])->name('transactions.approveMultiple');
 
+Route::get('/report111', [Storeuser::class, 'report111'])->name('report111');
 
 });
 Route::middleware(['auth', 'user-access:userone'])->group(function () {

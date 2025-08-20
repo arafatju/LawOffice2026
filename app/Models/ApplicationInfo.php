@@ -23,6 +23,10 @@ class ApplicationInfo extends Model
     {
         return $this->belongsTo(User::class, 'userid', 'userid');
     }
+public function transactions()
+{
+    return $this->hasMany(Transaction::class, 'trid', 'role'); 
+}
 
      
 }

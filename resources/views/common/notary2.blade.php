@@ -189,7 +189,7 @@
             <a href="{{route('productpending21')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Pending  list 
             </a>
-            <a href="{{route('documents')}}" class="sidebar-link">
+            <a href="{{route('report111')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i>  Report 
             </a>
             <a href="{{route('profile')}}" class="sidebar-link">

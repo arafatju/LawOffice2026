@@ -300,7 +300,7 @@ public function getProductsByCategory($category)
         $applicationData[] = [
             'userid' => $userId,
             'action' => 'draft',
-            'role' => $item['prcode'],  // store prcode here
+            'role' => $trid,  // store trid here
             'month' => $currentMonth,
             'year' => $currentYear,
             'created_at' => now(),
@@ -441,7 +441,7 @@ $bread11='Pending Products';
             ApplicationInfo::create([
                 'userid' => $transaction->userid,
                 'action' => 'approved',
-                'role'   => $product->name . ' (' . $number . ')', // e.g. "Laptop (3)"
+                'role'   => $transaction->trid, // e.g. "Laptop (3)"
                 'month'  => now()->format('m'),
                 'year'   => now()->format('Y'),
             ]);
@@ -479,6 +479,25 @@ public function productpending21()
 $bread11='Pending';
 
     return view('Storeuser.pending21', compact('pendingTransactions','bread11'));
+}
+public function report111()
+{
+    $bread11='Report';
+   $applications = ApplicationInfo::with([
+    'user.personalInfo',
+    'transactions.product'
+])
+->where('action', 'draft')
+->orderBy('year', 'asc')
+->orderBy('month', 'asc')
+->get()
+->unique('role');  // remove duplicates by role/trid
+
+
+
+    return view('Storeuser.report111', compact('applications','bread11'));     
+
+
 }
 
 }
