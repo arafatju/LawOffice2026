@@ -93,13 +93,43 @@ public function updateRole(Request $request, $id)
 }
 public function userdash(){
     $bread11="Dashboard";
+    $userid = Auth::user()->userid;
+
+// Approved count
+$approvedCount = Transaction::where('userid', $userid)
+    ->where('status', 'approved')
+    ->distinct('trid')
+    ->count('trid');
+
+// Pending count  
+$pendingCount = Transaction::where('userid', $userid)
+    ->where('status', 'pending')
+    ->distinct('trid')
+    ->count('trid');
+
+// Total approved quantity
+$totalQuantity = Transaction::where('userid', $userid)
+    ->where('status', 'approved')
+    ->sum('number'); 
+
+    $highestProduct = Transaction::select('prcode')
+        ->selectRaw('SUM(number) as total_quantity')
+        ->selectRaw('COUNT(DISTINCT trid) as orders_count')
+        ->where('userid', $userid)
+        ->where('status', 'approved')
+        ->with('product')
+        ->groupBy('prcode')
+        ->orderByDesc('total_quantity')
+        ->first();
+
+// Access: $highestProduct->product->name and $highestProduct->total_quantity
       $categories = ProductInfo::whereNotNull('category')
                         ->distinct()
                         ->orderBy('category')
                         ->pluck('category'); // returns a Collection
 
         // Pass to the view that caused the error
-        return view('Storeuser.userdash', compact('bread11','categories'));
+        return view('Storeuser.userdash', compact('bread11','categories','approvedCount','pendingCount','totalQuantity', 'highestProduct'));
  }
 public function updatePassword(Request $request)
     {
@@ -480,9 +510,67 @@ $bread11='Pending';
 
     return view('Storeuser.pending21', compact('pendingTransactions','bread11'));
 }
+
+public function userapprovedlist()
+{
+    $approvedTransactions = Transaction::with(['user', 'product'])
+        ->where('status', 'approved')
+        ->where('userid', Auth::user()->userid)
+        ->get();
+$totalQuantity = Transaction::where('userid', Auth::user()->userid)
+    ->where('status', 'approved')
+    ->sum('number'); 
+    $bread11 = 'Approved Products';
+
+     $subQuery = ApplicationInfo::selectRaw('MAX(id) as id')
+    ->where('action', 'draft')
+    ->where('userid', Auth::user()->userid)
+    ->groupBy('role');
+
+$applications = ApplicationInfo::with([
+        'user.personalInfo',
+        'transactions.product'
+    ])
+    ->whereIn('id', $subQuery)
+    ->orderBy('year', 'asc')
+    ->orderBy('month', 'asc')
+    ->paginate(5);
+    return view('Storeuser.approvedlist', compact('approvedTransactions', 'bread11', 'totalQuantity', 'applications'));
+}
+
 public function report111()
 {
     $bread11='Report';
+
+    $highest = DB::table('transaction')
+    ->select('prcode', DB::raw('SUM(number) as total_delivered'))
+    ->where('status', 'approved')
+    ->groupBy('prcode')
+    ->orderByDesc('total_delivered')
+    ->first();
+    $highestOffice = DB::table('transaction as t')
+    ->join('users as u', 't.userid', '=', 'u.userid')
+    ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
+    ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
+    ->where('t.status', 'approved')
+    ->groupBy('p.office')
+    ->orderByDesc('total_delivered')
+    ->first();
+$pendingCount = ApplicationInfo::where('action', 'draft')
+    ->whereDoesntHave('transactions', function($q){
+        $q->where('status', 'approved');
+    })
+    ->count();
+    $threshold = 5;
+
+$outOfStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
+if ($highest) {
+    $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
+    echo $product111->name . ' (' . $highest->total_delivered . ')';
+} else {
+    echo 'No delivered product found';
+}
+
    $applications = ApplicationInfo::with([
     'user.personalInfo',
     'transactions.product'
@@ -495,8 +583,7 @@ public function report111()
 
 
 
-    return view('Storeuser.report111', compact('applications','bread11'));     
-
+    return view('Storeuser.report111', compact('applications','bread11','product111','highest','highestOffice','pendingCount','outOfStockProducts'));
 
 }
 

@@ -64,8 +64,8 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Total Product</h5>
-                <p>Name 7</p>
+                <h5 class="card-title fw-bold text-info">Total Ordered</h5>
+                <p>{{ $totalQuantity }}</p>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title text-bold fw-bold text-success">Product Highest Order</h5>
-                <p class="card-text h6">Name 77</p>
+                <p class="card-text h6">{{ $highestProduct->product->name ?? 'N/A' }} {{ $highestProduct->total_quantity ?? 0 }}</p>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-primary">Pending Applications</h5>
-                <p class="card-text h6">5</p>
+                <p class="card-text h6">{{ $pendingCount }}</p>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-danger">Approved Applications</h5>
-                <p class="card-text h6">6</p>
+                <p class="card-text h6">{{ $approvedCount }}</p>
             </div>
         </div>
     </div>
