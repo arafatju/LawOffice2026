@@ -9,9 +9,42 @@
  
   
 @section('content')
-
-
+<style> 
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .print-area, .print-area * {
+        visibility: visible;
+    }
+    .print-area {
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-50%);
+        margin: 2px;
+        width: 90%;
+        text-align: center;
+    }
+    .print-area table {
+        margin: auto;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .print-area table th,
+    .print-area table td {
+        border: 1px solid black;
+        padding: 4px;
+    }
+    /* Actions কলাম লুকাবে */
+    .print-area table th:last-child,
+    .print-area table td:last-child {
+        display: none;
+    }
+}
+</style>
 <style>
+    
     .action-btn {
         border: none;
         padding: 8px 12px;
@@ -122,7 +155,11 @@
 </div>
   <a href="{{ route('accepted11') }}" class="btn btn-primary mb-1">Accepted User</a>
  <a href="{{ route('admin11') }}" class="btn btn-primary mb-1">Admin User</a>
-
+  <button onclick="window.print()" class="btn btn-outline-success no-print">
+    <i class="fas fa-print"></i> Print
+</button>
+<div class="print-area">
+    <h2>Users Info</h2>
 <table class="table table-border ">
     <tr class="bg-primary text-white">
         <th>Serial</th> 
@@ -159,8 +196,16 @@
 <button type="button" class="btn btn-sm btn-danger me-1 btn-delete" data-id="{{ $user44->id }}">
     <i class="fas fa-trash"></i> Delete
 </button>
-
-
+<!-- Edit User -->
+  <button type="button" class="btn btn-sm btn-warning me-1 btn-edit" 
+            data-id="{{ $user44->id }}" 
+            data-name="{{ $user44->name }}"
+            data-email="{{ $user44->email }}"
+            data-mobile="{{ $user44->mobile }}"
+            data-designation="{{ optional($user44->personalInfo)->designation ?? '' }}"
+            data-designation2="{{ optional($user44->personalInfo)->designation2 ?? '' }}">
+        <i class="fas fa-edit"></i> Edit
+    </button>
     <!-- Admin Monitor -->
     <button 
     type="button" 
@@ -197,15 +242,199 @@
 >
         <i class="fas fa-keyboard"></i> Data Entry
     </button>
-
+    
+    
 </td>
 
      </tr> 
       @endforeach
 </table>
+</div> 
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editUserForm">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <input type="hidden" id="editUserId" name="user_id">
+                    
+                    <!-- Name Field -->
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editName" name="name" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="editEmail" name="email" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <!-- Mobile Field -->
+                    <div class="mb-3">
+                        <label for="editMobile" class="form-label">Mobile</label>
+                        <input type="text" class="form-control" id="editMobile" name="mobile">
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <!-- Designation Field -->
+                    <div class="mb-3">
+                        <label for="editDesignation" class="form-label">Officer Staff Designation</label>
+                        <input type="text" class="form-control" id="editDesignation" name="designation" placeholder="Enter staff designation">
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <!-- Designation2 Field -->
+                    <div class="mb-3">
+                        <label for="editDesignation2" class="form-label">Officer Designation</label>
+                        <input type="text" class="form-control" id="editDesignation2" name="designation2" placeholder="Enter officer designation">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
  <!-- Include SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Edit User Modal
+    document.querySelectorAll(".btn-edit").forEach(function (button) {
+        button.addEventListener("click", function () {
+            let userId = this.getAttribute("data-id");
+            let name = this.getAttribute("data-name");
+            let email = this.getAttribute("data-email");
+            let mobile = this.getAttribute("data-mobile");
+            let designation = this.getAttribute("data-designation");
+            let designation2 = this.getAttribute("data-designation2");
 
+            // Populate modal fields
+            document.getElementById("editUserId").value = userId;
+            document.getElementById("editName").value = name || '';
+            document.getElementById("editEmail").value = email || '';
+            document.getElementById("editMobile").value = mobile || '';
+            document.getElementById("editDesignation").value = designation || '';
+            document.getElementById("editDesignation2").value = designation2 || '';
+
+            // Clear previous validation errors
+            document.querySelectorAll("#editUserModal .form-control").forEach(function(field) {
+                field.classList.remove("is-invalid");
+                let feedback = field.nextElementSibling;
+                if (feedback && feedback.classList.contains("invalid-feedback")) {
+                    feedback.textContent = '';
+                }
+            });
+
+            // Show modal
+            new bootstrap.Modal(document.getElementById("editUserModal")).show();
+        });
+    });
+
+    // Handle form submission
+    document.getElementById("editUserForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let userId = document.getElementById("editUserId").value;
+        let submitBtn = this.querySelector('button[type="submit"]');
+        let originalText = submitBtn.innerHTML;
+
+        // Disable submit button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+        let formData = new FormData(this);
+        let data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            mobile: formData.get('mobile'),
+            designation: formData.get('designation'),
+            designation2: formData.get('designation2')
+        };
+
+        console.log('Sending data:', data); // Debug log
+        console.log('URL:', `/users/${userId}/edit-profile`); // Debug log
+
+        fetch(`/edit-profile`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content') || "{{ csrf_token() }}",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            console.log('Response status:', response.status); // Debug log
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data); // Debug log
+            
+            if (data.success) {
+                // Hide modal
+                let modal = bootstrap.Modal.getInstance(document.getElementById("editUserModal"));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Show success message
+                Swal.fire({
+                    title: "Success!",
+                    text: data.message,
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    // Reload page to show changes
+                    location.reload();
+                });
+            } else {
+                // Handle validation errors
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(function(field) {
+                        let input = document.getElementById("edit" + field.charAt(0).toUpperCase() + field.slice(1));
+                        if (input) {
+                            input.classList.add("is-invalid");
+                            let feedback = input.nextElementSibling;
+                            if (feedback && feedback.classList.contains("invalid-feedback")) {
+                                feedback.textContent = Array.isArray(data.errors[field]) ? data.errors[field][0] : data.errors[field];
+                            }
+                        }
+                    });
+                } else {
+                    Swal.fire("Error", data.message || "Something went wrong", "error");
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); // Debug log
+            Swal.fire("Error", "Network error: " + error.message, "error");
+        })
+        .finally(() => {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        });
+    });
+});
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".btn-delete").forEach(function (button) {

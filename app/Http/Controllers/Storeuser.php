@@ -193,7 +193,7 @@ public function updatePassword(Request $request)
 }
 public function user11(){
      $bread11="User Management";
-     $users=User::all();
+     $users= User::with('personalinfo')->get();
       return view('Storeuser.user11',compact('bread11','users'));
 
 }
@@ -585,6 +585,87 @@ if ($highest) {
 
     return view('Storeuser.report111', compact('applications','bread11','product111','highest','highestOffice','pendingCount','outOfStockProducts'));
 
+}
+public function updateUserProfile(Request $request, $id)
+    {
+        try {
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                    
+                ],
+                'mobile' => 'nullable|string|max:20',
+                'designation' => 'nullable|string|max:255',
+                'designation2' => 'nullable|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Find the user
+            $user = User::find($request->user_id);
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+            // Update user basic information
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+            ]);
+
+            // Update or create personal info
+            $personalInfo = PersonalInfo::where('userid', $user->userid)->first();
+            
+            if ($personalInfo) {
+                // Update existing personal info
+                $personalInfo->update([
+                    'designation' => $request->designation,
+                    'designation2' => $request->designation2,
+                ]);
+            } else {
+                // Create new personal info if doesn't exist
+                PersonalInfo::create([
+                    'userid' => $user->userid,
+                    'designation' => $request->designation,
+                    'designation2' => $request->designation2,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User profile updated successfully!',
+                'user' => $user->load('personalInfo')
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the profile'
+            ], 500);
+        }
+    }
+
+
+public function userprofile(){
+    $bread11='Profile';
+$user = User::where('userid', Auth::user()->userid)
+    ->with('personalInfo')
+    ->first();      
+        return view('Storeuser.userprofile',compact('user','bread11'));
 }
 
 }

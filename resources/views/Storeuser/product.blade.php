@@ -1,8 +1,43 @@
 @extends('common.notary2')
 
 @section('content')
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .print-area, .print-area * {
+        visibility: visible;
+    }
+    .print-area {
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-50%);
+        margin: 2px;
+        width: 90%; /* টেবিল একটু ছোট করে সেন্টারে দেখাবে */
+        text-align: center;
+    }
+    .print-area table {
+        margin: auto;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .print-area table th,
+    .print-area table td {
+        border: 1px solid black;
+        padding: 4px;
+    }
+    /* Actions কলাম লুকাতে */
+    .print-area table th:last-child,
+    .print-area table td:last-child {
+        display: none;
+    }
+}
+</style>
 
 <style>
+  
     .action-btn {
         border: none;
         padding: 8px 12px;
@@ -49,7 +84,9 @@
     }
 
     .btn-update:hover {
-        background: #e0a800;
+        background:   <button onclick="window.print()" class="btn btn-outline-success print-btn no-print mb-4" title="Direct Print">
+                                <i class="fas fa-print"></i> Print
+                            </button>#e0a800;
         transform: translateY(-1px);
     }
 
@@ -113,8 +150,13 @@
 <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#productModal">
     + New Product
 </button>
+  <button onclick="window.print()" class="btn btn-outline-success print-btn no-print mb-4" title="Direct Print">
+                                <i class="fas fa-print"></i> Print
+                            </button>
 
 <!-- Products Table -->
+ <div class="print-area">
+    <h2>Product  Info</h2>
 <table class="table table-bordered table-striped align-middle">
     <thead class="bg-primary text-white">
         <tr>
@@ -184,7 +226,7 @@
         @endforeach
     </tbody>
 </table>
-
+  </div> 
 <!-- Update Quantity Modal -->
 <div class="modal fade" id="updateQuantityModal" tabindex="-1" aria-labelledby="updateQuantityModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -322,6 +364,9 @@
 </div>
 
 <!-- Scripts -->
+
+ 
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const updateAllotmentButtons = document.querySelectorAll('.btn-update-allotment');

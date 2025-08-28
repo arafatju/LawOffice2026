@@ -225,7 +225,8 @@ Route::post('/users/password-update', [Storeuser::class, 'updatePassword'])->nam
 
 Route::get('/productpending/{id}', [Storeuser::class, 'productpending'])->name('productpending');
 
- 
+ Route::put('/edit-profile', [Storeuser::class, 'updateUserProfile'])->name('users.update.profile');
+
 
 Route::post('/transactions/{id}/approve', [Storeuser::class, 'approve'])->name('transactions.approve');
 Route::delete('/transactions/{id}', [Storeuser::class, 'destroy'])->name('transactions.delete');
@@ -243,7 +244,6 @@ Route::get('/userdash', [Storeuser::class, 'userdash'])->name('userdash');
     Route::get('/userpending', [Storeuser::class, 'userpending'])->name('userpending');
     Route::get('/userprofile', [Storeuser::class, 'userprofile'])->name('userprofile');
     Route::get('/userreport', [Storeuser::class, 'userreport'])->name('userreport');
-
 
 
 Route::get('/products-by-category/{category}', [Storeuser::class, 'getProductsByCategory']);
