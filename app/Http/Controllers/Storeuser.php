@@ -537,54 +537,63 @@ $applications = ApplicationInfo::with([
     ->paginate(5);
     return view('Storeuser.approvedlist', compact('approvedTransactions', 'bread11', 'totalQuantity', 'applications'));
 }
-
-public function report111()
+public function report111(Request $request)
 {
-    $bread11='Report';
+    $bread11 = 'Report';
+    $office = $request->input('office'); // for filtering
+
+    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
 
     $highest = DB::table('transaction')
-    ->select('prcode', DB::raw('SUM(number) as total_delivered'))
-    ->where('status', 'approved')
-    ->groupBy('prcode')
-    ->orderByDesc('total_delivered')
-    ->first();
+        ->select('prcode', DB::raw('SUM(number) as total_delivered'))
+        ->where('status', 'approved')
+        ->groupBy('prcode')
+        ->orderByDesc('total_delivered')
+        ->first();
+
     $highestOffice = DB::table('transaction as t')
-    ->join('users as u', 't.userid', '=', 'u.userid')
-    ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
-    ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
-    ->where('t.status', 'approved')
-    ->groupBy('p.office')
-    ->orderByDesc('total_delivered')
-    ->first();
-$pendingCount = ApplicationInfo::where('action', 'draft')
-    ->whereDoesntHave('transactions', function($q){
-        $q->where('status', 'approved');
-    })
-    ->count();
+        ->join('users as u', 't.userid', '=', 'u.userid')
+        ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
+        ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
+        ->where('t.status', 'approved')
+        ->groupBy('p.office')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $pendingCount = ApplicationInfo::where('action', 'draft')
+        ->whereDoesntHave('transactions', function($q){
+            $q->where('status', 'approved');
+        })
+        ->count();
+
     $threshold = 5;
+    $outOfStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
 
-$outOfStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
-if ($highest) {
-    $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
-    echo $product111->name . ' (' . $highest->total_delivered . ')';
-} else {
-    echo 'No delivered product found';
-}
+    $product111 = null;
+    if ($highest) {
+        $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
+    }
 
-   $applications = ApplicationInfo::with([
-    'user.personalInfo',
-    'transactions.product'
-])
-->where('action', 'draft')
-->orderBy('year', 'asc')
-->orderBy('month', 'asc')
-->get()
-->unique('role');  // remove duplicates by role/trid
+    // Filter applications by office if selected
+    $applications = ApplicationInfo::with([
+        'user.personalInfo',
+        'transactions.product'
+    ])
+    ->where('action', 'draft')
+    ->when($office, function ($query) use ($office) {
+        $query->whereHas('user.personalInfo', function ($q) use ($office) {
+            $q->where('office', $office);
+        });
+    })
+    ->orderBy('year', 'asc')
+    ->orderBy('month', 'asc')
+    ->get()
+    ->unique('role');
 
-
-
-    return view('Storeuser.report111', compact('applications','bread11','product111','highest','highestOffice','pendingCount','outOfStockProducts'));
-
+    return view('Storeuser.report111', compact(
+        'applications','bread11','product111','highest','highestOffice',
+        'pendingCount','outOfStockProducts', 'offices', 'office'
+    ));
 }
 public function updateUserProfile(Request $request, $id)
     {

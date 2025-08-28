@@ -20,7 +20,40 @@ function enToBnNumber($number) {
 @php
     use Carbon\Carbon;
 @endphp 
-
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .print-area, .print-area * {
+        visibility: visible;
+    }
+    .print-area {
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-50%);
+        margin: 2px;
+        width: 90%; /* টেবিল একটু ছোট করে সেন্টারে দেখাবে */
+        text-align: center;
+    }
+    .print-area table {
+        margin: auto;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .print-area table th,
+    .print-area table td {
+        border: 1px solid black;
+        padding: 4px;
+    }
+    /* Actions কলাম লুকাতে */
+    .print-area table th:last-child,
+    .print-area table td:last-child {
+        display: none;
+    }
+}
+</style>
 <style>
     .action-btn {
         border: none;
@@ -129,7 +162,26 @@ function enToBnNumber($number) {
         </div>
     </div>
 </div>
- 
+ <div class="mb-3 d-flex align-items-center">
+    <form method="GET" class="form-inline" action="">
+        <label for="office" class="mr-2 fw-bold">দপ্তর বাছাই করুন:</label>
+        <select name="office" id="office" class="form-control mr-2" style="width:auto;display:inline-block;">
+            <option value="">সকল দপ্তর</option>
+            @foreach($offices as $ofc)
+                <option value="{{ $ofc }}" {{ (request('office') == $ofc) ? 'selected' : '' }}>
+                    {{ $ofc }}
+                </option>
+            @endforeach
+        </select>
+        <button type="submit" class="btn btn-primary ml-2">রিপোর্ট দেখান</button>
+    </form>  <button onclick="window.print()" class="btn btn-outline-success print-btn no-print mb-4" title="Direct Print">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+</div> 
+
+<!-- Print section starts -->
+<div class="print-area">
+    <h3 class="text-center my-3">REPORT</h3>
 <table class="table table-border">
     <tr class="bg-primary text-white">
        <th>ক্রমিক নং </th> 
@@ -196,7 +248,17 @@ function enToBnNumber($number) {
     @endforeach
 </table>
 
-
+                </div>
+                <script>
+function printReportTable() {
+    var printContents = document.getElementById('report-print-section').innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload(); // reloads to recover JS/events/styles
+}
+</script>
 
 @endsection
 
