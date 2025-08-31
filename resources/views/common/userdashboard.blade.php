@@ -177,16 +177,12 @@
             <a href="{{route('userapprovedlist')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Approved List   
             </a>
-            <a href="{{route('userpending')}}" class="sidebar-link">
-                <i class="bi bi-box"></i> Pending List 
-            </a>
+            
             <a href="{{route('userprofile')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Profile  
             </a>
              
-            <a href="{{route('userreport')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i>  Report 
-            </a>
+             
              
             <a href="{{route('signout')}}" class="sidebar-link">
                 <i class="bi bi-box-arrow-right"></i> Logout 

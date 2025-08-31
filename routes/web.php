@@ -6,6 +6,8 @@ use App\Http\Controllers\hhomeController;
 use App\Http\Controllers\infoimp;
 use App\Http\Controllers\test;
 use App\Http\Controllers\Storeuser;
+use App\Http\Controllers\Strodataentry11;
+use App\Http\Controllers\Storemonitor11;
 use App\Http\Controllers\notaryadmin;
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +69,7 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
 Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
 
  Route::put('/products/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.updateQuantity');
- 
+
 Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 
 Route::delete('/delete/{type}/{prcode}', [Storeuser::class, 'destroyByType'])->name('delete.bytype');
@@ -105,6 +107,18 @@ Route::get('/report111', [Storeuser::class, 'report111'])->name('report111');
 
 });
 
+
+
+Route::middleware(['auth', 'user-access:usermonitor'])->group(function () {
+      Route::get('/monitoring', [Storemonitor11::class, 'dash11'])->name('monitoring');
+
+    });
+
+Route::middleware(['auth', 'user-access:userdataentry'])->group(function () {
+Route::get('/userdash', [Storedataentry11::class, 'dataentry11'])->name('userdash');
+     
+
+    });
 
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
 Route::get('/userdash', [Storeuser::class, 'userdash'])->name('userdash');

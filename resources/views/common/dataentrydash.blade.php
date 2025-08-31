@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title> Welcome to Notary Portal </title>
+    <title> Welcome to Store Management </title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,9 +10,12 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Include Toastr CSS and JS -->
+      
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -161,21 +164,28 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <!-- Logo/Brand -->
-        <div class="p-3 app-title">
-            <h4 class="m-0">Welcome to Notary Portal </h4>
+        <div class="p-3 app-title text-center">
+                    <img src="gov.png" alt="Government Logo" class="img-fluid mb-2" style="max-height: 60px;">
+            <h4 class="m-0">Store Management </h4>
         </div>
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
-            <a href="dashboard.html" class="sidebar-link">
+            <a href="{{route('userdash')}}" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
-             
-            <a href="profile.html" class="sidebar-link">
-                <i class="bi bi-person"></i> Profile
+            <a href="{{route('userapprovedlist')}}" class="sidebar-link">
+                <i class="bi bi-people"></i> Approved List   
             </a>
-            <a href="login.html" class="sidebar-link">
-                <i class="bi bi-box-arrow-right"></i> Logout
+            
+            <a href="{{route('userprofile')}}" class="sidebar-link">
+                <i class="bi bi-gear"></i> Profile  
+            </a>
+             
+             
+             
+            <a href="{{route('signout')}}" class="sidebar-link">
+                <i class="bi bi-box-arrow-right"></i> Logout 
             </a>
         </div>
     </div>
@@ -197,11 +207,11 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
-                            <a href="dashboard.html">
+                            <a href="#">
                                 <i class="bi bi-house-door"></i>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">{{$bread11}}</li>
                     </ol>
                 </nav>
             </div>
