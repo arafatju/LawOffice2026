@@ -52,84 +52,7 @@ Auth::routes();
 --------------------------------------------
 All Normal Users Routes List
 --------------------------------------------
---------------------------------------------*/
-Route::middleware(['auth', 'user-access:userdr'])->group(function () {
-   // Route::get('/userstatus22/{id}', [infoimp::class, 'userstatus22'])->name('userstatus22'); 
-    Route::post('userdelete11/{userId}', [infoimp::class, 'userdelete11'])->name('userdelete11');
-Route::post('userchangepassword11/{id} ', [infoimp::class, 'userchangepassword11'])->name('userchangepassword11');
-Route::post('userchangeemail11/{id} ', [infoimp::class, 'userchangeemail11'])->name('userchangeemail11');
-Route::get('/usermanagement', [infoimp::class, 'usermanagement'])->name('usermanagement');
-Route::get('/datasheet3', [infoimp::class, 'getData3'])->name('datasheet3');
-Route::get('/addoffice', [infoimp::class, 'addoffice'])->name('addoffice');
-Route::get('/office2', [infoimp::class, 'office2'])->name('office2');
-Route::post('doptordelete11/{userId}', [infoimp::class, 'doptordelete11'])->name('doptordelete11');
-Route::post('/office3', [infoimp::class, 'office3'])->name('office3');
-Route::get('/emaildash1', [infoimp::class, 'emaildash1'])->name('emaildash1');
-Route::get('/emaildashboard', [infoimp::class, 'emaildashboard'])->name('emaildashboard');
-
-Route::get('/loginfo111', [infoimp::class, 'loginfo111'])->name('loginfo111');
-Route::get('/log112', [infoimp::class, 'log112'])->name('log112');
-
-Route::get('/userpdf111/{userId}', [infoimp::class, 'userpdf111'])->name('userpdf111');
-    Route::get('/datasheet', [infoimp::class, 'getData'])->name('datasheet');
-    Route::get('/datasheet2', [infoimp::class, 'get2data'])->name('datasheet2');
-
-   // Route::get('/showinactive', [infoimp::class, 'showinactive'])->name('showinactive'); 
-
-    Route::get('/userlist1122', [infoimp::class, 'userlist1122'])->name('userlist1122'); 
-    
-   // Route::get('/inactiveuserlist/{id}', [infoimp::class, 'inactiveuserlist'])->name('inactiveuserlist'); 
-
-
-   // Route::post('/finalstage1123', [infoimp::class, 'finalstage1123'])->name('finalstage1123'); 
-
-    //Route::get('/finalstage1122', [infoimp::class, 'finalstage1122'])->name('finalstage1122'); 
-    //Route::get('/acceptfinal/{id}', [infoimp::class, 'acceptfinal'])->name('acceptfinal'); 
-  //  Route::get('/budgetback11/{id}', [infoimp::class, 'budgetback11'])->name('budgetback11'); 
-
-    Route::get('/dash2', [infoimp::class, 'dash2'])->name('dash2'); 
-   // Route::get('/finaluser', [infoimp::class, 'finaluser'])->name('finaluser');
-    Route::get('/dashboard', [infoimp::class, 'dashboard'])->name('dashboard'); 
-    
-    Route::get('/user', [infoimp::class, 'user'])->name('user'); 
-     Route::post('/draftdetails', [infoimp::class, 'draftdetails'])->name('draftdetails'); 
-    
-    Route::get('/finalchange', [infoimp::class, 'finalchange'])->name('finalchange'); 
-    
-    Route::get('/dataone', [infoimp::class, 'dataone'])->name('dataone'); 
-    
-       Route::get('/userstatus', [infoimp::class, 'userstatus'])->name('userstatus'); 
-     
-       
-       //Route::get('/finalstage', [infoimp::class, 'finalstage'])->name('finalstage'); 
-       Route::get('/overalldel11/{id}/{name}', [infoimp::class, 'overalldel11'])->name('overalldel11'); 
-
-       Route::get('/newdash', [notaryadmin::class, 'newdash'])->name('newdash');
-       Route::get('/approved', [notaryadmin::class, 'approved'])->name('approved');
-         Route::get('/expired', [notaryadmin::class, 'expired'])->name('expired');
-         Route::get('/viewlist/{id}', [notaryadmin::class, 'viewlist'])->name('viewlist');
-        Route::get('/deletelist/{id}', [notaryadmin::class, 'deletelist'])->name('deletelist');
-         Route::get('/approvedList/{id}', [notaryadmin::class, 'approvedList'])->name('approvedList');
-        Route::get('/expiredList/{id}', [notaryadmin::class, 'expiredList'])->name('expiredList');
-       Route::get('/renew/{id}/{previous}/{next}', [notaryadmin::class, 'renew'])->name('renew.application');
-
-       
-        Route::get('/secure-file11/{appid}/{filename}', function ($appid, $filename) {
-            $path = storage_path("app/private/uploads/{$appid}/{$filename}");
-        
-            if (!file_exists($path)) {
-                abort(404);
-            }
-        
-            return response()->file($path);
-        })->name('secure.image11');
-        Route::get('/loginfo/data', [notaryadmin::class, 'getData'])->name('loginfo.data');
-        Route::get('/valid111', [notaryadmin::class, 'valid111'])->name('valid111');
-        Route::get('/loginfo11', [notaryadmin::class, 'loginfo11'])->name('loginfo11');
-        Route::get('/publishedList/{id}', [notaryadmin::class, 'publishedList'])->name('publishedList');
-        Route::get('/published', [notaryadmin::class, 'published'])->name('published');
-        Route::get('/back111/{id}', [notaryadmin::class, 'back111'])->name('back111');
-    });
+--------------------------------------------*/ 
 
 Route::middleware(['auth', 'user-access:userdr'])->group(function () {
     Route::get('/device.register', [infoimp::class, 'deviceregister'])->name('device.register'); 
@@ -138,71 +61,13 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
  
 });
-Route::middleware(['auth'])->get('/secure-file-common/{appid}/{filename}', function ($appid, $filename) {
-    $path = storage_path("app/private/uploads/{appid}/{$filename}");
-    if (!file_exists($path)) {
-        abort(404);
-    }
-    return response()->file($path);
-})->name('secure.image.common');
+ 
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
-    Route::post('/release11', [infoimp::class, 'release11'])->name('release11'); 
-    Route::get('/all_info', [infoimp::class, 'all_info'])->name('all_info'); 
-    Route::get('/releasefromcurrent', [infoimp::class, 'releasefromcurrent'])->name('releasefromcurrent');
-    Route::get('/delete111/{id}', [infoimp::class, 'delete111'])->name('delete111');
-    Route::get('/delete112/{id}', [infoimp::class, 'delete112'])->name('delete112');
-    Route::get('/child12', [infoimp::class, 'child12'])->name('child12');
-    Route::get('/distbefore', [infoimp::class, 'distbefore'])->name('distbefore');
-
-    Route::get('/spouse', [infoimp::class, 'spouse'])->name('spouse');
-    Route::get('/workplace', [infoimp::class, 'workplace'])->name('workplace');
-   
-    Route::post('/budgetform', [infoimp::class, 'budgetform'])->name('budgetform'); 
-    Route::get('/jobinfo', [infoimp::class, 'jobinfo'])->name('jobinfo');
-    Route::get('/editme/{tablename}/{rowname11}/{userid}', [infoimp::class, 'editme'])->name('editme'); 
-
-    Route::get('/contactinfo', [infoimp::class, 'contactinfo'])->name('contactinfo');
-    Route::get('/transferme', [infoimp::class, 'transferme'])->name('transferme');
-    Route::post('/chakuri', [infoimp::class, 'chakuri'])->name('chakuri'); 
-    
-    Route::post('/married', [infoimp::class, 'married'])->name('married'); 
-    Route::post('/husband', [infoimp::class, 'husband'])->name('husband'); 
-    
-    Route::post('/child11', [infoimp::class, 'child11'])->name('child11'); 
-     
-    Route::post('/workingpresent', [infoimp::class, 'workingpresent'])->name('workingpresent'); 
-   
-    Route::post('/workingbefore', [infoimp::class, 'workingbefore'])->name('workingbefore'); 
-    Route::post('/contactinfo11', [infoimp::class, 'contactinfo11'])->name('contactinfo11'); 
-    Route::post('/reason111', [infoimp::class, 'reason111'])->name('reason111'); 
-    Route::get('/new11', [notaryuser::class, 'new11'])->name('new11');
-    Route::get('/edituser/{id}', [notaryuser::class, 'edituser'])->name('edituser');
-    Route::get('/personal', [notaryuser::class, 'personal'])->name('personal')-> middleware('check.app.status');
-    Route::get('/education', [notaryuser::class, 'education'])->name('education')-> middleware('check.app.status');
-    Route::get('/notaryinfo', [notaryuser::class, 'notaryinfo'])->name('notaryinfo')-> middleware('check.app.status');
-    Route::get('/documents', [notaryuser::class, 'documents'])->name('documents')-> middleware('check.app.status');
-    Route::get('/profile', [notaryuser::class, 'profile'])->name('profile') ;
-    Route::post('/personal11', [notaryuser::class, 'personal11'])->name('personal11'); 
-   
-    Route::post('/notarystore', [notaryuser::class, 'notarystore'])->name('notarystore'); 
-    Route::get('/sendto111/{id}', [notaryuser::class, 'sendto111'])->name('sendto111');
-
-    Route::post('/educationstore', [notaryuser::class, 'educationstore'])->name('educationstore'); 
-
-    Route::post('/docunotary', [notaryuser::class, 'docunotary'])->name('docunotary'); 
-    Route::get('/secure-file/{appid}/{filename}', function ($appid, $filename) {
-        $path = storage_path("app/private/uploads/{$appid}/{$filename}");
-    
-        if (!file_exists($path)) {
-            abort(404);
-        }
-    
-        return response()->file($path);
-    })->name('secure.image');
-     
+        
 Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
 
  Route::put('/products/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.updateQuantity');
+ 
 Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 
 Route::delete('/delete/{type}/{prcode}', [Storeuser::class, 'destroyByType'])->name('delete.bytype');
@@ -239,6 +104,8 @@ Route::post('/transactions/approve-multiple', [Storeuser::class, 'approveMultipl
 Route::get('/report111', [Storeuser::class, 'report111'])->name('report111');
 
 });
+
+
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
 Route::get('/userdash', [Storeuser::class, 'userdash'])->name('userdash');
     Route::get('/userapprovedlist', [Storeuser::class, 'userapprovedlist'])->name('userapprovedlist');

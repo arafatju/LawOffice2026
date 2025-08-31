@@ -192,7 +192,7 @@
             <a href="{{route('report111')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i>  Report 
             </a>
-            <a href="{{route('profile')}}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <i class="bi bi-person"></i> Profile
             </a>
             <a href="{{route('signout')}}" class="sidebar-link">
