@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use App\Mail\recovery11;
-
+ use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 use DB;
 Use Alert;
 use App\Rules\ReCaptcha;
@@ -30,32 +31,43 @@ class test extends Controller
         return view('auth.forget11');
     }
     public function forget22(Request $request){
+         // Add throttling - 1 request per minute per IP
+        $key = 'forget-password:' . $request->ip();
+        
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            $seconds = RateLimiter::availableIn($key);
+            return back()->withErrors(['email' => "Too many attempts. Please try again in {$seconds} seconds."]);
+        }
+        
+        RateLimiter::hit($key, 60); // 60 seconds = 1 minute
+        
         $validated=$request->validate([
-             
             'email' => 'required|email|exists:users,email',
- 
         ]);
                    
         session(['email11'=>$validated['email']]);
         $randomNumber = rand(100000, 999999);
         session(['number' => $randomNumber ]);
-            // Attempt to send the mail
-            Mail::to($validated['email'])->send(new recovery11($randomNumber));
-            if (!empty(Mail::failures())) {
-                return view('auth.forget11');
-            } else {
-                $startTime = Carbon::now();
-            session(['start_time' => $startTime ]);
-            // Show success toastr notification
-             toastr()->success('Successfully sent mail');
-           $endTime =  Carbon::now()->addMinutes(5); // Add 5 minutes to start time
-          
-           // $diffInMinutes = $startTime->diffInMinutes($endTime, false);
+        
+        try {
+            // Send email with 5 minute delay
+            Mail::to($validated['email'])
+                ->send(new recovery11($randomNumber));
 
-           
-        return view('auth.forget22', [
-            'endTime' => $endTime->toISOString() // Pass ISO timestamp to view
-        ]);}
+            $startTime = Carbon::now();
+            session(['start_time' => $startTime ]);
+            
+            toastr()->success('Recovery email will be sent in 5 minutes');
+            $endTime = Carbon::now()->addMinutes(5);
+          
+            return view('auth.forget22', [
+                'endTime' => $endTime->toISOString()
+            ]);
+            
+        } catch (\Exception $e) {
+            toastr()->error('Failed to queue recovery email: ' . $e->getMessage());
+            return view('auth.forget11');
+        }
         
         
 
@@ -185,22 +197,59 @@ public function forget44(Request $request){
 //userds   ds 2 usersr senior asst sec userpo section officer userdata data entry 
 //userone  granted user
 // user pendinguser 
-            if(Auth::user()->role=='userds')  {toastr('Successfully Logged in'); return redirect("newdash");}
+            if(Auth::user()->role=='userds')  {
+                                $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("newdash");}
         
             else if(Auth::user()->role=='usersr'){ 
-                
-               // $details=devicedetails:
+                $this->sendLoginEmail(); // Send email after reaching dashboard
                 toastr('Successfully Logged in'); return redirect("section7"); 
                                                                      }
-        else if(Auth::user()->role=='useradmin') { return redirect("StoreDashboard") ; }
+        else if(Auth::user()->role=='useradmin') {
+            $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');
+            return redirect("StoreDashboard") ; }
 
-        else if(Auth::user()->role=='user') { toastr('Successfully Logged in');return redirect("Newuser") ; }
-        else if(Auth::user()->role=='userone') { toastr('Successfully Logged in');return redirect("userdash") ; }
+        else if(Auth::user()->role=='user') { 
+            $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("Newuser") ; }
+        else if(Auth::user()->role=='userone') { 
+            $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("userdash") ; }
                                                                     }
   
           return redirect("login")->withError('Login details are not valid');
     }
+ private function sendLoginEmail()
+    {
+     try {
+            $user = Auth::user();
+              $location = [
+        'city' => session('user_data_city'),
+        'region' => session('user_data_region'),
+        'country' => session('user_data_country'),
+    ];
+            $cacheKey = 'login_email_sent:' . $user->id;
+            
+            // Check if email was already sent in the last 1 minute
+            if (!Cache::has($cacheKey)) {
+                $loginTime = now()->format('Y-m-d H:i:s');
+                    Mail::to($user->email)
+                   // ->delay(now()->addMinutes(5))
+                    ->send(new loginfo($user, $loginTime, $location));
+                // Cache for 1 minute to prevent multiple emails
+                Cache::put($cacheKey, true, 60); // 60 seconds
 
+                \Log::info('Login email job queued for user: ' . $user->email);
+                  toastr()->success('Login email sent successfully!');            
+ 
+            }
+        } catch (\Exception $e) {
+            \Log::error('Login email error: ' . $e->getMessage());
+                    toastr()->error('Failed to send login email. Please try again later.');
+        }    
+    
+    }
     public function customRegistration(Request $request)
     {    
         $converter = new ConverterController();
