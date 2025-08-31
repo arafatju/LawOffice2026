@@ -225,12 +225,13 @@ Route::post('/users/password-update', [Storeuser::class, 'updatePassword'])->nam
 
 Route::get('/productpending/{id}', [Storeuser::class, 'productpending'])->name('productpending');
 
- Route::put('/edit-profile', [Storeuser::class, 'updateUserProfile'])->name('users.update.profile');
+ Route::put('/edit-profile/{id}', [Storeuser::class, 'updateUserProfile'])->name('users.update.profile');
 
-
+ Route::get('/edit112/{id}', [Storeuser::class, 'edit112'])->name('edit112');
+Route::put('/profile/update', [Storeuser::class, 'update112'])->name('profile.update');
 Route::post('/transactions/{id}/approve', [Storeuser::class, 'approve'])->name('transactions.approve');
 Route::delete('/transactions/{id}', [Storeuser::class, 'destroy'])->name('transactions.delete');
-
+Route::put('/users/{id}/change-password', [Storeuser::class, 'changePassword'])->name('user.change.password');
 Route::get('/productpending21', [Storeuser::class, 'productpending21'])->name('productpending21');
 
 Route::post('/transactions/approve-multiple', [Storeuser::class, 'approveMultiple'])->name('transactions.approveMultiple');

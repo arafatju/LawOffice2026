@@ -621,7 +621,7 @@ public function updateUserProfile(Request $request, $id)
             }
 
             // Find the user
-            $user = User::find($request->user_id);
+            $user = User::find($id);
             if (!$user) {
                 return response()->json([
                     'success' => false,
@@ -630,7 +630,7 @@ public function updateUserProfile(Request $request, $id)
             }
 
             // Update user basic information
-            $user->update([
+            User::where('id', $id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'mobile' => $request->mobile,
@@ -668,7 +668,63 @@ public function updateUserProfile(Request $request, $id)
         }
     }
 
+    public function changePassword(Request $request, $id)
+{
+    $request->validate([
+        'password' => 'required|min:6|confirmed',
+    ]);
 
+    $user = User::findOrFail($id);
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Password changed successfully!'
+    ]);
+}
+public function update112(Request $request)
+{
+     
+ 
+
+        //dd($request->all());
+         $user=User::where('id', $request->id)->first();
+        // Update user basic info
+        User::where('userid', $user->userid)->update([
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'name' => $request->name,
+
+        ]);
+
+        // Update or create personal info
+        PersonalInfo::updateOrCreate(
+            ['userid' => $user->userid],
+            [
+                'designation' => $request->designation,
+                'designation2' => $request->designation2,
+            ]
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully'
+        ]);
+
+     
+}
+public function edit112($id)
+{
+    $user = User::where('id', $id)->with('personalInfo')->first();
+    if (!$user) {
+        return redirect()->back()->with('error', 'User not found.');
+    }
+
+    $bread11 = 'Edit Profile';
+
+    return view('Storeuser.edit112', compact('user', 'bread11'));
+}
 public function userprofile(){
     $bread11='Profile';
 $user = User::where('userid', Auth::user()->userid)

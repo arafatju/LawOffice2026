@@ -1,4 +1,3 @@
-
 @extends('common.notary2')
  
  
@@ -95,6 +94,16 @@
         transform: translateY(-1px);
     }
 
+    .btn-change-password {
+        background: #6f42c1;
+        color: white;
+    }
+
+    .btn-change-password:hover {
+        background: #5a359a;
+        transform: translateY(-1px);
+    }
+
     /* Table header style */
     table th {
         vertical-align: middle;
@@ -105,6 +114,15 @@
     table td {
         vertical-align: middle;
         text-align: center;
+    }
+
+    /* Custom SweetAlert styles */
+    .swal2-input {
+        margin: 10px 0;
+    }
+    
+    .password-input-group {
+        margin: 10px 0;
     }
 </style>
 
@@ -197,6 +215,17 @@
     <i class="fas fa-trash"></i> Delete
 </button>
 <!-- Edit User -->
+
+<a href="{{ route('edit112', $user44->id) }}" class="btn btn-sm btn-warning me-1">
+    <i class="fas fa-edit"></i> Edit
+</a>
+
+<!-- Change Password Button -->
+<button type="button" class="btn btn-sm btn-secondary me-1 btn-change-password" data-id="{{ $user44->id }}" data-name="{{ $user44->name }}">
+    <i class="fas fa-key"></i> Password
+</button>
+
+<!-- 
   <button type="button" class="btn btn-sm btn-warning me-1 btn-edit" 
             data-id="{{ $user44->id }}" 
             data-name="{{ $user44->name }}"
@@ -206,7 +235,7 @@
             data-designation2="{{ optional($user44->personalInfo)->designation2 ?? '' }}">
         <i class="fas fa-edit"></i> Edit
     </button>
-    <!-- Admin Monitor -->
+    Admin Monitor -->
     <button 
     type="button" 
     class="btn btn-sm btn-info me-1 btn-change-role" 
@@ -366,15 +395,14 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         console.log('Sending data:', data); // Debug log
-        console.log('URL:', `/users/${userId}/edit-profile`); // Debug log
+        console.log('URL:', `/edit-profile/${userId}`); // Debug log
 
-        fetch(`/edit-profile`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content') || "{{ csrf_token() }}",
-                "Accept": "application/json"
-            },
+        fetch(`/edit-profile/${userId}`, {
+            method: "PUT",
+             headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
             body: JSON.stringify(data)
         })
         .then(response => {
@@ -435,6 +463,151 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Change Password functionality
+    document.querySelectorAll(".btn-change-password").forEach(function (button) {
+        button.addEventListener("click", function () {
+            let userId = this.getAttribute("data-id");
+            let userName = this.getAttribute("data-name");
+
+            // First confirmation dialog
+            Swal.fire({
+                title: "Change Password?",
+                text: `Are you sure you want to change password for ${userName}?`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#6f42c1",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Yes, change it!",
+                cancelButtonText: "No, cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show password input dialog
+                    showPasswordInputDialog(userId, userName);
+                }
+            });
+        });
+    });
+
+    function showPasswordInputDialog(userId, userName) {
+        Swal.fire({
+            title: `Change Password for ${userName}`,
+            html: `
+                <div class="password-input-group">
+                    <input type="password" id="newPassword" class="swal2-input" placeholder="Enter new password" minlength="6">
+                </div>
+                <div class="password-input-group">
+                    <input type="password" id="confirmPassword" class="swal2-input" placeholder="Re-enter new password" minlength="6">
+                </div>
+                <div id="passwordError" style="color: red; font-size: 14px; margin-top: 10px; display: none;"></div>
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: "Change Password",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#6f42c1",
+            cancelButtonColor: "#6c757d",
+            preConfirm: () => {
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const errorDiv = document.getElementById('passwordError');
+
+                // Reset error display
+                errorDiv.style.display = 'none';
+                errorDiv.textContent = '';
+
+                // Validation
+                if (!newPassword || !confirmPassword) {
+                    errorDiv.textContent = 'Both password fields are required!';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                if (newPassword.length < 6) {
+                    errorDiv.textContent = 'Password must be at least 6 characters long!';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    errorDiv.textContent = 'Passwords do not match!';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                return {
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword
+                };
+            }
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                // Send password change request
+                changeUserPassword(userId, result.value.newPassword, userName);
+            }
+        });
+    }
+
+    function changeUserPassword(userId, newPassword, userName) {
+        // Show loading
+        Swal.fire({
+            title: 'Changing Password...',
+            text: 'Please wait',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        fetch(`/users/${userId}/change-password`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ 
+                password: newPassword,
+                password_confirmation: newPassword
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: "Password Changed Successfully!",
+                    text: `Password for ${userName} has been updated successfully.`,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#28a745"
+                });
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: data.message || "Failed to change password. Please try again.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#dc3545"
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Password change error:', error);
+            Swal.fire({
+                title: "Error!",
+                text: "Network error occurred. Please try again.",
+                icon: "error",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#dc3545"
+            });
+        });
+    }
+});
+</script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".btn-delete").forEach(function (button) {
@@ -521,4 +694,3 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 @endsection
-
