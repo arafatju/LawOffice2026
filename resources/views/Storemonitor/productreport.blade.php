@@ -87,10 +87,10 @@
 }
 </style>
 
-<h2 class="mb-4">Dashboard</h2>
+<h2 class="mb-4 no-print">Dashboard</h2>
 
 {{-- First Row --}}
-<div class="row">
+<div class="row no-print">
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card shadow-sm">
             <div class="card-body">
@@ -128,7 +128,7 @@
 
 {{-- Second Row --}}
 {{-- Print Button --}}
-<div class="d-flex justify-content-end mb-3 no-print">
+<div class="d-flex justify-content-end m-2 p-4 no-print">
     <button onclick="window.print()" class="btn btn-outline-success">
         <i class="fas fa-print"></i> প্রিন্ট
     </button>
