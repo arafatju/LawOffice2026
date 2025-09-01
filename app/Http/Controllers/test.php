@@ -197,24 +197,24 @@ public function forget44(Request $request){
 //userds   ds 2 usersr senior asst sec userpo section officer userdata data entry 
 //userone  granted user
 // user pendinguser 
-            if(Auth::user()->role=='userds')  {
-                                $this->sendLoginEmail(); // Send email after reaching dashboard
-                toastr('Successfully Logged in'); return redirect("newdash");}
+            if(Auth::user()->role=='usermonitor')  {
+                               // $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("dash11");}
         
-            else if(Auth::user()->role=='usersr'){ 
-                $this->sendLoginEmail(); // Send email after reaching dashboard
-                toastr('Successfully Logged in'); return redirect("section7"); 
+            else if(Auth::user()->role=='userdataentry'){ 
+               // $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("dataentry11"); 
                                                                      }
         else if(Auth::user()->role=='useradmin') {
-            $this->sendLoginEmail(); // Send email after reaching dashboard
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');
             return redirect("StoreDashboard") ; }
 
         else if(Auth::user()->role=='user') { 
-            $this->sendLoginEmail(); // Send email after reaching dashboard
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');return redirect("Newuser") ; }
         else if(Auth::user()->role=='userone') { 
-            $this->sendLoginEmail(); // Send email after reaching dashboard
+                // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');return redirect("userdash") ; }
                                                                     }
   

@@ -240,7 +240,7 @@
     type="button" 
     class="btn btn-sm btn-info me-1 btn-change-role" 
     data-id="{{ $user44->id }}" 
-    data-role="userdr" 
+    data-role="usermonitor" 
     title="Change to Admin Monitor"
 >
     <i class="fas fa-desktop"></i> Monitor
@@ -253,12 +253,11 @@
     type="button" 
     class="btn btn-sm btn-info me-1 btn-change-role" 
     data-id="{{ $user44->id }}" 
-    data-role="usersr" 
+    data-role="userpending" 
     title="Change to Admin Approver"
 >
-       
-       
-        <i class="fas fa-check"></i> Approve
+
+    <i class="fas fa-check"></i> Disable
     </button>
 
     <!-- Data Entry -->
@@ -266,7 +265,7 @@
     type="button" 
     class="btn btn-sm btn-info me-1 btn-change-role" 
     data-id="{{ $user44->id }}" 
-    data-role="userdd" 
+    data-role="userdataentry" 
     title="Change to Data Entry"
 >
         <i class="fas fa-keyboard"></i> Data Entry
