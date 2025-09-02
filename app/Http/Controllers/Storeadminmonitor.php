@@ -218,11 +218,11 @@ $bread11 = 'Office Report';
 
      }
 
-    public function getReportData(Request $request)
+   public function report113(Request $request)
     {
-       $office = $request->get('office');
+        $office = $request->get('office');
         
-        // Same query as your original
+        // Get applications for the view (same as your original query)
         $applications = ApplicationInfo::with([
             'user.personalInfo',
             'transactions.product'
@@ -235,98 +235,10 @@ $bread11 = 'Office Report';
         })
         ->orderBy('year', 'asc')
         ->orderBy('month', 'asc')
-        ->get()
-        ->unique('role');
+        ->paginate(25);
 
-        return DataTables::of($applications)
-            ->addIndexColumn()
-            ->addColumn('serial', function($data) {
-                static $counter = 0;
-                $counter++;
-                $english = ['0','1','2','3','4','5','6','7','8','9'];
-                $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-                return str_replace($english, $bangla, $counter);
-            })
-            ->addColumn('user_name', function($app) {
-                return $app->user->personalInfo->name ?? '-';
-            })
-            ->addColumn('office', function($app) {
-                return $app->user->personalInfo->office ?? '-';
-            })
-            ->addColumn('applied_at', function($app) {
-                return Carbon::parse($app->created_at)->format('d M Y h:i A');
-            })
-            ->addColumn('delivered_at', function($app) {
-                if($app->transactions->count() > 0) {
-                    $approved = $app->transactions->firstWhere('status', 'approved');
-                    return $approved ? Carbon::parse($approved->updated_at)->format('d M Y h:i A') : '-';
-                }
-                return '-';
-            })
-            ->addColumn('products', function($app) {
-                if($app->transactions->count() > 0) {
-                    return $app->transactions->map(function($tran) {
-                        $english = ['0','1','2','3','4','5','6','7','8','9'];
-                        $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-                        $quantity = str_replace($english, $bangla, $tran->number);
-                        return ($tran->product->name ?? '-') . ' (' . $quantity . ')';
-                    })->implode(', ');
-                }
-                return '-';
-            })
-            ->addColumn('processing_time', function($app) {
-                if($app->transactions->count() > 0) {
-                    $approved = $app->transactions->firstWhere('status', 'approved');
-                    if($approved) {
-                        $applied = Carbon::parse($app->created_at);
-                        $delivered = Carbon::parse($approved->updated_at);
-                        
-                        $diff_minutes = $applied->diffInMinutes($delivered);
-                        $diff_hours   = $applied->diffInHours($delivered);
-                        $diff_days    = $applied->diffInDays($delivered);
-                        
-                        $english = ['0','1','2','3','4','5','6','7','8','9'];
-                        $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-                        
-                        $bn_minutes = str_replace($english, $bangla, $diff_minutes);
-                        $bn_hours = str_replace($english, $bangla, $diff_hours);
-                        $bn_days = str_replace($english, $bangla, $diff_days);
-                        
-                        return $bn_minutes . ' মিনিট, ' . $bn_hours . ' ঘণ্টা, ' . $bn_days . ' দিন';
-                    }
-                }
-                return '-';
-            })
-            ->rawColumns(['products'])
-            ->make(true);
+$bread11 = 'Office Report';
+
+        return view('Report.office', compact('applications',  'bread11'));
     }
-
-    private function getMaxOrderOffice()
-    {
-        // Get office with most applications
-        $maxOffice = ApplicationInfo::whereHas('user.personalInfo')
-            ->with('user.personalInfo')
-            ->get()
-            ->groupBy(function($app) {
-                return $app->user->personalInfo->office ?? 'Unknown';
-            })
-            ->map->count()
-            ->sortDesc()
-            ->keys()
-            ->first();
-
-        return $maxOffice ?? '-';
-    }
-
-    private function getPendingApplicationsCount()
-    {
-        // Count applications that don't have approved transactions
-        return ApplicationInfo::whereDoesntHave('transactions', function($query) {
-            $query->where('status', 'approved');
-        })->count();
-    }
-    private function getTransactionsByRole($role)
-{
-    return Transaction::where('trid', $role)->with('product')->get();
-}
 }

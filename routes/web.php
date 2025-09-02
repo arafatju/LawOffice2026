@@ -113,6 +113,8 @@ Route::middleware(['auth', 'user-access:usermonitor'])->group(function () {
       Route::get('/dash11', [Storeadminmonitor::class, 'dash11'])->name('dash11');
             Route::get('/productreport', [Storeadminmonitor::class, 'productreport'])->name('productreport');
             Route::get('/officereport', [Storeadminmonitor::class, 'officereport'])->name('officereport');
+            Route::get('/report113', [Storeadminmonitor::class, 'report113'])->name('report113');
+
 Route::get('/product-report', [Storeadminmonitor::class, 'prtreport111'])->name('product.report');
 Route::get('/product-report/data', [Storeadminmonitor::class, 'getReportData'])->name('product.report.data');
 
