@@ -177,7 +177,7 @@
             <a href="{{route('productreport')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Report on Product
             </a>
-            
+
             <a href="{{route('officereport')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i>   Report on Office
             </a>

@@ -35,6 +35,7 @@
         font-size: 11px !important;
         border-collapse: collapse !important;
         page-break-inside: auto !important;
+        
     }
     
     /* Allow table rows to break across pages */

@@ -18,7 +18,8 @@ use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\Storage;
 
 use Yajra\DataTables\Facades\DataTables;
-
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
  use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
@@ -63,12 +64,78 @@ $products = ProductInfo::orderBy('quantity', 'asc')->get();
 $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
         return view('Storemonitor.productreport', compact('bread11', 'highestProduct', 'total', 'lowStockProducts', 'products'));
     }
-     
-  public function officereport()
+
+  public function officereport(Request $request)
     {
-        $bread11 = 'Office Report';
-        return view('Storemonitor.officereport', compact('bread11'));
+         $bread11 = 'Office Report';
+    $office = $request->input('office'); 
+
+    $offices = DB::table('personalinfo')->distinct()->pluck('office'); 
+
+    $highest = DB::table('transaction')
+        ->select('prcode', DB::raw('SUM(number) as total_delivered'))
+        ->where('status', 'approved')
+        ->groupBy('prcode')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $highestOffice = DB::table('transaction as t')
+        ->join('users as u', 't.userid', '=', 'u.userid')
+        ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
+        ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
+        ->where('t.status', 'approved')
+        ->groupBy('p.office')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $pendingCount = ApplicationInfo::where('action', 'draft')
+        ->whereDoesntHave('transactions', function($q){
+            $q->where('status', 'approved');
+        })
+        ->count();
+
+    $threshold = 5;
+    $outOfStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
+
+    $product111 = null;
+    if ($highest) {
+        $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
     }
+
+    // Get all results then apply unique
+    $applicationsCollection = ApplicationInfo::with([
+            'user.personalInfo',
+            'transactions.product'
+        ])
+        ->where('action', 'draft')
+        ->when($office, function ($query) use ($office) {
+            $query->whereHas('user.personalInfo', function ($q) use ($office) {
+                $q->where('office', $office);
+            });
+        })
+        ->orderBy('year', 'asc')
+        ->orderBy('month', 'asc')
+        ->get()
+        ->unique('role'); // Collection, not Builder
+
+    // Manual Pagination
+    $perPage = 30;
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $currentItems = $applicationsCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+    $applications = new LengthAwarePaginator(
+        $currentItems,
+        $applicationsCollection->count(),
+        $perPage,
+        $currentPage,
+        ['path' => $request->url(), 'query' => $request->query()]
+    );
+
+    return view('Storemonitor.officereport', compact(
+        'bread11', 'offices', 'applications',
+        'highest', 'highestOffice', 'pendingCount',
+        'outOfStockProducts', 'product111'
+    )); }
 
     public function dash11()
     {
@@ -118,4 +185,148 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
         $users = User::with('personalinfo')->get();
         return view('Storemonitor.monitor11', compact('bread11', 'users','highestProduct','highestOffice','lowStockProducts','pendingCount'));
     }
+
+    public function prtreport111(Request $request)
+    {
+        $office = $request->get('office');
+        
+        // Get applications for the view (same as your original query)
+        $applications = ApplicationInfo::with([
+            'user.personalInfo',
+            'transactions.product'
+        ])
+        ->where('action', 'draft')
+        ->when($office, function ($query) use ($office) {
+            $query->whereHas('user.personalInfo', function ($q) use ($office) {
+                $q->where('office', $office);
+            });
+        })
+        ->orderBy('year', 'asc')
+        ->orderBy('month', 'asc')
+        ->paginate(25);
+
+        // Get unique offices for dropdown
+        $offices = PersonalInfo::whereNotNull('office')
+            ->distinct('office')
+            ->pluck('office')
+            ->filter()
+            ->sort()
+            ->values();
+$bread11 = 'Office Report';
+        return view('Storemonitor.productreport111', compact('applications', 'offices','bread11'));
+
+
+     }
+
+    public function getReportData(Request $request)
+    {
+       $office = $request->get('office');
+        
+        // Same query as your original
+        $applications = ApplicationInfo::with([
+            'user.personalInfo',
+            'transactions.product'
+        ])
+        ->where('action', 'draft')
+        ->when($office, function ($query) use ($office) {
+            $query->whereHas('user.personalInfo', function ($q) use ($office) {
+                $q->where('office', $office);
+            });
+        })
+        ->orderBy('year', 'asc')
+        ->orderBy('month', 'asc')
+        ->get()
+        ->unique('role');
+
+        return DataTables::of($applications)
+            ->addIndexColumn()
+            ->addColumn('serial', function($data) {
+                static $counter = 0;
+                $counter++;
+                $english = ['0','1','2','3','4','5','6','7','8','9'];
+                $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+                return str_replace($english, $bangla, $counter);
+            })
+            ->addColumn('user_name', function($app) {
+                return $app->user->personalInfo->name ?? '-';
+            })
+            ->addColumn('office', function($app) {
+                return $app->user->personalInfo->office ?? '-';
+            })
+            ->addColumn('applied_at', function($app) {
+                return Carbon::parse($app->created_at)->format('d M Y h:i A');
+            })
+            ->addColumn('delivered_at', function($app) {
+                if($app->transactions->count() > 0) {
+                    $approved = $app->transactions->firstWhere('status', 'approved');
+                    return $approved ? Carbon::parse($approved->updated_at)->format('d M Y h:i A') : '-';
+                }
+                return '-';
+            })
+            ->addColumn('products', function($app) {
+                if($app->transactions->count() > 0) {
+                    return $app->transactions->map(function($tran) {
+                        $english = ['0','1','2','3','4','5','6','7','8','9'];
+                        $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+                        $quantity = str_replace($english, $bangla, $tran->number);
+                        return ($tran->product->name ?? '-') . ' (' . $quantity . ')';
+                    })->implode(', ');
+                }
+                return '-';
+            })
+            ->addColumn('processing_time', function($app) {
+                if($app->transactions->count() > 0) {
+                    $approved = $app->transactions->firstWhere('status', 'approved');
+                    if($approved) {
+                        $applied = Carbon::parse($app->created_at);
+                        $delivered = Carbon::parse($approved->updated_at);
+                        
+                        $diff_minutes = $applied->diffInMinutes($delivered);
+                        $diff_hours   = $applied->diffInHours($delivered);
+                        $diff_days    = $applied->diffInDays($delivered);
+                        
+                        $english = ['0','1','2','3','4','5','6','7','8','9'];
+                        $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+                        
+                        $bn_minutes = str_replace($english, $bangla, $diff_minutes);
+                        $bn_hours = str_replace($english, $bangla, $diff_hours);
+                        $bn_days = str_replace($english, $bangla, $diff_days);
+                        
+                        return $bn_minutes . ' মিনিট, ' . $bn_hours . ' ঘণ্টা, ' . $bn_days . ' দিন';
+                    }
+                }
+                return '-';
+            })
+            ->rawColumns(['products'])
+            ->make(true);
+    }
+
+    private function getMaxOrderOffice()
+    {
+        // Get office with most applications
+        $maxOffice = ApplicationInfo::whereHas('user.personalInfo')
+            ->with('user.personalInfo')
+            ->get()
+            ->groupBy(function($app) {
+                return $app->user->personalInfo->office ?? 'Unknown';
+            })
+            ->map->count()
+            ->sortDesc()
+            ->keys()
+            ->first();
+
+        return $maxOffice ?? '-';
+    }
+
+    private function getPendingApplicationsCount()
+    {
+        // Count applications that don't have approved transactions
+        return ApplicationInfo::whereDoesntHave('transactions', function($query) {
+            $query->where('status', 'approved');
+        })->count();
+    }
+    private function getTransactionsByRole($role)
+{
+    return Transaction::where('trid', $role)->with('product')->get();
+}
 }

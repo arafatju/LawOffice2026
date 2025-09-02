@@ -23,7 +23,8 @@
         "realrashid/sweet-alert": "^7.2",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "stevebauman/location": "^6.5",
-        "yajra/laravel-datatables": "^1.5"
+        "yajra/laravel-datatables": "^1.5",
+        "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
