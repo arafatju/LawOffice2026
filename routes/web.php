@@ -63,14 +63,20 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
  
 });
+
+
  
+
+
+
+
+
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
         
-Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
+  Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
+    Route::put('/products/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.updateQuantity');
+    Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 
- Route::put('/products/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.updateQuantity');
-
-Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 
 Route::delete('/delete/{type}/{prcode}', [Storeuser::class, 'destroyByType'])->name('delete.bytype');
 
@@ -121,9 +127,16 @@ Route::get('/product-report/data', [Storeadminmonitor::class, 'getReportData'])-
     });
 
 Route::middleware(['auth', 'user-access:userdataentry'])->group(function () {
-Route::get('/dataentry11', [Storeentry::class, 'dataentry11'])->name('dataentry11');
+Route::get('/datadash', [Storeentry::class, 'datadash'])->name('datadash');
+Route::get('/datahistory', [Storeentry::class, 'datahistory'])->name('datahistory');
+Route::get('/dataprofile', [Storeentry::class, 'dataprofile'])->name('dataprofile');
+  Route::put('/allotments/{prcode}', [Storeentry::class, 'updateByPrcode111'])->name('allotments.updateByPrcode');
+    Route::put('/products/{prcode}/quantity', [Storeentry::class, 'updateQuantity111'])->name('products.updateQuantity');
+    Route::get('/allotments/{prcode}', [Storeentry::class, 'getByPrcode111'])->name('allotments.byPrcode');
+Route::get('/datapending', [Storeentry::class, 'datapending'])->name('datapending');
+Route::get('/dataapproved', [Storeentry::class, 'dataapproved'])->name('dataapproved');
 
-
+ 
     });
 
 Route::middleware(['auth', 'user-access:userone'])->group(function () {

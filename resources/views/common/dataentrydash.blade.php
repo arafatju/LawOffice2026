@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Include Toastr CSS and JS -->
@@ -171,14 +172,20 @@
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
-            <a href="{{route('userdash')}}" class="sidebar-link">
-                <i class="bi bi-house-door"></i> Dashboard
+            <a href="{{route('datadash')}}" class="sidebar-link">
+                <i class="bi bi-house-door"></i> Product Management
             </a>
-            <a href="{{route('userapprovedlist')}}" class="sidebar-link">
-                <i class="bi bi-people"></i> Approved List   
+            <a href="{{route('datapending')}}" class="sidebar-link">
+                <i class="bi bi-people"></i> Pending Applications     
+            </a>
+            <a href="{{route('dataapproved')}}" class="sidebar-link">
+                <i class="bi bi-people"></i> Approved  Applications       
+            </a>
+            <a href="{{route('datahistory')}}" class="sidebar-link">
+                <i class="bi bi-people"></i> History    
             </a>
             
-            <a href="{{route('userprofile')}}" class="sidebar-link">
+            <a href="{{route('dataprofile')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Profile  
             </a>
              

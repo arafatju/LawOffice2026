@@ -203,7 +203,7 @@ public function forget44(Request $request){
         
             else if(Auth::user()->role=='userdataentry'){ 
                // $this->sendLoginEmail(); // Send email after reaching dashboard
-                toastr('Successfully Logged in'); return redirect("dataentry11"); 
+                toastr('Successfully Logged in'); return redirect("datadash"); 
                                                                      }
         else if(Auth::user()->role=='useradmin') {
             // $this->sendLoginEmail(); // Send email after reaching dashboard

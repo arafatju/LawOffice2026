@@ -137,7 +137,7 @@ function enToBnNumber($number) {
 {{-- Print Button --}}
 <div class="d-flex justify-content-start no-print">
 
-   <form method="GET" class="form-inline" action="{{route('report113')}}">
+   <form method="GET" class="form-inline" action="">
         <label for="office" class="mr-2 fw-bold">দপ্তর বাছাই করুন:</label>
         <select name="office" id="office" class="form-control mr-2" style="width:auto;display:inline-block;">
             <option value="">সকল দপ্তর</option>
