@@ -575,17 +575,12 @@ public function report111(Request $request)
     }
 
     // Filter applications by office if selected
-    $applications = ApplicationInfo::with([
-        'user.personalInfo',
-        'transactions.product'
-    ])
-    ->where('action', 'draft')
-    ->when($office, function ($query) use ($office) {
-        $query->whereHas('user.personalInfo', function ($q) use ($office) {
-            $q->where('office', $office);
-        });
-    })
-    ->orderBy('year', 'asc')
+        $applications = ApplicationInfo::with([
+    'user.personalInfo',
+    'transactions.product'
+])
+->where('action', 'draft')
+  ->orderBy('year', 'asc')
     ->orderBy('month', 'asc')
     ->get()
     ->unique('role');
