@@ -87,14 +87,14 @@
 
                       <div class="col-md-6">
                        <select id="designation2" class="form-control @error('designation2') is-invalid @enderror" name="designation2" required>
-                          <option value="">-- পদবি নির্বাচন করুন --</option> {{-- Optional: default empty --}}
-                           <option value="adviser"  >উপদেষ্টা মহোদয় </option>
-                              <option value="secretary"  >সচিব</option>
-                              <option value="adsecretary"  >অতিরিক্ত সচিব</option>
-                               <option value="jointsecretary"  >যুগ্ন সচিব</option>
-                               <option value="deputysecretary"  >উপ সচিব</option>
-                               <option value="sasecretary"  >সিনিয়র সহকারী সচিব</option>
-                             <option value="assecretary"  >সহকারী সচিব</option>
+                          <option >-- পদবি নির্বাচন করুন --</option> {{-- Optional: default empty --}}
+                           <option >উপদেষ্টা মহোদয় </option>
+                              <option >সচিব</option>
+                              <option >অতিরিক্ত সচিব</option>
+                               <option >যুগ্ন সচিব</option>
+                               <option >উপ সচিব</option>
+                               <option >সিনিয়র সহকারী সচিব</option>
+                             <option >সহকারী সচিব</option>
             {{-- Add more options as needed --}}
                           </select>
 

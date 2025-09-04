@@ -28,9 +28,9 @@ function enToBnNumber($number) {
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Product Highest Order  </h5>
+                <h5 class="card-title fw-bold text-info">মোট অপেক্ষমাণ  </h5>
                  <p> 
-                  Name      7
+                 66 
              </p>
             </div>
         </div>
@@ -80,9 +80,7 @@ function enToBnNumber($number) {
             @endforeach
         </select>
         <button type="submit" class="btn btn-primary ml-2">রিপোর্ট দেখান</button>
-    </form>  <button onclick="window.print()" class="btn btn-outline-success print-btn no-print mb-4" title="Direct Print">
-                                <i class="fas fa-print"></i> Print
-                            </button>
+    </form>  
 </div> 
 
 <!-- Print section starts -->
@@ -90,30 +88,34 @@ function enToBnNumber($number) {
     <h3 class="text-center my-3">REPORT</h3>
 <table class="table table-border">
     <tr class="bg-primary text-white">
-       <th>ক্রমিক নং </th> 
-        <th>আবেদনকারীর নাম</th> 
-        <th>দপ্তর </th> 
-        <th>আবেদন এর সময় </th> 
-        
-<th>পণ্য তালিকা</th> 
-        <th>Status</th>
-
+        <th> ক্রমিক নং  </th>
+        <th>ব্যবহারকারীর নাম </th>
+        <th>পণ্য তালিকা </th>
+        <th>আবেদনের তারিখ </th>
+        <th>Action</th>
     </tr>
-    @foreach($applications as $i => $app)
+
+    @foreach($pendingTransactions as $userId => $transactions)
+        @php
+            $user = $transactions->first()->user; // same user for all in group
+        @endphp
+
+        {{-- Show first row with user info --}}
         <tr>
-            <td>{{ enToBnNumber($i+1) }}</td>
-            <td>{{ $app->user->personalInfo->name ?? '-' }}</td>
-            <td>{{ $app->user->personalInfo->office ?? '-' }}</td>
-
-            {{-- Applied --}}
-            <td>{{ \Carbon\Carbon::parse($app->created_at)->format('d M Y h:i A') }}</td>
-
-             <td>
-                
-                 {{$app->product->name ?? ''}}{{$app->number ?? ''}}
+            <td>{{ enToBnNumber($loop->iteration) }}</td>
+            <td>{{ $user->name }}</td>
+            <td>
+                {{-- List all products for this user --}}
+                <ul>
+                    @foreach($transactions as $transaction)
+                        <li>{{ $transaction->product->name }} ({{ enToBnNumber($transaction->number) }})</li>
+                    @endforeach
+                </ul>
             </td>
-
-             <td>Pending  </td> 
+            <td>{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
+            <td>
+                <a href="{{ route('productpending1124', $user->userid) }}" class="btn btn-success btn-sm">বিস্তারিত </a>
+            </td>
         </tr>
     @endforeach
 </table>

@@ -99,19 +99,144 @@ class Storeentry extends Controller
     return redirect()->back()->with('success', 'Quantity updated successfully.');
 }
 
+public function productpending1124($id){
 
+        $pendingTransactions = Transaction::where('status', 'pending')
+            ->where('userid', $id)
+            ->get();
+$bread11='Pending Products';
+    return view('Storedata.pendingshow', compact('pendingTransactions','bread11'));
+}
+public static function getAllotmentDetails($prcode,$userid)
+{
+     
+    $userDesignation = PersonalInfo::where('userid', $userid)->first();
+
+    $allotment = Allotment::where('prcode', $prcode)
+        ->whereRaw('TRIM(designation) = ?', [$userDesignation->designation2])
+        ->first();
+
+   
+
+    return  $allotment->quantity;
+}
+
+public static function getTransactionDetails($prcode,$month,$userid)
+{
+    $transaction = Transaction::where('prcode', $prcode)
+                    ->where('status', 'approved')
+                    ->where('userid', $userid)
+                    ->where('month', $month)
+                    ->sum('number');
+
+     
+
+    return   $transaction;
+
+}  
+public static function getStockDetails($prcode)
+{
+    $allotment = ProductInfo::where('prcode', $prcode)
+        ->first();
+
+    
+
+    return $allotment->quantity; // Ensure stock is not negative
+}
+ 
+public function approveMultiple11(Request $request)
+{
+    $transactionId = $request->id; // not used directly if multiple rowIds
+    $numbers = $request->numbers; // array: [transaction_row_id => approved_qty]
+
+    foreach ($numbers as $rowId => $number) {
+        $transaction = Transaction::find($rowId);
+
+        if ($transaction) {
+            // 1. Update transaction
+            $transaction->number = $number;
+            $transaction->status = 'approved';
+            $transaction->save();
+
+            // 2. Deduct quantity from productinfo
+            $product = ProductInfo::where('prcode', $transaction->prcode)->first();
+            if ($product) {
+                $product->quantity -= $number;  // deduct approved qty
+                if ($product->quantity < 0) {
+                    $product->quantity = 0; // prevent negative stock
+                }
+                $product->save();
+            }
+
+            // 3. Insert into applicationinfo
+            ApplicationInfo::create([
+                'userid' => $transaction->userid,
+                'action' => 'approved',
+                'role'   => $transaction->trid, // e.g. "Laptop (3)"
+                'month'  => now()->format('m'),
+                'year'   => now()->format('Y'),
+            ]);
+        }
+    }
+
+    return response()->json(['success' => true]);
+}
 
 public function datapending(Request $request){
-$applications=$pendingByOffice = Transaction::with(['product', 'user.personalInfo'])
-    ->where('status', 'pending')
-    ->get(); 
-    $offices = DB::table('personalinfo')->distinct()->pluck('office');
-    $bread11='Data Entry Pending';
-return view('Storedata.pending', compact('applications', 'offices', 'bread11'));
+ 
+  $office = $request->input('office'); // for filtering
+
+    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
+  
+     
+$query = Transaction::with(['user.personalInfo', 'product'])
+    ->where('status', 'pending');
+
+if ($office) {
+    $query->whereHas('user.personalInfo', function ($q) use ($office) {
+        $q->where('office', $office);
+    });
 }
-public function dataapproved(){
-$approved=Transaction::where('status', 'approved')->get();
-return view('Storedata.approved', compact('approved'));
+
+$pendingTransactions = $query->get()->groupBy('userid');
+
+ 
+    $bread11='Data Entry Pending';
+return view('Storedata.pending', compact('pendingTransactions', 'offices', 'bread11'));
+}
+
+
+
+
+public function dataapproved(Request $request){
+      $office = $request->input('office'); // for filtering
+
+    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
+  
+     
+$query = Transaction::with(['user.personalInfo', 'product'])
+    ->where('status', 'approved')->whereHas('product');
+
+if ($office) {
+    $query->whereHas('user.personalInfo', function ($q) use ($office) {
+        $q->where('office', $office);
+    });
+}
+
+$pendingTransactions = $query->get()->groupBy('userid');
+
+
+    $bread11='Data Entry Approved';
+return view('Storedata.approved', compact('pendingTransactions', 'offices', 'bread11'));
+
+
+}
+public function destroy11($id)
+{
+    $transaction = Transaction::findOrFail($id);
+    $transaction->delete();
+
+    return redirect()->back()->with('success', 'Transaction deleted successfully!');
 }
 
 }

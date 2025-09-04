@@ -334,7 +334,7 @@ public function forget44(Request $request){
          ]);
      
 
-        return redirect("NotaryDashboard")->with('You have signed-in');
+        return redirect("userdash")->with('You have signed-in');
     }
 
     public function create(array $data)
