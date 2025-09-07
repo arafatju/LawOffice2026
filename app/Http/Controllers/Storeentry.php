@@ -223,11 +223,93 @@ if ($office) {
     });
 }
 
-$pendingTransactions = $query->get()->groupBy('userid');
+$pendingTransactions = $query->get()->groupBy('trid');
 
 
     $bread11='Data Entry Approved';
 return view('Storedata.approved', compact('pendingTransactions', 'offices', 'bread11'));
+
+
+}
+public function productapproved(Request $request){
+
+$transactions = ProductInfo::orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+}
+
+public function officeapproved($id, $userid)
+{
+     $user = User::where('userid', $userid)->firstOrFail();
+    $transactions = Transaction::with('product')
+        ->where('trid', $id)
+        ->where('status', 'approved')
+        ->orderBy('created_at', 'desc')  // Order by newest first
+        ->get();
+
+    $html = View::make('PDF.approved_office', [
+        'transactions' => $transactions,
+        'user' => $user,
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+    
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . $user->userid . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); // 
 
 
 }

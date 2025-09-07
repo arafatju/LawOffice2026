@@ -138,6 +138,10 @@ Route::get('/dataapproved', [Storeentry::class, 'dataapproved'])->name('dataappr
 Route::get('/productpending1124/{id}', [Storeentry::class, 'productpending1124'])->name('productpending1124');
 Route::delete('/transactions/{id}', [Storeentry::class, 'destroy11'])->name('transactions.delete');
 Route::post('/transactions11', [Storeentry::class, 'approveMultiple11'])->name('transactions.approveMultiple11');
+Route::get('/officeapproved/{id}/{userid}', [Storeentry::class, 'officeapproved'])->name('officeapproved');
+
+Route::get('/productapproved', [Storeentry::class, 'productapproved'])->name('productapproved');
+
     });
 
 Route::middleware(['auth', 'user-access:userone'])->group(function () {

@@ -165,6 +165,12 @@
                                 <i class="fas fa-print"></i> Print
                             </button>
 
+                             <a href="{{ route('productapproved' ) }}" 
+       target="_blank" 
+       class="btn btn-sm btn-primary">
+        PDF
+    </a>
+
 <!-- Products Table -->
  <div class="print-area">
     <h2>Product  Info</h2>

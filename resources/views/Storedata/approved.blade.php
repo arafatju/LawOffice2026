@@ -80,7 +80,9 @@ function enToBnNumber($number) {
             @endforeach
         </select>
         <button type="submit" class="btn btn-primary ml-2">রিপোর্ট দেখান</button>
-    </form>  
+    </form> 
+     
+
 </div> 
 
 <!-- Print section starts -->
@@ -93,7 +95,7 @@ function enToBnNumber($number) {
         <th>পণ্য তালিকা </th>
         <th>আবেদনের তারিখ </th>
         <th>মঞ্জুরির তারিখ </th>
-         
+         <th> PDF </th> 
     </tr>
 
     @foreach($pendingTransactions as $userId => $transactions)
@@ -115,7 +117,14 @@ function enToBnNumber($number) {
             </td>
             <td>{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
             <td>{{ enToBnNumber($transactions->first()->updated_at->format('d, M, Y')) }}</td>
-            <td>
+            <td> 
+    <a href="{{ route('officeapproved', ['id' => $transactions->first()->trid, 'userid' => $user->userid]) }}" 
+       target="_blank" 
+       class="btn btn-sm btn-primary">
+        Print
+    </a>
+</td>
+ </td> 
         </tr>
     @endforeach
 </table>
