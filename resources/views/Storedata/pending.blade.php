@@ -25,47 +25,16 @@ function enToBnNumber($number) {
 
 <h2>Dashboard  </h2>
 <div class="row mt-4">
+    
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-info">মোট অপেক্ষমাণ  </h5>
-                 <p> 
-                 66 
-             </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title text-bold fw-bold text-success">Office  Highest Order  </h5>
-                <p class="card-text h6">Name  77 </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-primary">Pending Applications</h5>
+                <h5 class="card-title fw-bold text-primary">Total Pending Applications</h5>
                 <p class="card-text h6">5 </p>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-danger"> Product going out of Stock </h5>
-                <p class="card-text h6"> 
- 
-
-            
-             <div>  Name   6</div>
-            Name   6
-             Name   6
-                </p>
-            </div>
-        </div>
-    </div>
+     
 </div>
  
  <div class="mb-3 d-flex align-items-center">

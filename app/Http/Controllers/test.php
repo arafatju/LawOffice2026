@@ -189,14 +189,11 @@ public function forget44(Request $request){
                       'Browser'=>$browser,
                       'ip'=>$ip,
                       'Location'=>session('user_data_city'),
- 
+                        'created_at' => now(),
                        
                   ]);
                      
 
-//userds   ds 2 usersr senior asst sec userpo section officer userdata data entry 
-//userone  granted user
-// user pendinguser 
             if(Auth::user()->role=='usermonitor')  {
                                // $this->sendLoginEmail(); // Send email after reaching dashboard
                 toastr('Successfully Logged in'); return redirect("dash11");}

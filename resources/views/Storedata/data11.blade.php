@@ -115,12 +115,12 @@
 
 <h2>Dashboard  </h2>
 <div class="row mt-4">
-    <div class="col-md-6 col-lg-3 mb-4">
+  <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-info">Product Highest Order  </h5>
                  <p> 
-                  Name      7
+                  {{ $product111->name ?? 'N/A' }}      {{ $highest->total_delivered ?? 0 }}
              </p>
             </div>
         </div>
@@ -129,7 +129,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title text-bold fw-bold text-success">Office  Highest Order  </h5>
-                <p class="card-text h6">Name  77 </p>
+                <p class="card-text h6">{{ $highestOffice->office ?? 'N/A' }}      {{ $highestOffice->total_delivered ?? 0 }}</p>
             </div>
         </div>
     </div>
@@ -137,21 +137,18 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-primary">Pending Applications</h5>
-                <p class="card-text h6">5 </p>
+                <p class="card-text h6">{{ $pendingCount }}</p>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-danger"> Product going out of Stock </h5>
+                <h5 class="card-title fw-bold text-danger"> Last Login </h5>
                 <p class="card-text h6"> 
  
+{{ \Carbon\Carbon::parse($lastUserLog->created_at)->format('d M Y h:i A') }}
 
-            
-             <div>  Name   6</div>
-            Name   6
-             Name   6
                 </p>
             </div>
         </div>
@@ -161,14 +158,12 @@
 
 <!-- Button to open new product modal -->
  
-  <button onclick="window.print()" class="btn btn-outline-success print-btn no-print mb-4" title="Direct Print">
-                                <i class="fas fa-print"></i> Print
-                            </button>
+ 
 
                              <a href="{{ route('productapproved' ) }}" 
        target="_blank" 
-       class="btn btn-sm btn-primary">
-        PDF
+       class="btn btn-primary">
+     Download    PDF
     </a>
 
 <!-- Products Table -->

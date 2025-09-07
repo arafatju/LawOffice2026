@@ -48,8 +48,40 @@ class Storeentry extends Controller
     {
         $bread11='Data Entry Dashboard';
             $products = ProductInfo::all();
+            $highest = DB::table('transaction')
+        ->select('prcode', DB::raw('SUM(number) as total_delivered'))
+        ->where('status', 'approved')
+        ->groupBy('prcode')
+        ->orderByDesc('total_delivered')
+        ->first();
 
-        return view('Storedata.data11', compact('bread11', 'products'));
+    $highestOffice = DB::table('transaction as t')
+        ->join('users as u', 't.userid', '=', 'u.userid')
+        ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
+        ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
+        ->where('t.status', 'approved')
+        ->groupBy('p.office')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $pendingCount = ApplicationInfo::where('action', 'draft')
+        ->whereDoesntHave('transactions', function($q){
+            $q->where('status', 'approved');
+        })
+        ->count();
+
+   
+
+    $product111 = null;
+    $lastUserLog = DB::table('loginfo')
+    ->where('mail', Auth::user()->email)
+    ->orderBy('id', 'desc')
+    ->first();
+    if ($highest) {
+        $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
+    }
+
+        return view('Storedata.data11', compact('bread11', 'products', 'highest', 'product111', 'highestOffice', 'pendingCount', 'lastUserLog'));
     }
     public function datahistory(){
         $bread11='Data Entry History';
@@ -57,8 +89,10 @@ class Storeentry extends Controller
 
     }
     public function dataprofile(){
-            $bread11='Data Entry Profile';
-        return view('Storedata.profile13', compact('bread11'));
+        $user=User::with('personalinfo')->where('userid',Auth::user()->userid)->firstOrFail();
+
+        $bread11='Data Entry Profile';
+        return view('Storedata.profile13', compact('bread11', 'user'));
     }
     public function updateByPrcode111(Request $request, $prcode)
 {
