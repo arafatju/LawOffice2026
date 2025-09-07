@@ -1,5 +1,5 @@
 
-@extends('common.dataentrydash')
+@extends('common.masterall')
  
  
   
@@ -9,6 +9,11 @@
  
   
 @section('content')
+
+@section('title', 'Section Admin Management ') 
+
+@section('breadcrumb', 'Approved  Applications')
+
 @php
 function enToBnNumber($number) {
     $english = ['0','1','2','3','4','5','6','7','8','9'];

@@ -1,5 +1,5 @@
 {{-- resources/views/dashboard.blade.php --}}
-@extends('common.dataentrydash')
+@extends('common.masterall')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -110,6 +110,9 @@
 </style>
 
 @section('content')
+@section('title', 'Section Admin Management ') 
+
+@section('breadcrumb', 'Profile  Management')
 
 <h2 class="no-print">Profile of User</h2>
 

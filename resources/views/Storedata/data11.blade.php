@@ -1,14 +1,16 @@
 
-@extends('common.dataentrydash')
- 
- 
-  
-  
-  
+@extends('common.masterall')
+
+
+
       
  
   
 @section('content')
+
+@section('title', 'Section Admin Management ')
+
+@section('breadcrumb', 'Section Admin  Dashboard')
 <style>
 @media print {
     body * {

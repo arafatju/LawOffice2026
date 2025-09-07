@@ -1,6 +1,9 @@
-@extends('common.dataentrydash')
+@extends('common.masterall')
 
 @section('content')
+@section('title', 'Section Admin Management ')
+
+@section('breadcrumb', 'User Management')
 
 <h2>Dashboard</h2>
 <div class="row mt-4">
