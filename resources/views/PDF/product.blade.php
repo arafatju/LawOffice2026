@@ -61,21 +61,21 @@
             font-size: 12px;
         }
         
-        /* Force header row to be visible */
+        /* Updated header row styling - white background, black text */
         .header-row {
-            background-color: #3498db;
-            color: white;
+            background-color: white;
+            color: black;
             font-weight: bold;
             border: 2px solid #2c3e50;
         }
         
         .header-row td {
-            background-color: #3498db !important;
-            color: white !important;
+            background-color: white !important;
+            color: black !important;
             font-weight: bold !important;
             padding: 12px 8px !important;
             text-align: center !important;
-            border: 1px solid #2980b9 !important;
+            border: 1px solid #2c3e50 !important;
             font-size: 13px !important;
         }
         
@@ -118,42 +118,41 @@
         <h1>Product Details</h1>
     </div>
 
-    <div class="table-title">Product  info</div>
+    <div class="table-title">Product info</div>
     
     <table>
-        <!-- Header as regular table row instead of thead -->
+        <!-- Header with white background and black text -->
         <tr class="header-row">
-            <td class="col-serial">Serial </td>
+            <td class="col-serial">Serial</td>
             <td class="col-product">Product Name</td>
             <td class="col-code">Product Code</td>
-                        <td class="col-code">Product Category </td>
-
-            <td class="col-quantity">In Stock </td>
+            <td class="col-code">Product Category</td>
+            <td class="col-quantity">In Stock</td>
             <td class="col-time">Last Updated</td>
             <td class="col-time">Created At</td>
         </tr>
         
-       @foreach ($transactions as  $tran)
-<tr>
-    <td class="col-serial">{{ $loop->iteration }}</td>
-    <td class="col-product">{{ $tran->name ?? 'N/A' }}</td> <!-- Fixed: single -> -->
-    <td class="col-code">{{ $tran->prcode }}</td>
-    <td class="col-category">{{ $tran->category }}</td>
-    <td class="col-quantity">{{ $tran->quantity }}</td>
-    <td class="col-time">
-        {{ $tran->updated_at->format('j F Y') }}<br>
-                    {{ $tran->updated_at->format('g.i a') }}
-    </td>
-    <td class="col-time">
-             {{ $tran->created_at->format('j F Y') }}<br>
-          {{ $tran->created_at->format('g.i a') }}
-    </td>
-</tr>
-@endforeach
+        @foreach ($transactions as $tran)
+        <tr>
+            <td class="col-serial">{{ $loop->iteration }}</td>
+            <td class="col-product">{{ $tran->name ?? 'N/A' }}</td>
+            <td class="col-code">{{ $tran->prcode }}</td>
+            <td class="col-category">{{ $tran->category }}</td>
+            <td class="col-quantity">{{ $tran->quantity }}</td>
+            <td class="col-time">
+                {{ $tran->updated_at->format('j F Y') }}<br>
+                {{ $tran->updated_at->format('g.i a') }}
+            </td>
+            <td class="col-time">
+                {{ $tran->created_at->format('j F Y') }}<br>
+                {{ $tran->created_at->format('g.i a') }}
+            </td>
+        </tr>
+        @endforeach
     </table>
     
     <div class="footer">
-        <p>Total Product  : {{ count($transactions) }}  | Report  Created At: {{ now()->format('d-m-Y h:i A') }}</p>
+        <p>Total Product: {{ count($transactions) }} | Report Created At: {{ now()->format('d-m-Y h:i A') }}</p>
     </div>
 </body>
 </html>

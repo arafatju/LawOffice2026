@@ -169,7 +169,7 @@
 
 <div class="d-flex justify-content-between align-items-center m-2">
     <!-- Left: Download PDF -->
-    <a href="{{ route('productapproved') }}" 
+    <a href="{{ route('productapproved111') }}" 
        target="_blank" 
        class="btn btn-primary">
         Download PDF

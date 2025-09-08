@@ -7,6 +7,7 @@ use App\Http\Controllers\infoimp;
 use App\Http\Controllers\test;
 use App\Http\Controllers\Storeuser;
 use App\Http\Controllers\Storeentry;
+use App\Http\Controllers\Pdfpermission111 ;
 use App\Http\Controllers\Storeadminmonitor;
 use App\Http\Controllers\notaryadmin;
 /*
@@ -123,6 +124,8 @@ Route::middleware(['auth', 'user-access:usermonitor'])->group(function () {
 
 Route::get('/product-report', [Storeadminmonitor::class, 'prtreport111'])->name('product.report');
 Route::get('/product-report/data', [Storeadminmonitor::class, 'getReportData'])->name('product.report.data');
+Route::get('/productapproved111', [Pdfpermission111::class, 'productapproved111'])->name('productapproved111');
+
 
     });
 

@@ -147,12 +147,14 @@ function enToBnNumber($number) {
                 </option>
             @endforeach
         </select>
-        <button type="submit" class="btn btn-primary ml-2">রিপোর্ট দেখান</button>
+        <button type="submit" class="btn btn-primary m-2">রিপোর্ট দেখান</button>
     </form> 
 
-<button onclick="window.print()" class="btn btn-outline-success">
-        <i class="fas fa-print"></i> প্রিন্ট
-    </button>
+<a href="{{ route('productapproved111') }}" 
+       target="_blank" 
+       class="btn btn-primary m-2">
+        Download PDF
+    </a>
 </div>
 
 {{-- Table --}}

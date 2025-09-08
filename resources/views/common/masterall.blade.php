@@ -115,6 +115,27 @@
             border-top: 1px solid #dee2e6;
             height: 60px;
             color: green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer .container-fluid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .footer .row {
+            width: 100%;
+            margin: 0;
+        }
+
+        .footer p {
+            margin: 0;
+            line-height: 1.2;
         }
 
         .breadcrumb-item + .breadcrumb-item::before {
@@ -153,6 +174,14 @@
         @media (max-width: 768px) {
             .sidebar-overlay.active {
                 display: block;
+            }
+            
+            .footer .col-md-6 {
+                text-align: center !important;
+            }
+            
+            .footer .row {
+                flex-direction: column;
             }
         }
     </style>
@@ -212,13 +241,10 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6 text-md-start">
-                        <p class="mb-0">© 2025 Law and Justice Division,MOLJPA. All rights reserved.</p>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <p class="mb-0">Contact: support@notarycompany.com</p>
-                    </div>
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                        <p class="mb-1">Designed and Developed by Arafat Ur Rahman, Assistant Programmer,ICT Cell, Law and Justice Division,All rights reserved. @Copyright,2025,MOLJPA </p>
+                     </div>
                 </div>
             </div>
         </footer>

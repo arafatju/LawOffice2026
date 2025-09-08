@@ -225,15 +225,12 @@
         </div>
 
         <!-- Footer -->
-        <footer class="footer  ">
+        <footer class="footer">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6 text-md-start">
-                        <p class="mb-0">© 2025 Law and Justice Division,MOLJPA. All rights reserved.</p>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <p class="mb-0">Contact: support@notarycompany.com</p>
-                    </div>
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                        <p class="mb-1">Designed and Developed by Arafat Ur Rahman, Assistant Programmer,ICT Cell, Law and Justice Division,All rights reserved. @Copyright,2025,MOLJPA </p>
+                     </div>
                 </div>
             </div>
         </footer>
