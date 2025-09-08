@@ -64,19 +64,14 @@ class Storeentry extends Controller
         ->orderByDesc('total_delivered')
         ->first();
 
-    $pendingCount = ApplicationInfo::where('action', 'draft')
-        ->whereDoesntHave('transactions', function($q){
-            $q->where('status', 'approved');
-        })
+    $pendingCount = Transaction::where('status', 'pending')
         ->count();
 
    
 
     $product111 = null;
-    $lastUserLog = DB::table('loginfo')
-    ->where('mail', Auth::user()->email)
-    ->orderBy('id', 'desc')
-    ->first();
+    $lastUserLog =DB::table('loginfo')->where('mail', Auth::user()->email)->orderBy('created_at', 'desc')->skip(1)->value('created_at');
+
     if ($highest) {
         $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
     }
@@ -233,10 +228,11 @@ if ($office) {
 }
 
 $pendingTransactions = $query->get()->groupBy('userid');
-
+ $pendingCount = Transaction::where('status', 'pending')
+        ->count();
  
     $bread11='Data Entry Pending';
-return view('Storedata.pending', compact('pendingTransactions', 'offices', 'bread11'));
+return view('Storedata.pending', compact('pendingTransactions', 'offices', 'bread11', 'pendingCount'));
 }
 
 
@@ -259,9 +255,9 @@ if ($office) {
 
 $pendingTransactions = $query->get()->groupBy('trid');
 
-
+$approved111= Transaction::where('status', 'approved')->count();
     $bread11='Data Entry Approved';
-return view('Storedata.approved', compact('pendingTransactions', 'offices', 'bread11'));
+return view('Storedata.approved', compact('pendingTransactions', 'offices', 'bread11', 'approved111'));
 
 
 }

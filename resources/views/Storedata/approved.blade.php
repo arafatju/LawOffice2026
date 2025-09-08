@@ -33,9 +33,9 @@ function enToBnNumber($number) {
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Total Approved</h5>
+                <h5 class="card-title fw-bold text-info">Total Approved Items </h5>
                  <p> 
-                 66 
+                    {{ $approved111 }} 
              </p>
             </div>
         </div>

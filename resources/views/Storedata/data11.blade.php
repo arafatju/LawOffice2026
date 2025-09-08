@@ -149,7 +149,7 @@
                 <h5 class="card-title fw-bold text-danger"> Last Login </h5>
                 <p class="card-text h6"> 
  
-{{ \Carbon\Carbon::parse($lastUserLog->created_at)->format('d M Y h:i A') }}
+{{ \Carbon\Carbon::parse($lastUserLog)->format('d M Y h:i A') }}
 
                 </p>
             </div>
@@ -162,16 +162,25 @@
  
  
 
-                             <a href="{{ route('productapproved' ) }}" 
+                      
+<!-- Search Box -->
+<div class="d-flex justify-content-between align-items-center m-2">
+    <!-- Left: Download PDF -->
+    <a href="{{ route('productapproved') }}" 
        target="_blank" 
        class="btn btn-primary">
-     Download    PDF
+        Download PDF
     </a>
+
+    <!-- Right: Search box -->
+    <input type="text" id="productSearch" class="form-control w-25" placeholder="🔍 Search products...">
+</div>
+
 
 <!-- Products Table -->
  <div class="print-area">
     <h2>Product  Info</h2>
-<table class="table table-bordered table-striped align-middle">
+<table class="table table-bordered table-striped align-middle"  id="productTable">
     <thead class="bg-primary text-white">
         <tr>
             <th>Serial</th>
@@ -470,6 +479,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     noDataMsg.style.display = 'block';
                 });
         });
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('productSearch');
+    const table = document.getElementById('productTable');
+    const rows = table.getElementsByTagName('tr');
+
+    searchInput.addEventListener('keyup', function () {
+        const filter = searchInput.value.toLowerCase();
+        
+        // Start from 1 to skip table header
+        for (let i = 1; i < rows.length; i++) {
+            let rowText = rows[i].innerText.toLowerCase();
+            rows[i].style.display = rowText.includes(filter) ? '' : 'none';
+        }
     });
 });
 </script>

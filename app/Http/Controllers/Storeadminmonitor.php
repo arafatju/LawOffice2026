@@ -143,13 +143,12 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
 
 // Approved count
 $approvedCount = Transaction::where('status', 'approved')
-    ->distinct('trid')
-    ->count('trid');
+    
+    ->count();
 
 // Pending count  
 $pendingCount = Transaction::where('status', 'pending')
-     ->distinct('trid')
-    ->count('trid');
+     ->count();
 
 // Total approved quantity
 $totalQuantity = Transaction::where('status', 'approved')
@@ -183,7 +182,13 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
                         ->pluck('category'); // returns a Collection
 
         $users = User::with('personalinfo')->get();
-        return view('Storemonitor.monitor11', compact('bread11', 'users','highestProduct','highestOffice','lowStockProducts','pendingCount'));
+        $userCount= User::count('userid');
+        $useradmin = User::where('role', 'usermonitor')->count('userid');
+        $userone111= User::where('role', 'userone')->count('userid');
+        $usersuper111= User::where('role', 'useradmin')->count('userid');
+        $userdata111 = User::where('role', 'userdataentry')->count('userid');
+        $lastLogin=DB::table('loginfo')->where('mail', Auth::user()->email)->orderBy('created_at', 'desc')->skip(1)->value('created_at');
+        return view('Storemonitor.monitor11', compact('bread11', 'users','highestProduct','highestOffice','lowStockProducts','pendingCount','approvedCount','userCount','totalQuantity','categories','useradmin','userone111','usersuper111','userdata111','lastLogin'));
     }
 
     public function prtreport111(Request $request)

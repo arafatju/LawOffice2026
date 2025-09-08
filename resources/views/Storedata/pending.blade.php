@@ -34,7 +34,7 @@ function enToBnNumber($number) {
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-primary">Total Pending Applications</h5>
-                <p class="card-text h6">5 </p>
+                <p class="card-text h6">{{ $pendingCount }}</p>
             </div>
         </div>
     </div>

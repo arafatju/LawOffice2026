@@ -54,15 +54,9 @@
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold text-danger">স্টক শেষ হতে যাচ্ছে</h5>
+                    <h5 class="card-title fw-bold text-danger"> গৃহীত আবেদন পত্র  </h5>
                     <p class="card-text h6">
-                      @foreach ($lowStockProducts as $product)
-    {{ $product->name }} ({{ $product->quantity }})@if (!$loop->last && $loop->iteration < 10), @endif
-
-    @if($loop->iteration == 10)
-        @break
-    @endif
-@endforeach
+                        {{ $approvedCount }}
 
                     </p>
                 </div>
@@ -76,7 +70,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title fw-bold text-success">মোট ব্যবহারকারী</h5>
-                    <p class="card-text h6">77</p>
+                    <p class="card-text h6">{{ $userCount }}</p>
                 </div>
             </div>
         </div>
@@ -84,7 +78,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title fw-bold text-success">অ্যাডমিন মনিটর</h5>
-                    <p class="card-text h6">77</p>
+                    <p class="card-text h6">{{ $useradmin }}</p>
                 </div>
             </div>
         </div>
@@ -92,7 +86,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title fw-bold text-primary">সাধারণ ব্যবহারকারী</h5>
-                    <p class="card-text h6">5</p>
+                    <p class="card-text h6">{{ $userone111 }}</p>
                 </div>
             </div>
         </div>
@@ -100,12 +94,33 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title fw-bold text-danger">সুপার অ্যাডমিন</h5>
-                    <p class="card-text h6">1</p>
+                    <p class="card-text h6">{{ $usersuper111 }}</p>
                 </div>
             </div>
         </div>
+        
     </div>
+   <div class="row">
+         
+  <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger"> সেকশন  অ্যাডমিন</h5>
+                    <p class="card-text h6">{{ $userdata111 }}</p>
+                </div>
+            </div>
+        </div>
 
+         <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger"> Last Login </h5>
+                    <p class="card-text h6">{{ \Carbon\Carbon::parse($lastLogin)->format('d M Y h:i A') }}</p>
+                </div>
+            </div>
+        </div>
+
+</div>
     {{-- Print Button --}}
     <div class="d-flex justify-content-end mb-3 no-print">
     <button onclick="window.print()" class="btn btn-outline-success">
