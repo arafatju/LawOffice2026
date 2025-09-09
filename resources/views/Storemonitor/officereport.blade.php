@@ -107,7 +107,7 @@ function enToBnNumber($number) {
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-success"> অফিস সর্বাধিক অর্ডার</h5>
-                <p class="card-text h6"> </p>
+                <p class="card-text h6">{{$highestOffice->office ?? '-' }} {{ $highestOffice->total_delivered ?? 0 }}</p>
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@ function enToBnNumber($number) {
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-primary">মোট অফিস </h5>
-                <p class="card-text h6"> </p>
+                <p class="card-text h6"> {{$numberOfOffices}}</p>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@ function enToBnNumber($number) {
             <div class="card-body">
                 <h5 class="card-title fw-bold text-danger">অপেক্ষমাণ আবেদন </h5>
                 <p class="card-text h6">
-                     
+                     {{$pendingCount}}
                 </p>
             </div>
         </div>
@@ -135,26 +135,51 @@ function enToBnNumber($number) {
 
 {{-- Second Row --}}
 {{-- Print Button --}}
-<div class="d-flex justify-content-start no-print">
+ <div class="row no-print m-2">
+    <div class="col-12">
+        <form method="GET" action="" class="row align-items-end">
+            <div class="col-auto">
+                <label for="office" class="form-label fw-bold">দপ্তর বাছাই করুন:</label>
+                <select name="office" id="office" class="form-control" style="width:150px;">
+                    <option value="">সকল দপ্তর</option>
+                    @foreach($offices as $ofc)
+                    <option value="{{ $ofc }}" {{ (request('office') == $ofc) ? 'selected' : '' }}>
+                        {{ $ofc }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
 
-   <form method="GET" class="form-inline" action="">
-        <label for="office" class="mr-2 fw-bold">দপ্তর বাছাই করুন:</label>
-        <select name="office" id="office" class="form-control mr-2" style="width:auto;display:inline-block;">
-            <option value="">সকল দপ্তর</option>
-            @foreach($offices as $ofc)
-                <option value="{{ $ofc }}" {{ (request('office') == $ofc) ? 'selected' : '' }}>
-                    {{ $ofc }}
-                </option>
-            @endforeach
-        </select>
-        <button type="submit" class="btn btn-primary m-2">রিপোর্ট দেখান</button>
-    </form> 
+            <div class="col-auto">
+                <label for="month" class="form-label fw-bold">মাস বাছাই করুন:</label>
+                <select name="month" id="month" class="form-control" style="width:120px;">
+                    <option value="">সকল মাস</option>
+                    @foreach($month as $m)
+                    <option value="{{ $m }}" {{ (request('month') == $m) ? 'selected' : '' }}>
+                        {{ $m }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
 
-<a href="{{ route('productapproved111') }}" 
-       target="_blank" 
-       class="btn btn-primary m-2">
-        Download PDF
-    </a>
+            <div class="col-auto">
+                <label for="year" class="form-label fw-bold">বছর বাছাই করুন:</label>
+                <select name="year" id="year" class="form-control" style="width:100px;">
+                    <option value="">সকল বছর</option>
+                    @foreach($year as $y)
+                    <option value="{{ $y }}" {{ (request('year') == $y) ? 'selected' : '' }}>
+                        {{ $y }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mr-2">রিপোর্ট দেখান</button>
+                <button type="button" id="downloadPdf" class="btn btn-success">PDF ডাউনলোড</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 {{-- Table --}}
@@ -162,72 +187,38 @@ function enToBnNumber($number) {
     <h2 class="text-center mb-3"> দপ্তর  রিপোর্ট </h2>
     <table class="table table-bordered text-center" style="margin: auto; width: 95%;">
          
-    <tr class="bg-primary text-white">
-       <th>ক্রমিক নং </th> 
-        <th>আবেদনকারীর নাম</th> 
-        <th>দপ্তর </th> 
-        <th>আবেদন এর সময় </th> 
-        <th>ডেলিভারড</th> 
-<th>পণ্য তালিকা</th> 
-        <th>নিষ্পন্ন করার সময় </th>
-
-    </tr>
-    @foreach($applications as $i => $app)
-        <tr>
-            <td>{{ enToBnNumber(($applications->currentPage() - 1) * $applications->perPage() + $loop->iteration) }}</td>
-            <td>{{ $app->user->personalInfo->name ?? '-' }}</td>
-            <td>{{ $app->user->personalInfo->office ?? '-' }}</td>
-
-            {{-- Applied --}}
-            <td>{{ \Carbon\Carbon::parse($app->created_at)->format('d M Y h:i A') }}</td>
-
-            {{-- Delivered --}}
-            <td>
-                @if($app->transactions->count() > 0)
-                    @php
-                        $approved = $app->transactions->firstWhere('status', 'approved');
-                    @endphp
-                    {{ $approved ? \Carbon\Carbon::parse($approved->updated_at)->format('d M Y h:i A') : '-' }}
-                @else
-                    -
-                @endif
-            </td>
-
-            {{-- Product list --}}
-            <td>
-                @if($app->transactions->count() > 0)
-                    {{ $app->transactions->map(function($tran) {
-                        return ($tran->product->name ?? '-') . ' (' . enToBnNumber($tran->number) . ')';
-                    })->implode(', ') }}
-                @else
-                    -
-                @endif
-            </td>
-
-            {{-- Time difference column --}}
-            <td>
-                @if($app->transactions->count() > 0 && $approved)
-                    @php
-                        $applied = \Carbon\Carbon::parse($app->created_at);
-                        $delivered = \Carbon\Carbon::parse($approved->updated_at);
-                        
-    $diff_minutes = $applied->diffInMinutes($delivered);
-    $diff_hours   = $applied->diffInHours($delivered);
-    $diff_days    = $applied->diffInDays($delivered);
-                    @endphp
-                    {{-- Show in days and months in Bangla --}}
-                    {{ enToBnNumber($diff_minutes) }} মিনিট , 
-        {{ enToBnNumber($diff_hours) }} ঘণ্টা , 
-        {{ enToBnNumber($diff_days) }} দিন ¨
-                @else
-                    -
-                @endif
-            </td>
+    <tr class="header-row">
+            <td class="col-serial">Serial</td>
+            <td class="col-product">Product Name</td>
+            <td class="col-code">Product Code</td>
+            <td class="col-code">Product Category</td>
+            <td class="col-quantity">Quantity</td>
+            <td class="col-time"> Applied </td>
+            <td class="col-time">Delivered </td>
         </tr>
-    @endforeach
+
+        @foreach ($pendingTransactions as $tran)
+        <tr>
+            <td class="col-serial">{{ $loop->iteration }}</td>
+            <td class="col-product">{{ $tran->product->name ?? 'N/A' }}</td>
+            <td class="col-code">{{ $tran->product->prcode ?? 'N/A' }}</td>
+            <td class="col-category">{{ $tran->product->category ?? 'N/A' }}</td>
+            <td class="col-quantity">{{ $tran->number }}</td>
+            <td class="col-time">
+                {{ $tran->created_at->format('j F Y') }}<br>
+                {{ $tran->created_at->format('g.i a') }}
+            </td>
+            
+            <td class="col-time">
+                {{ $tran->updated_at->format('j F Y') }}<br>
+                {{ $tran->updated_at->format('g.i a') }}
+            </td>
+            
+        </tr>
+        @endforeach
 </table>
  <div class="mt-3">
-    {{ $applications->links() }}
+    {{ $pendingTransactions->links() }}
 </div>
     
     
@@ -235,3 +226,27 @@ function enToBnNumber($number) {
 @endsection
 
  
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+        const office = document.getElementById('office').value;
+        const month = document.getElementById('month').value;
+        const year = document.getElementById('year').value;
+        
+        let pdfUrl = '{{ route("officereport1212") }}';
+        const params = [];
+        
+        // Only add parameters if they have values
+        if (office && office !== '') params.push(`office=${encodeURIComponent(office)}`);
+        if (month && month !== '') params.push(`month=${encodeURIComponent(month)}`);
+        if (year && year !== '') params.push(`year=${encodeURIComponent(year)}`);
+        
+        if (params.length > 0) {
+            pdfUrl += '?' + params.join('&');
+        }
+        
+        console.log('PDF URL:', pdfUrl); // For debugging
+        window.open(pdfUrl, '_blank');
+    });
+});
+</script>

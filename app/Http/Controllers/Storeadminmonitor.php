@@ -66,19 +66,37 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
     }
 
   public function officereport(Request $request)
-    {
-         $bread11 = 'Office Report';
-    $office = $request->input('office'); 
-
-    $offices = DB::table('personalinfo')->distinct()->pluck('office'); 
-
+{
+    $bread11 = 'Office Report';
+    
+    // Get filter parameters from request
+    $office = $request->input('office');
+    $requestMonth = $request->input('month'); 
+    $requestYear = $request->input('year');
+    
+    // Get all offices for dropdown
+    $offices = DB::table('personalinfo')->distinct()->pluck('office');
+    
+    // Count number of offices
+    $numberOfOffices = PersonalInfo::whereHas('user', function($q) {
+        $q->where('role', 'userone');
+    })
+    ->distinct('office')
+    ->count('office');
+    
+    // Get all months and years for dropdowns (these remain collections)
+    $month = Transaction::where('status','approved')->distinct('month')->pluck('month');
+    $year = Transaction::where('status','approved')->distinct('year')->pluck('year');
+    
+    // Highest product by delivery
     $highest = DB::table('transaction')
         ->select('prcode', DB::raw('SUM(number) as total_delivered'))
         ->where('status', 'approved')
         ->groupBy('prcode')
         ->orderByDesc('total_delivered')
         ->first();
-
+    
+    // Highest office by delivery
     $highestOffice = DB::table('transaction as t')
         ->join('users as u', 't.userid', '=', 'u.userid')
         ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
@@ -87,55 +105,63 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
         ->groupBy('p.office')
         ->orderByDesc('total_delivered')
         ->first();
-
-    $pendingCount = ApplicationInfo::where('action', 'draft')
-        ->whereDoesntHave('transactions', function($q){
-            $q->where('status', 'approved');
-        })
-        ->count();
-
+    
+    // Pending count
+    $pendingCount = Transaction::where('status','pending')->count();
+    
+    // Out of stock products
     $threshold = 5;
     $outOfStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
-
+    
+    // Get product info for highest product
     $product111 = null;
     if ($highest) {
         $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
     }
+    
+    // Build the main query for applications/transactions
+   
 
-    // Get all results then apply unique
-    $applicationsCollection = ApplicationInfo::with([
-            'user.personalInfo',
-            'transactions.product'
-        ])
-        ->where('action', 'draft')
-        ->when($office, function ($query) use ($office) {
-            $query->whereHas('user.personalInfo', function ($q) use ($office) {
-                $q->where('office', $office);
-            });
-        })
-        ->orderBy('year', 'asc')
-        ->orderBy('month', 'asc')
-        ->get()
-        ->unique('role'); // Collection, not Builder
+$pendingTransactions = Transaction::with(['product', 'user.personalInfo'])
+    ->where('status', 'approved')
+    ->when($request->filled('month'), function($query) use ($request) {
+        return $query->where('month', $request->input('month'));
+    })
+    ->when($request->filled('year'), function($query) use ($request) {
+        return $query->where('year', $request->input('year'));
+    })
+    ->when($request->filled('office'), function($query) use ($request) {
+        return $query->whereHas('user.personalInfo', function($q) use ($request) {
+            $q->where('office', $request->input('office'));
+        });
+    })
+    ->paginate(10);
 
-    // Manual Pagination
-    $perPage = 30;
+
+    
+    /*Manual Pagination
+    $perPage = 5;
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
     $currentItems = $applicationsCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
+    
     $applications = new LengthAwarePaginator(
         $currentItems,
         $applicationsCollection->count(),
         $perPage,
         $currentPage,
-        ['path' => $request->url(), 'query' => $request->query()]
+        [
+            'path' => $request->url(), 
+            'query' => $request->query()
+        ]
     );
+    */  
 
     return view('Storemonitor.officereport', compact(
-        'bread11', 'offices', 'applications',
-        'highest', 'highestOffice', 'pendingCount',
-        'outOfStockProducts', 'product111'
-    )); }
+        'bread11', 'offices', 'pendingTransactions', 'highest', 'highestOffice', 'pendingCount',
+        'outOfStockProducts', 'product111', 'numberOfOffices', 
+        'office', 'month', 'year'
+    ));
+}
 
     public function dash11()
     {

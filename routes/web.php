@@ -125,6 +125,7 @@ Route::middleware(['auth', 'user-access:usermonitor'])->group(function () {
 Route::get('/product-report', [Storeadminmonitor::class, 'prtreport111'])->name('product.report');
 Route::get('/product-report/data', [Storeadminmonitor::class, 'getReportData'])->name('product.report.data');
 Route::get('/productapproved111', [Pdfpermission111::class, 'productapproved111'])->name('productapproved111');
+Route::get('/officereport1212', [Pdfpermission111::class, 'officereport1212'])->name('officereport1212');
 
 
     });

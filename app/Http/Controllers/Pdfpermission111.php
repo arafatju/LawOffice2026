@@ -41,7 +41,63 @@ use Carbon\Carbon;
 
 class Pdfpermission111 extends Controller
 {
-     public function productapproved111(Request $request){
+     
+    public function officereport1212(Request $request){
+    
+    $month = $request->input('month');
+        $year = $request->input('year');
+        $office = $request->input('office');
+        
+  $transactions = Transaction::with(['product', 'user.personalInfo'])
+        ->where('status', 'approved')
+        ->when($month, function($query, $month) {
+            return $query->where('month', $month);
+        })
+        ->when($year, function($query, $year) {
+            return $query->where('year', $year);
+        })
+        ->when($office, function($query, $office) {
+            return $query->whereHas('user.personalInfo', function($q) use ($office) {
+                $q->where('office', $office);
+            });
+        })
+        ->get();
+
+    $html = View::make('PDF.office', [
+        'transactions' => $transactions,
+        'office' => $office,
+        'month' => $month,
+        'year' => $year,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+     $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+
+    return $mpdf->Output($filename, 'I');
+    }
+    
+    public function productapproved111(Request $request){
 
 $transactions = ProductInfo::orderBy('quantity', 'asc')->get();
 
