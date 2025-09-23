@@ -75,7 +75,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
         
   Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
-    Route::put('/products/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.updateQuantity');
+    Route::put('/adminproduct/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.adminupdateQuantity');
     Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 
 

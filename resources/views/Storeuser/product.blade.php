@@ -241,9 +241,17 @@
         <div class="modal-body">
           <input type="hidden" name="prcode" id="modalPrcode" value="">
           <div class="mb-3">
-            <label for="quantityInput" class="form-label">Quantity</label>
+            <label for="quantityInput" class="form-label">পরিমাণ </label>
             <input type="number" class="form-control" id="quantityInput" name="quantity" min="0" required>
           </div>
+          <div class="mb-3">
+            <label for="purchaseTypeInput" class="form-label">ক্রয়ের ধরন </label>
+            <input type="text" class="form-control" id="purchaseTypeInput" name="purchase_type"  required>
+
+          </div>
+          <div class="mb-3">
+            <label for="purchaseDateInput" class="form-label">ক্রয়ের তারিখ </label>
+            <input type="date" class="form-control" id="purchaseDateInput" name="purchase_date"  required>    
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -426,21 +434,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const updateButtons = document.querySelectorAll('.btn-update-quantity');
     const quantityInput = document.getElementById('quantityInput');
     const modalPrcode = document.getElementById('modalPrcode');
+    const purchaseTypeInput = document.getElementById('purchaseTypeInput');
+    const purchaseDateInput = document.getElementById('purchaseDateInput');
     const form = document.getElementById('updateQuantityForm');
 
     updateButtons.forEach(button => {
         button.addEventListener('click', function () {
             const prcode = this.getAttribute('data-prcode');
             const quantity = this.getAttribute('data-quantity');
-
+            
             modalPrcode.value = prcode;
             quantityInput.value = quantity;
-
+              purchaseTypeInput.value = '';
+                    purchaseDateInput.value = '';
+                  
             // Set the form action dynamically to your update route for quantity
-            form.action = `/products/${prcode}/quantity`; // Adjust if needed to named route
+            form.action = `/adminproduct/${prcode}/quantity`; // Adjust if needed to named route
         });
     });
-
+  form.addEventListener('submit', function(e) {
+                const quantity = quantityInput.value;
+                const purchaseType = purchaseTypeInput.value;
+                const purchaseDate = purchaseDateInput.value;
+                
+                if (!quantity || !purchaseType || !purchaseDate) {
+                    e.preventDefault();
+                    alert('All fields are required!');
+                    return false;
+                }
+            });
     // SweetAlert2 confirmation for delete
     const deleteButtons = document.querySelectorAll('.btn-delete-confirm');
 

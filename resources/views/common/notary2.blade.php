@@ -174,7 +174,7 @@
 
         <!-- Navigation Menu -->
         <div class="nav-section py-3">
-            <a href="#" class="sidebar-link">
+            <a href="{{route('StoreDashboard')}}" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
             <a href="{{route('user11')}}" class="sidebar-link">

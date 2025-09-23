@@ -626,10 +626,7 @@ $(document).ready(function() {
             return;
         }
 
-        if (demandQuantity > availableQuantity) {
-            showMessage('error', `Demand (${demandQuantity}) exceeds available quantity (${availableQuantity})`);
-            return;
-        }
+        
 
         // Check for duplicates
         if ($(`#draftTableBody tr[data-prcode="${productCode}"]`).length > 0) {
