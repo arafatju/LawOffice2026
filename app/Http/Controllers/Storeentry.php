@@ -14,6 +14,7 @@ use App\Models\Allotment;
 use App\Models\Transaction;
 use App\Models\devicedetails;
 use App\Models\ApplicationInfo;
+use App\Models\LotInfo;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -115,9 +116,24 @@ class Storeentry extends Controller
 
      public function updateQuantity111(Request $request, $prcode)
 {
-    $request->validate(['quantity' => 'required|integer|min:0']);
+     $request->validate([
+        'quantity' => 'required|integer|min:0',
+        'purchase_type' => 'required|string|max:255',
+        'purchase_date' => 'required|date', // Validate as date but store as VARCHAR
+    ]);
     $product = ProductInfo::where('prcode', $prcode)->firstOrFail();
     $product->update(['quantity' => $request->quantity]);
+      $maxId = LotInfo::max('id') ?? 0;
+    $lotNumber = 'Lot' . ($maxId + 1);
+
+    LotInfo::create([
+        'quantity' => $request->quantity,
+        'lotnumber' => $lotNumber, // 'Lot' + max ID
+        'prcode' => $prcode, // Product code
+        'purchaseddate' => $request->purchase_date, // Purchase date
+        'purchasedtype' => $request->purchase_type, // Purchase type
+    ]);
+
     ApplicationInfo::create([
       'userid'=>Auth::user()->userid,
         'action'=>'Product Updated',
@@ -181,14 +197,22 @@ public function approveMultiple11(Request $request)
     foreach ($numbers as $rowId => $number) {
         $transaction = Transaction::find($rowId);
 
-        if ($transaction) {
+               $lastLot = LotInfo::where('prcode', $transaction->prcode)
+    ->latest('id')   // cleaner than orderBy('id','desc')
+    ->first(); 
+
+
+       if ($transaction) {
             // 1. Update transaction
-            $transaction->number = $number;
-            $transaction->status = 'approved';
-            $transaction->save();
+
+                        $product = ProductInfo::where('prcode', $transaction->prcode)->first();
+            if ($product->quantity >= $number) {
+                $transaction->number = $number;
+                $transaction->status = 'approved';
+                $transaction->lotnumber = $lastLot ? $lastLot->lotnumber : null;
+                $transaction->save();
 
             // 2. Deduct quantity from productinfo
-            $product = ProductInfo::where('prcode', $transaction->prcode)->first();
             if ($product) {
                 $product->quantity -= $number;  // deduct approved qty
                 if ($product->quantity < 0) {
@@ -204,7 +228,10 @@ public function approveMultiple11(Request $request)
                 'role'   => $transaction->trid, // e.g. "Laptop (3)"
                 'month'  => now()->format('m'),
                 'year'   => now()->format('Y'),
-            ]);
+            ]);} 
+        }
+        else {
+            return response()->json(['error' => true]);
         }
     }
 

@@ -136,8 +136,36 @@ public function forget44(Request $request){
      
      public function customLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required',
+      
+      
+       if (Auth::check()) {
+        // Redirect to appropriate dashboard based on user role
+        $user = Auth::user();
+         
+
+            if($user->role=='usermonitor')  {
+                               // $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("dash11");}
+
+            else if($user->role=='userdataentry'){ 
+               // $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("datadash"); 
+                                                                     }
+        else if($user->role=='useradmin') {
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');
+            return redirect("StoreDashboard") ; }
+
+        else if($user->role=='user') { 
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("Newuser") ; }
+        else if($user->role=='userone') { 
+                // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("userdash") ; }
+    }
+
+    $request->validate([
+        'email' => 'required',
             'password' => 'required',
            // 'g-recaptcha-response' => 'required'
 
