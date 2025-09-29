@@ -57,8 +57,10 @@
         }
 
         .main-content {
-            flex: 1;
-            min-height: calc(100vh - 56px - 60px); /* Subtract navbar and footer height */
+             flex: 1;
+    padding-bottom: 2rem;
+          /*   flex: 1;
+            min-height: calc(100vh - 56px - 60px); Subtract navbar and footer height */
         }
 
         @media (max-width: 768px) {
@@ -109,14 +111,7 @@
             height: 56px; /* Fixed height for calculations */
         }
 
-        .footer {
-            
-            background-color: #f8f9fa;
-            padding: 20px 0;
-            border-top: 1px solid #dee2e6;
-            height: 60px; /* Fixed height for calculations */
-            color: green; /* Green footer text */
-        }
+        
 
         .breadcrumb-item + .breadcrumb-item::before {
             content: ">";
@@ -225,15 +220,7 @@
         </div>
 
         <!-- Footer -->
-       <footer class="footer">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                        <p class="mb-1">Designed and Developed by Arafat Ur Rahman, Assistant Programmer,ICT Cell, Law and Justice Division,All rights reserved. @Copyright,2025,MOLJPA </p>
-                     </div>
-                </div>
-            </div>
-        </footer>
+        
     </div>
 
 <!-- Bootstrap Bundle with Popper -->
