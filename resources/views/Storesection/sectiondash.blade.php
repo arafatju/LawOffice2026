@@ -1,5 +1,5 @@
 
-@extends('common.masterall')
+@extends('common.master2')
 
 
 

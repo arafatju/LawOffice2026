@@ -46,7 +46,40 @@ class StoreSectionadmin extends Controller
         $this->middleware('auth');
     }
 
-    
+    public function index()
+    {
+         $bread11='Data Entry Dashboard';
+            $products = ProductInfo::all();
+            $highest = DB::table('transaction')
+        ->select('prcode', DB::raw('SUM(number) as total_delivered'))
+        ->where('status', 'approved')
+        ->groupBy('prcode')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $highestOffice = DB::table('transaction as t')
+        ->join('users as u', 't.userid', '=', 'u.userid')
+        ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
+        ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
+        ->where('t.status', 'approved')
+        ->groupBy('p.office')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $pendingCount = Transaction::where('status', 'pending')
+        ->count();
+
+   
+
+    $product111 = null;
+    $lastUserLog =DB::table('loginfo')->where('mail', Auth::user()->email)->orderBy('created_at', 'desc')->skip(1)->value('created_at');
+
+    if ($highest) {
+        $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
+    }
+
+        return view('Storesection.sectiondash', compact('bread11', 'products', 'highest', 'product111', 'highestOffice', 'pendingCount', 'lastUserLog'));
+    }
 
 
 }

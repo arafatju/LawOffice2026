@@ -151,7 +151,8 @@ Route::get('/productapproved', [Storeentry::class, 'productapproved'])->name('pr
 
 Route::middleware(['auth', 'user-access:usersectionadmin'])->group(function () {
 
-    
+    Route::get('/section5', [Storesectionadmin::class, 'index'])->name('section5');
+
 
 });
 
