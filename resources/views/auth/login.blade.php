@@ -886,7 +886,7 @@
                     <div class="form-group">
                         <div class="recaptcha-container">
                             <div class="g-recaptcha" 
-                                 data-sitekey="6LeqwU0pAAAAAI6IQJo50uXcgk3dvjHLUCx565Cq"
+                                 data-sitekey="6Le6xNkrAAAAAOTzlh1exDw4SsGE2BxwDDwheStn"
                                  data-size="normal"
                                  data-theme="light"></div>
                         </div>

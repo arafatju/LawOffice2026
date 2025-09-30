@@ -148,6 +148,13 @@ Route::get('/productapproved', [Storeentry::class, 'productapproved'])->name('pr
 
     });
 
+
+Route::middleware(['auth', 'user-access:usersectionadmin'])->group(function () {
+
+    
+
+});
+
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
 Route::get('/userdash', [Storeuser::class, 'userdash'])->name('userdash');
     Route::get('/userapprovedlist', [Storeuser::class, 'userapprovedlist'])->name('userapprovedlist');
