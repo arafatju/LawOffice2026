@@ -81,5 +81,60 @@ class StoreSectionadmin extends Controller
         return view('Storesection.sectiondash', compact('bread11', 'products', 'highest', 'product111', 'highestOffice', 'pendingCount', 'lastUserLog'));
     }
 
+     public function updateByPrcode114(Request $request, $prcode)
+{
+    $data = $request->validate([
+        'quantities' => 'required|array',
+        'quantities.*' => 'integer|min:0',
+    ]);
+
+    // Loop over submitted allotments and update
+    foreach ($data['quantities'] as $designation => $quantity) {
+        Allotment::updateOrCreate(
+            ['prcode' => $prcode, 'designation' => $designation],
+            ['quantity' => $quantity]
+        );
+    }
+
+    return redirect()->back()->with('success', 'Allotments updated successfully.');
+}
+
+   public function getByPrcode114($prcode)
+{
+    $allotments = Allotment::where('prcode', $prcode)->get(['designation', 'quantity']);
+    return response()->json($allotments);
+}
+
+     public function updateQuantity114(Request $request, $prcode)
+{
+     $request->validate([
+        'quantity' => 'required|integer|min:0',
+        'purchase_type' => 'required|string|max:255',
+        'purchase_date' => 'required|date', // Validate as date but store as VARCHAR
+    ]);
+    $product = ProductInfo::where('prcode', $prcode)->firstOrFail();
+    $product->update(['quantity' => $request->quantity]);
+      $maxId = LotInfo::max('id') ?? 0;
+    $lotNumber = 'Lot' . ($maxId + 1);
+
+    LotInfo::create([
+        'quantity' => $request->quantity,
+        'lotnumber' => $lotNumber, // 'Lot' + max ID
+        'prcode' => $prcode, // Product code
+        'purchaseddate' => $request->purchase_date, // Purchase date
+        'purchasedtype' => $request->purchase_type, // Purchase type
+    ]);
+
+    ApplicationInfo::create([
+      'userid'=>Auth::user()->userid,
+        'action'=>'Product Updated',
+        'role'=>'Data Entry',
+        'month'=>now()->format('F'),
+        'year'=>now()->format('Y'),
+        ]);
+    return redirect()->back()->with('success', 'Quantity updated successfully.');
+}
+
+
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\hhomeController;
 use App\Http\Controllers\infoimp;
 use App\Http\Controllers\test;
 use App\Http\Controllers\Storeuser;
+use App\Http\Controllers\StoreSectionadmin;
 use App\Http\Controllers\Storeentry;
 use App\Http\Controllers\Pdfpermission111 ;
 use App\Http\Controllers\Storeadminmonitor;
@@ -152,6 +153,10 @@ Route::get('/productapproved', [Storeentry::class, 'productapproved'])->name('pr
 Route::middleware(['auth', 'user-access:usersectionadmin'])->group(function () {
 
     Route::get('/section5', [Storesectionadmin::class, 'index'])->name('section5');
+Route::delete('/transactions11/{id}', [Storesectionadmin::class, 'destroy122'])->name('transactions11.delete');
+ Route::put('/allotments/{prcode}', [Storesectionadmin::class, 'updateByPrcode114'])->name('allotments.updateByPrcode');
+    Route::put('/products14/{prcode}/quantity', [Storesectionadmin::class, 'updateQuantity114'])->name('products.updateQuantity14');
+    Route::get('/allotments/{prcode}', [Storesectionadmin::class, 'getByPrcode114'])->name('allotments.byPrcode');
 
 
 });

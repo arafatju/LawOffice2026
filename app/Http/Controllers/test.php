@@ -155,6 +155,10 @@ public function forget44(Request $request){
             // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');
             return redirect("StoreDashboard") ; }
+            else if($user->role=='usersectionadmin') {
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');
+            return redirect("section5") ; }
 
         else if($user->role=='user') { 
             // $this->sendLoginEmail(); // Send email after reaching dashboard
@@ -238,6 +242,9 @@ public function forget44(Request $request){
         else if(Auth::user()->role=='user') { 
             // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');return redirect("Newuser") ; }
+               else if(Auth::user()->role=='usersectionadmin') { 
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("section5") ; }
         else if(Auth::user()->role=='userone') { 
                 // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');return redirect("userdash") ; }

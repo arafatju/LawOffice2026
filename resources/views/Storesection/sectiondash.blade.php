@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function () {
   purchaseTypeInput.value = '';
                     purchaseDateInput.value = '';
             // Set the form action dynamically to your update route for quantity
-            form.action = `/products/${prcode}/quantity`; // Adjust if needed to named route
+            form.action = `/products14/${prcode}/quantity`; // Adjust if needed to named route
         });
     });
         form.addEventListener('submit', function(e) {
