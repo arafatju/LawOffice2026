@@ -151,12 +151,16 @@ Route::get('/productapproved', [Storeentry::class, 'productapproved'])->name('pr
 
 
 Route::middleware(['auth', 'user-access:usersectionadmin'])->group(function () {
+Route::get('/datapending14', [Storesectionadmin::class, 'datapending14'])->name('datapending14');
+Route::get('/productpending1135/{id}', [Storesectionadmin::class, 'productpending1135'])->name('productpending1135');
+Route::post('/transactions14', [Storesectionadmin::class, 'approveMultiple14'])->name('transactions.approveMultiple14');
 
     Route::get('/section5', [Storesectionadmin::class, 'index'])->name('section5');
-Route::delete('/transactions11/{id}', [Storesectionadmin::class, 'destroy122'])->name('transactions11.delete');
- Route::put('/allotments/{prcode}', [Storesectionadmin::class, 'updateByPrcode114'])->name('allotments.updateByPrcode');
+Route::delete('/transactions14/{id}', [Storesectionadmin::class, 'destroy122'])->name('transactions14.delete');
+ Route::put('/allotments14/{prcode}', [Storesectionadmin::class, 'updateByPrcode114'])->name('allotments.updateByPrcode14');
     Route::put('/products14/{prcode}/quantity', [Storesectionadmin::class, 'updateQuantity114'])->name('products.updateQuantity14');
-    Route::get('/allotments/{prcode}', [Storesectionadmin::class, 'getByPrcode114'])->name('allotments.byPrcode');
+    Route::get('/allotments14/{prcode}', [Storesectionadmin::class, 'getByPrcode114'])->name('allotments.byPrcode14');
+Route::get('/productapproved14', [Storesectionadmin::class, 'productapproved14'])->name('productapproved14');
 
 
 });

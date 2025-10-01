@@ -10,7 +10,7 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Pending  Highest Office</h5>
+                <h5 class="card-title fw-bold text-info">Pending Highest Office</h5>
                 <p>Name 7</p>
             </div>
         </div>
@@ -94,28 +94,34 @@ function enToBnNumber($number) {
 
 @if($pendingTransactions->isNotEmpty())
 <div class="mt-3 text-center">
-    <button type="button" class="btn btn-success" id="openApproveModalBtn" 
+    <button type="button" class="btn btn-primary" id="openApproveModalBtn" 
             data-id="{{ $pendingTransactions->first()->userid }}">
-        <i class="fas fa-check"></i> Approve All Items
+        <i class="fas fa-edit"></i> Edit All Items
     </button>
 </div>
 @endif
 
-<!-- Approve Modal -->
+<!-- Edit Modal (No Approval) -->
 <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="approveModalLabel">Approve Transaction</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="approveModalLabel">
+                    <i class="fas fa-edit"></i> Edit Transactions
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered" id="modalTransactionTable">
-                    <thead>
+                <div class="alert alert-info mb-3">
+                    <i class="fas fa-info-circle"></i> 
+                    <strong>Note:</strong> You can edit the quantities below. Changes will be saved without approval workflow.
+                </div>
+                <table class="table table-bordered table-hover" id="modalTransactionTable">
+                    <thead class="table-light">
                         <tr>
-                            <th>Product ID</th>
-                            <th>Product Name</th>
-                            <th>Quantity Demand</th>
+                            <th style="width: 25%;">Product ID</th>
+                            <th style="width: 45%;">Product Name</th>
+                            <th style="width: 30%;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -125,65 +131,11 @@ function enToBnNumber($number) {
                 <input type="hidden" id="modalTransactionId">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" id="saveApprove">Save & Approve</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Print Modal -->
-<div class="modal fade" id="printModal" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="printModalLabel">Approved Items - Ready to Print</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="printContent">
-                    <div class="print-header">
-                        <h3>Transaction Approval Report</h3>
-                        <p>Date: <span id="approvalDate"></span></p>
-                        <p>User ID: <span id="approvedUserId"></span></p>
-                    </div>
-                    
-                    <table class="table" id="printTable">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Serial No.</th>
-                                <th>Product ID</th>
-                                <th>Product Name</th>
-                                <th class="text-center">Approved Quantity</th>
-                                <th class="text-center">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- JS will populate approved items -->
-                        </tbody>
-                    </table>
-                    
-                    <div class="totals-section">
-                        <p><strong>Total Items: <span id="totalItems">0</span></strong></p>
-                        <p><strong>Total Quantity: <span id="totalQuantity">0</span></strong></p>
-                    </div>
-                    
-                    <div class="signature-section">
-                        <div class="signature-row">
-                            <div class="signature-item">
-                                <strong>Approved By</strong>
-                            </div>
-                            <div class="signature-item">
-                                <strong>Date & Signature</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="printButton">
-                    <i class="fas fa-print"></i> Print
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="saveApprove">
+                    <i class="fas fa-save"></i> Save Changes
                 </button>
             </div>
         </div>
@@ -191,134 +143,57 @@ function enToBnNumber($number) {
 </div>
 
 <style>
-/* Print styles */
-@media print {
-    @page {
-        margin: 3px;
+/* Modal styling */
+#modalTransactionTable input[type="number"] {
+    text-align: center;
+    font-weight: 500;
+}
+
+#modalTransactionTable input[type="number"]:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 0.5rem;
     }
     
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    
-    body * {
-        visibility: hidden;
-    }
-    
-    #printContent, #printContent * {
-        visibility: visible;
-    }
-    
-    #printContent {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 3px;
-        margin: 0;
-    }
-    
-    .print-header {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-    
-    .print-header h3 {
-        font-size: 18px;
-        margin: 3px 0;
-        font-weight: bold;
-    }
-    
-    .print-header p {
-        margin: 2px 0;
-        font-size: 12px;
-    }
-    
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 10px 0;
-        font-size: 11px;
-    }
-    
-    .table th, .table td {
-        border: 1px solid #000;
-        padding: 4px;
-        text-align: left;
-    }
-    
-    .table th {
-        background-color: #f8f9fa !important;
-        font-weight: bold;
-    }
-    
-    .text-center {
-        text-align: center;
-    }
-    
-    .totals-section {
-        text-align: right;
-        margin: 8px 0;
-    }
-    
-    .totals-section p {
-        margin: 2px 0;
-        font-size: 12px;
-    }
-    
-    .signature-section {
-        margin-top: 20px;
-        page-break-inside: avoid;
-    }
-    
-    .signature-row {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
-    }
-    
-    .signature-item {
-        width: 45%;
-        text-align: center;
-        border-top: 1px solid #000;
-        padding-top: 3px;
-        font-weight: bold;
-        font-size: 11px;
-    }
-    
-    .badge {
-        background-color: transparent !important;
-        color: #000 !important;
-        border: 1px solid #000 !important;
-        padding: 1px 3px !important;
-        font-size: 10px !important;
+    #modalTransactionTable {
+        font-size: 0.875rem;
     }
 }
 
-.signature-section .border-top {
-    margin-top: 40px;
-    border-top: 1px solid #dee2e6;
+/* Loading state */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
 }
 
-.totals-section {
-    text-align: right;
-    margin: 20px 0;
+/* Table styling */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+    cursor: default;
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Store approved items for printing
-    let approvedItems = [];
+    // Store transaction items for editing
+    let transactionItems = [];
     let approveModalInstance = null;
-    let printModalInstance = null;
     
-    // Initialize modal instances
+    // Initialize modal instance
     approveModalInstance = new bootstrap.Modal(document.getElementById('approveModal'));
-    printModalInstance = new bootstrap.Modal(document.getElementById('printModal'));
     
-    // Open approve modal button click handler
+    // Open modal button click handler
     document.getElementById('openApproveModalBtn').addEventListener('click', function() {
         const userId = this.getAttribute('data-id');
         
@@ -326,9 +201,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('modalTransactionId').value = userId;
         
-        // Clear modal table and reset approved items
+        // Clear modal table and reset items
         document.querySelector('#modalTransactionTable tbody').innerHTML = '';
-        approvedItems = [];
+        transactionItems = [];
         
         // Find all rows in table with same userId
         const rows = document.querySelectorAll('tr[data-user-id="' + userId + '"]');
@@ -347,12 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 pname: pname,
                 number: number
             };
-            approvedItems.push(itemData);
+            transactionItems.push(itemData);
             
             let rowHtml = '<tr>';
             rowHtml += '<td>' + prcode + '</td>';
             rowHtml += '<td>' + pname + '</td>';
-            rowHtml += '<td><input type="number" class="form-control modal-number" data-rowid="'+transactionId+'" value="'+number+'"></td>';
+            rowHtml += '<td><input type="number" class="form-control modal-number" data-rowid="'+transactionId+'" value="'+number+'" min="0" step="1"></td>';
             rowHtml += '</tr>';
             
             document.querySelector('#modalTransactionTable tbody').insertAdjacentHTML('beforeend', rowHtml);
@@ -362,11 +237,28 @@ document.addEventListener('DOMContentLoaded', function() {
         approveModalInstance.show();
     });
     
-    // Save & Approve button click handler
+    // Save button click handler (no approval, no print)
     document.getElementById('saveApprove').addEventListener('click', function() {
         const numbers = {};
         const modalNumbers = document.querySelectorAll('.modal-number');
         
+        // Validate inputs
+        let hasError = false;
+        modalNumbers.forEach(function(input) {
+            if (input.value === '' || parseFloat(input.value) < 0) {
+                hasError = true;
+                input.classList.add('is-invalid');
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        if (hasError) {
+            alert('Please enter valid quantities (must be 0 or greater).');
+            return;
+        }
+        
+        // Collect all updated numbers
         modalNumbers.forEach(function(input) {
             const rowId = input.getAttribute('data-rowid');
             const number = input.value;
@@ -382,7 +274,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Using fetch to send request
+        // Disable button to prevent double submission
+        const saveButton = this;
+        saveButton.disabled = true;
+        const originalButtonText = saveButton.innerHTML;
+        saveButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+        
+        // Send save request
         fetch("{{ route('transactions.approveMultiple11') }}", {
             method: 'POST',
             headers: {
@@ -395,111 +293,97 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+            // Parse JSON regardless of status code
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    ok: response.ok,
+                    data: data 
+                };
+            });
         })
-        .then(data => {
-            // Close approve modal
+        .then(result => {
+            const { status, ok, data } = result;
+            
+            // Re-enable button
+            saveButton.disabled = false;
+            saveButton.innerHTML = originalButtonText;
+            
+            // Close modal
             approveModalInstance.hide();
             
-            // Show success message
-            alert('Transaction approved successfully!');
-            
-            // Prepare print data
-            preparePrintModal(userId, numbers);
-            
-            // Show print modal
-            printModalInstance.show();
+            if (data.success) {
+                if (data.partial) {
+                    // Partial success - some items saved, some failed
+                    let message = 'PARTIAL SUCCESS\n\n';
+                    message += data.updated + ' item(s) updated successfully\n';
+                    message += data.failed + ' item(s) failed\n\n';
+                    message += 'Failed items:\n';
+                    message += '─────────────────────────\n';
+                    
+                    data.failedItems.forEach((item, index) => {
+                        message += (index + 1) + '. Row ID: ' + item.rowId + '\n';
+                        message += '   Reason: ' + item.reason + '\n\n';
+                    });
+                    
+                    alert(message);
+                } else {
+                    // Full success - all items saved
+                    alert('All transactions updated successfully!');
+                }
+                
+                // Reload page to show updated data
+                setTimeout(() => location.reload(), 500);
+                
+            } else {
+                // Complete failure - no items saved
+                let errorMessage = 'UPDATE FAILED\n\n';
+                errorMessage += data.message || 'Unable to update transactions.';
+                errorMessage += '\n\n';
+                
+                if (data.failedItems && data.failedItems.length > 0) {
+                    errorMessage += 'Error details:\n';
+                    errorMessage += '─────────────────────────\n';
+                    data.failedItems.forEach((item, index) => {
+                        errorMessage += (index + 1) + '. Row ID: ' + item.rowId + '\n';
+                        errorMessage += '   Reason: ' + item.reason + '\n\n';
+                    });
+                }
+                
+                errorMessage += 'Please try again.';
+                
+                alert(errorMessage);
+                
+                // Reload page to show current state
+                setTimeout(() => location.reload(), 1000);
+            }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Approval failed! Please try again.');
-        });
-    });
-    
-    // Prepare print modal with approved items
-    function preparePrintModal(userId, approvedNumbers) {
-        // Set header information
-        const currentDate = new Date().toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        });
-        document.getElementById('approvalDate').textContent = currentDate;
-        document.getElementById('approvedUserId').textContent = userId;
-        
-        // Clear print table
-        document.querySelector('#printTable tbody').innerHTML = '';
-        
-        let totalItems = 0;
-        let totalQuantity = 0;
-        let serialNo = 1;
-        
-        // Populate print table with approved items
-        const modalNumbers = document.querySelectorAll('.modal-number');
-        modalNumbers.forEach(function(input) {
-            const rowId = input.getAttribute('data-rowid');
-            const approvedQty = approvedNumbers[rowId];
             
-            // Find corresponding item data
-            const itemData = approvedItems.find(item => item.transactionId == rowId);
+            // Re-enable button
+            saveButton.disabled = false;
+            saveButton.innerHTML = originalButtonText;
             
-            if (itemData && approvedQty > 0) {
-                let printRowHtml = '<tr>';
-                printRowHtml += '<td class="text-center">' + serialNo + '</td>';
-                printRowHtml += '<td>' + itemData.prcode + '</td>';
-                printRowHtml += '<td>' + itemData.pname + '</td>';
-                printRowHtml += '<td class="text-center">' + approvedQty + '</td>';
-                printRowHtml += '<td class="text-center"><span class="badge bg-success">Approved</span></td>';
-                printRowHtml += '</tr>';
-                
-                document.querySelector('#printTable tbody').insertAdjacentHTML('beforeend', printRowHtml);
-                
-                totalItems++;
-                totalQuantity += parseInt(approvedQty);
-                serialNo++;
-            }
-        });
-        
-        // Update totals
-        document.getElementById('totalItems').textContent = totalItems;
-        document.getElementById('totalQuantity').textContent = totalQuantity;
-    }
-    
-    // Print button click handler
-    document.getElementById('printButton').addEventListener('click', function() {
-        // Hide modal elements that shouldn't be printed
-        document.querySelectorAll('.modal-header, .modal-footer').forEach(el => {
-            el.style.display = 'none';
-        });
-        
-        // Print the modal content
-        window.print();
-        
-        // Restore modal elements after printing
-        setTimeout(function() {
-            document.querySelectorAll('.modal-header, .modal-footer').forEach(el => {
-                el.style.display = '';
-            });
+            // Close modal
+            approveModalInstance.hide();
             
-            // Close print modal and reload page
-            printModalInstance.hide();
-            location.reload();
-        }, 1000);
+            alert('An unexpected error occurred!\n\nPlease check your internet connection and try again.\n\nIf the problem persists, contact support.');
+            
+            // Reload page
+            setTimeout(() => location.reload(), 1000);
+        });
     });
     
     // Handle modal cleanup
     document.getElementById('approveModal').addEventListener('hidden.bs.modal', function() {
-        approvedItems = [];
+        transactionItems = [];
         document.querySelector('#modalTransactionTable tbody').innerHTML = '';
         document.getElementById('modalTransactionId').value = '';
-    });
-    
-    document.getElementById('printModal').addEventListener('hidden.bs.modal', function() {
-        approvedItems = [];
-        document.querySelector('#printTable tbody').innerHTML = '';
+        // Remove validation classes
+        document.querySelectorAll('.modal-number').forEach(input => {
+            input.classList.remove('is-invalid');
+        });
     });
 });
 </script>

@@ -1,9 +1,9 @@
   
     
- <a href="{{route('datadash')}}" class="sidebar-link">
+ <a href="{{route('section5')}}" class="sidebar-link">
                 <i class="bi bi-house-door"></i> Product Management
             </a>
-            <a href="{{route('datapending')}}" class="sidebar-link">
+            <a href="{{route('datapending14')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Pending Applications     
             </a>
             <a href="{{route('dataapproved')}}" class="sidebar-link">

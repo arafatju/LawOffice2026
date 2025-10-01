@@ -166,7 +166,7 @@
 <!-- Search Box -->
 <div class="d-flex justify-content-between align-items-center m-2">
     <!-- Left: Download PDF -->
-    <a href="{{ route('productapproved') }}" 
+    <a href="{{ route('productapproved14') }}" 
        target="_blank" 
        class="btn btn-primary">
         Download PDF
@@ -369,9 +369,9 @@ document.addEventListener('DOMContentLoaded', function () {
             allotmentTableBody.innerHTML = '';
             noDataDiv.style.display = 'none';
 
-            form.action = `/allotments/${prcode}`; // Adjust if you use named route
+            form.action = `/allotments14/${prcode}`; // Adjust if you use named route
 
-            fetch(`/allotments/${prcode}`)
+            fetch(`/allotments14/${prcode}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.length === 0) {
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tbody.innerHTML = '';
             noDataMsg.style.display = 'none';
 
-            fetch(`/allotments/${prcode}`)
+            fetch(`/allotments14/${prcode}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.length === 0) {

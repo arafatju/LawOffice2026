@@ -191,51 +191,65 @@ public static function getStockDetails($prcode)
  
 public function approveMultiple11(Request $request)
 {
-    $transactionId = $request->id; // not used directly if multiple rowIds
-    $numbers = $request->numbers; // array: [transaction_row_id => approved_qty]
-
+    $transactionId = $request->id;
+    $numbers = $request->numbers; // array: [transaction_row_id => new_qty]
+    
+    $updatedCount = 0;
+    $failedItems = [];
+    
     foreach ($numbers as $rowId => $number) {
         $transaction = Transaction::find($rowId);
-
-               $lastLot = LotInfo::where('prcode', $transaction->prcode)
-    ->latest('id')   // cleaner than orderBy('id','desc')
-    ->first(); 
-
-
-       if ($transaction) {
-            // 1. Update transaction
-
-                        $product = ProductInfo::where('prcode', $transaction->prcode)->first();
-            if ($product->quantity >= $number) {
-                $transaction->number = $number;
-                $transaction->status = 'approved';
-                $transaction->lotnumber = $lastLot ? $lastLot->lotnumber : null;
-                $transaction->save();
-
-            // 2. Deduct quantity from productinfo
-            if ($product) {
-                $product->quantity -= $number;  // deduct approved qty
-                if ($product->quantity < 0) {
-                    $product->quantity = 0; // prevent negative stock
-                }
-                $product->save();
-            }
-
-            // 3. Insert into applicationinfo
-            ApplicationInfo::create([
-                'userid' => $transaction->userid,
-                'action' => 'approved',
-                'role'   => $transaction->trid, // e.g. "Laptop (3)"
-                'month'  => now()->format('m'),
-                'year'   => now()->format('Y'),
-            ]);} 
+        
+        if (!$transaction) {
+            $failedItems[] = [
+                'rowId' => $rowId,
+                'reason' => 'Transaction not found'
+            ];
+            continue;
         }
-        else {
-            return response()->json(['error' => true]);
+        
+        // Simply update the transaction number (no approval, no stock deduction)
+        try {
+            $transaction->number = $number;
+            $transaction->save();
+            $updatedCount++;
+        } catch (\Exception $e) {
+            $failedItems[] = [
+                'rowId' => $rowId,
+                'prcode' => $transaction->prcode ?? 'Unknown',
+                'reason' => 'Update failed: ' . $e->getMessage()
+            ];
         }
     }
-
-    return response()->json(['success' => true]);
+    
+    // Return response
+    if ($updatedCount > 0 && count($failedItems) === 0) {
+        // All items updated successfully
+        return response()->json([
+            'success' => true,
+            'updated' => $updatedCount,
+            'message' => 'All transactions updated successfully'
+        ]);
+    } elseif ($updatedCount > 0 && count($failedItems) > 0) {
+        // Partial success
+        return response()->json([
+            'success' => true,
+            'partial' => true,
+            'updated' => $updatedCount,
+            'failed' => count($failedItems),
+            'failedItems' => $failedItems,
+            'message' => "Updated {$updatedCount} item(s). {count($failedItems)} item(s) failed."
+        ]);
+    } else {
+        // All items failed
+        return response()->json([
+            'success' => false,
+            'updated' => 0,
+            'failed' => count($failedItems),
+            'failedItems' => $failedItems,
+            'message' => 'All transactions failed to update.'
+        ], 422);
+    }
 }
 
 public function datapending(Request $request){

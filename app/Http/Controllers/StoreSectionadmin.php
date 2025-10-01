@@ -66,7 +66,7 @@ class StoreSectionadmin extends Controller
         ->orderByDesc('total_delivered')
         ->first();
 
-    $pendingCount = Transaction::where('status', 'pending')
+    $pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
         ->count();
 
    
@@ -135,6 +135,214 @@ class StoreSectionadmin extends Controller
     return redirect()->back()->with('success', 'Quantity updated successfully.');
 }
 
+public function productapproved14(Request $request){
 
+$transactions = ProductInfo::orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+}
+public static function getAllotmentDetails14($prcode,$userid)
+{
+     
+    $userDesignation = PersonalInfo::where('userid', $userid)->first();
+
+    $allotment = Allotment::where('prcode', $prcode)
+        ->whereRaw('TRIM(designation) = ?', [$userDesignation->designation2])
+        ->first();
+
+   
+
+    return  $allotment->quantity;
+}
+
+public static function getTransactionDetails14($prcode,$month,$userid)
+{
+    $transaction = Transaction::where('prcode', $prcode)
+                    ->where('status', 'approved')
+                    ->where('userid', $userid)
+                    ->where('month', $month)
+                    ->sum('number');
+
+     
+
+    return   $transaction;
+
+}  
+public static function getStockDetails14($prcode)
+{
+    $allotment = ProductInfo::where('prcode', $prcode)
+        ->first();
+
+    
+
+    return $allotment->quantity; // Ensure stock is not negative
+}
+ 
+public function approveMultiple14(Request $request)
+{
+    $transactionId = $request->id;
+    $numbers = $request->numbers; // array: [transaction_row_id => approved_qty]
+    
+    $approvedCount = 0;
+    $failedItems = [];
+    
+    foreach ($numbers as $rowId => $number) {
+        $transaction = Transaction::find($rowId);
+        
+        if (!$transaction) {
+            $failedItems[] = [
+                'rowId' => $rowId,
+                'reason' => 'Transaction not found'
+            ];
+            continue;
+        }
+        
+        $lastLot = LotInfo::where('prcode', $transaction->prcode)
+            ->latest('id')
+            ->first();
+        
+        $product = ProductInfo::where('prcode', $transaction->prcode)->first();
+        
+        if (!$product) {
+            $failedItems[] = [
+                'rowId' => $rowId,
+                'prcode' => $transaction->prcode,
+                'reason' => 'Product not found'
+            ];
+            continue;
+        }
+        
+        // Check if sufficient quantity available
+        if ($product->quantity < $number) {
+            $failedItems[] = [
+                'rowId' => $rowId,
+                'prcode' => $transaction->prcode,
+                'productName' => $product->name ?? 'Unknown',
+                'requested' => $number,
+                'available' => $product->quantity,
+                'reason' => 'Insufficient stock'
+            ];
+            continue;
+        }
+        
+        // 1. Update transaction
+        $transaction->number = $number;
+        $transaction->status = 'approved';
+        $transaction->lotnumber = $lastLot ? $lastLot->lotnumber : null;
+        $transaction->save();
+        
+        // 2. Deduct quantity from productinfo
+        $product->quantity -= $number;
+        if ($product->quantity < 0) {
+            $product->quantity = 0;
+        }
+        $product->save();
+        
+        // 3. Insert into applicationinfo
+        ApplicationInfo::create([
+            'userid' => $transaction->userid,
+            'action' => 'approved',
+            'role' => $transaction->trid,
+            'month' => now()->format('m'),
+            'year' => now()->format('Y'),
+        ]);
+        
+        $approvedCount++;
+    }
+    
+    // Return response with detailed status
+    if ($approvedCount > 0 && count($failedItems) === 0) {
+        // All items approved successfully
+        return response()->json([
+            'success' => true,
+            'approved' => $approvedCount,
+            'message' => 'All transactions approved successfully'
+        ]);
+    } elseif ($approvedCount > 0 && count($failedItems) > 0) {
+        // Partial success
+        return response()->json([
+            'success' => true,
+            'partial' => true,
+            'approved' => $approvedCount,
+            'failed' => count($failedItems),
+            'failedItems' => $failedItems,
+            'message' => "Approved {$approvedCount} item(s). {count($failedItems)} item(s) failed."
+        ]);
+    } else {
+        // All items failed
+        return response()->json([
+            'success' => false,
+            'approved' => 0,
+            'failed' => count($failedItems),
+            'failedItems' => $failedItems,
+            'message' => 'All transactions failed. Please check stock availability.'
+        ], 422);
+    }
+}
+
+public function productpending1135($id){
+
+        $pendingTransactions = Transaction::where('status', 'pending')
+            ->where('userid', $id)
+            ->get();
+$bread11='Pending Products';
+    return view('Storesection.pendingshow14', compact('pendingTransactions','bread11'));
+}
+public function datapending14(Request $request){
+ 
+  $office = $request->input('office'); // for filtering
+
+    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
+  
+     
+$query = Transaction::with(['user.personalInfo', 'product'])
+    ->where('status', 'pending');
+
+if ($office) {
+    $query->whereHas('user.personalInfo', function ($q) use ($office) {
+        $q->where('office', $office);
+    });
+}
+
+$pendingTransactions = $query->get()->groupBy('userid');
+ $pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
+        ->count();
+ 
+    $bread11='Data Entry Pending';
+return view('Storesection.pending14', compact('pendingTransactions', 'offices', 'bread11', 'pendingCount'));
+}
 
 }
