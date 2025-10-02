@@ -94,7 +94,7 @@ function enToBnNumber($number) {
             <td>{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
             <td>{{ enToBnNumber($transactions->first()->updated_at->format('d, M, Y')) }}</td>
             <td> 
-    <a href="{{ route('officeapproved', ['id' => $transactions->first()->trid, 'userid' => $user->userid]) }}" 
+    <a href="{{ route('officeapproved14', ['id' => $transactions->first()->trid, 'userid' => $user->userid]) }}" 
        target="_blank" 
        class="btn btn-sm btn-primary">
         Print
