@@ -6,12 +6,12 @@
             <a href="{{route('datapending14')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Pending Applications     
             </a>
-            <a href="{{route('dataapproved')}}" class="sidebar-link">
+            <a href="{{route('dataapproved14')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Approved  Applications       
             </a>
            
             
-            <a href="{{route('dataprofile')}}" class="sidebar-link">
+            <a href="{{route('dataprofile14')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Profile  
             </a>
              

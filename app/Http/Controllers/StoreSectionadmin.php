@@ -312,14 +312,55 @@ public function approveMultiple14(Request $request)
         ], 422);
     }
 }
+public function dataapproved14(Request $request){
+      $office = $request->input('office'); // for filtering
 
+    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
+  
+     
+$query = Transaction::with(['user.personalInfo', 'product'])
+    ->where('status', 'approved')->whereHas('product');
+
+if ($office) {
+    $query->whereHas('user.personalInfo', function ($q) use ($office) {
+        $q->where('office', $office);
+    });
+}
+
+$pendingTransactions = $query->get()->groupBy('trid');
+
+$approved111= Transaction::where('status', 'approved')->count();
+    $bread11='Data Entry Approved';
+return view('Storesection.approved22', compact('pendingTransactions', 'offices', 'bread11', 'approved111'));
+
+
+}
+ public function dataprofile14(){
+        $user=User::with('personalinfo')->where('userid',Auth::user()->userid)->firstOrFail();
+
+        $bread11='Data Entry Profile';
+        return view('Storesection.profile14', compact('bread11', 'user'));
+    }
 public function productpending1135($id){
+         $highest =Transaction::where('userid',$id)
+                   ->where('status','approved')
+                    ->orderByDesc('number')
+                    ->first();
+ 
+        $product111=null;
+
+        if ($highest) {
+        $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
+    }
 
         $pendingTransactions = Transaction::where('status', 'pending')
             ->where('userid', $id)
             ->get();
+            $totalaccepted=Transaction::where('status', 'approved')
+            ->where('userid', $id)
+            ->count();
 $bread11='Pending Products';
-    return view('Storesection.pendingshow14', compact('pendingTransactions','bread11'));
+    return view('Storesection.pendingshow14', compact('pendingTransactions','bread11','totalaccepted','highest','product111'));
 }
 public function datapending14(Request $request){
  

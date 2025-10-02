@@ -154,6 +154,8 @@ Route::middleware(['auth', 'user-access:usersectionadmin'])->group(function () {
 Route::get('/datapending14', [Storesectionadmin::class, 'datapending14'])->name('datapending14');
 Route::get('/productpending1135/{id}', [Storesectionadmin::class, 'productpending1135'])->name('productpending1135');
 Route::post('/transactions14', [Storesectionadmin::class, 'approveMultiple14'])->name('transactions.approveMultiple14');
+Route::get('/dataapproved14', [Storesectionadmin::class, 'dataapproved14'])->name('dataapproved14');
+Route::get('/dataprofile14', [Storesectionadmin::class, 'dataprofile14'])->name('dataprofile14');
 
     Route::get('/section5', [Storesectionadmin::class, 'index'])->name('section5');
 Route::delete('/transactions14/{id}', [Storesectionadmin::class, 'destroy122'])->name('transactions14.delete');

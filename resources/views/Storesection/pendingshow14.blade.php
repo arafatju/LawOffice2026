@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-info">Total Accepted product  </h5>
-                <p>Name 7</p>
+                <p>{{ $totalaccepted }}</p>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title text-bold fw-bold text-success">Product  Highest Order</h5>
-                <p class="card-text h6">Name 77</p>
+                <p class="card-text h6">{{$product111->name ?? 'N/A'}} {{ $highest->number ??  'N/A'}}</p>
             </div>
         </div>
     </div>
