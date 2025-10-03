@@ -65,7 +65,7 @@ class Storeentry extends Controller
         ->orderByDesc('total_delivered')
         ->first();
 
-    $pendingCount = Transaction::where('status', 'pending')
+    $pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
         ->count();
 
    
@@ -149,8 +149,12 @@ public function productpending1124($id){
         $pendingTransactions = Transaction::where('status', 'pending')
             ->where('userid', $id)
             ->get();
+
+        $pending= Transaction::where('status','approved')->where('userid',$id)
+                              ->sum('number'); 
+
 $bread11='Pending Products';
-    return view('Storedata.pendingshow', compact('pendingTransactions','bread11'));
+    return view('Storedata.pendingshow', compact('pendingTransactions','bread11','pending'));
 }
 public static function getAllotmentDetails($prcode,$userid)
 {
@@ -269,7 +273,7 @@ if ($office) {
 }
 
 $pendingTransactions = $query->get()->groupBy('userid');
- $pendingCount = Transaction::where('status', 'pending')
+ $pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
         ->count();
  
     $bread11='Data Entry Pending';
