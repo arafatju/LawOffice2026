@@ -107,7 +107,7 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
         ->first();
     
     // Pending count
-    $pendingCount = Transaction::where('status','pending')->count();
+    $pendingCount = Transaction::where('status','pending')->groupBy('trid')->count();
     
     // Out of stock products
     $threshold = 5;
@@ -173,7 +173,7 @@ $approvedCount = Transaction::where('status', 'approved')
     ->count();
 
 // Pending count  
-$pendingCount = Transaction::where('status', 'pending')
+$pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
      ->count();
 
 // Total approved quantity
