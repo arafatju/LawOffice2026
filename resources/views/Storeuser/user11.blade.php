@@ -134,7 +134,7 @@
             <div class="card-body">
                 <h5 class="card-title fw-bold text-info">Product Highest Order  </h5>
                  <p> 
-                  Name      7
+                  {{$product111->name ?? 'N/A'}}    {{ $highest->total_delivered ?? 0 }}
              </p>
             </div>
         </div>
@@ -143,7 +143,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title text-bold fw-bold text-success">Office  Highest Order  </h5>
-                <p class="card-text h6">Name  77 </p>
+                <p class="card-text h6">{{ $highestOffice->office ?? 'N/A' }}      {{ $highestOffice->total_delivered ?? 0 }} </p>
             </div>
         </div>
     </div>
@@ -151,25 +151,11 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-primary">Pending Applications</h5>
-                <p class="card-text h6">5 </p>
+                <p class="card-text h6">{{ $pendingCount ?? 0 }}</p>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-danger"> Product going out of Stock </h5>
-                <p class="card-text h6"> 
- 
-
-            
-             <div>  Name   6</div>
-            Name   6
-             Name   6
-                </p>
-            </div>
-        </div>
-    </div>
+    
 </div>
   <a href="{{ route('accepted11') }}" class="btn btn-primary mb-1">Accepted User</a>
  <a href="{{ route('admin11') }}" class="btn btn-primary mb-1">Admin User</a>
@@ -224,7 +210,16 @@
 <button type="button" class="btn btn-sm btn-secondary me-1 btn-change-password" data-id="{{ $user44->id }}" data-name="{{ $user44->name }}">
     <i class="fas fa-key"></i> Password
 </button>
+  <button 
+    type="button" 
+    class="btn btn-sm btn-info me-1 btn-change-role" 
+    data-id="{{ $user44->id }}" 
+    data-role="userpending" 
+    title="Change to Admin Approver"
+>
 
+    <i class="fas fa-check"></i> Disable
+    </button>
 <!-- 
   <button type="button" class="btn btn-sm btn-warning me-1 btn-edit" 
             data-id="{{ $user44->id }}" 
@@ -245,20 +240,19 @@
 >
     <i class="fas fa-desktop"></i> Monitor
 </button>
-
-
-    <!-- Admin Approver -->
-        
-        <button 
+ <button 
     type="button" 
     class="btn btn-sm btn-info me-1 btn-change-role" 
     data-id="{{ $user44->id }}" 
-    data-role="userpending" 
-    title="Change to Admin Approver"
+    data-role="usersectionadmin" 
+    title="Change to Section Admin "
 >
+    <i class="fas fa-desktop"></i> Section Admin
+</button>
 
-    <i class="fas fa-check"></i> Disable
-    </button>
+    <!-- Admin Approver -->
+        
+      
 
     <!-- Data Entry -->
      <button 

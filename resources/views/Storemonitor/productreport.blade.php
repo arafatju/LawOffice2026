@@ -323,7 +323,7 @@
         $categories = [
             'ক্রোকারিজ' => ['color' => 'primary', 'icon' => 'fas fa-utensils'],
             'অফিস স্টেশনারি' => ['color' => 'danger', 'icon' => 'fas fa-pencil-alt'],
-            'এ্যারোসল, এয়ারফ্রেশনার এবং কারসেন্ট' => ['color' => 'warning', 'icon' => 'fas fa-spray-can'],
+            'এ্যারোসল, এয়ারফ্রেশনার এবং কারসেন্ট' => ['color' => 'warning', 'icon' => 'fas fa-spray-can'],
             'অফিস আসবাব' => ['color' => 'success', 'icon' => 'fas fa-chair']
         ];
         $categoryIndex = 0;

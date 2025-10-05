@@ -162,7 +162,7 @@ $pendingTransactions = Transaction::with(['product', 'user.personalInfo'])
         'office', 'month', 'year'
     ));
 }
-
+ 
     public function dash11()
     {
         $bread11 = 'Admin Dashboard';

@@ -2,30 +2,30 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title> Welcome to Store Management </title>
+    <title>Welcome to Store Management</title>
     <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Include Toastr CSS and JS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS - Load FIRST -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <!-- jQuery (required for the modal functionality) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Bootstrap JS (required for modal) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-   
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
     <style>
         body {
             display: flex;
@@ -56,12 +56,12 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            margin-left: 250px; /* Match sidebar width */
+            margin-left: 250px;
         }
 
         .main-content {
             flex: 1;
-            min-height: calc(100vh - 56px - 60px); /* Subtract navbar and footer height */
+            min-height: calc(100vh - 56px - 60px);
         }
 
         @media (max-width: 768px) {
@@ -109,16 +109,15 @@
         }
 
         .navbar {
-            height: 56px; /* Fixed height for calculations */
+            height: 56px;
         }
 
         .footer {
-            
             background-color: #f8f9fa;
             padding: 20px 0;
             border-top: 1px solid #dee2e6;
-            height: 60px; /* Fixed height for calculations */
-            color: green; /* Green footer text */
+            height: 60px;
+            color: green;
         }
 
         .breadcrumb-item + .breadcrumb-item::before {
@@ -143,7 +142,6 @@
             padding: 8px 15px;
         }
 
-        /* Overlay for sidebar when active on mobile */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -160,6 +158,15 @@
                 display: block;
             }
         }
+
+        /* Ensure modals appear above everything */
+        .modal-backdrop {
+            z-index: 1040;
+        }
+
+        .modal {
+            z-index: 1050;
+        }
     </style>
 </head>
 <body>
@@ -168,8 +175,8 @@
     <div class="sidebar" id="sidebar">
         <!-- Logo/Brand -->
         <div class="p-3 app-title text-center">
-                    <img src="gov.png" alt="Government Logo" class="img-fluid mb-2" style="max-height: 60px;">
-            <h4 class="m-0">Store Management </h4>
+            <img src="{{asset('gov.png')}}" alt="Government Logo" class="img-fluid mb-2" style="max-height: 60px;">
+            <h4 class="m-0">Store Management</h4>
         </div>
 
         <!-- Navigation Menu -->
@@ -184,13 +191,13 @@
                 <i class="bi bi-box"></i> Product Management
             </a>
             <a href="{{route('productpending21')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Approved list 
+                <i class="bi bi-check-circle"></i> Approved list 
             </a>
             <a href="{{route('productpending21')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Pending  list 
+                <i class="bi bi-clock-history"></i> Pending list 
             </a>
             <a href="{{route('report111')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i>  Report 
+                <i class="bi bi-file-earmark-text"></i> Report 
             </a>
             <a href="#" class="sidebar-link">
                 <i class="bi bi-person"></i> Profile
@@ -218,11 +225,11 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
-                            <a href="#">
+                            <a href="{{route('StoreDashboard')}}">
                                 <i class="bi bi-house-door"></i>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">{{$bread11}}</li>
+                        <li class="breadcrumb-item active">{{$bread11 ?? 'Dashboard'}}</li>
                     </ol>
                 </nav>
             </div>
@@ -236,11 +243,11 @@
         </div>
 
         <!-- Footer -->
-        <footer class="footer  ">
+        <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 text-md-start">
-                        <p class="mb-0">© 2025 Law and Justice Division,MOLJPA. All rights reserved.</p>
+                        <p class="mb-0">© 2025 Law and Justice Division, MOLJPA. All rights reserved.</p>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <p class="mb-0">Contact: support@notarycompany.com</p>
@@ -250,40 +257,62 @@
         </footer>
     </div>
 
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Libraries - Load at the END of body -->
+    
+    <!-- Bootstrap Bundle (includes Popper) - MUST COME FIRST -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+    <!-- Laravel App JS (if needed) -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Sidebar Toggle
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    <!-- Sidebar Toggle Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-        });
-    }
-
-    // Close sidebar when clicking on overlay
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', function() {
-            sidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-        });
-    }
-
-    // Adjust sidebar on window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            sidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
         }
+
+        // Close sidebar when clicking on overlay
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Adjust sidebar on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+
+        // Clean up any stuck modals on page load
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
     });
-});
-</script>
+    </script>
 
 </body>
 </html>

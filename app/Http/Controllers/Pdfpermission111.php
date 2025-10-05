@@ -136,5 +136,41 @@ $transactions = ProductInfo::orderBy('quantity', 'asc')->get();
 
 
 }
+public function userapproved111()
+    {
+        $bread11 = 'User Approved Report';
+        $applications = User::with(['personalInfo'])
+            ->get();
+
+        $html = View::make('PDF.userapproved', [
+            'transactions' => $applications,
+            'bread11' => $bread11,
+        ])->render();
+
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 15,
+            'margin_header' => 5,
+            'margin_footer' => 5,
+            'default_font_size' => 12,
+            // Try these fonts in order of preference
+            'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+            'autoScriptToLang' => true,
+            'autoLangToFont' => true,
+            'tempDir' => storage_path('app/temp'), // Better temp directory
+        ]);
+
+        $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+        // Generate filename with timestamp
+        $filename = 'user_approved_report_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+
+        return $mpdf->Output($filename, 'I');
+    }
 
 }

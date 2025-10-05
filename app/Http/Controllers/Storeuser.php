@@ -197,6 +197,7 @@ public function updatePassword(Request $request)
 
     $record = $model::where('prcode', $prcode)->firstOrFail();
     $record->delete();
+    Allotment::where('prcode', $prcode)->delete();
     ApplicationInfo::create([
       'userid'=>Auth::user()->userid,
         'action'=>'Product Deleted',
@@ -208,8 +209,33 @@ public function updatePassword(Request $request)
 }
 public function user11(){
      $bread11="User Management";
+
+         $highest = DB::table('transaction')
+        ->select('prcode', DB::raw('SUM(number) as total_delivered'))
+        ->where('status', 'approved')
+        ->groupBy('prcode')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $highestOffice = DB::table('transaction as t')
+        ->join('users as u', 't.userid', '=', 'u.userid')
+        ->join('personalinfo as p', 'u.userid', '=', 'p.userid')
+        ->select('p.office', DB::raw('SUM(t.number) as total_delivered'))
+        ->where('t.status', 'approved')
+        ->groupBy('p.office')
+        ->orderByDesc('total_delivered')
+        ->first();
+
+    $pendingCount = Transaction::where('status','pending')->groupBy('trid')->count();
+ 
+
+    $product111 = null;
+    if ($highest) {
+        $product111 = ProductInfo::where('prcode', $highest->prcode)->first();
+    }
+
      $users= User::with('personalinfo')->get();
-      return view('Storeuser.user11',compact('bread11','users'));
+      return view('Storeuser.user11',compact('bread11','users','highest','highestOffice','pendingCount','product111'));
 
 }
 public function updateByPrcode(Request $request, $prcode)
@@ -237,7 +263,7 @@ public function updateByPrcode(Request $request, $prcode)
 }
   
      
-      public function store(Request $request)
+      public function product312(Request $request)
 {
     $request->validate([
         'name' => 'required|string|max:100',
@@ -724,18 +750,18 @@ public function update112(Request $request)
             [
                 'designation' => $request->designation,
                 'designation2' => $request->designation2,
+                'office' => $request->office,
+                 'email' => $request->email,
+            'mobile' => $request->mobile,
+            'name' => $request->name,
             ]
         );
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Profile updated successfully'
-        ]);
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
 
-     
-}
-public function edit112($id)
-{
+    public function edit112($id)
+    {
     $user = User::where('id', $id)->with('personalInfo')->first();
     if (!$user) {
         return redirect()->back()->with('error', 'User not found.');

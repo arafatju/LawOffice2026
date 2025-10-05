@@ -154,6 +154,11 @@
                                            value="{{ $user->mobile }}" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
+                                    <h6><strong>Office Name:</strong></h6>
+                                    <input type="text" class="form-control profile-field" name="office" 
+                                           value="{{ $user->personalinfo->office ?? '' }}"  required>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <h6><strong>Officer Staff Designation:</strong></h6>
                                     <input type="text" class="form-control profile-field" name="designation" 
                                            value="{{ $user->personalinfo->designation ?? '' }}"  required>
@@ -171,7 +176,7 @@
                                 <div class="col-md-6 mb-3">
                                     <h6><strong>Location:</strong></h6>
                                     <input type="text" class="form-control profile-field" name="location" 
-                                           value="{{ $user->location }}"  required>
+                                           value="{{ $user->location }}" disabled required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <h6><strong>Device:</strong></h6>

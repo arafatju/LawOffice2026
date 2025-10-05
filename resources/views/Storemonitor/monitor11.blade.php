@@ -528,9 +528,12 @@
 
     <!-- Print Button -->
     <div class="d-flex justify-content-end mb-4 no-print">
-        <button onclick="window.print()" class="btn btn-enhanced btn-print">
-            <i class="fas fa-print me-2"></i> প্রিন্ট
-        </button>
+         <a href="{{ route('userapproved111') }}" 
+       target="_blank" 
+       class="btn btn-primary btn-enhanced">
+        <i class="fas fa-file-pdf me-2"></i>
+        Download PDF
+    </a>
     </div>
 
     <!-- Enhanced Table -->

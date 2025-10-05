@@ -75,14 +75,13 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
         
-  Route::put('/allotments/{prcode}', [Storeuser::class, 'updateByPrcode'])->name('allotments.updateByPrcode');
-    Route::put('/adminproduct/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.adminupdateQuantity');
+     Route::put('/adminproduct/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.adminupdateQuantity');
     Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 
 
 Route::delete('/delete/{type}/{prcode}', [Storeuser::class, 'destroyByType'])->name('delete.bytype');
 
-    Route::post('/product/store', [Storeuser::class, 'store'])->name('product.store');
+    Route::post('/product312', [Storeuser::class, 'product312'])->name('product312');
 
     Route::get('/StoreDashboard', [Storeuser::class, 'StoreDashboard'])->name('StoreDashboard');
     Route::get('/product', [Storeuser::class, 'product'])->name('product');
@@ -127,6 +126,7 @@ Route::get('/product-report', [Storeadminmonitor::class, 'prtreport111'])->name(
 Route::get('/product-report/data', [Storeadminmonitor::class, 'getReportData'])->name('product.report.data');
 Route::get('/productapproved111', [Pdfpermission111::class, 'productapproved111'])->name('productapproved111');
 Route::get('/officereport1212', [Pdfpermission111::class, 'officereport1212'])->name('officereport1212');
+Route::get('/userapproved111', [Pdfpermission111::class, 'userapproved111'])->name('userapproved111');
 
 
     });
