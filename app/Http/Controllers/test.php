@@ -10,7 +10,7 @@ use App\Http\Controllers\ConverterController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Stevebauman\Location\Facades\Location;
+use Stevebauman\Location\Facades\Location;   
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -134,6 +134,117 @@ public function forget44(Request $request){
           
 }
      
+
+    /*  
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+
+   public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // Check lockout
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
+            throw ValidationException::withMessages([
+                'email' => ["Too many login attempts. Please try again in {$seconds} seconds."],
+            ]);
+        }
+
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $this->clearLoginAttempts($request);
+
+            // ✅ Log successful login details
+            $this->storeLoginInfo($request);
+
+            toastr('Successfully Logged in');
+            return $this->redirectByRole(Auth::user());
+        }
+
+        // Increment failed attempts
+        $this->incrementLoginAttempts($request);
+          DB::table('login_attempts')->insert([
+        'email' => $request->email,
+        'ip' => $request->ip(),
+        'created_at' => now(),
+    ]);
+
+        return back()->withErrors(['email' => 'Login details are not valid.']);
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+    }
+
+    // 🔥 Limit login attempts: 5 tries per minute
+    protected function throttleKey(Request $request)
+    {
+        return Str::lower($request->input('email')) . '|' . $request->ip();
+    }
+
+    protected function hasTooManyLoginAttempts(Request $request)
+    {
+        return RateLimiter::tooManyAttempts($this->throttleKey($request), 5);
+    }
+
+    protected function incrementLoginAttempts(Request $request)
+    {
+        RateLimiter::hit($this->throttleKey($request), 60); // 60 seconds lockout
+    }
+
+    protected function clearLoginAttempts(Request $request)
+    {
+        RateLimiter::clear($this->throttleKey($request));
+    }
+
+    protected function storeLoginInfo(Request $request)
+    {
+        $user = Auth::user();
+        $browser = Agent::browser();
+        $platform = Agent::platform();
+        $ip = $request->ip();
+        $data = Location::get($ip);
+
+        DB::table('loginfo')->insert([
+            'name'      => $user->name,
+            'mobile'    => $user->mobile,
+            'mail'      => $user->email,
+            'Device'    => $platform,
+            'Browser'   => $browser,
+            'ip'        => $ip,
+            'Location'  => $data->cityName ?? 'Unknown',
+            'created_at'=> now(),
+        ]);
+    }
+
+    private function redirectByRole($user)
+    {
+        switch ($user->role) {
+            case 'usermonitor': return redirect('dash11');
+            case 'userdataentry': return redirect('datadash');
+            case 'useradmin': return redirect('StoreDashboard');
+            case 'usersectionadmin': return redirect('section5');
+            case 'user': return redirect('Newuser');
+            case 'userone': return redirect('userdash');
+            default:
+                Auth::logout();
+                return redirect('login')->withErrors(['role' => 'Invalid user role']);
+        }
+    }
+
+
+    */
+
+
      public function customLogin(Request $request)
     {
       

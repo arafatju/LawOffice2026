@@ -11,6 +11,12 @@ use App\Http\Controllers\Storeentry;
 use App\Http\Controllers\Pdfpermission111 ;
 use App\Http\Controllers\Storeadminmonitor;
 use App\Http\Controllers\notaryadmin;
+ use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\LogInfoController;
+ use App\Http\Controllers\LotInfoController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,8 +38,9 @@ Auth::routes([
     'verify'=>false,
     'resend'=>false,
 ]);
- 
- Route::get('/login', [App\Http\Controllers\infoimp::class, 'index'])->name('login');
+
+
+Route::get('/login', [App\Http\Controllers\infoimp::class, 'index'])->name('login');
 Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])->name('registration');
 
  
@@ -74,7 +81,18 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
 
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
-        
+    Route::get('/loginfo', [LogInfoController::class, 'index'])->name('loginfo.index');
+Route::get('/loginfo/data', [LogInfoController::class, 'getData'])->name('loginfo.data');
+ 
+    
+    Route::get('/lots', [LotInfoController::class, 'index'])->name('lots.index');
+Route::get('/lots/data', [LotInfoController::class, 'getData'])->name('lots.data');
+
+
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions/data', [TransactionController::class, 'getData'])->name('transactions.data');
+
+
      Route::put('/adminproduct/{prcode}/quantity', [Storeuser::class, 'updateQuantity'])->name('products.adminupdateQuantity');
     Route::get('/allotments/{prcode}', [Storeuser::class, 'getByPrcode'])->name('allotments.byPrcode');
 

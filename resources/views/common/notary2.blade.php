@@ -190,14 +190,14 @@
             <a href="{{route('product')}}" class="sidebar-link">
                 <i class="bi bi-box"></i> Product Management
             </a>
-            <a href="{{route('productpending21')}}" class="sidebar-link">
-                <i class="bi bi-check-circle"></i> Approved list 
+            <a href="{{route('transactions.index')}}" class="sidebar-link">
+                <i class="bi bi-check-circle"></i> Transaction list 
             </a>
-            <a href="{{route('productpending21')}}" class="sidebar-link">
-                <i class="bi bi-clock-history"></i> Pending list 
+            <a href="{{route('lots.index')}}" class="sidebar-link">
+                <i class="bi bi-clock-history"></i> Lot  list 
             </a>
-            <a href="{{route('report111')}}" class="sidebar-link">
-                <i class="bi bi-file-earmark-text"></i> Report 
+            <a href="{{route('loginfo.index')}}" class="sidebar-link">
+                <i class="bi bi-file-earmark-text"></i> Loginfo  
             </a>
             <a href="#" class="sidebar-link">
                 <i class="bi bi-person"></i> Profile
