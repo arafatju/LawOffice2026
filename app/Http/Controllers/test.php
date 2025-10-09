@@ -1,15 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
-use App\Models\childinfo;
 use App\Models\PersonalInfo;
- 
- use Illuminate\Validation\ValidationException;
- use Illuminate\Support\Str;
-
-
-
 use App\Models\devicedetails;
 use App\Http\Controllers\ConverterController;
 use Illuminate\Support\Facades\Session;
@@ -21,22 +15,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\loginfo;
 use App\Mail\recovery11;
- use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
-use DB;
-Use Alert;
-use App\Rules\ReCaptcha;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
-
 
 class test extends Controller
 {
-    
-    public function forget11(){
+    public function forget11()
+    {
         return view('auth.forget11');
     }
-    public function forget22(Request $request){
-         // Add throttling - 1 request per minute per IP
+
+    public function forget22(Request $request)
+    {
+        // ✅ Rate limiting - 1 request per minute per IP
         $key = 'forget-password:' . $request->ip();
         
         if (RateLimiter::tooManyAttempts($key, 1)) {
@@ -44,25 +38,25 @@ class test extends Controller
             return back()->withErrors(['email' => "Too many attempts. Please try again in {$seconds} seconds."]);
         }
         
-        RateLimiter::hit($key, 60); // 60 seconds = 1 minute
+        RateLimiter::hit($key, 60);
         
-        $validated=$request->validate([
+        $validated = $request->validate([
             'email' => 'required|email|exists:users,email',
         ]);
                    
-        session(['email11'=>$validated['email']]);
+        session(['email11' => $validated['email']]);
         $randomNumber = rand(100000, 999999);
-        session(['number' => $randomNumber ]);
+        session(['number' => $randomNumber]);
+        session(['otp_attempts' => 0]); // ✅ Track OTP attempts
         
         try {
-            // Send email with 5 minute delay
-            Mail::to($validated['email'])
-                ->send(new recovery11($randomNumber));
+            // ✅ Queue email instead of sending immediately
+            Mail::to($validated['email'])->queue(new recovery11($randomNumber));
 
             $startTime = Carbon::now();
-            session(['start_time' => $startTime ]);
+            session(['start_time' => $startTime]);
             
-            toastr()->success('Recovery email will be sent in 5 minutes');
+            toastr()->success('Recovery email has been sent');
             $endTime = Carbon::now()->addMinutes(5);
           
             return view('auth.forget22', [
@@ -70,236 +64,113 @@ class test extends Controller
             ]);
             
         } catch (\Exception $e) {
-            toastr()->error('Failed to queue recovery email: ' . $e->getMessage());
-            return view('auth.forget11');
+            \Log::error('Failed to queue recovery email: ' . $e->getMessage());
+            toastr()->error('Failed to send recovery email. Please try again later.');
+            return back();
         }
-        
-        
-
     }
     
-    public function forget33(Request $request){
+    public function forget33(Request $request)
+    {
+        // ✅ Rate limiting on OTP verification
+        $otpKey = 'otp-verify:' . $request->ip();
+        
+        if (RateLimiter::tooManyAttempts($otpKey, 5)) {
+            $seconds = RateLimiter::availableIn($otpKey);
+            session()->forget(['number', 'email11', 'start_time', 'otp_attempts']);
+            return redirect()->route('forget11')
+                ->withErrors(['otp' => "Too many failed attempts. Please request a new OTP."]);
+        }
+
         $startTime = session('start_time');
+        
+        if (!$startTime) {
+            return redirect()->route('forget11')
+                ->withErrors(['error' => 'Session expired. Please start again.']);
+        }
 
-        $EndTime = Carbon::now();
-        $diffInMinutes = $startTime->diffInSeconds($EndTime);
+        $endTime = Carbon::now();
+        $diffInSeconds = $startTime->diffInSeconds($endTime);
       
-        if($diffInMinutes<5){
-              if($request->otp==session('number')){
-            return view('auth.forget33');
-                                }
-      }
-      else if ($diffInMinutes>=60) {
-       // toastr->warning("Error");
-        return view('auth.forget11');
-      }
-      else {
-        return view('auth.forget11');
-      }
+        // ✅ Check if OTP is expired (5 minutes = 300 seconds)
+        if ($diffInSeconds >= 300) {
+            session()->forget(['number', 'email11', 'start_time', 'otp_attempts']);
+            toastr()->warning('OTP expired. Please request a new one.');
+            return redirect()->route('forget11');
+        }
 
+        // ✅ Validate OTP input
+        $request->validate([
+            'otp' => 'required|numeric|digits:6'
+        ]);
+
+        // ✅ Check OTP match
+        if ($request->otp == session('number')) {
+            RateLimiter::clear($otpKey);
+            return view('auth.forget33');
+        }
+
+        // ✅ Increment failed attempts
+        RateLimiter::hit($otpKey, 300); // 5 minutes lockout
+        $attempts = session('otp_attempts', 0) + 1;
+        session(['otp_attempts' => $attempts]);
+
+        if ($attempts >= 5) {
+            session()->forget(['number', 'email11', 'start_time', 'otp_attempts']);
+            return redirect()->route('forget11')
+                ->withErrors(['otp' => 'Too many failed attempts. Please request a new OTP.']);
+        }
+
+        return back()->withErrors(['otp' => 'Invalid OTP. Attempts remaining: ' . (5 - $attempts)]);
     }
+
     public function registration()
     {
-       
-      //  $draft1 = DB::table('codetable')
-      //  ->select('*')->where('status','designation')
-      //  ->get(); 
-      //  $draft2 = DB::table('codetable')
-      //  ->select('*')->where('status','district')
-      //  ->get();       
-               
-      //  $draft3 = DB::table('codetable')
-      //  ->select('*')->where('status','office')
-      //  ->get(); 
-  //  return view('auth.registration', compact('draft1','draft2','draft3'));
-  return view('auth.registration');            
-   
-}
-public function forget44(Request $request){
-          
-           $validated=$request->validate([
+        return view('auth.registration');
+    }
+
+    public function forget44(Request $request)
+    {
+        // ✅ Verify session data exists
+        if (!session()->has('email11')) {
+            return redirect()->route('forget11')
+                ->withErrors(['error' => 'Session expired. Please start password reset again.']);
+        }
+
+        $validated = $request->validate([
             'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-
-           ]);
+        ]);
     
-         $pwd11=Hash::make($validated['password']);
-          DB::table('users')
-        ->where('email','=',session('email11'))
+        $pwd11 = Hash::make($validated['password']);
+        $email = session('email11');
         
-        ->update(['password' => $pwd11]);
-        info11::create([
-            'name'=>Auth::user()->name,
-            'email'=>Auth::user()->email,
-            'userid'=>Auth::user()->userid,
-            'type'=>'User',
-            'action'=>'Password Change',
-            'status'=>'ok'
-        ]);
-     return view('auth.login');
-          
-}
-     
+        // ✅ Update password
+        DB::table('users')
+            ->where('email', '=', $email)
+            ->update(['password' => $pwd11]);
 
-    
+        // ✅ FIXED: Log password change WITHOUT Auth::user() (user is not logged in!)
+        try {
+            DB::table('loginfo')->insert([
+                'name' => 'Password Reset',
+                'mobile' => null,
+                'mail' => $email,
+                'Device' => 'Web',
+                'Browser' => 'Unknown',
+                'ip' => $request->ip(),
+                'Location' => 'Password Reset',
+                'created_at' => now(),
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to log password reset: ' . $e->getMessage());
+        }
 
-public function customLogin(Request $request)
-{
-    
-    
-      if (Auth::check()) {
-        // Redirect to appropriate dashboard based on user role
-        $user = Auth::user();
-         
-
-            if($user->role=='usermonitor')  {
-                               // $this->sendLoginEmail(); // Send email after reaching dashboard
-                toastr('Successfully Logged in'); return redirect("dash11");}
-
-            else if($user->role=='userdataentry'){ 
-               // $this->sendLoginEmail(); // Send email after reaching dashboard
-                toastr('Successfully Logged in'); return redirect("datadash"); 
-                                                                     }
-        else if($user->role=='useradmin') {
-            // $this->sendLoginEmail(); // Send email after reaching dashboard
-            toastr('You are already Logged in');
-            return redirect("StoreDashboard") ; }
-            else if($user->role=='usersectionadmin') {
-            // $this->sendLoginEmail(); // Send email after reaching dashboard
-            toastr('You are already Logged in');
-            return redirect("section5") ; }
-
-        else if($user->role=='user') { 
-            // $this->sendLoginEmail(); // Send email after reaching dashboard
-            toastr('Successfully Logged in');return redirect("Newuser") ; }
-        else if($user->role=='userone') { 
-                // $this->sendLoginEmail(); // Send email after reaching dashboard
-            toastr('Successfully Logged in');return redirect("userdash") ; }
-    }
-    // Check lockout
-
-    $this->validateLogin($request);
-    if ($this->hasTooManyLoginAttempts($request)) {
-        $seconds = RateLimiter::availableIn($this->throttleKey($request));
+        // ✅ Clear all password reset sessions
+        session()->forget(['email11', 'number', 'start_time', 'otp_attempts']);
         
-        return back()->withErrors([
-            'email' => "Too many login attempts. Please try again in {$seconds} seconds."
-        ]);
+        toastr()->success('Password changed successfully. Please login with your new password.');
+        return redirect()->route('login');
     }
-
-    if (Auth::attempt($request->only('email', 'password'))) {
-        $this->clearLoginAttempts($request);
-
-        // ✅ Log successful login details
-        $this->storeLoginInfo($request);
-
-        toastr('Successfully Logged in');
-        return $this->redirectByRole(Auth::user());
-    }
-
-    // ❌ Login failed - increment attempts
-    $this->incrementLoginAttempts($request);
-    $this->logFailedAttempt($request);
-    return back()->withErrors(['email' => 'Login details are not valid.']);
-}
-
-protected function validateLogin(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string',
-    ]);
-}
-protected function logFailedAttempt(Request $request)
-{
-    try {
-        $agent = new Agent();
-        $browser = $agent->browser();
-        $platform = $agent->platform();
-        $ip = $request->ip();
-        $data = Location::get($ip);
-
-        DB::table('loginfo')->insert([
-            'name'       => 'Failed Login Attempt',
-            'mobile'     => 'new user',
-            'mail'       => $request->input('email'),
-            'Device'     => $platform ?? 'Unknown',
-            'Browser'    => $browser ?? 'Unknown',
-            'ip'         => $ip,
-            'Location'   => $data->cityName ?? 'Unknown',
-            'created_at' => now(),
-        ]);
-    } catch (\Exception $e) {
-        // Log error but don't stop the login flow
-        \Log::error('Failed to log failed login attempt: ' . $e->getMessage());
-    }
-}
-// 🔥 Limit login attempts: 5 tries per minute
-protected function throttleKey(Request $request)
-{
-    return Str::lower($request->input('email')) . '|' . $request->ip();
-}
-
-protected function hasTooManyLoginAttempts(Request $request)
-{
-    return RateLimiter::tooManyAttempts($this->throttleKey($request), 5);
-}
-
-protected function incrementLoginAttempts(Request $request)
-{
-    RateLimiter::hit($this->throttleKey($request), 60); // 60 seconds lockout
-}
-
-protected function clearLoginAttempts(Request $request)
-{
-    RateLimiter::clear($this->throttleKey($request));
-}
-
-protected function storeLoginInfo(Request $request)
-{
-    try {
-        $user = Auth::user();
-        $agent = new Agent();
-        $browser = $agent->browser();
-        $platform = $agent->platform();
-        $ip = $request->ip();
-        $data = Location::get($ip);
-
-        DB::table('loginfo')->insert([
-            'name'       => $user->name ?? 'Unknown',
-            'mobile'     => $user->mobile ?? null,
-            'mail'       => $user->email ?? 'Unknown',
-            'Device'     => $platform ?? 'Unknown',
-            'Browser'    => $browser ?? 'Unknown',
-            'ip'         => $ip,
-            'Location'   => $data->cityName ?? 'Unknown',
-            'created_at' => now(),
-        ]);
-    } catch (\Exception $e) {
-        \Log::error('Failed to store login info: ' . $e->getMessage());
-    }
-}
-
-private function redirectByRole($user)
-{
-    switch ($user->role) {
-        case 'usermonitor': 
-            return redirect('dash11');
-        case 'userdataentry': 
-            return redirect('datadash');
-        case 'useradmin': 
-            return redirect('StoreDashboard');
-        case 'usersectionadmin': 
-            return redirect('section5');
-        case 'user': 
-            return redirect('Newuser');
-        case 'userone': 
-            return redirect('userdash');
-        default:
-            Auth::logout();
-            return redirect('login')->withErrors(['role' => 'Invalid user role']);
-    }
-}
-
 /*
 
      public function customLogin(Request $request)
@@ -438,154 +309,219 @@ private function redirectByRole($user)
 
      
 */
-
-    private function sendLoginEmail()
+    public function customLogin(Request $request)
     {
-     try {
-            $user = Auth::user();
-              $location = [
-        'city' => session('user_data_city'),
-        'region' => session('user_data_region'),
-        'country' => session('user_data_country'),
-    ];
-            $cacheKey = 'login_email_sent:' . $user->id;
-            
-            // Check if email was already sent in the last 1 minute
-            if (!Cache::has($cacheKey)) {
-                $loginTime = now()->format('Y-m-d H:i:s');
-                    Mail::to($user->email)
-                   // ->delay(now()->addMinutes(5))
-                    ->send(new loginfo($user, $loginTime, $location));
-                // Cache for 1 minute to prevent multiple emails
-                Cache::put($cacheKey, true, 60); // 60 seconds
+        // ✅ If already logged in, redirect to dashboard
+        if (Auth::check()) {
+            return $this->redirectByRole(Auth::user());
+        }
 
-                \Log::info('Login email job queued for user: ' . $user->email);
-                  toastr()->success('Login email sent successfully!');            
- 
-            }
-        } catch (\Exception $e) {
-            \Log::error('Login email error: ' . $e->getMessage());
-                    toastr()->error('Failed to send login email. Please try again later.');
-        }    
-    
+        $this->validateLogin($request);
+
+        // ✅ Check rate limiting
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $seconds = RateLimiter::availableIn($this->throttleKey($request));
+            
+            return back()->withErrors([
+                'email' => "Too many login attempts. Please try again in {$seconds} seconds."
+            ]);
+        }
+
+        // ✅ Attempt authentication
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // ✅ CRITICAL: Regenerate session to prevent session fixation
+            $request->session()->regenerate();
+            
+            $this->clearLoginAttempts($request);
+
+            // ✅ Log successful login
+            $this->storeLoginInfo($request);
+
+            toastr('Successfully Logged in');
+            return $this->redirectByRole(Auth::user());
+        }
+
+        // ❌ Login failed
+        $this->incrementLoginAttempts($request);
+        $this->logFailedAttempt($request);
+        
+        return back()->withErrors(['email' => 'Login details are not valid.']);
     }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+    }
+
+    protected function logFailedAttempt(Request $request)
+    {
+        try {
+            $agent = new Agent();
+            $browser = $agent->browser();
+            $platform = $agent->platform();
+            $ip = $request->ip();
+            $data = Location::get($ip);
+
+            DB::table('loginfo')->insert([
+                'name'       => 'Failed Login Attempt',
+                'mobile'     => null, // ✅ FIXED: Should be null, not 'new user'
+                'mail'       => $request->input('email'),
+                'Device'     => $platform ?? 'Unknown',
+                'Browser'    => $browser ?? 'Unknown',
+                'ip'         => $ip,
+                'Location'   => $data->cityName ?? 'Unknown',
+                'created_at' => now(),
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to log failed login attempt: ' . $e->getMessage());
+        }
+    }
+
+    protected function throttleKey(Request $request)
+    {
+        return Str::lower($request->input('email')) . '|' . $request->ip();
+    }
+
+    protected function hasTooManyLoginAttempts(Request $request)
+    {
+        return RateLimiter::tooManyAttempts($this->throttleKey($request), 5);
+    }
+
+    protected function incrementLoginAttempts(Request $request)
+    {
+        RateLimiter::hit($this->throttleKey($request), 60);
+    }
+
+    protected function clearLoginAttempts(Request $request)
+    {
+        RateLimiter::clear($this->throttleKey($request));
+    }
+
+    protected function storeLoginInfo(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $agent = new Agent();
+            $browser = $agent->browser();
+            $platform = $agent->platform();
+            $ip = $request->ip();
+            $data = Location::get($ip);
+
+            DB::table('loginfo')->insert([
+                'name'       => $user->name ?? 'Unknown',
+                'mobile'     => $user->mobile ?? null,
+                'mail'       => $user->email ?? 'Unknown',
+                'Device'     => $platform ?? 'Unknown',
+                'Browser'    => $browser ?? 'Unknown',
+                'ip'         => $ip,
+                'Location'   => $data->cityName ?? 'Unknown',
+                'created_at' => now(),
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to store login info: ' . $e->getMessage());
+        }
+    }
+
+    private function redirectByRole($user)
+    {
+        switch ($user->role) {
+            case 'usermonitor': 
+                return redirect('dash11');
+            case 'userdataentry': 
+                return redirect('datadash');
+            case 'useradmin': 
+                return redirect('StoreDashboard');
+            case 'usersectionadmin': 
+                return redirect('section5');
+            case 'user': 
+                return redirect('Newuser');
+            case 'userone': 
+                return redirect('userdash');
+            default:
+                Auth::logout();
+                return redirect('login')->withErrors(['role' => 'Invalid user role']);
+        }
+    }
+
     public function customRegistration(Request $request)
     {    
         $converter = new ConverterController();
- $request->merge([
-        'mobile' => $converter->bn2en($request->mobile),
-    ]);
-       $validated=$request->validate([
-            'name' => 'required|string|max:35',
-           // 'district' => 'required|string|max:30',
-          //  'designation' => 'required|string|max:100',
-           // 'office' => 'required|string|max:100',
-
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-            //'serviceid'=>['required','string','size:10','regex:/^(199[0-9]|20[0-2][0-9]|2030)[0-9]{6}$/'],
-            'mobile'=>'required|string|max:15',
-            'office'=>'required|string|max:60',
-            'designation'=>'required|string|max:60',
-            'designation2'=>'required|string|max:60',
+        $request->merge([
+            'mobile' => $converter->bn2en($request->mobile),
         ]);
         
-        
-        
-        
-        // $ip=$request->ip();
- 
-         
-         //$browser = \Agent::browser();
-          
-        
-        
-        // $dataloc = \Location::get($ip); 
+        $validated = $request->validate([
+            'name' => 'required|string|max:35',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'mobile' => 'required|string|max:15',
+            'office' => 'required|string|max:60',
+            'designation' => 'required|string|max:60',
+            'designation2' => 'required|string|max:60',
+        ]);
 
         $data = $validated;
-         
-
-       
-
         $check = $this->create($data);
+        
+        // ✅ Login and regenerate session
         Auth::login($check);
+        $request->session()->regenerate();
+        
         $userid = session('userid');
-        $browser = \Agent::browser();
-        $browser_version =\Agent::version($browser);
-         
-             $platform = \Agent::platform();
-         $platform_version = \Agent::version($platform);
+        $agent = new Agent();
+        $browser = $agent->browser();
+        $browser_version = $agent->version($browser);
+        $platform = $agent->platform();
+        $platform_version = $agent->version($platform);
         $ip = $request->ip();
         $data = Location::get($ip);
 
-        if ($data) {
-             
-            
-            $region11 = $data->regionName;
-            
-        } else {
-            // Handle failure to retrieve location
-            $region11 = 'Unknown Region';
-        }
+        $region11 = $data->regionName ?? 'Unknown Region';
+        
         devicedetails::create([
-            'userid'=>$userid, 
-        'ip'=>$ip, 
-        'region'=>$region11, 
-        'browser'=>$browser, 
-        'browser_version'=>$browser_version, 
-        'device'=>$platform,
-        'device_version'=>$platform_version
+            'userid' => $userid, 
+            'ip' => $ip, 
+            'region' => $region11, 
+            'browser' => $browser, 
+            'browser_version' => $browser_version, 
+            'device' => $platform,
+            'device_version' => $platform_version
         ]);
-      
-          
 
-        $lastId = User::max('id');
-        $appid='User'.$lastId+100;             
-         PersonalInfo::create([
-             'userid'=>Auth::user()->userid,
-             'name'=>$validated['name'],
-             'mobile'=>$validated['mobile'],
-             'designation'=>$validated['designation'],
-              'designation2'=>$validated['designation2'],
-            'office'=>$validated['office'],
-            'email'=>$validated['email'],
+        PersonalInfo::create([
+            'userid' => Auth::user()->userid,
+            'name' => $validated['name'],
+            'mobile' => $validated['mobile'],
+            'designation' => $validated['designation'],
+            'designation2' => $validated['designation2'],
+            'office' => $validated['office'],
+            'email' => $validated['email'],
+        ]);
 
-         ]);
-     
-
-        return redirect("userdash")->with('You have signed-in');
+        toastr()->success('Registration successful!');
+        return redirect("userdash");
     }
 
     public function create(array $data)
     {
-      $ip = \Request::getClientIp(true);
- 
-       $currentUserInfo = "dff";
-      // $device = Agent::device();
-      // $browser = Agent::browser();
-      // $version = Agent::version($browser);
-     //  $platform = Agent::platform();
-      // $version2 = Agent::version($platform);
-      $platform = \Agent::platform();
-      $lastId = User::max('id');
-      $userid='User'.$lastId+10000+2;
-      session(['userid' => $userid]);
-        return User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password']),
-      //  'district' =>trim($data['district']),
-       // 'designation'=>trim($data['designation']),
-        'location'=>$currentUserInfo,
-        'device'=>$platform,
-        'mobile'=>$data['mobile'],
-        'role'=>'userone',
+        $platform = \Agent::platform();
+        $lastId = User::max('id');
+        $userid = 'User' . ($lastId + 10002);
+        session(['userid' => $userid]);
         
-        'avatar'=>'j1.png',
-        // 'serviceid'=>$data['serviceid'],
-        // 'doptor'=>trim($data['office']),
-         'userid'=>$userid,
-      ]);
-    }    
-   
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'location' => 'Bangladesh',
+            'device' => $platform,
+            'mobile' => $data['mobile'],
+            'role' => 'userone',
+            'avatar' => 'j1.png',
+            'userid' => $userid,
+        ]);
+    }
 }
