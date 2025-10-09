@@ -22,7 +22,7 @@ class CreateBudgetTable extends Migration
             $table->integer('number'); 
             $table->string('month');  
             $table->string('year');  
-
+            
             $table->timestamps(); // Created_at and updated_at
         });
     }

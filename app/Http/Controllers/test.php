@@ -5,6 +5,11 @@ use App\Models\User;
 use App\Models\childinfo;
 use App\Models\PersonalInfo;
  
+ use Illuminate\Validation\ValidationException;
+ use Illuminate\Support\Str;
+
+
+
 use App\Models\devicedetails;
 use App\Http\Controllers\ConverterController;
 use Illuminate\Support\Facades\Session;
@@ -135,115 +140,167 @@ public function forget44(Request $request){
 }
      
 
-    /*  
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
+    
 
-   public function login(Request $request)
-    {
-        $this->validateLogin($request);
+public function customLogin(Request $request)
+{
+    
+    
+      if (Auth::check()) {
+        // Redirect to appropriate dashboard based on user role
+        $user = Auth::user();
+         
 
-        // Check lockout
-        if ($this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
+            if($user->role=='usermonitor')  {
+                               // $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("dash11");}
 
-            $seconds = $this->limiter()->availableIn($this->throttleKey($request));
-            throw ValidationException::withMessages([
-                'email' => ["Too many login attempts. Please try again in {$seconds} seconds."],
-            ]);
-        }
+            else if($user->role=='userdataentry'){ 
+               // $this->sendLoginEmail(); // Send email after reaching dashboard
+                toastr('Successfully Logged in'); return redirect("datadash"); 
+                                                                     }
+        else if($user->role=='useradmin') {
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('You are already Logged in');
+            return redirect("StoreDashboard") ; }
+            else if($user->role=='usersectionadmin') {
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('You are already Logged in');
+            return redirect("section5") ; }
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $this->clearLoginAttempts($request);
-
-            // ✅ Log successful login details
-            $this->storeLoginInfo($request);
-
-            toastr('Successfully Logged in');
-            return $this->redirectByRole(Auth::user());
-        }
-
-        // Increment failed attempts
-        $this->incrementLoginAttempts($request);
-          DB::table('login_attempts')->insert([
-        'email' => $request->email,
-        'ip' => $request->ip(),
-        'created_at' => now(),
-    ]);
-
-        return back()->withErrors(['email' => 'Login details are not valid.']);
+        else if($user->role=='user') { 
+            // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("Newuser") ; }
+        else if($user->role=='userone') { 
+                // $this->sendLoginEmail(); // Send email after reaching dashboard
+            toastr('Successfully Logged in');return redirect("userdash") ; }
     }
+    // Check lockout
 
-    protected function validateLogin(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+    $this->validateLogin($request);
+    if ($this->hasTooManyLoginAttempts($request)) {
+        $seconds = RateLimiter::availableIn($this->throttleKey($request));
+        
+        return back()->withErrors([
+            'email' => "Too many login attempts. Please try again in {$seconds} seconds."
         ]);
     }
 
-    // 🔥 Limit login attempts: 5 tries per minute
-    protected function throttleKey(Request $request)
-    {
-        return Str::lower($request->input('email')) . '|' . $request->ip();
+    if (Auth::attempt($request->only('email', 'password'))) {
+        $this->clearLoginAttempts($request);
+
+        // ✅ Log successful login details
+        $this->storeLoginInfo($request);
+
+        toastr('Successfully Logged in');
+        return $this->redirectByRole(Auth::user());
     }
 
-    protected function hasTooManyLoginAttempts(Request $request)
-    {
-        return RateLimiter::tooManyAttempts($this->throttleKey($request), 5);
-    }
+    // ❌ Login failed - increment attempts
+    $this->incrementLoginAttempts($request);
+    $this->logFailedAttempt($request);
+    return back()->withErrors(['email' => 'Login details are not valid.']);
+}
 
-    protected function incrementLoginAttempts(Request $request)
-    {
-        RateLimiter::hit($this->throttleKey($request), 60); // 60 seconds lockout
-    }
-
-    protected function clearLoginAttempts(Request $request)
-    {
-        RateLimiter::clear($this->throttleKey($request));
-    }
-
-    protected function storeLoginInfo(Request $request)
-    {
-        $user = Auth::user();
-        $browser = Agent::browser();
-        $platform = Agent::platform();
+protected function validateLogin(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
+}
+protected function logFailedAttempt(Request $request)
+{
+    try {
+        $agent = new Agent();
+        $browser = $agent->browser();
+        $platform = $agent->platform();
         $ip = $request->ip();
         $data = Location::get($ip);
 
         DB::table('loginfo')->insert([
-            'name'      => $user->name,
-            'mobile'    => $user->mobile,
-            'mail'      => $user->email,
-            'Device'    => $platform,
-            'Browser'   => $browser,
-            'ip'        => $ip,
-            'Location'  => $data->cityName ?? 'Unknown',
-            'created_at'=> now(),
+            'name'       => 'Failed Login Attempt',
+            'mobile'     => 'new user',
+            'mail'       => $request->input('email'),
+            'Device'     => $platform ?? 'Unknown',
+            'Browser'    => $browser ?? 'Unknown',
+            'ip'         => $ip,
+            'Location'   => $data->cityName ?? 'Unknown',
+            'created_at' => now(),
         ]);
+    } catch (\Exception $e) {
+        // Log error but don't stop the login flow
+        \Log::error('Failed to log failed login attempt: ' . $e->getMessage());
     }
+}
+// 🔥 Limit login attempts: 5 tries per minute
+protected function throttleKey(Request $request)
+{
+    return Str::lower($request->input('email')) . '|' . $request->ip();
+}
 
-    private function redirectByRole($user)
-    {
-        switch ($user->role) {
-            case 'usermonitor': return redirect('dash11');
-            case 'userdataentry': return redirect('datadash');
-            case 'useradmin': return redirect('StoreDashboard');
-            case 'usersectionadmin': return redirect('section5');
-            case 'user': return redirect('Newuser');
-            case 'userone': return redirect('userdash');
-            default:
-                Auth::logout();
-                return redirect('login')->withErrors(['role' => 'Invalid user role']);
-        }
+protected function hasTooManyLoginAttempts(Request $request)
+{
+    return RateLimiter::tooManyAttempts($this->throttleKey($request), 5);
+}
+
+protected function incrementLoginAttempts(Request $request)
+{
+    RateLimiter::hit($this->throttleKey($request), 60); // 60 seconds lockout
+}
+
+protected function clearLoginAttempts(Request $request)
+{
+    RateLimiter::clear($this->throttleKey($request));
+}
+
+protected function storeLoginInfo(Request $request)
+{
+    try {
+        $user = Auth::user();
+        $agent = new Agent();
+        $browser = $agent->browser();
+        $platform = $agent->platform();
+        $ip = $request->ip();
+        $data = Location::get($ip);
+
+        DB::table('loginfo')->insert([
+            'name'       => $user->name ?? 'Unknown',
+            'mobile'     => $user->mobile ?? null,
+            'mail'       => $user->email ?? 'Unknown',
+            'Device'     => $platform ?? 'Unknown',
+            'Browser'    => $browser ?? 'Unknown',
+            'ip'         => $ip,
+            'Location'   => $data->cityName ?? 'Unknown',
+            'created_at' => now(),
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Failed to store login info: ' . $e->getMessage());
     }
+}
 
+private function redirectByRole($user)
+{
+    switch ($user->role) {
+        case 'usermonitor': 
+            return redirect('dash11');
+        case 'userdataentry': 
+            return redirect('datadash');
+        case 'useradmin': 
+            return redirect('StoreDashboard');
+        case 'usersectionadmin': 
+            return redirect('section5');
+        case 'user': 
+            return redirect('Newuser');
+        case 'userone': 
+            return redirect('userdash');
+        default:
+            Auth::logout();
+            return redirect('login')->withErrors(['role' => 'Invalid user role']);
+    }
+}
 
-    */
-
+/*
 
      public function customLogin(Request $request)
     {
@@ -360,10 +417,29 @@ use Illuminate\Support\Str;
                 // $this->sendLoginEmail(); // Send email after reaching dashboard
             toastr('Successfully Logged in');return redirect("userdash") ; }
                                                                     }
-  
+              $agent = new Agent();
+        $browser = $agent->browser();
+        $platform = $agent->platform();
+        $ip = $request->ip();
+        $data = Location::get($ip);
+
+        DB::table('loginfo')->insert([
+            'name'       => 'Failed Login Attempt',
+            'mobile'     => null,
+            'mail'       => $request->input('email'),
+            'Device'     => $platform ?? 'Unknown',
+            'Browser'    => $browser ?? 'Unknown',
+            'ip'         => $ip,
+            'Location'   => $data->cityName ?? 'Unknown',
+            'created_at' => now(),
+        ]);
           return redirect("login")->withError('Login details are not valid');
     }
- private function sendLoginEmail()
+
+     
+*/
+
+    private function sendLoginEmail()
     {
      try {
             $user = Auth::user();

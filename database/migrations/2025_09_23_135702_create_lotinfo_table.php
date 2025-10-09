@@ -23,10 +23,7 @@ class CreateLotinfoTable extends Migration
 
             $table->timestamps();
             
-            // Optional: Add indexes for better performance
-            $table->index('lotnumber');
-            $table->index('prcode');
-            $table->index('purchaseddate');
+          
         });
     }
 
