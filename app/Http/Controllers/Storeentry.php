@@ -284,26 +284,56 @@ return view('Storedata.pending', compact('pendingTransactions', 'offices', 'brea
 
 
 public function dataapproved(Request $request){
-      $office = $request->input('office'); // for filtering
+      try {
+        $office = $request->input('office');
+        
+        // Get distinct offices
+        $offices = DB::table('personalinfo')
+            ->distinct()
+            ->whereNotNull('office')
+            ->pluck('office');
+        
+        // Build query with proper relationships
+        $query = Transaction::with(['user.personalInfo', 'product'])
+            ->where('status', 'approved')
+            ->whereHas('product') // Ensure product exists
+            ->whereHas('user'); // Ensure user exists
+        
+        // Apply office filter if provided
+        if ($office) {
+            $query->whereHas('user.personalInfo', function ($q) use ($office) {
+                $q->where('office', $office);
+            });
+        }
+        
+        // Get transactions and group by trid
+        $transactions = $query->orderBy('created_at', 'desc')->get();
+        
+        // Group by trid (transaction ID)
+        $pendingTransactions = $transactions->groupBy('trid');
+        
+        // Count approved transactions
+        $approved111 = Transaction::where('status', 'approved')->count();
+        
+        $bread11 = 'Data Entry Approved';
+        
+        return view('Storedata.approved', compact(
+            'pendingTransactions', 
+            'offices', 
+            'bread11', 
+            'approved111'
+        ));
+        
+    } catch (\Exception $e) {
+        \Log::error('Error in dataapproved: ' . $e->getMessage());
+        \Log::error('Stack trace: ' . $e->getTraceAsString());
+        
+        return back()->withErrors([
+            'error' => 'An error occurred while loading the data. Please try again.'
+        ]);
+    }
 
-    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
-  
-     
-$query = Transaction::with(['user.personalInfo', 'product'])
-    ->where('status', 'approved')->whereHas('product');
-
-if ($office) {
-    $query->whereHas('user.personalInfo', function ($q) use ($office) {
-        $q->where('office', $office);
-    });
-}
-
-$pendingTransactions = $query->get()->groupBy('trid');
-
-$approved111= Transaction::where('status', 'approved')->count();
-    $bread11='Data Entry Approved';
-return view('Storedata.approved', compact('pendingTransactions', 'offices', 'bread11', 'approved111'));
-
+ 
 
 }
 public function productapproved(Request $request){

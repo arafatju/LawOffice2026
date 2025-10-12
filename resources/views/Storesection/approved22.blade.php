@@ -1,51 +1,45 @@
-
 @extends('common.master2')
- 
- 
-  
-  
-  
-      
- 
-  
+
 @section('content')
-
-@section('title', 'Section Admin Management ') 
-
-@section('breadcrumb', 'Approved  Applications')
+@section('title', 'Section Admin Management')
+@section('breadcrumb', 'Approved Applications')
 
 @php
 function enToBnNumber($number) {
     $english = ['0','1','2','3','4','5','6','7','8','9'];
-    $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+    $bangla = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
     return str_replace($english, $bangla, $number);
 }
 @endphp
 
 @php
-    use Carbon\Carbon;
-@endphp 
+use Carbon\Carbon;
+@endphp
 
+<h2>Dashboard</h2>
 
+{{-- Error Display --}}
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
 
-<h2>Dashboard  </h2>
 <div class="row mt-4">
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Total Approved Items </h5>
-                 <p> 
-                    {{ $approved111 }} 
-             </p>
+                <h5 class="card-title fw-bold text-info">Total Approved Items</h5>
+                <p>{{ enToBnNumber($approved111) }}</p>
             </div>
         </div>
     </div>
-    
-     
 </div>
- 
- <div class="mb-3 d-flex align-items-center">
-    <form method="GET" class="form-inline" action="">
+
+<div class="mb-3 d-flex align-items-center">
+    <form method="GET" class="form-inline" action="{{ route('dataapproved14') }}">
         <label for="office" class="mr-2 fw-bold">দপ্তর বাছাই করুন:</label>
         <select name="office" id="office" class="form-control mr-2" style="width:auto;display:inline-block;">
             <option value="">সকল দপ্তর</option>
@@ -56,66 +50,106 @@ function enToBnNumber($number) {
             @endforeach
         </select>
         <button type="submit" class="btn btn-primary ml-2">রিপোর্ট দেখান</button>
-    </form> 
-     
-
-</div> 
+    </form>
+</div>
 
 <!-- Print section starts -->
-<div class="print-area">
+<div class="print-area" id="report-print-section">
     <h3 class="text-center my-3">REPORT</h3>
-<table class="table table-border">
-    <tr class="bg-primary text-white">
-        <th> ক্রমিক নং  </th>
-        <th>ব্যবহারকারীর নাম </th>
-        <th>পণ্য তালিকা </th>
-        <th>আবেদনের তারিখ </th>
-        <th>মঞ্জুরির তারিখ </th>
-         <th> PDF </th> 
-    </tr>
+    
+    @if($pendingTransactions->isEmpty())
+        <div class="alert alert-info text-center">
+            <p>কোনো অনুমোদিত লেনদেন পাওয়া যায়নি।</p>
+        </div>
+    @else
+        <table class="table table-bordered">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>ক্রমিক নং</th>
+                    <th>ব্যবহারকারীর নাম</th>
+                    <th>পণ্য তালিকা</th>
+                    <th>আবেদনের তারিখ</th>
+                    <th>মঞ্জুরির তারিখ</th>
+                    <th>PDF</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($pendingTransactions as $trid => $transactions)
+                    @php
+                        // Get user from first transaction
+                        $firstTransaction = $transactions->first();
+                        $user = $firstTransaction->user ?? null;
+                        
+                        // Skip if user not found
+                        if (!$user) continue;
+                        
+                        // Filter out transactions with null products
+                        $validTransactions = $transactions->filter(function($t) {
+                            return $t->product !== null;
+                        });
+                        
+                        // Skip if no valid products
+                        if ($validTransactions->isEmpty()) continue;
+                    @endphp
+                    <tr>
+                        <td>{{ enToBnNumber($loop->iteration) }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>
+                            <ul class="mb-0">
+                                @foreach($validTransactions as $transaction)
+                                    <li>
+                                        {{ $transaction->product->name }} 
+                                        ({{ enToBnNumber($transaction->number ?? 0) }})
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        <td>
+                            {{ enToBnNumber($firstTransaction->created_at->format('d M, Y')) }}
+                        </td>
+                        <td>
+                            {{ enToBnNumber($firstTransaction->updated_at->format('d M, Y')) }}
+                        </td>
+                        <td>
+                            <a href="{{ route('officeapproved14', ['id' => $trid, 'userid' => $user->userid]) }}"
+                               target="_blank"
+                               class="btn btn-sm btn-primary">
+                                Print
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
 
-    @foreach($pendingTransactions as $userId => $transactions)
-        @php
-            $user = $transactions->first()->user; // same user for all in group
-        @endphp
+<div class="mt-3 no-print">
+    <button onclick="printReportTable()" class="btn btn-success">
+        <i class="fas fa-print"></i> Print Report
+    </button>
+</div>
 
-        {{-- Show first row with user info --}}
-        <tr>
-            <td>{{ enToBnNumber($loop->iteration) }}</td>
-            <td>{{ $user->name }}</td>
-            <td>
-                {{-- List all products for this user --}}
-                <ul>
-                    @foreach($transactions as $transaction)
-                        <li>{{ $transaction->product->name }} ({{ enToBnNumber($transaction->number) }})</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td>{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
-            <td>{{ enToBnNumber($transactions->first()->updated_at->format('d, M, Y')) }}</td>
-            <td> 
-    <a href="{{ route('officeapproved14', ['id' => $transactions->first()->trid, 'userid' => $user->userid]) }}" 
-       target="_blank" 
-       class="btn btn-sm btn-primary">
-        Print
-    </a>
-</td>
- </td> 
-        </tr>
-    @endforeach
-</table>
+<style>
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    .print-area {
+        width: 100%;
+    }
+}
+</style>
 
-                </div>
-                <script>
+<script>
 function printReportTable() {
     var printContents = document.getElementById('report-print-section').innerHTML;
     var originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
     window.print();
     document.body.innerHTML = originalContents;
-    window.location.reload(); // reloads to recover JS/events/styles
+    window.location.reload();
 }
 </script>
- 
-@endsection
 
+@endsection

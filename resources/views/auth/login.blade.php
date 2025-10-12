@@ -882,7 +882,7 @@
                         @enderror
                     </div>
                     
-                    <!-- reCAPTCHA -->
+                    <!-- reCAPTCHA 
                     <div class="form-group">
                         <div class="recaptcha-container">
                             <div class="g-recaptcha" 
@@ -896,7 +896,19 @@
                             <div class="alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+                    -->
+
+                    <div class="form-group">
+    <div class="recaptcha-container">
+        {!! NoCaptcha::display() !!}
+    </div>
+    {!! NoCaptcha::renderJs() !!}
+    @error('g-recaptcha-response')
+        <div class="alert-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+
                     <!-- Login Button -->
                     <div class="login-buttons">
                         <button type="submit" class="btn btn-login">Login</button>

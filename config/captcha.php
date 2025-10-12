@@ -1,10 +1,11 @@
 <?php
 
 return [
-    'secret' => env('6LfzaokqAAAAAKJZ2GYWPwaPjDeKPxWKcdKX1ae3'),
-    'sitekey' => env('6LfzaokqAAAAAC7oGTEbUZSewrf99Dp7F8E7ZTcx'),
+    'secret' => env('RECAPTCHA_SECRET_KEY'),
+    'sitekey' => env('RECAPTCHA_SITE_KEY'),
     'options' => [
         'timeout' => 30,
     ],
 ];
 
+ 

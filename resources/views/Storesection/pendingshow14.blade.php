@@ -56,8 +56,8 @@ function enToBnNumber($number) {
         <tr data-transaction-id="{{ $product->id }}" data-user-id="{{ $product->userid }}">
             <td class="prcode">{{ enToBnNumber($product->prcode) }}</td>
             <td class="pname">{{ enToBnNumber(App\Http\Controllers\Storeuser::getProductDetails($product->prcode))  }}</td>
-            <td class="number">{{ enToBnNumber($product->number) }}</td>
-            <td>{{ enToBnNumber(App\Http\Controllers\StoreSectionadmin::getAllotmentDetails14($product->prcode,$product->userid)) }}</td>
+            <td class="number">{{ ($product->number) }}</td>
+            <td>{{ (App\Http\Controllers\StoreSectionadmin::getAllotmentDetails14($product->prcode,$product->userid)) }}</td>
             <td>{{ enToBnNumber(App\Http\Controllers\StoreSectionadmin::getTransactionDetails14($product->prcode,$product->month,$product->userid)) }}</td>
             <td>{{ enToBnNumber(App\Http\Controllers\StoreSectionadmin::getStockDetails14($product->prcode)) }}</td>
             <td>{{ enToBnNumber($product->created_at->format('d, M, Y')) }}</td>
