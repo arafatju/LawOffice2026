@@ -21,10 +21,10 @@ class loginfo extends Mailable
     public $browserVersion;
     public $location;
 
-    public function __construct($user, $loginTime, $location)
+    public function __construct($user )
     {
         $this->user = $user;
-        $this->loginTime = $loginTime;
+         
 
         // Detect Agent info
         $agent = new Agent();
@@ -33,7 +33,7 @@ class loginfo extends Mailable
         $this->browser = $agent->browser();
         $this->browserVersion = $agent->version($this->browser);
 
-        $this->location = $location; // you can pass array: ['city' => ..., 'region' => ..., 'country' => ...]
+       // $this->location = $location; // you can pass array: ['city' => ..., 'region' => ..., 'country' => ...]
     }
 
     public function build()
@@ -42,12 +42,12 @@ class loginfo extends Mailable
                     ->subject('User Login Information')
                     ->with([
                         'user' => $this->user,
-                        'loginTime' => $this->loginTime,
+                        
                         'os' => $this->os,
                         'osVersion' => $this->osVersion,
                         'browser' => $this->browser,
                         'browserVersion' => $this->browserVersion,
-                        'location' => $this->location,
+                        
                     ]);
     }
 }

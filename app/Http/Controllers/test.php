@@ -353,7 +353,7 @@ class test extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-             // 'g-recaptcha-response' => 'required'
+             'g-recaptcha-response' => 'required'
         ]);
     }
 
@@ -440,7 +440,8 @@ class test extends Controller
             case 'user': 
                 return redirect('Newuser');
             case 'userone': 
-                return redirect('userdash');
+               Mail::to($user->email)->queue(new loginfo($user));
+               return redirect('userdash');
             default:
                 Auth::logout();
                 return redirect('login')->withErrors(['role' => 'Invalid user role']);
