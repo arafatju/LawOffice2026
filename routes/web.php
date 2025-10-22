@@ -44,7 +44,7 @@ Route::get('/login', [App\Http\Controllers\infoimp::class, 'index'])->name('logi
 Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])->name('registration');
 
  
- Route::post('/custom-login', [test::class, 'customLogin'])->name('login.custom'); 
+ Route::post('/custom-login', [test::class, 'customLogin'])->name('login.custom')->middleware('throttle:5,1');
  Route::post('/custom-registration', [test::class, 'customRegistration'])->name('register.custom'); 
 Route::get('/signout', [infoimp::class, 'signOut'])->name('signout');
 Route::get('/forget11', [test::class, 'forget11'])->name('forget11'); 
