@@ -100,7 +100,7 @@ class StoreSectionadmin extends Controller
 }
 public function destroy122($id)
     {
-        $user = User::findOrFail($id);
+        $user = Transaction::findOrFail($id);
         $user->delete();
 
         return redirect()->back()->with('success', 'User deleted successfully!');
