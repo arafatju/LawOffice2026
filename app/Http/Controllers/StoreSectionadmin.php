@@ -98,7 +98,13 @@ class StoreSectionadmin extends Controller
 
     return redirect()->back()->with('success', 'Allotments updated successfully.');
 }
+public function destroy122($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
 
+        return redirect()->back()->with('success', 'User deleted successfully!');
+    }
    public function getByPrcode114($prcode)
 {
     $allotments = Allotment::where('prcode', $prcode)->get(['designation', 'quantity']);

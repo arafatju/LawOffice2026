@@ -177,7 +177,7 @@ Route::get('/dataprofile14', [Storesectionadmin::class, 'dataprofile14'])->name(
 Route::get('/officeapproved14/{id}/{userid}', [Storesectionadmin::class, 'officeapproved14'])->name('officeapproved14');
 
     Route::get('/section5', [Storesectionadmin::class, 'index'])->name('section5');
-Route::delete('/transactions14/{id}', [Storesectionadmin::class, 'destroy122'])->name('transactions14.delete');
+Route::delete('/transactions144/{id}', [Storesectionadmin::class, 'destroy122'])->name('transactions144.delete');
  Route::put('/allotments14/{prcode}', [Storesectionadmin::class, 'updateByPrcode114'])->name('allotments.updateByPrcode14');
     Route::put('/products14/{prcode}/quantity', [Storesectionadmin::class, 'updateQuantity114'])->name('products.updateQuantity14');
     Route::get('/allotments14/{prcode}', [Storesectionadmin::class, 'getByPrcode114'])->name('allotments.byPrcode14');

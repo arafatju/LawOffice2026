@@ -62,7 +62,7 @@ function enToBnNumber($number) {
             <td>{{ enToBnNumber(App\Http\Controllers\StoreSectionadmin::getStockDetails14($product->prcode)) }}</td>
             <td>{{ enToBnNumber($product->created_at->format('d, M, Y')) }}</td>
             <td>
-                <form action="{{ route('transactions14.delete', $product->id) }}" method="POST" 
+                <form action="{{ route('transactions144.delete', $product->id) }}" method="POST" 
                       style="display: inline-block;" onsubmit="return confirm('Are you sure?');">
                     @csrf
                     @method('DELETE')
