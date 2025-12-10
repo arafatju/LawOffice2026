@@ -440,7 +440,7 @@ class test extends Controller
             case 'user': 
                 return redirect('Newuser');
             case 'userone': 
-               Mail::to($user->email)->queue(new loginfo($user));
+               //Mail::to($user->email)->queue(new loginfo($user));
                return redirect('userdash');
             default:
                 Auth::logout();

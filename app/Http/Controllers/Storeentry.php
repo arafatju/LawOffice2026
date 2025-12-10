@@ -65,7 +65,7 @@ class Storeentry extends Controller
         ->orderByDesc('total_delivered')
         ->first();
 
-    $pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
+    $pendingCount = Transaction::where('status', 'pending')->distinct('trid')
         ->count();
 
    
@@ -273,7 +273,7 @@ if ($office) {
 }
 
 $pendingTransactions = $query->get()->groupBy('userid');
- $pendingCount = Transaction::where('status', 'pending')->groupBy('trid')
+ $pendingCount = Transaction::where('status', 'pending')->distinct('trid')
         ->count();
  
     $bread11='Data Entry Pending';
