@@ -28,7 +28,7 @@
         }
         
         .user-info {
-            background-color: #ecf0f1;
+            background-color: white;
             padding: 12px;
             margin: 15px 0;
             border: 2px solid #bdc3c7;
@@ -118,9 +118,9 @@
         <h1>Details </h1>
         
         <div class="user-info">
-             <span class="user-detail">UserID: {{ $user->userid }}</span>
-            <span class="user-detail">Username: {{ $user->name }}</span>
-            <span class="user-detail">Office: {{ $user->personalInfo->office ?? 'N/A' }}</span>
+           
+            <span class="user-detail">Username: {{ $user->name }}({{ $user->personalInfo->office ?? 'N/A' }}) </span>
+            
         </div>
     </div>
     

@@ -271,8 +271,8 @@ if ($office) {
         $q->where('office', $office);
     });
 }
-
-$pendingTransactions = $query->get()->groupBy('userid');
+ $transactions = $query->orderBy('created_at', 'desc')->get();
+$pendingTransactions = $transactions->groupBy('trid');
  $pendingCount = Transaction::where('status', 'pending')->distinct('trid')
         ->count();
  

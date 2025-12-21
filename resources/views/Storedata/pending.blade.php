@@ -76,13 +76,17 @@ function enToBnNumber($number) {
         {{-- Show first row with user info --}}
         <tr>
             <td>{{ enToBnNumber($loop->iteration) }}</td>
-            <td>{{ $user->name }}</td>
+            <td>  <span style="font-weight: bold; color: blue;">{{ $user->name }}</span>
+    <span style="color: purple;">({{ $user->personalInfo->office ?? 'N/A' }})</span>
+
+            
+            </td>
             <td>
                 {{-- List all products for this user --}}
                 <ul>
-                    @foreach($transactions as $transaction)
-                        <li>{{ $transaction->product->name }} ({{ enToBnNumber($transaction->number) }})</li>
-                    @endforeach
+                   @foreach($transactions as $transaction)
+    <li style="color: blue;">{{ $transaction->product->name }} ({{ enToBnNumber($transaction->number) }})</li>
+@endforeach
                 </ul>
             </td>
             <td>{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
