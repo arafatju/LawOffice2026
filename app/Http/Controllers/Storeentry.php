@@ -384,7 +384,11 @@ public function officeapproved($id, $userid)
         ->where('status', 'approved')
         ->orderBy('created_at', 'desc')  // Order by newest first
         ->get();
-
+      
+       Transaction::where('trid', $id)
+    ->where('status', 'approved')
+    ->update(['status' => 'archived']);
+     
     $html = View::make('PDF.approved_office', [
         'transactions' => $transactions,
         'user' => $user,
