@@ -9,7 +9,9 @@
             <a href="{{route('dataapproved')}}" class="sidebar-link">
                 <i class="bi bi-people"></i> Approved  Applications       
             </a>
-           
+            <a href="{{route('dataarchive')}}" class="sidebar-link">
+                <i class="bi bi-people"></i> Archived  Applications       
+            </a>
             
             <a href="{{route('dataprofile')}}" class="sidebar-link">
                 <i class="bi bi-gear"></i> Profile  

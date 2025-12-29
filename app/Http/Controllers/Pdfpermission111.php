@@ -96,7 +96,216 @@ class Pdfpermission111 extends Controller
 
     return $mpdf->Output($filename, 'I');
     }
+    public function product2001(Request $request){
+         
+
+$transactions = ProductInfo::where('category','অফিস স্টেশনারি')->orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
     
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+
+
+    }
+     public function product2002(Request $request){
+         
+
+$transactions = ProductInfo::where('category','অফিস আসবাব')->orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+
+
+    }
+     public function product2003(Request $request){
+         
+
+$transactions = ProductInfo::where('category','ক্রোকারিজ')->orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+
+
+    }
+     public function product2004(Request $request){
+         
+
+$transactions = ProductInfo::where('category','এ্যারোসল, এয়ারফ্রেশনার এবং কারসেন্ট')->orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+
+
+    }
+    public function product2005(Request $request){
+         
+
+$transactions = ProductInfo::where('category','অন্যান্য')->orderBy('quantity', 'asc')->get();
+
+    $html = View::make('PDF.product', [
+        'transactions' => $transactions,
+         
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+        $mpdf->SetFooter(' Page {PAGENO} Of  {nbpg}'); // "Page X of Y" in Bangla
+    // Generate filename with timestamp
+    $filename = 'approved_products_' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); //
+
+
+
+
+
+
+    }
     public function productapproved111(Request $request){
 
 $transactions = ProductInfo::orderBy('quantity', 'asc')->get();

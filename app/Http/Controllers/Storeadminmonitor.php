@@ -75,8 +75,15 @@ $lowStockProducts = ProductInfo::where('quantity', '<=', $threshold)->get();
     $requestYear = $request->input('year');
     
     // Get all offices for dropdown
-    $offices = DB::table('personalinfo')->distinct()->pluck('office');
+    //$offices = DB::table('personalinfo')->distinct()->pluck('office');
     
+    $offices=  PersonalInfo::whereHas('user', function($q) {
+        $q->where('role', 'userone');
+    })
+    ->distinct()
+    ->pluck('office');
+
+
     // Count number of offices
     $numberOfOffices = PersonalInfo::whereHas('user', function($q) {
         $q->where('role', 'userone');

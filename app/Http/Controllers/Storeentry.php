@@ -280,7 +280,57 @@ $pendingTransactions = $transactions->groupBy('trid');
 return view('Storedata.pending', compact('pendingTransactions', 'offices', 'bread11', 'pendingCount'));
 }
 
+public function dataarchive(Request $request){
+ 
+    try {
+         
+        
+        // Get distinct offices
+        $offices = DB::table('personalinfo')
+            ->distinct()
+            ->whereNotNull('office')
+            ->pluck('office');
+        
+        // Build query with proper relationships
+        $query = Transaction::with(['user.personalInfo', 'product'])
+            ->where('status', 'archived')
+            ->whereHas('product') // Ensure product exists
+            ->whereHas('user'); // Ensure user exists
+        
+        // Apply office filter if provided
+        
+        
+        // Get transactions and group by trid
+        $transactions = $query->orderBy('created_at', 'desc')->get();
+        
+        // Group by trid (transaction ID)
+        $pendingTransactions = $transactions->groupBy('trid');
+        
+        // Count approved transactions
+        $approved111 = Transaction::where('status', 'archived')->count();
+        
+        $bread11 = 'Data Entry Approved';
+        
+        return view('Storedata.archive', compact(
+            'pendingTransactions', 
+            'offices', 
+            'bread11', 
+            'approved111'
+        ));
+        
+    } catch (\Exception $e) {
+        \Log::error('Error in dataapproved: ' . $e->getMessage());
+        \Log::error('Stack trace: ' . $e->getTraceAsString());
+        
+        return back()->withErrors([
+            'error' => 'An error occurred while loading the data. Please try again.'
+        ]);
+    }
 
+
+
+
+}
 
 
 public function dataapproved(Request $request){
@@ -417,6 +467,51 @@ public function officeapproved($id, $userid)
     
     // Generate filename with timestamp
     $filename = 'approved_products_' . $user->userid . '_' . date('Y-m-d_H-i-s') . '.pdf';
+    
+    return $mpdf->Output($filename, 'I'); // 
+
+
+}
+
+public function officeapproved12($id, $userid)
+{
+     $user = User::where('userid', $userid)->firstOrFail();
+    $transactions = Transaction::with('product')
+        ->where('trid', $id)
+        ->where('status', 'archived')
+        ->orderBy('created_at', 'desc')  // Order by newest first
+        ->get();
+      
+       
+     
+    $html = View::make('PDF.approved_office', [
+        'transactions' => $transactions,
+        'user' => $user,
+    ])->render();
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'orientation' => 'P',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 15,
+        'margin_header' => 5,
+        'margin_footer' => 5,
+        'default_font_size' => 12,
+        // Try these fonts in order of preference
+        'default_font' => 'SolaimanLipi', // This usually works better than nikosh
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'tempDir' => storage_path('app/temp'), // Better temp directory
+    ]);
+
+    // Remove the extra CSS - let the template handle styling
+    $mpdf->WriteHTML($html);
+    
+    // Generate filename with timestamp
+    $filename = 'archived_products_' . $user->userid . '_' . date('Y-m-d_H-i-s') . '.pdf';
     
     return $mpdf->Output($filename, 'I'); // 
 

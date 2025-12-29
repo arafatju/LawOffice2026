@@ -145,7 +145,11 @@ Route::get('/product-report/data', [Storeadminmonitor::class, 'getReportData'])-
 Route::get('/productapproved111', [Pdfpermission111::class, 'productapproved111'])->name('productapproved111');
 Route::get('/officereport1212', [Pdfpermission111::class, 'officereport1212'])->name('officereport1212');
 Route::get('/userapproved111', [Pdfpermission111::class, 'userapproved111'])->name('userapproved111');
-
+Route::get('/product2001', [Pdfpermission111::class, 'product2001'])->name('product2001');
+Route::get('/product2002', [Pdfpermission111::class, 'product2002'])->name('product2002');
+Route::get('/product2003', [Pdfpermission111::class, 'product2003'])->name('product2003');
+Route::get('/product2004', [Pdfpermission111::class, 'product2004'])->name('product2004');
+Route::get('/product2005', [Pdfpermission111::class, 'product2005'])->name('product2005');
 
     });
 
@@ -162,8 +166,9 @@ Route::get('/productpending1124/{id}', [Storeentry::class, 'productpending1124']
 Route::delete('/transactions/{id}', [Storeentry::class, 'destroy11'])->name('transactions.delete');
 Route::post('/transactions11', [Storeentry::class, 'approveMultiple11'])->name('transactions.approveMultiple11');
 Route::get('/officeapproved/{id}/{userid}', [Storeentry::class, 'officeapproved'])->name('officeapproved');
-
+Route::get('/dataarchive', [Storeentry::class, 'dataarchive'])->name('dataarchive');
 Route::get('/productapproved', [Storeentry::class, 'productapproved'])->name('productapproved');
+Route::get('/officeapproved12/{id}/{userid}', [Storeentry::class, 'officeapproved12'])->name('officeapproved12');
 
     });
 

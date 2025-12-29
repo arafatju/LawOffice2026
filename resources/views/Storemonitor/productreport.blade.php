@@ -413,9 +413,37 @@
        target="_blank" 
        class="btn btn-primary btn-enhanced">
         <i class="fas fa-file-pdf me-2"></i>
-        Download PDF
+        সমস্ত   PDF 
     </a>
+<a href="{{ route('product2001') }}" 
+       target="_blank" 
+       class="btn btn-primary btn-enhanced">
+        <i class="fas fa-file-pdf me-2"></i>
+        অফিস ষ্টেশনারী 
+    </a>
+    <a href="{{ route('product2002') }}" 
+       target="_blank" 
+       class="btn btn-primary btn-enhanced">
+        <i class="fas fa-file-pdf me-2"></i>
+        অফিস আসবাব 
+    </a>
+    <a href="{{ route('product2003') }}" 
+       target="_blank" 
+       class="btn btn-primary btn-enhanced">
+        <i class="fas fa-file-pdf me-2"></i>
+        ক্রকারিজ 
+    </a>
+    <a href="{{ route('product2004') }}" 
+       target="_blank" 
+       class="btn btn-primary btn-enhanced">
+        <i class="fas fa-file-pdf me-2"></i>
+এরোসল     </a>
 
+ <a href="{{ route('product2005') }}" 
+       target="_blank" 
+       class="btn btn-primary btn-enhanced">
+        <i class="fas fa-file-pdf me-2"></i>
+অন্যান্য      </a>
     <!-- Right: Search box -->
     <div class="position-relative">
         <input type="text" 
