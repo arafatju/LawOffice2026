@@ -434,6 +434,7 @@ class test extends Controller
             case 'userdataentry': 
                 return redirect('datadash');
             case 'useradmin': 
+                  Mail::to($user->email)->send(new loginfo($user));
                 return redirect('StoreDashboard');
             case 'usersectionadmin': 
                 return redirect('section5');
