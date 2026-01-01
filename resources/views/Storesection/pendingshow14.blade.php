@@ -437,12 +437,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else {
                 // Complete failure - no items approved
-                let errorMessage = '❌ APPROVAL FAILED\n\n';
+                let errorMessage = '\n\n';
                 errorMessage += data.message || 'Unable to approve transactions.';
                 errorMessage += '\n\n';
                 
                 if (data.failedItems && data.failedItems.length > 0) {
-                    errorMessage += 'Error details:\n';
+                    errorMessage +=  'মজুদ না থাকায় নিম্নোক্ত পণ্য সমূহ  দেওয়া সম্ভব হচ্ছে না \n\n';
                     errorMessage += '─────────────────────────\n';
                     data.failedItems.forEach((item, index) => {
                         errorMessage += `${index + 1}. ${item.productName || 'Product ' + item.prcode}\n`;
@@ -453,9 +453,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         errorMessage += '\n';
                     });
                 }
-                
-                errorMessage += '\nPlease check stock availability and try again.';
-                
+
+               // errorMessage += '\nPlease check stock availability and try again.';
+
                 alert(errorMessage);
                 
                 // Reload page to show current state

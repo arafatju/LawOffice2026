@@ -297,24 +297,26 @@ public function approveMultiple14(Request $request)
             'approved' => $approvedCount,
             'message' => 'All transactions approved successfully'
         ]);
-    } elseif ($approvedCount > 0 && count($failedItems) > 0) {
+    }// elseif ($approvedCount > 0 && count($failedItems) > 0) {
         // Partial success
-        return response()->json([
-            'success' => true,
-            'partial' => true,
-            'approved' => $approvedCount,
-            'failed' => count($failedItems),
-            'failedItems' => $failedItems,
-            'message' => "Approved {$approvedCount} item(s). {count($failedItems)} item(s) failed."
-        ]);
-    } else {
+       // return response()->json([
+        //    'success' => true,
+         //   'partial' => true,
+         //   'approved' => $approvedCount,
+         //   'failed' => count($failedItems),
+         //   'failedItems' => $failedItems,
+         //   'message' => "Approved {$approvedCount} item(s). {count($failedItems)} item(s) failed."
+       // ]);
+  //  }
+    
+    else {
         // All items failed
         return response()->json([
             'success' => false,
-            'approved' => 0,
+            'approved' => $approvedCount,
             'failed' => count($failedItems),
             'failedItems' => $failedItems,
-            'message' => 'All transactions failed. Please check stock availability.'
+            
         ], 422);
     }
 }
