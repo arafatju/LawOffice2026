@@ -300,12 +300,12 @@ public function dataarchive(Request $request){
         // Apply office filter if provided
         
         
-        // Get transactions and group by trid
-        $transactions = $query->orderBy('created_at', 'desc')->get();
-        
-        // Group by trid (transaction ID)
-        $pendingTransactions = $transactions->groupBy('trid');
-        
+      // Get transactions and group by updated_at
+    $transactions = $query->orderBy('updated_at', 'desc')->get();
+    
+    // Group by updated_at (date only, not timestamp)
+     $pendingTransactions = $transactions->groupBy('trid');
+
         // Count approved transactions
         $approved111 = Transaction::where('status', 'archived')->count();
         

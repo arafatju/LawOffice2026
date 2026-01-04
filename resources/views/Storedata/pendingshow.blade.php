@@ -1,32 +1,12 @@
 @extends('common.masterall')
 
 @section('content')
-@section('title', 'Section Admin Management ')
+
+@section('title', 'Section Admin Management') 
 
 @section('breadcrumb', 'User Management')
 
-<h2>Dashboard</h2>
-<div class="row mt-4">
-    <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Total  ordered </h5>
-                <p>{{ $pending }}</p>
-            </div>
-        </div>
-    </div>
-    
-    
-   
-</div>
-
-<table class="table table-bordered">
-    <thead>
-        <tr class="bg-primary text-white">
-            <th>প্রোডাক্ট আইডি</th>
-            <th>প্রোডাক্ট নাম</th>
-            <th>চাহিদা</th>
-            @php
+@php
 function enToBnNumber($number) {
     $english = ['0','1','2','3','4','5','6','7','8','9'];
     $bangla  = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
@@ -37,51 +17,131 @@ function enToBnNumber($number) {
 @php
     use Carbon\Carbon;
 @endphp 
-            <th>মাসিক বরাদ্দ</th>
-            <th>মাসিক বিতরণ</th>
-            <th>মজুদ আছে</th>
-            <th>তারিখ</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($pendingTransactions as $product)
-        <tr data-transaction-id="{{ $product->id }}" data-user-id="{{ $product->userid }}">
-            <td class="prcode">{{ enToBnNumber($product->prcode) }}</td>
-            <td class="pname">{{ enToBnNumber(App\Http\Controllers\Storeuser::getProductDetails($product->prcode))  }}</td>
-            <td class="number">{{ ($product->number) }}</td>
-            <td>{{ (App\Http\Controllers\Storeuser::getAllotmentDetails($product->prcode,$product->userid)) }}</td>
-            <td>{{ enToBnNumber(App\Http\Controllers\Storeuser::getTransactionDetails($product->prcode,$product->month,$product->userid)) }}</td>
-            <td>{{ enToBnNumber(App\Http\Controllers\Storeentry::getStockDetails($product->prcode)) }}</td>
-            <td>{{ enToBnNumber($product->created_at->format('d, M, Y')) }}</td>
-            <td>
-                <form action="{{ route('transactions.delete', $product->id) }}" method="POST" 
-                      style="display: inline-block;" onsubmit="return confirm('Are you sure?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
 
-@if($pendingTransactions->isNotEmpty())
-<div class="mt-3 text-center">
-    <button type="button" class="btn btn-primary" id="openApproveModalBtn" 
-            data-id="{{ $pendingTransactions->first()->userid }}">
-        <i class="fas fa-edit"></i> Edit All Items
-    </button>
+<style>
+    /* Custom Font Support for Bangla */
+    .font-bn {
+        font-family: 'Hind Siliguri', 'SolaimanLipi', sans-serif;
+    }
+    
+    /* Print Styles */
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .table-responsive {
+            overflow: visible !important;
+        }
+        body {
+            background-color: white;
+        }
+    }
+</style>
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">User Management</h1>
+    </div>
+
+    <!-- Stats Card -->
+    <div class="row mb-4 no-print">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2" style="border-left: 5px solid #36b9cc;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Total Ordered
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-info font-bn">
+                                {{ $pending }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Table Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Product Transactions</h6>
+            
+            @if($pendingTransactions->isNotEmpty())
+                <button type="button" class="btn btn-primary btn-sm" id="openApproveModalBtn" 
+                        data-id="{{ $pendingTransactions->first()->userid }}">
+                    <i class="fas fa-edit me-1"></i> Edit All Items
+                </button>
+            @endif
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th>প্রোডাক্ট আইডি</th>
+                            <th>প্রোডাক্ট নাম</th>
+                            <th>চাহিদা</th>
+                            <th>মাসিক বরাদ্দ</th>
+                            <th>মাসিক বিতরণ</th>
+                            <th>মজুদ আছে</th>
+                            <th>তারিখ</th>
+                            <th class="text-center no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($pendingTransactions as $product)
+                        <tr data-transaction-id="{{ $product->id }}" data-user-id="{{ $product->userid }}">
+                            <td class="prcode font-bn">{{ enToBnNumber($product->prcode) }}</td>
+                            <td class="pname font-bn">{{ enToBnNumber(App\Http\Controllers\Storeuser::getProductDetails($product->prcode))  }}</td>
+                            <td class="number font-bn fw-bold text-primary">{{ ($product->number) }}</td>
+                            <td class="font-bn">{{ (App\Http\Controllers\Storeuser::getAllotmentDetails($product->prcode,$product->userid)) }}</td>
+                            <td class="font-bn">{{ enToBnNumber(App\Http\Controllers\Storeuser::getTransactionDetails($product->prcode,$product->month,$product->userid)) }}</td>
+                            <td class="font-bn">{{ enToBnNumber(App\Http\Controllers\Storeentry::getStockDetails($product->prcode)) }}</td>
+                            <td class="font-bn">{{ enToBnNumber($product->created_at->format('d, M, Y')) }}</td>
+                            <td class="text-center no-print">
+                                <form action="{{ route('transactions.delete', $product->id) }}" method="POST" 
+                                      style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="fas fa-box-open fa-3x mb-3"></i>
+                                        <p>No transactions found.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-@endif
 
-<!-- Edit Modal (No Approval) -->
+<!-- Edit Modal -->
 <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="approveModalLabel">
+                <h5 class="modal-title font-bn" id="approveModalLabel">
                     <i class="fas fa-edit"></i> Edit Transactions
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -89,20 +149,24 @@ function enToBnNumber($number) {
             <div class="modal-body">
                 <div class="alert alert-info mb-3">
                     <i class="fas fa-info-circle"></i> 
-                    <strong>Note:</strong> You can edit the quantities below. Changes will be saved without approval workflow.
+                    <strong>Note:</strong> You can edit the quantities below. Changes will be saved immediately.
                 </div>
-                <table class="table table-bordered table-hover" id="modalTransactionTable">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 25%;">Product ID</th>
-                            <th style="width: 45%;">Product Name</th>
-                            <th style="width: 30%;">Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- JS will populate rows -->
-                    </tbody>
-                </table>
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="modalTransactionTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 25%;">Product ID</th>
+                                <th style="width: 45%;">Product Name</th>
+                                <th style="width: 30%;">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- JS will populate rows -->
+                        </tbody>
+                    </table>
+                </div>
+                
                 <input type="hidden" id="modalTransactionId">
             </div>
             <div class="modal-footer">
@@ -118,15 +182,18 @@ function enToBnNumber($number) {
 </div>
 
 <style>
-/* Modal styling */
+/* Modal Input Styling */
 #modalTransactionTable input[type="number"] {
     text-align: center;
     font-weight: 500;
+    border: 1px solid #ced4da;
+    padding: 5px;
 }
 
 #modalTransactionTable input[type="number"]:focus {
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    outline: none;
 }
 
 .modal-body {
@@ -134,28 +201,9 @@ function enToBnNumber($number) {
     overflow-y: auto;
 }
 
-/* Responsive table */
-@media (max-width: 768px) {
-    .modal-dialog {
-        margin: 0.5rem;
-    }
-    
-    #modalTransactionTable {
-        font-size: 0.875rem;
-    }
-}
-
-/* Loading state */
-.spinner-border-sm {
-    width: 1rem;
-    height: 1rem;
-    border-width: 0.15em;
-}
-
-/* Table styling */
-.table-hover tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.025);
-    cursor: default;
+/* Validation Style */
+.is-invalid {
+    border-color: #dc3545 !important;
 }
 </style>
 
@@ -166,53 +214,59 @@ document.addEventListener('DOMContentLoaded', function() {
     let approveModalInstance = null;
     
     // Initialize modal instance
-    approveModalInstance = new bootstrap.Modal(document.getElementById('approveModal'));
+    if (typeof bootstrap !== 'undefined') {
+        approveModalInstance = new bootstrap.Modal(document.getElementById('approveModal'));
+    } else {
+        console.error('Bootstrap 5 is not loaded.');
+        return;
+    }
     
     // Open modal button click handler
-    document.getElementById('openApproveModalBtn').addEventListener('click', function() {
-        const userId = this.getAttribute('data-id');
-        
-        console.log('Opening modal for user:', userId);
-        
-        document.getElementById('modalTransactionId').value = userId;
-        
-        // Clear modal table and reset items
-        document.querySelector('#modalTransactionTable tbody').innerHTML = '';
-        transactionItems = [];
-        
-        // Find all rows in table with same userId
-        const rows = document.querySelectorAll('tr[data-user-id="' + userId + '"]');
-        console.log('Found rows:', rows.length);
-        
-        rows.forEach(function(row) {
-            const transactionId = row.getAttribute('data-transaction-id');
-            const prcode = row.querySelector('.prcode').textContent.trim();
-            const pname = row.querySelector('.pname').textContent.trim();
-            const number = row.querySelector('.number').textContent.trim();
+    const openBtn = document.getElementById('openApproveModalBtn');
+    if(openBtn) {
+        openBtn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-id');
             
-            // Store item data for later use
-            const itemData = {
-                transactionId: transactionId,
-                prcode: prcode,
-                pname: pname,
-                number: number
-            };
-            transactionItems.push(itemData);
+            document.getElementById('modalTransactionId').value = userId;
             
-            let rowHtml = '<tr>';
-            rowHtml += '<td>' + prcode + '</td>';
-            rowHtml += '<td>' + pname + '</td>';
-            rowHtml += '<td><input type="number" class="form-control modal-number" data-rowid="'+transactionId+'" value="'+number+'" min="0" step="1"></td>';
-            rowHtml += '</tr>';
+            // Clear modal table and reset items
+            const tbody = document.querySelector('#modalTransactionTable tbody');
+            tbody.innerHTML = '';
+            transactionItems = [];
             
-            document.querySelector('#modalTransactionTable tbody').insertAdjacentHTML('beforeend', rowHtml);
+            // Find all rows in table with same userId
+            const rows = document.querySelectorAll('tr[data-user-id="' + userId + '"]');
+            
+            rows.forEach(function(row) {
+                const transactionId = row.getAttribute('data-transaction-id');
+                const prcode = row.querySelector('.prcode').textContent.trim();
+                const pname = row.querySelector('.pname').textContent.trim();
+                const number = row.querySelector('.number').textContent.trim();
+                
+                // Store item data for later use
+                const itemData = {
+                    transactionId: transactionId,
+                    prcode: prcode,
+                    pname: pname,
+                    number: number
+                };
+                transactionItems.push(itemData);
+                
+                let rowHtml = '<tr>';
+                rowHtml += '<td>' + prcode + '</td>';
+                rowHtml += '<td>' + pname + '</td>';
+                rowHtml += '<td><input type="number" class="form-control modal-number font-bn" data-rowid="'+transactionId+'" value="'+number+'" min="0" step="1"></td>';
+                rowHtml += '</tr>';
+                
+                tbody.insertAdjacentHTML('beforeend', rowHtml);
+            });
+            
+            // Show modal
+            approveModalInstance.show();
         });
-        
-        // Show modal
-        approveModalInstance.show();
-    });
+    }
     
-    // Save button click handler (no approval, no print)
+    // Save button click handler
     document.getElementById('saveApprove').addEventListener('click', function() {
         const numbers = {};
         const modalNumbers = document.querySelectorAll('.modal-number');
@@ -268,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         })
         .then(response => {
-            // Parse JSON regardless of status code
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -289,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (data.success) {
                 if (data.partial) {
-                    // Partial success - some items saved, some failed
+                    // Partial success
                     let message = 'PARTIAL SUCCESS\n\n';
                     message += data.updated + ' item(s) updated successfully\n';
                     message += data.failed + ' item(s) failed\n\n';
@@ -303,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     alert(message);
                 } else {
-                    // Full success - all items saved
+                    // Full success
                     alert('All transactions updated successfully!');
                 }
                 
@@ -311,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => location.reload(), 500);
                 
             } else {
-                // Complete failure - no items saved
+                // Complete failure
                 let errorMessage = 'UPDATE FAILED\n\n';
                 errorMessage += data.message || 'Unable to update transactions.';
                 errorMessage += '\n\n';
@@ -353,7 +406,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle modal cleanup
     document.getElementById('approveModal').addEventListener('hidden.bs.modal', function() {
         transactionItems = [];
-        document.querySelector('#modalTransactionTable tbody').innerHTML = '';
+        const tbody = document.querySelector('#modalTransactionTable tbody');
+        if(tbody) tbody.innerHTML = '';
         document.getElementById('modalTransactionId').value = '';
         // Remove validation classes
         document.querySelectorAll('.modal-number').forEach(input => {

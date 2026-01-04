@@ -1,18 +1,10 @@
-
 @extends('common.masterall')
- 
- 
-  
-  
-  
-      
- 
-  
+
 @section('content')
 
-@section('title', 'Section Admin Management ') 
+@section('title', 'Section Admin Management') 
 
-@section('breadcrumb', 'Archived  Applications')
+@section('breadcrumb', 'Archived Applications')
 
 @php
 function enToBnNumber($number) {
@@ -26,82 +18,135 @@ function enToBnNumber($number) {
     use Carbon\Carbon;
 @endphp 
 
+<style>
+    /* Custom Font Support for Bangla */
+    .font-bn {
+        font-family: 'Hind Siliguri', 'SolaimanLipi', sans-serif;
+    }
+    
+    /* Print Styles */
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .table-responsive {
+            overflow: visible !important;
+        }
+        body {
+            background-color: white;
+        }
+        thead {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+</style>
 
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Archived Applications</h1>
+    </div>
 
-<h2>Dashboard  </h2>
-<div class="row mt-4">
-    <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-info">Total Archived Items </h5>
-                 <p> 
-                    {{ $approved111 }} 
-             </p>
+    <!-- Stats Card -->
+    <div class="row mb-4 no-print">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2" style="border-left: 5px solid #0dcaf0;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Total Archived Items
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-info font-bn">
+                                {{ $approved111 }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-archive fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-     
+
+    <!-- Main Table Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Archived Report</h6>
+            <button onclick="window.print()" class="btn btn-outline-secondary btn-sm no-print">
+                <i class="fas fa-print"></i> Print Report
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center" style="width: 80px;">ক্রমিক নং</th>
+                            <th>ব্যবহারকারীর নাম</th>
+                            <th>পণ্য তালিকা</th>
+                            <th>আবেদনের তারিখ</th>
+                            <th>মঞ্জুরির তারিখ</th>
+                            <th class="text-center" style="width: 120px;">PDF</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($pendingTransactions as $userId => $transactions)
+                            @php
+                                $user = $transactions->first()->user; // same user for all in group
+                            @endphp
+
+                            <tr>
+                                <td class="text-center font-bn">{{ enToBnNumber($loop->iteration) }}</td>
+                                <td>
+                                    <strong>{{ $user->name }}</strong>
+                                    <br>
+                                    <small class="text-muted">ID: {{ $user->userid }}</small>
+                                </td>
+                                <td>
+                                    <ul class="list-unstyled mb-0 font-bn">
+                                        @foreach($transactions as $transaction)
+                                            <li class="mb-1">
+                                                <i class="fas fa-chevron-right small text-primary me-1"></i>
+                                                {{ $transaction->product->name }} 
+                                                <span class="badge bg-light text-dark border ms-1">
+                                                    Qty: {{ enToBnNumber($transaction->number) }}
+                                                </span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td class="font-bn">{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
+                                <td class="font-bn">{{ enToBnNumber($transactions->first()->updated_at->format('d, M, Y')) }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('officeapproved12', ['id' => $transactions->first()->trid, 'userid' => $user->userid]) }}" 
+                                       target="_blank" 
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fas fa-file-pdf"></i> Print
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="fas fa-folder-open fa-3x mb-3"></i>
+                                        <p>No archived applications found.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
- 
- 
 
-<!-- Print section starts -->
-<div class="print-area">
-    <h3 class="text-center my-3">REPORT</h3>
-<table class="table table-border">
-    <tr class="bg-primary text-white">
-        <th> ক্রমিক নং  </th>
-        <th>ব্যবহারকারীর নাম </th>
-        <th>পণ্য তালিকা </th>
-        <th>আবেদনের তারিখ </th>
-        <th>মঞ্জুরির তারিখ </th>
-         <th> PDF </th> 
-    </tr>
-
-    @foreach($pendingTransactions as $userId => $transactions)
-        @php
-            $user = $transactions->first()->user; // same user for all in group
-        @endphp
-
-        {{-- Show first row with user info --}}
-        <tr>
-            <td>{{ enToBnNumber($loop->iteration) }}</td>
-            <td>{{ $user->name }}</td>
-            <td>
-                {{-- List all products for this user --}}
-                <ul>
-                    @foreach($transactions as $transaction)
-                        <li>{{ $transaction->product->name }} ({{ enToBnNumber($transaction->number) }})</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td>{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
-            <td>{{ enToBnNumber($transactions->first()->updated_at->format('d, M, Y')) }}</td>
-            <td> 
-    <a href="{{ route('officeapproved12', ['id' => $transactions->first()->trid, 'userid' => $user->userid]) }}" 
-       target="_blank" 
-       class="btn btn-sm btn-primary">
-        Print
-    </a>
-</td>
- </td> 
-        </tr>
-    @endforeach
-</table>
-
-                </div>
-                
-                <script>
-function printReportTable() {
-    var printContents = document.getElementById('report-print-section').innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload(); // reloads to recover JS/events/styles
-}
-</script>
- 
 @endsection
-

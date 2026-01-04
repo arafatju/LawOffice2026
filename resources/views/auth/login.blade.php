@@ -372,7 +372,7 @@
         }
 
         .btn-login {
-            background: #dc3545;
+            background: #1325caff;
             color: white;
         }
 
