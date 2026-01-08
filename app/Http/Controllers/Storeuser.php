@@ -72,9 +72,13 @@ class Storeuser extends Controller
 public function destroyuser($id)
     {
         $user = User::findOrFail($id);
+        
         $user->delete();
-
-        return redirect()->back()->with('success', 'User deleted successfully!');
+          $person=personalinfo::where('userid', $id)->first();
+          if ($person) {
+              $person->delete();
+          };
+        return redirect()->back()->with('success', 'User deleted successfully111!');
     }
 public function updateRole(Request $request, $id)
 {
