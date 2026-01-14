@@ -224,7 +224,7 @@ public function approveMultiple14(Request $request)
     
     $approvedCount = 0;
     $failedItems = [];
-    
+    $lastid=ApplicationInfo::max('id') ?? 0;
     foreach ($numbers as $rowId => $number) {
         $transaction = Transaction::find($rowId);
         
@@ -265,6 +265,7 @@ public function approveMultiple14(Request $request)
         }
         
         // 1. Update transaction
+        $transaction->trid='apvr'.$lastid;
         $transaction->number = $number;
         $transaction->status = 'approved';
         $transaction->lotnumber = $lastLot ? $lastLot->lotnumber : null;
@@ -344,7 +345,7 @@ public function dataapproved14(Request $request){
         }
         
         // Get transactions and group by trid
-        $transactions = $query->orderBy('created_at', 'desc')->get();
+        $transactions = $query->orderBy('updated_at', 'desc')->get();
         
         // Group by trid (transaction ID)
         $pendingTransactions = $transactions->groupBy('trid');
@@ -420,7 +421,7 @@ public function officeapproved14($id, $userid)
         $bread11='Data Entry Profile';
         return view('Storesection.profile14', compact('bread11', 'user'));
     }
-public function productpending1135($id){
+public function productpending1135($id,$trid){
          $highest =Transaction::where('userid',$id)
                    ->where('status','approved')
                     ->orderByDesc('number')
@@ -433,7 +434,7 @@ public function productpending1135($id){
     }
 
         $pendingTransactions = Transaction::where('status', 'pending')
-            ->where('userid', $id)
+            ->where('trid', $trid)
             ->get();
             $totalaccepted=Transaction::where('status', 'approved')
             ->where('userid', $id)

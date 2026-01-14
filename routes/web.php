@@ -175,7 +175,7 @@ Route::get('/officeapproved12/{id}/{userid}', [Storeentry::class, 'officeapprove
 
 Route::middleware(['auth', 'user-access:usersectionadmin'])->group(function () {
 Route::get('/datapending14', [Storesectionadmin::class, 'datapending14'])->name('datapending14');
-Route::get('/productpending1135/{id}', [Storesectionadmin::class, 'productpending1135'])->name('productpending1135');
+Route::get('/productpending1135/{id}/{trid}', [Storesectionadmin::class, 'productpending1135'])->name('productpending1135');
 Route::post('/transactions14', [Storesectionadmin::class, 'approveMultiple14'])->name('transactions.approveMultiple14');
 Route::get('/dataapproved14', [Storesectionadmin::class, 'dataapproved14'])->name('dataapproved14');
 Route::get('/dataprofile14', [Storesectionadmin::class, 'dataprofile14'])->name('dataprofile14');

@@ -293,7 +293,7 @@ public function dataarchive(Request $request){
         
         // Build query with proper relationships
         $query = Transaction::with(['user.personalInfo', 'product'])
-            ->where('status', 'archived')
+            ->where('status2', 'archived')
             ->whereHas('product') // Ensure product exists
             ->whereHas('user'); // Ensure user exists
         
@@ -346,6 +346,7 @@ public function dataapproved(Request $request){
         // Build query with proper relationships
         $query = Transaction::with(['user.personalInfo', 'product'])
             ->where('status', 'approved')
+            ->whereNull('status2')
             ->whereHas('product') // Ensure product exists
             ->whereHas('user'); // Ensure user exists
         
@@ -357,7 +358,7 @@ public function dataapproved(Request $request){
         }
         
         // Get transactions and group by trid
-        $transactions = $query->orderBy('created_at', 'desc')->get();
+        $transactions = $query->orderBy('updated_at', 'desc')->get();
         
         // Group by trid (transaction ID)
         $pendingTransactions = $transactions->groupBy('trid');
@@ -435,9 +436,16 @@ public function officeapproved($id, $userid)
         ->orderBy('created_at', 'desc')  // Order by newest first
         ->get();
       
-       Transaction::where('trid', $id)
+      // Transaction::where('trid', $id)
+   // ->where('status', 'approved')
+   // ->update(['status' => 'archived']);
+
+    Transaction::where('trid', $id)
     ->where('status', 'approved')
-    ->update(['status' => 'archived']);
+    ->update([
+        'status2' => 'archived',
+        'updated_at' => DB::raw('updated_at')
+    ]);
      
     $html = View::make('PDF.approved_office', [
         'transactions' => $transactions,

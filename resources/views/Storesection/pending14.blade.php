@@ -422,7 +422,7 @@ function enToBnNumber($number) {
                             </td>
                             <td class="date-cell">{{ enToBnNumber($transactions->first()->created_at->format('d, M, Y')) }}</td>
                             <td>
-                                <a href="{{ route('productpending1135', $user->userid) }}" class="action-btn">
+                                <a href="{{ route('productpending1135', [$user->userid, $transactions->first()->trid]) }}" class="action-btn">
                                     <i class="fas fa-arrow-right" style="margin-right: 6px;"></i>বিস্তারিত
                                 </a>
                             </td>

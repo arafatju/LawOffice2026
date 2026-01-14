@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     protected $table = 'transaction';
 
-    protected $fillable = ['userid', 'trid', 'status', 'prcode', 'number','month','year','lotnumber'];
+    protected $fillable = ['userid', 'trid', 'status', 'prcode', 'number','month','year','lotnumber', 'status2'];
 protected $casts = [
         'number' => 'integer', // or 'decimal:2' if you used decimal
     ];
