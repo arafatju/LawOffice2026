@@ -507,6 +507,8 @@ $bread11='Pending Products';
             if ($product->quantity >= $number) {
                 $transaction->number = $number;
                 $transaction->status = 'approved';
+
+                //   $transaction->office = Auth::user()->personaloffic3-> office;
                 $transaction->lotnumber = $lastLot ? $lastLot->lotnumber : null;
                 $transaction->save();
 
