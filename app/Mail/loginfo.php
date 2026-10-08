@@ -1,53 +1,54 @@
 <?php
-
 namespace App\Mail;
 
-
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Jenssegers\Agent\Agent;
 
-class loginfo extends Mailable
+class loginfo extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
-  
-    public $loginTime;
+
+    public $id;
     public $user;
-    public $os;
-    public $osVersion;
     public $browser;
     public $browserVersion;
-    public $location;
+    public $platform;
+    public $platformVersion;
+    public $ip;
+    public $city;
+    public $region;
+    public $country;
 
-    public function __construct($user )
-    {
+    public function __construct(
+        $id,
+        User $user,
+        $browser,
+        $browserVersion,
+        $platform,
+        $platformVersion,
+        $ip,
+        $city,
+        $region,
+        $country
+    ) {
+        $this->id = $id;
         $this->user = $user;
-         
-
-        // Detect Agent info
-        $agent = new Agent();
-        $this->os = $agent->platform();
-        $this->osVersion = $agent->version($this->os);
-        $this->browser = $agent->browser();
-        $this->browserVersion = $agent->version($this->browser);
-
-       // $this->location = $location; // you can pass array: ['city' => ..., 'region' => ..., 'country' => ...]
+        $this->browser = $browser;
+        $this->browserVersion = $browserVersion;
+        $this->platform = $platform;
+        $this->platformVersion = $platformVersion;
+        $this->ip = $ip;
+        $this->city = $city;
+        $this->region = $region;
+        $this->country = $country;
     }
 
     public function build()
     {
         return $this->view('Email.info')
-                    ->subject('User Login Information')
-                    ->with([
-                        'user' => $this->user,
-                        
-                        'os' => $this->os,
-                        'osVersion' => $this->osVersion,
-                        'browser' => $this->browser,
-                        'browserVersion' => $this->browserVersion,
-                        
-                    ]);
+                    ->subject($this->id);
     }
 }

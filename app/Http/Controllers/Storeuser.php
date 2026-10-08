@@ -53,6 +53,31 @@ class Storeuser extends Controller
         $bread11="Dashboard";
              return view('Storeuser.StoreDashboard',compact('bread11'));
       }
+      public function renameProduct(Request $request, $prcode)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:100',
+    ]);
+
+    $product = ProductInfo::where('prcode', $prcode)->firstOrFail();
+    $product->update(['name' => trim($validated['name'])]);
+
+    return back()->with('success', 'Product renamed successfully.');
+}
+public function enableProduct($prcode)
+{
+    $product = ProductInfo::where('prcode', $prcode)->firstOrFail();
+    $product->update(['status' => 'ok11']);
+
+    return back()->with('success', 'Product enabled successfully.');
+}
+public function disableProduct($prcode)
+{
+    $product = ProductInfo::where('prcode', $prcode)->firstOrFail();
+    $product->update(['status' => 'notok']);
+
+    return back()->with('success', 'Product disabled successfully.');
+}
 
       public function product(Request $request){
                       

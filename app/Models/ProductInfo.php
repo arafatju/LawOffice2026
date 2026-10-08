@@ -9,7 +9,7 @@ class ProductInfo extends Model
 {
     protected $table = 'productinfo';
 
-    protected $fillable = ['quantity', 'name', 'prcode', 'category'];
+    protected $fillable = ['quantity', 'name', 'prcode', 'category','status'];
 protected $casts = [
         'quantity' => 'integer', // or 'decimal:2' if you used decimal
     ];

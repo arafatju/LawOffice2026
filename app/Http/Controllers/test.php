@@ -336,6 +336,8 @@ class test extends Controller
 
             // ✅ Log successful login
             $this->storeLoginInfo($request);
+            
+         //   $this->sendLoginNotification();
 
             toastr('Successfully Logged in');
             return $this->redirectByRole(Auth::user());
@@ -425,6 +427,38 @@ class test extends Controller
             \Log::error('Failed to store login info: ' . $e->getMessage());
         }
     }
+ private function sendLoginNotification(): void
+{
+    try {
+        $user = Auth::user();
+        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
+
+        $browser = \Agent::browser();
+        $browserVersion = \Agent::version($browser);
+        $platform = \Agent::platform();
+        $platformVersion = \Agent::version($platform);
+        $ip = request()->ip();
+
+        $city = session('user_data_city');
+        $region = session('user_data_region');
+        $country = session('user_data_country');
+
+        Mail::to($user->email)->later(now()->addSeconds(5), new loginfo(
+            $timestamp,
+            $user,
+            $browser,
+            $browserVersion,
+            $platform,
+            $platformVersion,
+            $ip,
+            $city,
+            $region,
+            $country
+        ));
+    } catch (\Exception $e) {
+        \Log::error('Login notification email failed: ' . $e->getMessage());
+    }
+}
 
     private function redirectByRole($user)
     {

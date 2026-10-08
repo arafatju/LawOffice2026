@@ -88,7 +88,10 @@ Route::get('/loginfo/data', [LogInfoController::class, 'getData'])->name('loginf
     Route::get('/lots', [LotInfoController::class, 'index'])->name('lots.index');
 Route::get('/lots/data', [LotInfoController::class, 'getData'])->name('lots.data');
 
-
+ 
+Route::put('/product/{prcode}/rename', [Storeuser::class, 'renameProduct'])->name('product.rename');
+Route::patch('/product/{prcode}/disable', [Storeuser::class, 'disableProduct'])->name('product.disable');
+Route::patch('/product/{prcode}/enable', [Storeuser::class, 'enableProduct'])->name('product.enable');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 Route::get('/transactions/data', [TransactionController::class, 'getData'])->name('transactions.data');
 

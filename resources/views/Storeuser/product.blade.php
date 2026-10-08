@@ -46,6 +46,13 @@
     cursor: pointer;
     transition: all 0.3s ease;
 }
+.btn-rename { background: #ffc107; color: #000; }
+.btn-rename:hover { background: #e0a800; transform: translateY(-1px); }
+.btn-disable { background: #6c757d; color: #fff; }
+.btn-disable:hover { background: #5a6268; transform: translateY(-1px); }
+
+.btn-enable { background: #28a745; color: #fff; }
+.btn-enable:hover { background: #218838; transform: translateY(-1px); }
 
 .btn-delete {
     background: #dc3545;
@@ -166,33 +173,68 @@ table th, table td {
         <tbody>
             @forelse ($products as $product)
             <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $product->name }}</td>
-                <td>{{ $product->prcode }}</td>
-                <td>{{ $product->quantity }}</td>
-                <td>{{ $product->category }}</td>
-                <td class="no-print">
-                    <!-- View Allotment -->
-                    <button 
-                        class="action-btn btn-view btn-view-allotment" 
-                        data-prcode="{{ $product->prcode }}" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#viewAllotmentModal"
-                        title="View Allotment"
-                    >
-                        <i class="fas fa-eye"></i> View Allotment
-                    </button>
+    <td>{{ $loop->iteration }}</td>
+    <td>
+        {{ $product->name }}
+        @if($product->status === 'notok')
+            <span class="badge bg-secondary no-print">Disabled</span>
+        @endif
+    </td>
+    <td>{{ $product->prcode }}</td>
+    <td>{{ $product->quantity }}</td>
+    <td>{{ $product->category }}</td>
+    <td class="no-print">
+        <!-- View Allotment -->
+        <button
+            class="action-btn btn-view btn-view-allotment"
+            data-prcode="{{ $product->prcode }}"
+            data-bs-toggle="modal"
+            data-bs-target="#viewAllotmentModal"
+            title="View Allotment">
+            <i class="fas fa-eye"></i> View Allotment
+        </button>
 
-                    <!-- Delete Product -->
-                    <form action="{{ route('delete.bytype', ['type' => 'product', 'prcode' => $product->prcode]) }}" method="POST" class="delete-form d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="action-btn btn-delete btn-delete-confirm" title="Delete Product">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        <!-- Rename -->
+        <button type="button"
+                class="action-btn btn-rename btn-open-rename"
+                data-prcode="{{ $product->prcode }}"
+                data-name="{{ $product->name }}"
+                data-bs-toggle="modal"
+                data-bs-target="#renameModal"
+                title="Rename Product">
+            <i class="fas fa-edit"></i> Rename
+        </button>
+
+        <!-- Disable -->
+       <!-- Disable / Enable -->
+@if($product->status === 'notok')
+    <form action="{{ route('product.enable', $product->prcode) }}" method="POST" class="d-inline">
+        @csrf
+        @method('PATCH')
+        <button type="button" class="action-btn btn-enable btn-enable-confirm" title="Enable Product">
+            <i class="fas fa-check-circle"></i> Enable
+        </button>
+    </form>
+@else
+    <form action="{{ route('product.disable', $product->prcode) }}" method="POST" class="d-inline">
+        @csrf
+        @method('PATCH')
+        <button type="button" class="action-btn btn-disable btn-disable-confirm" title="Disable Product">
+            <i class="fas fa-ban"></i> Disable
+        </button>
+    </form>
+@endif
+
+        <!-- Delete -->
+        <form action="{{ route('delete.bytype', ['type' => 'product', 'prcode' => $product->prcode]) }}" method="POST" class="delete-form d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="button" class="action-btn btn-delete btn-delete-confirm" title="Delete Product">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </form>
+    </td>
+</tr>
             @empty
             <tr>
                 <td colspan="6" class="text-center text-muted">No products found</td>
@@ -273,7 +315,30 @@ table th, table td {
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" id="renameForm" action="">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renameModalLabel">
+                        Rename Product <span id="renamePrCode" class="text-muted"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="renameName" class="form-label">New Product Name</label>
+                    <input type="text" class="form-control" name="name" id="renameName" maxlength="100" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning">Update Name</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -282,6 +347,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const newProductForm = document.getElementById('newProductForm');
     const productModal = document.getElementById('productModal');
     const productModalInstance = bootstrap.Modal.getOrCreateInstance(productModal);
+const renameUrlTemplate = "{{ route('product.rename', ':prcode') }}";
+const renameForm  = document.getElementById('renameForm');
+const renameInput = document.getElementById('renameName');
+const renameCode  = document.getElementById('renamePrCode');
 
     newProductForm.addEventListener('submit', function(e) {
         // Close modal immediately
@@ -362,6 +431,59 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+
+
+
+
+document.querySelectorAll('.btn-open-rename').forEach(button => {
+    button.addEventListener('click', function () {
+        const prcode = this.dataset.prcode;
+        renameForm.action = renameUrlTemplate.replace(':prcode', encodeURIComponent(prcode));
+        renameInput.value = this.dataset.name;
+        renameCode.textContent = '(' + prcode + ')';
+    });
+});
+// Enable confirmation
+document.querySelectorAll('.btn-enable-confirm').forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const form = this.closest('form');
+
+        Swal.fire({
+            title: 'Enable this product?',
+            text: 'Its status will be set back to "ok".',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, enable it'
+        }).then((result) => {
+            if (result.isConfirmed) form.submit();
+        });
+    });
+});
+// Focus the field when the modal opens
+document.getElementById('renameModal').addEventListener('shown.bs.modal', () => renameInput.focus());
+
+// Disable confirmation
+document.querySelectorAll('.btn-disable-confirm').forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const form = this.closest('form');
+
+        Swal.fire({
+            title: 'Disable this product?',
+            text: 'Its status will be set to "notok".',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#6c757d',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, disable it'
+        }).then((result) => {
+            if (result.isConfirmed) form.submit();
+        });
+    });
+});
 });
 </script>
 
