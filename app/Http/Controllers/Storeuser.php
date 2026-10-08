@@ -326,9 +326,10 @@ foreach ($designations as $designation) {
 
 public function getProductsByCategory($category)
     {
-        $products = ProductInfo::where('category', $category)
-            ->select('prcode', 'name')
-            ->get();
+       $products = ProductInfo::where('category', $category)
+    ->where('status', 'ok11')
+    ->select('prcode', 'name')
+    ->get();
 
         return response()->json($products);
     }
