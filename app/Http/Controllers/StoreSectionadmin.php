@@ -321,6 +321,44 @@ public function approveMultiple14(Request $request)
         ], 422);
     }
 }
+
+// ✅ make sure this is imported at the top of the controller
+
+private function notificationmail($trid)
+{
+    try {
+        // 1️⃣ Get the transaction
+        $transaction = Transaction::where('trid', $trid)->first();
+
+        if (!$transaction) {
+            \Log::warning("Notification mail skipped: transaction {$trid} not found.");
+            return;
+        }
+
+        // 2️⃣ Get the user: users.userid == transaction.userid
+        $user = User::where('userid', $transaction->userid)->first();
+
+        // ✅ Guard: no user → no email (also prevents crash on $user->email)
+        if (!$user || empty($user->email)) {
+            \Log::warning("Notification mail skipped: user not found for transaction {$trid} (userid: {$transaction->userid}).");
+            return;
+        }
+
+        // 3️⃣ Get all products of this transaction (1 or many)
+        $products = ProductInfo::where('prcode', $transaction->prcode)->get();
+
+        // 4️⃣ Send — recipient email + name both come from users table
+        Mail::to($user->email)->later(
+            now()->addSeconds(5),
+            new userinfo($user, $transaction, $products)
+        );
+
+    } catch (\Throwable $e) {
+        \Log::error('Transaction notification email failed: ' . $e->getMessage());
+    }
+}
+
+
 public function dataapproved14(Request $request){
      try {
         $office = $request->input('office');

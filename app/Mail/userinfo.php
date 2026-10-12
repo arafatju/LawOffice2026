@@ -3,32 +3,30 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class userinfo extends Mailable
+class userinfo  extends Mailable
 {
     use Queueable, SerializesModels;
-    public $id;
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($id)
+
+    public $user;        // ✅ NEW — name & email live here
+    public $transaction;
+    public $products;
+    public $total;
+
+    public function __construct($user, $transaction, $products)
     {
-        $this->id = $id;  
+        $this->user        = $user;
+        $this->transaction = $transaction;
+        $this->products    = $products;
+
+        $this->total = $products->sum(fn ($p) => ($p->quantity ?? 1) * ($p->price ?? 0));
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
-        return $this->view('Email.user')
-        ->with(['id' => $this->id]);
+        return $this->subject('লেনদেন বিজ্ঞপ্তি – ' . $this->transaction->trid)
+                    ->view('Email.user');
     }
 }
