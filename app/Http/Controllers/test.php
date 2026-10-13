@@ -337,7 +337,7 @@ class test extends Controller
             // ✅ Log successful login
             $this->storeLoginInfo($request);
             
-         //   $this->sendLoginNotification();
+           $this->sendLoginNotification();
 
             toastr('Successfully Logged in');
             return $this->redirectByRole(Auth::user());

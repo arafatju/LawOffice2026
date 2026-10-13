@@ -293,6 +293,7 @@ public function approveMultiple14(Request $request)
     // Return response with detailed status
     if ($approvedCount > 0 && count($failedItems) === 0) {
         // All items approved successfully
+        $this->notificationmail($transaction->trid);
         return response()->json([
             'success' => true,
             'approved' => $approvedCount,
@@ -328,24 +329,26 @@ private function notificationmail($trid)
 {
     try {
         // 1️⃣ Get the transaction
-        $transaction = Transaction::where('trid', $trid)->first();
+          $transaction = Transaction::where('trid', $trid)->first();
 
-        if (!$transaction) {
-            \Log::warning("Notification mail skipped: transaction {$trid} not found.");
-            return;
-        }
+    if (!$transaction) {
+        \Log::warning("Notification mail skipped: transaction {$trid} not found.");
+        return;
+    }
 
-        // 2️⃣ Get the user: users.userid == transaction.userid
-        $user = User::where('userid', $transaction->userid)->first();
+    // 2️⃣ ALL prcodes for this trid (no ->get() after pluck!)
+    $prcodes = Transaction::where('trid', $trid)->pluck('prcode')->unique()->filter();
 
-        // ✅ Guard: no user → no email (also prevents crash on $user->email)
-        if (!$user || empty($user->email)) {
-            \Log::warning("Notification mail skipped: user not found for transaction {$trid} (userid: {$transaction->userid}).");
-            return;
-        }
+    // 3️⃣ User
+    $user = User::where('userid', $transaction->userid)->first();
 
-        // 3️⃣ Get all products of this transaction (1 or many)
-        $products = ProductInfo::where('prcode', $transaction->prcode)->get();
+    if (!$user || empty($user->email)) {
+        \Log::warning("Notification mail skipped: user not found for transaction {$trid}.");
+        return;
+    }
+
+    // 4️⃣ ALL products matching ALL prcodes
+    $products = ProductInfo::whereIn('prcode', $prcodes)->get();
 
         // 4️⃣ Send — recipient email + name both come from users table
         Mail::to($user->email)->later(
