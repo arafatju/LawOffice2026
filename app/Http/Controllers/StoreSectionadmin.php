@@ -49,7 +49,7 @@ class StoreSectionadmin extends Controller
     public function index()
     {
          $bread11='Data Entry Dashboard';
-            $products = ProductInfo::all();
+            $products = ProductInfo::where('status','ok11')->orderBy('quantity', 'desc')->get();
             $highest = DB::table('transaction')
         ->select('prcode', DB::raw('SUM(number) as total_delivered'))
         ->where('status', 'approved')
@@ -143,7 +143,7 @@ public function destroy122($id)
 
 public function productapproved14(Request $request){
 
-$transactions = ProductInfo::orderBy('quantity', 'asc')->get();
+$transactions = ProductInfo::where('status','ok11')->orderBy('quantity', 'desc')->get();
 
     $html = View::make('PDF.product', [
         'transactions' => $transactions,
