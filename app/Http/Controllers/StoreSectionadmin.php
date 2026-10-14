@@ -327,19 +327,15 @@ public function approveMultiple14(Request $request)
 
 private function notificationmail($trid)
 {
-    try {
-        // 1️⃣ Get the transaction
-          $transaction = Transaction::where('trid', $trid)->first();
+   try {
+    $transaction = Transaction::where('trid', $trid)->first();
+    $transaction12 = Transaction::with('product')->where('trid', $trid)->get();
 
     if (!$transaction) {
         \Log::warning("Notification mail skipped: transaction {$trid} not found.");
         return;
     }
 
-    // 2️⃣ ALL prcodes for this trid (no ->get() after pluck!)
-    $prcodes = Transaction::where('trid', $trid)->pluck('prcode')->unique()->filter();
-
-    // 3️⃣ User
     $user = User::where('userid', $transaction->userid)->first();
 
     if (!$user || empty($user->email)) {
@@ -347,18 +343,13 @@ private function notificationmail($trid)
         return;
     }
 
-    // 4️⃣ ALL products matching ALL prcodes
-    $products = ProductInfo::whereIn('prcode', $prcodes)->get();
-
-        // 4️⃣ Send — recipient email + name both come from users table
-        Mail::to($user->email)->later(
-            now()->addSeconds(5),
-            new userinfo($user, $transaction, $products)
-        );
-
-    } catch (\Throwable $e) {
-        \Log::error('Transaction notification email failed: ' . $e->getMessage());
-    }
+    Mail::to($user->email)->later(
+        now()->addSeconds(5),
+        new userinfo($user, $transaction, $transaction12)
+    );
+} catch (\Throwable $e) {
+    \Log::error('Transaction notification email failed: ' . $e->getMessage());
+}
 }
 
 

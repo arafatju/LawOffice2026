@@ -32,7 +32,7 @@
                   <td style="padding:10px 16px; background-color:#f9fafb; font-size:14px; color:#111827; font-weight:600;">{{ $transaction->trid }}</td>
                 </tr>
                 <tr>
-                  <td style="padding:10px 16px; font-size:14px; color:#6b7280; border-top:1px solid #eef0f3;">তারিখ</td>
+                  <td style="padding:10px 16px; font-size:14px; color:#6b7280; border-top:1px solid #eef0f3;">আবেদনের তারিখ</td>
                   <td style="padding:10px 16px; font-size:14px; color:#111827; border-top:1px solid #eef0f3;">
                     {{ \Carbon\Carbon::parse($transaction->created_at)->format('d-m-Y H:i') }}
                   </td>
@@ -40,7 +40,7 @@
                 <tr>
                   <td style="padding:10px 16px; background-color:#f9fafb; font-size:14px; color:#6b7280; border-top:1px solid #eef0f3;">মোট পণ্য</td>
                   <td style="padding:10px 16px; background-color:#f9fafb; font-size:14px; color:#111827; border-top:1px solid #eef0f3;">
-                    {{ $products->count() }} টি
+                  {{ $transaction12->sum('number') }}   টি
                   </td>
                 </tr>
               </table>
@@ -53,24 +53,35 @@
                   <th style="padding:10px 12px; font-size:13px; color:#ffffff; text-align:center;">পরিমাণ</th>
                    
                 </tr>
-
-                @forelse($products as $product)
-                <tr style="background-color:{{ $loop->odd ? '#ffffff' : '#f9fafb' }};">
-                  <td style="padding:10px 12px; font-size:14px; color:#111827; border-top:1px solid #eef0f3;">{{ $product->prname ?? $product->name }}</td>
-                  <td style="padding:10px 12px; font-size:14px; color:#111827; border-top:1px solid #eef0f3; text-align:center;">{{ $product->prcode }}</td>
-                  <td style="padding:10px 12px; font-size:14px; color:#111827; border-top:1px solid #eef0f3; text-align:center;">{{ $product->quantity  ?? 1 }}</td>
-                 </tr>
-                @empty
-                <tr>
-                  <td colspan="4" style="padding:16px; font-size:14px; color:#9ca3af; text-align:center; border-top:1px solid #eef0f3;">কোনো পণ্য পাওয়া যায়নি।</td>
-                </tr>
-                @endforelse
+@forelse($transaction12 as $item)
+    <tr style="background-color:{{ $loop->odd ? '#ffffff' : '#f9fafb' }};">
+      <td style="padding:10px 12px; font-size:14px; color:#111827; border-top:1px solid #eef0f3;">
+        {{ $item->product->name ??  '—' }}
+      </td>
+      <td style="padding:10px 12px; font-size:14px; color:#111827; border-top:1px solid #eef0f3; text-align:center;">
+        {{ $item->prcode }}
+      </td>
+      <td style="padding:10px 12px; font-size:14px; color:#111827; border-top:1px solid #eef0f3; text-align:center;">
+        {{ $item->number ?? 1 }}
+      </td>
+    </tr>
+@empty
+    <tr>
+      <td colspan="3" style="padding:16px; font-size:14px; color:#9ca3af; text-align:center; border-top:1px solid #eef0f3;">
+        কোনো পণ্য পাওয়া যায়নি।
+      </td>
+    </tr>
+@endforelse
 
                 <!-- Total -->
-                <tr style="background-color:#eef4ff;">
-                  <td colspan="3" style="padding:12px; font-size:14px; color:#1f2937; font-weight:700; text-align:right; border-top:2px solid #1a56db;">সর্বমোট:</td>
-                  <td style="padding:12px; font-size:15px; color:#1a56db; font-weight:700; text-align:right; border-top:2px solid #1a56db;">৳ {{ number_format($total, 2) }}</td>
-                </tr>
+               <tr>
+  <td colspan="2" style="padding:10px 12px; font-size:14px; font-weight:bold; text-align:right; border-top:2px solid #111827;">
+    মোট:
+  </td>
+  <td style="padding:10px 12px; font-size:14px; font-weight:bold; text-align:center; border-top:2px solid #111827;">
+    {{ $transaction12->sum('number') }}
+  </td>
+</tr>
               </table>
 
                
