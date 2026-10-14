@@ -48,7 +48,7 @@ class Storeentry extends Controller
     public function datadash()
     {
         $bread11='Data Entry Dashboard';
-            $products = ProductInfo::all();
+            $products = ProductInfo::where('status','ok11')->get();
             $highest = DB::table('transaction')
         ->select('prcode', DB::raw('SUM(number) as total_delivered'))
         ->where('status', 'approved')
@@ -260,8 +260,12 @@ public function datapending(Request $request){
  
   $office = $request->input('office'); // for filtering
 
-    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
-  
+
+ $offices = PersonalInfo::whereHas('user', function ($q) {
+        $q->where('role', 'userone');
+    })
+    ->distinct()
+    ->pluck('office');  
      
 $query = Transaction::with(['user.personalInfo', 'product'])
     ->where('status', 'pending');
@@ -338,10 +342,11 @@ public function dataapproved(Request $request){
         $office = $request->input('office');
         
         // Get distinct offices
-        $offices = DB::table('personalinfo')
-            ->distinct()
-            ->whereNotNull('office')
-            ->pluck('office');
+       $offices = PersonalInfo::whereHas('user', function ($q) {
+        $q->where('role', 'userone');
+    })
+    ->distinct()
+    ->pluck('office');  
         
         // Build query with proper relationships
         $query = Transaction::with(['user.personalInfo', 'product'])
@@ -389,7 +394,7 @@ public function dataapproved(Request $request){
 }
 public function productapproved(Request $request){
 
-$transactions = ProductInfo::orderBy('quantity', 'asc')->get();
+$transactions = ProductInfo::where('status','ok11')->orderBy('quantity', 'asc')->get();
 
     $html = View::make('PDF.product', [
         'transactions' => $transactions,

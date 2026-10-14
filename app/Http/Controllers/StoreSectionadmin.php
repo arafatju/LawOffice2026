@@ -358,10 +358,11 @@ public function dataapproved14(Request $request){
         $office = $request->input('office');
         
         // Get distinct offices
-        $offices = DB::table('personalinfo')
-            ->distinct()
-            ->whereNotNull('office')
-            ->pluck('office');
+      $offices = PersonalInfo::whereHas('user', function ($q) {
+        $q->where('role', 'userone');
+    })
+    ->distinct()
+    ->pluck('office');  
         
         // Build query with proper relationships
         $query = Transaction::with(['user.personalInfo', 'product'])
@@ -478,7 +479,11 @@ public function datapending14(Request $request){
  
   $office = $request->input('office'); // for filtering
 
-    $offices = DB::table('personalinfo')->distinct()->pluck('office'); // get distinct office
+   $offices = PersonalInfo::whereHas('user', function ($q) {
+        $q->where('role', 'userone');
+    })
+    ->distinct()
+    ->pluck('office');  
   
      
 $query = Transaction::with(['user.personalInfo', 'product'])
