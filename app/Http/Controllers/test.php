@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 class test extends Controller
@@ -316,10 +317,24 @@ class test extends Controller
             return $this->redirectByRole(Auth::user());
         }
 
-        $this->validateLogin($request);
+       // $this->validateLogin($request);
+
+
+        $validator = Validator::make($request->all(), [
+        'email'    => 'required|email',
+        'password' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        $this->logFailedAttempt($request, 'Failed Login (Invalid Input)');
+        return back()->withErrors($validator)->withInput($request->only('email'));
+    }
 
         // ✅ Check rate limiting
         if ($this->hasTooManyLoginAttempts($request)) {
+          
+                    $this->logFailedAttempt($request, 'Failed Login (Throttled)');
+
             $seconds = RateLimiter::availableIn($this->throttleKey($request));
             
             return back()->withErrors([
@@ -345,9 +360,10 @@ class test extends Controller
 
         // ❌ Login failed
         $this->incrementLoginAttempts($request);
-        $this->logFailedAttempt($request);
+
+    $this->logFailedAttempt($request, 'Failed Login Attempt');        
         
-        return back()->withErrors(['email' => 'Login details are not valid.']);
+    return back()->withErrors(['email' => 'Login details are not valid.']);
     }
 
     protected function validateLogin(Request $request)
@@ -359,29 +375,26 @@ class test extends Controller
         ]);
     }
 
-    protected function logFailedAttempt(Request $request)
-    {
-        try {
-            $agent = new Agent();
-            $browser = $agent->browser();
-            $platform = $agent->platform();
-            $ip = $request->ip();
-            $data = Location::get($ip);
+   protected function logFailedAttempt(Request $request, string $reason = 'Failed Login Attempt')
+{
+    try {
+        $agent = new Agent();
+        $data  = Location::get($request->ip());
 
-            DB::table('loginfo')->insert([
-                'name'       => 'Failed Login Attempt',
-                'mobile'     => null, // ✅ FIXED: Should be null, not 'new user'
-                'mail'       => $request->input('email'),
-                'Device'     => $platform ?? 'Unknown',
-                'Browser'    => $browser ?? 'Unknown',
-                'ip'         => $ip,
-                'Location'   => $data->cityName ?? 'Unknown',
-                'created_at' => now(),
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Failed to log failed login attempt: ' . $e->getMessage());
-        }
+        DB::table('loginfo')->insert([
+            'name'       => $reason,
+            'mobile'     => null,
+            'mail'       => (string) $request->input('email', 'unknown'),
+            'Device'     => $agent->platform() ?: 'Unknown',
+            'Browser'    => $agent->browser() ?: 'Unknown',
+            'ip'         => $request->ip(),
+            'Location'   => ($data && $data->cityName) ? $data->cityName : 'Unknown',
+            'created_at' => now(),
+        ]);
+    } catch (\Throwable $e) {
+        \Log::error('Failed to log failed login attempt: ' . $e->getMessage());
     }
+}
 
     protected function throttleKey(Request $request)
     {
