@@ -19,6 +19,7 @@ use App\Models\LotInfo;
 use Illuminate\Support\Facades\Storage;
 
 use Yajra\DataTables\Facades\DataTables;
+    use App\Services\TeletalkSms;
 
 use Illuminate\Support\Facades\File;
  use Illuminate\Support\Facades\Cache;
@@ -289,7 +290,39 @@ public function approveMultiple14(Request $request)
         
         $approvedCount++;
     }
-    
+
+
+        /*
+           
+            use App\Services\TeletalkSms;
+
+if ($approvedCount > 0 && count($failedItems) === 0) {
+    $this->notificationmail($transaction->trid);
+
+    $trid   = $transaction->trid;
+    $mobile = $user->mobile;   // adjust: whichever user/model holds the receiver's mobile
+    $userid = $user->userid;
+
+    dispatch(function () use ($trid, $mobile, $userid) {
+        app(TeletalkSms::class)->send(
+            $mobile,
+            "Your transaction {$trid} has been approved successfully.",
+            $trid,
+            $userid
+        );
+    })->afterResponse();
+
+    return response()->json([
+        'success'  => true,
+        'approved' => $approvedCount,
+        'message'  => 'All transactions approved successfully'
+    ]);
+}
+
+        */
+
+
+
     // Return response with detailed status
     if ($approvedCount > 0 && count($failedItems) === 0) {
         // All items approved successfully

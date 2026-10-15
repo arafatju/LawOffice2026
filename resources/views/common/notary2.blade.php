@@ -199,6 +199,9 @@
             <a href="{{route('loginfo.index')}}" class="sidebar-link">
                 <i class="bi bi-file-earmark-text"></i> Loginfo  
             </a>
+             <a href="{{route('sms.logs')}}" class="sidebar-link">
+                <i class="bi bi-file-earmark-text"></i> SMS info   
+            </a>
             <a href="#" class="sidebar-link">
                 <i class="bi bi-person"></i> Profile
             </a>

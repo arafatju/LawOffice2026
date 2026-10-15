@@ -15,7 +15,7 @@ use App\Http\Controllers\notaryadmin;
 use App\Http\Controllers\LogInfoController;
  use App\Http\Controllers\LotInfoController;
 
-
+use App\Http\Controllers\SmsLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/loginfo', [LogInfoController::class, 'index'])->name('loginfo.index');
 Route::get('/loginfo/data', [LogInfoController::class, 'getData'])->name('loginfo.data');
  
-    
+        Route::get('/sms-logs', [SmsLogController::class, 'index'])->name('sms.logs'); 
     Route::get('/lots', [LotInfoController::class, 'index'])->name('lots.index');
 Route::get('/lots/data', [LotInfoController::class, 'getData'])->name('lots.data');
 

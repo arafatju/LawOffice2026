@@ -12,7 +12,15 @@ return [
     | location for this type of information, allowing packages to have
     | a conventional file to locate the various service credentials.
     |
-    */
+
+    'teletalk' => [
+    'url'  => env('TELETALK_URL'),
+    'user' => env('TELETALK_USER'),
+    'pass' => env('TELETALK_PASS'),
+],
+  
+
+*/
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
