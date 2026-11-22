@@ -52,6 +52,32 @@
         </div>
     </form>
 
+    {{-- Download PDF for a specific date --}}
+{{-- Download PDF for a date range --}}
+<form method="GET" action="{{ route('sms.logs.pdf') }}" class="row g-2 mb-3">
+    <div class="col-md-2">
+        <label class="form-label mb-0 small text-muted">From</label>
+        <input type="date" name="date_from" class="form-control"
+               value="{{ request('date_from', now()->toDateString()) }}" required>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label mb-0 small text-muted">To</label>
+        <input type="date" name="date_to" class="form-control"
+               value="{{ request('date_to', now()->toDateString()) }}" required>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label mb-0 small text-muted">Status</label>
+        <select name="status" class="form-select">
+            <option value="">All status</option>
+            <option value="sent">Sent</option>
+            <option value="failed">Failed</option>
+        </select>
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-danger w-100">Download PDF</button>
+    </div>
+</form>
+
     @if($errors->any())
         <div class="alert alert-danger">{{ $errors->first() }}</div>
     @endif

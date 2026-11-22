@@ -1,495 +1,265 @@
 {{-- resources/views/dashboard.blade.php --}}
 @extends('common.master2')
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@section('title', 'সেকশন অ্যাডমিন ব্যবস্থাপনা')
+@section('breadcrumb', 'প্রোফাইল ব্যবস্থাপনা')
+
+@section('content')
+@php
+    // ইংরেজি সংখ্যা -> বাংলা সংখ্যা
+    $bn = fn($v) => strtr((string) $v, [
+        '0'=>'০','1'=>'১','2'=>'২','3'=>'৩','4'=>'৪',
+        '5'=>'৫','6'=>'৬','7'=>'৭','8'=>'৮','9'=>'৯',
+    ]);
+    $months = [1=>'জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন',
+               'জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    $bnDate = fn($d) => $bn($d->day).' '.$months[$d->month].' '.$bn($d->year);
+
+    $info = $user->personalinfo;
+    $na   = 'প্রদান করা হয়নি';
+@endphp
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Custom Toastr Colors - Blue/Primary Theme */
-    .toast-success {
-        background-color: #0d6efd !important;
-        color: white !important;
+    .gp {
+        --green: #006a4e;
+        --green-dark: #004d38;
+        --red: #f42a41;
+        --ink: #1c2b27;
+        --muted: #5c6b66;
+        --line: #d9e2de;
+        --paper: #ffffff;
+        --bg: #eef3f0;
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'Kalpurush', sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        padding: 2rem 1rem 3rem;
+        line-height: 1.6;
     }
-    
-    .toast-info {
-        background-color: #0dcaf0 !important;
-        color: white !important;
-    }
-    
-    .toast-warning {
-        background-color: #fd7e14 !important;
-        color: white !important;
-    }
-    
-    .toast-error {
-        background-color: #dc3545 !important;
-        color: white !important;
-    }
-    
-    .toast-title {
-        color: white !important;
-        font-weight: bold !important;
-    }
-    
-    .toast-message {
-        color: white !important;
-    }
-    
-    .toast-progress {
-        background-color: rgba(255, 255, 255, 0.4) !important;
-    }
-    
-    .toast-close-button {
-        color: white !important;
-        opacity: 0.8;
-    }
-    
-    .toast-close-button:hover {
-        opacity: 1;
+    .gp *, .gp *::before, .gp *::after { box-sizing: border-box; }
+
+    .gp-sheet {
+        max-width: 960px;
+        margin: 0 auto;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-top: 6px solid var(--green);
+        border-radius: 6px;
+        box-shadow: 0 2px 12px rgba(0, 40, 30, .08);
     }
 
-    /* Profile Card Styles */
-    .profile-card {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        overflow: hidden;
+    /* শিরোনাম */
+    .gp-head {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--line);
     }
+    .gp-head h1 { margin: 0; font-size: 1.35rem; font-weight: 700; color: var(--green-dark); }
 
-    .profile-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 2rem;
+    /* দুই কলাম */
+    .gp-body { display: grid; grid-template-columns: 280px 1fr; }
+
+    .gp-id {
+        padding: 2rem 1.5rem;
         text-align: center;
-        position: relative;
+        border-right: 1px solid var(--line);
+        background: #f7faf8;
     }
-
-    .profile-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-        background-size: cover;
-        opacity: 0.3;
-    }
-
-    .profile-avatar {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        color: white;
+    .gp-avatar {
+        width: 112px; height: 112px;
         margin: 0 auto 1rem;
-        border: 5px solid white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        position: relative;
-        z-index: 1;
+        border-radius: 50%;
+        border: 3px solid var(--green);
+        background: #fff;
+        color: var(--green);
+        display: grid; place-items: center;
+        font-size: 3rem;
+    }
+    .gp-name { margin: 0 0 .25rem; font-size: 1.4rem; font-weight: 700; }
+    .gp-desig { margin: 0; font-weight: 600; color: var(--green-dark); }
+    .gp-office { margin: .25rem 0 0; font-size: .95rem; color: var(--muted); }
+    .gp-uid {
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--line);
+        font-size: .9rem; color: var(--muted);
+    }
+    .gp-uid strong { display: block; font-size: 1.1rem; color: var(--ink); letter-spacing: .5px; }
+
+    .gp-detail { padding: 1.5rem 2rem 2rem; }
+
+    .gp-sec { margin-bottom: 1.75rem; }
+    .gp-sec h2 {
+        margin: 0 0 .5rem;
+        padding-bottom: .4rem;
+        font-size: 1.1rem; font-weight: 700;
+        color: var(--green-dark);
+        border-bottom: 2px solid var(--green);
+        display: flex; align-items: center; gap: .5rem;
     }
 
-    .profile-name {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin: 0.5rem 0;
-        position: relative;
-        z-index: 1;
-    }
-
-    .profile-role {
-        display: inline-block;
-        padding: 0.5rem 1.5rem;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        backdrop-filter: blur(10px);
-        position: relative;
-        z-index: 1;
-    }
-
-    .profile-body {
-        padding: 2rem;
-    }
-
-    .info-section {
-        margin-bottom: 2rem;
-    }
-
-    .info-title {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #667eea;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .info-title i {
-        font-size: 1.4rem;
-    }
-
-    .info-item {
-        padding: 1rem;
-        background: #f8f9fa;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        transition: all 0.3s ease;
-        border-left: 3px solid #667eea;
-    }
-
-    .info-item:hover {
-        background: #e9ecef;
-        transform: translateX(5px);
-    }
-
-    .info-label {
-        font-weight: 600;
-        color: #495057;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.3rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .info-label i {
-        color: #667eea;
-        font-size: 1rem;
-    }
-
-    .info-value {
-        color: #212529;
-        font-size: 1rem;
-        margin: 0;
-    }
-
-    .print-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        padding: 0.6rem 1.5rem;
-        border-radius: 50px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    }
-    
-    .print-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    }
-
-    .action-buttons {
-        display: flex;
+    .gp-row {
+        display: grid;
+        grid-template-columns: 190px 1fr;
         gap: 1rem;
-        justify-content: center;
-        padding: 1.5rem;
-        background: #f8f9fa;
-        border-top: 1px solid #dee2e6;
+        padding: .6rem 0;
+        border-bottom: 1px solid var(--line);
+    }
+    .gp-row:last-child { border-bottom: 0; }
+    .gp-row dt { margin: 0; color: var(--muted); font-weight: 500; }
+    .gp-row dd { margin: 0; font-weight: 600; word-break: break-word; }
+    .gp-row dd.empty { color: #98a5a0; font-weight: 400; }
+
+    /* বোতাম */
+    .gp-actions { display: flex; justify-content: flex-end; gap: .75rem; padding: 1rem 2rem 1.5rem; border-top: 1px solid var(--line); }
+    .gp-btn {
+        font: inherit; font-weight: 600;
+        padding: .55rem 1.4rem;
+        border-radius: 4px;
+        border: 1px solid var(--green);
+        background: var(--green); color: #fff;
+        cursor: pointer;
+    }
+    .gp-btn-alt { background: #fff; color: var(--green-dark); }
+    .gp-btn.gp-btn-alt:hover { background: #eef3f0; }
+    .gp-btn:hover { background: var(--green-dark); }
+    .gp-btn:focus-visible { outline: 3px solid #86d3b9; outline-offset: 2px; }
+
+    .gp-foot { display: none; padding: 1rem 2rem; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+    @media (max-width: 760px) {
+        .gp-body { grid-template-columns: 1fr; }
+        .gp-id { border-right: 0; border-bottom: 1px solid var(--line); }
+        .gp-row { grid-template-columns: 1fr; gap: 0; }
+        .gp-detail, .gp-head { padding-left: 1.25rem; padding-right: 1.25rem; }
+        .gp-actions { padding-left: 1.25rem; padding-right: 1.25rem; }
+        .gp-actions .gp-btn { width: 100%; }
     }
 
-    /* Print styles */
     @media print {
-        body * {
-            visibility: hidden;
-        }
-        
-        .print-area, .print-area * {
-            visibility: visible;
-        }
-        
-        .print-area {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-        }
-        
-        .no-print, .action-buttons {
-            display: none !important;
-        }
-        
-        .profile-card {
-            box-shadow: none !important;
-            border: 1px solid #ddd !important;
-        }
-        
-        .info-item {
-            break-inside: avoid;
-        }
-
-        .profile-header {
-            background: #667eea !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            font-size: 2.5rem;
-        }
-
-        .profile-name {
-            font-size: 1.5rem;
-        }
-
-        .profile-body {
-            padding: 1.5rem;
-        }
-
-        .action-buttons {
-            flex-direction: column;
-        }
-
-        .action-buttons button {
-            width: 100%;
-        }
+        body * { visibility: hidden; }
+        .gp-sheet, .gp-sheet * { visibility: visible; }
+        .gp-sheet { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border-radius: 0; }
+        .gp { background: #fff; padding: 0; }
+        .no-print { display: none !important; }
+        .gp-foot { display: block; }
+        .gp-id { background: #fff; }
     }
 </style>
 
-@section('content')
-@section('title', 'Section Admin Management') 
-@section('breadcrumb', 'Profile Management')
+<div class="gp">
+    <div class="gp-sheet">
 
-<h2 class="no-print mb-4">Profile of User</h2>
+        <header class="gp-head">
+            <h1>কর্মকর্তা/কর্মচারীর ব্যক্তিগত তথ্য</h1>
+        </header>
 
-<div class="print-area">
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card profile-card">
-                    <!-- Profile Header -->
-                    <div class="profile-header">
-                        <div class="profile-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <h3 class="profile-name">{{ $user->name }}</h3>
-                        <span class="profile-role">
-                            <i class="fas fa-shield-alt"></i> {{ ucfirst($user->role ?? 'User') }}
-                        </span>
-                    </div>
+        <div class="gp-body">
 
-                    <!-- Profile Body -->
-                    <div class="profile-body">
-                        <!-- Contact Information -->
-                        <div class="info-section">
-                            <h5 class="info-title">
-                                <i class="fas fa-address-card"></i>
-                                Contact Information
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-envelope"></i>
-                                            Email Address
-                                        </div>
-                                        <p class="info-value">{{ $user->email }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-mobile-alt"></i>
-                                            Mobile Number
-                                        </div>
-                                        <p class="info-value">{{ $user->mobile ?? 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            Location
-                                        </div>
-                                        <p class="info-value">{{ $user->location ?? 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-laptop"></i>
-                                            Device
-                                        </div>
-                                        <p class="info-value">{{ $user->device ?? 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Professional Information -->
-                        <div class="info-section">
-                            <h5 class="info-title">
-                                <i class="fas fa-briefcase"></i>
-                                Professional Information
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-user-tie"></i>
-                                            Officer/Staff Designation
-                                        </div>
-                                        <p class="info-value">{{ $user->personalinfo->designation ?? 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-user-shield"></i>
-                                            Officer Designation
-                                        </div>
-                                        <p class="info-value">{{ $user->personalinfo->designation2 ?? 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-building"></i>
-                                            Office
-                                        </div>
-                                        <p class="info-value">{{ $user->personalinfo->office ?? 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-id-badge"></i>
-                                            User ID
-                                        </div>
-                                        <p class="info-value">{{ $user->userid }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Account Information -->
-                        <div class="info-section">
-                            <h5 class="info-title">
-                                <i class="fas fa-info-circle"></i>
-                                Account Information
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-calendar-plus"></i>
-                                            Member Since
-                                        </div>
-                                        <p class="info-value">{{ $user->created_at->format('F j, Y') }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-clock"></i>
-                                            Last Updated
-                                        </div>
-                                        <p class="info-value">{{ $user->updated_at->format('F j, Y') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Print timestamp -->
-                        <div class="mt-4 text-center text-muted" style="display: none;" id="print-info">
-                            <small><i class="fas fa-print"></i> Printed on: <span id="print-date"></span></small>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="action-buttons no-print">
-                        <button onclick="printProfile()" class="btn btn-primary print-btn" title="Print Profile">
-                            <i class="fas fa-print"></i> Print Profile
-                        </button>
-                        <button onclick="window.history.back()" class="btn btn-outline-secondary" style="border-radius: 50px;">
-                            <i class="fas fa-arrow-left"></i> Go Back
-                        </button>
-                    </div>
+            {{-- পরিচিতি --}}
+            <aside class="gp-id">
+                <div class="gp-avatar" aria-hidden="true"><i class="fas fa-user-tie"></i></div>
+                <h2 class="gp-name">{{ $user->name }}</h2>
+                <p class="gp-desig">{{ $info->designation2 ?? $info->designation ?? '' }}</p>
+                <p class="gp-office">{{ $info->office ?? '' }}</p>
+                <div class="gp-uid">
+                    ইউজার আইডি
+                    <strong>{{ $bn($user->userid) }}</strong>
                 </div>
-            </div>
+            </aside>
+
+            {{-- বিস্তারিত --}}
+            <main class="gp-detail">
+
+                <section class="gp-sec">
+                    <h2><i class="fas fa-briefcase"></i> পদবি ও কর্মস্থল</h2>
+                    <dl>
+                        
+                        <div class="gp-row">
+                            <dt>কর্মকর্তার পদবি</dt>
+                            <dd class="{{ !empty($info->designation2) ? '' : 'empty' }}">{{ $info->designation2 ?? $na }}</dd>
+                        </div>
+                        <div class="gp-row">
+                            <dt>দপ্তরের নাম</dt>
+                            <dd class="{{ !empty($info->office) ? '' : 'empty' }}">{{ $info->office ?? $na }}</dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <section class="gp-sec">
+                    <h2><i class="fas fa-address-card"></i> যোগাযোগের তথ্য</h2>
+                    <dl>
+                        <div class="gp-row">
+                            <dt>ইমেইল</dt>
+                            <dd>{{ $user->email }}</dd>
+                        </div>
+                        <div class="gp-row">
+                            <dt>মোবাইল নম্বর</dt>
+                            @if($user->mobile)
+                                <dd>{{ $bn($user->mobile) }}</dd>
+                            @else
+                                <dd class="empty">{{ $na }}</dd>
+                            @endif
+                        </div>
+                    </dl>
+                </section>
+
+                <section class="gp-sec">
+                    <h2><i class="fas fa-cog"></i> সিস্টেম তথ্য</h2>
+                    <dl>
+                        <div class="gp-row">
+                            <dt>অবস্থান</dt>
+                            <dd class="{{ $user->location ? '' : 'empty' }}">{{ $user->location ?? $na }}</dd>
+                        </div>
+                        <div class="gp-row">
+                            <dt>ডিভাইস</dt>
+                            <dd class="{{ $user->device ? '' : 'empty' }}">{{ $user->device ?? $na }}</dd>
+                        </div>
+                        <div class="gp-row">
+                            <dt>নিবন্ধনের তারিখ</dt>
+                            <dd>{{ $bnDate($user->created_at) }}</dd>
+                        </div>
+                        <div class="gp-row">
+                            <dt>সর্বশেষ হালনাগাদ</dt>
+                            <dd>{{ $bnDate($user->updated_at) }}</dd>
+                        </div>
+                    </dl>
+                </section>
+
+            </main>
+        </div>
+
+        <div class="gp-actions no-print">
+            <button type="button" class="gp-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> প্রিন্ট করুন
+            </button>
+            <button type="button" class="gp-btn gp-btn-alt" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> ফিরে যান
+            </button>
+        </div>
+
+        <div class="gp-foot">
+            প্রিন্টের তারিখ: <span id="gp-print-date"></span>
         </div>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Configure toastr
-    if (typeof toastr !== 'undefined') {
-        toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            positionClass: 'toast-top-right',
-            timeOut: 3000
+    (function () {
+        var toBn = function (s) {
+            return String(s).replace(/\d/g, function (d) { return '০১২৩৪৫৬৭৮৯'[d]; });
         };
-    }
-    
-    // Print function
-    window.printProfile = function() {
-        try {
-            const printInfo = document.getElementById('print-info');
-            const printDate = document.getElementById('print-date');
-            
-            if (printInfo && printDate) {
-                const now = new Date();
-                printDate.textContent = now.toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                }) + ' at ' + now.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                printInfo.style.display = 'block';
-            }
-            
-            if (typeof toastr !== 'undefined') {
-                toastr.info('Opening print dialog...', 'Print Profile');
-            }
-            
-            setTimeout(() => {
-                window.print();
-            }, 300);
-            
-        } catch (error) {
-            console.error('Print error:', error);
-            alert('Unable to print. Please try using Ctrl+P.');
+        var el = document.getElementById('gp-print-date');
+        if (el) {
+            el.textContent = toBn(new Date().toLocaleDateString('en-GB')) + ', ' +
+                             toBn(new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'}));
         }
-    };
-    
-    // After print event
-    window.addEventListener('afterprint', function() {
-        const printInfo = document.getElementById('print-info');
-        if (printInfo) {
-            printInfo.style.display = 'none';
-        }
-        if (typeof toastr !== 'undefined') {
-            toastr.success('Print completed!', 'Success');
-        }
-    });
-    
-    // Keyboard shortcut
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'p') {
-            e.preventDefault();
-            printProfile();
-        }
-    });
-});
+    })();
 </script>
-
 @endsection

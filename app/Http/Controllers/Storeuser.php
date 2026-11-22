@@ -154,8 +154,7 @@ $totalQuantity = Transaction::where('userid', $userid)
 // Access: $highestProduct->product->name and $highestProduct->total_quantity
       $categories = ProductInfo::whereNotNull('category')
                         ->distinct()
-                        ->orderBy('category')
-                        ->pluck('category'); // returns a Collection
+                         ->pluck('category'); // returns a Collection
 
         // Pass to the view that caused the error
         return view('Storeuser.userdash', compact('bread11','categories','approvedCount','pendingCount','totalQuantity', 'highestProduct'));
@@ -615,8 +614,8 @@ $applications = ApplicationInfo::with([
         'transactions.product'
     ])
     ->whereIn('id', $subQuery)
-    ->orderBy('year', 'asc')
-    ->orderBy('month', 'asc')
+    ->orderByDesc('year')
+->orderByDesc('month')
     ->paginate(5);
     return view('Storeuser.approvedlist', compact('approvedTransactions', 'bread11', 'totalQuantity', 'applications'));
 }

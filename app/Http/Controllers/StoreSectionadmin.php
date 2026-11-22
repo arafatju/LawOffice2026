@@ -19,7 +19,7 @@ use App\Models\LotInfo;
 use Illuminate\Support\Facades\Storage;
 
 use Yajra\DataTables\Facades\DataTables;
-    use App\Services\TeletalkSms;
+    use App\Services\OssSms;
 
 use Illuminate\Support\Facades\File;
  use Illuminate\Support\Facades\Cache;
@@ -292,21 +292,23 @@ public function approveMultiple14(Request $request)
     }
 
 
-        /*
+       
            
-            use App\Services\TeletalkSms;
+          
 
 if ($approvedCount > 0 && count($failedItems) === 0) {
     $this->notificationmail($transaction->trid);
+ 
 
+    $user = User::where('userid', $transaction->userid)->first();
     $trid   = $transaction->trid;
     $mobile = $user->mobile;   // adjust: whichever user/model holds the receiver's mobile
     $userid = $user->userid;
 
     dispatch(function () use ($trid, $mobile, $userid) {
-        app(TeletalkSms::class)->send(
+        app(OssSms::class)->send(
             $mobile,
-            "Your transaction {$trid} has been approved successfully.",
+            " অভিনন্দন আপনার আবেদন (ডিজিটাল স্টোর এ মালামাল)  গৃহীত  {আবেদন নং-  $trid} হয়েছে। মালামালের বিস্তারিত বিবরণ ইমেইলে প্রেরিত হয়েছে ",
             $trid,
             $userid
         );
@@ -319,9 +321,9 @@ if ($approvedCount > 0 && count($failedItems) === 0) {
     ]);
 }
 
-        */
+        
 
-
+/*
 
     // Return response with detailed status
     if ($approvedCount > 0 && count($failedItems) === 0) {
@@ -332,7 +334,10 @@ if ($approvedCount > 0 && count($failedItems) === 0) {
             'approved' => $approvedCount,
             'message' => 'All transactions approved successfully'
         ]);
-    }// elseif ($approvedCount > 0 && count($failedItems) > 0) {
+    }
+    
+    */
+    // elseif ($approvedCount > 0 && count($failedItems) > 0) {
         // Partial success
        // return response()->json([
         //    'success' => true,

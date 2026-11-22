@@ -21,6 +21,14 @@ return [
   
 
 */
+'oss_sms' => [
+    'token_url'     => env('OSS_SMS_TOKEN_URL'),
+    'client_id'     => env('OSS_SMS_CLIENT_ID'),
+    'client_secret' => env('OSS_SMS_CLIENT_SECRET'),
+    'sms_url'       => env('OSS_SMS_URL', 'https://api-k8s.oss.net.bd/api/broker-service/sms/send_sms'),
+    'otp_url'       => env('OSS_OTP_URL', 'https://api-k8s.oss.net.bd/api/broker-service/otp/send_otp'),
+    'site'          => env('SMS_SITE', env('APP_NAME')),
+],
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),

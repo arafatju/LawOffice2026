@@ -10,8 +10,7 @@ use App\Http\Controllers\StoreSectionadmin;
 use App\Http\Controllers\Storeentry;
 use App\Http\Controllers\Pdfpermission111 ;
 use App\Http\Controllers\Storeadminmonitor;
-use App\Http\Controllers\notaryadmin;
- use App\Http\Controllers\TransactionController;
+  use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\LogInfoController;
  use App\Http\Controllers\LotInfoController;
 
@@ -47,10 +46,16 @@ Route::get('/registration', [App\Http\Controllers\test::class, 'registration'])-
  Route::post('/custom-login', [test::class, 'customLogin'])->name('login.custom')->middleware('throttle:5,1');
  Route::post('/custom-registration', [test::class, 'customRegistration'])->name('register.custom'); 
 Route::get('/signout', [infoimp::class, 'signOut'])->name('signout');
-Route::get('/forget11', [test::class, 'forget11'])->name('forget11'); 
-Route::post('/forget22', [test::class, 'forget22'])->name('forget22'); 
-Route::post('/forget33', [test::class, 'forget33'])->name('forget33'); 
-Route::post('/forget44', [test::class, 'forget44'])->name('forget44'); 
+
+Route::get('/forget11',  [test::class, 'forget11'])->name('forget11');
+
+Route::get('/forget22',  [test::class, 'showOtpForm'])->name('forget22.show');
+Route::post('/forget22', [test::class, 'forget22'])->name('forget22')->middleware('throttle:10,10');
+
+Route::get('/forget33',  [test::class, 'showNewPasswordForm'])->name('forget33.show');
+Route::post('/forget33', [test::class, 'forget33'])->name('forget33')->middleware('throttle:20,10');
+
+Route::post('/forget44', [test::class, 'forget44'])->name('forget44')->middleware('throttle:10,10');
 
 
 
@@ -83,7 +88,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {
     Route::get('/loginfo', [LogInfoController::class, 'index'])->name('loginfo.index');
 Route::get('/loginfo/data', [LogInfoController::class, 'getData'])->name('loginfo.data');
- 
+ Route::get('/sms/logs/pdf', [SmsLogController::class, 'downloadPdf'])->name('sms.logs.pdf');
         Route::get('/sms-logs', [SmsLogController::class, 'index'])->name('sms.logs'); 
     Route::get('/lots', [LotInfoController::class, 'index'])->name('lots.index');
 Route::get('/lots/data', [LotInfoController::class, 'getData'])->name('lots.data');

@@ -29,149 +29,176 @@ class test extends Controller
         return view('auth.forget11');
     }
 
-    public function forget22(Request $request)
-    {
-        // ✅ Rate limiting - 1 request per minute per IP
-        $key = 'forget-password:' . $request->ip();
-        
-        if (RateLimiter::tooManyAttempts($key, 1)) {
-            $seconds = RateLimiter::availableIn($key);
-            return back()->withErrors(['email' => "Too many attempts. Please try again in {$seconds} seconds."]);
-        }
-        
-        RateLimiter::hit($key, 60);
-        
-        $validated = $request->validate([
-            'email' => 'required|email|exists:users,email',
-        ]);
-                   
-        session(['email11' => $validated['email']]);
-        $randomNumber = rand(100000, 999999);
-        session(['number' => $randomNumber]);
-        session(['otp_attempts' => 0]); // ✅ Track OTP attempts
-        
-        try {
-            // ✅ Queue email instead of sending immediately
-            Mail::to($validated['email'])->queue(new recovery11($randomNumber));
+   public function forget22(Request $request)
+{
+    $validated = $request->validate([
+        'email' => 'required|email|exists:users,email',
+    ]);
 
-            $startTime = Carbon::now();
-            session(['start_time' => $startTime]);
-            
-            toastr()->success('Recovery email has been sent');
-            $endTime = Carbon::now()->addMinutes(5);
-          
-            return view('auth.forget22', [
-                'endTime' => $endTime->toISOString()
-            ]);
-            
-        } catch (\Exception $e) {
-            \Log::error('Failed to queue recovery email: ' . $e->getMessage());
-            toastr()->error('Failed to send recovery email. Please try again later.');
-            return back();
-        }
+    // 1 OTP per minute per email+IP
+    $key = 'forget-password:' . Str::lower($validated['email']) . '|' . $request->ip();
+    if (RateLimiter::tooManyAttempts($key, 1)) {
+        $seconds = RateLimiter::availableIn($key);
+        return back()->withErrors(['email' => "Too many attempts. Please try again in {$seconds} seconds."]);
     }
-    
-    public function forget33(Request $request)
-    {
-        // ✅ Rate limiting on OTP verification
-        $otpKey = 'otp-verify:' . $request->ip();
-        
-        if (RateLimiter::tooManyAttempts($otpKey, 5)) {
-            $seconds = RateLimiter::availableIn($otpKey);
-            session()->forget(['number', 'email11', 'start_time', 'otp_attempts']);
-            return redirect()->route('forget11')
-                ->withErrors(['otp' => "Too many failed attempts. Please request a new OTP."]);
-        }
+    RateLimiter::hit($key, 60);
 
-        $startTime = session('start_time');
-        
-        if (!$startTime) {
-            return redirect()->route('forget11')
-                ->withErrors(['error' => 'Session expired. Please start again.']);
-        }
+    $otp = random_int(100000, 999999);
 
-        $endTime = Carbon::now();
-        $diffInSeconds = $startTime->diffInSeconds($endTime);
-      
-        // ✅ Check if OTP is expired (5 minutes = 300 seconds)
-        if ($diffInSeconds >= 300) {
-            session()->forget(['number', 'email11', 'start_time', 'otp_attempts']);
-            toastr()->warning('OTP expired. Please request a new one.');
-            return redirect()->route('forget11');
-        }
+    session([
+        'email11'      => $validated['email'],
+        'number'       => $otp,
+        'otp_attempts' => 0,
+        'otp_verified' => false,
+        'start_time'   => Carbon::now(),
+    ]);
 
-        // ✅ Validate OTP input
-        $request->validate([
-            'otp' => 'required|numeric|digits:6'
-        ]);
-
-        // ✅ Check OTP match
-        if ($request->otp == session('number')) {
-            RateLimiter::clear($otpKey);
-            return view('auth.forget33');
-        }
-
-        // ✅ Increment failed attempts
-        RateLimiter::hit($otpKey, 300); // 5 minutes lockout
-        $attempts = session('otp_attempts', 0) + 1;
-        session(['otp_attempts' => $attempts]);
-
-        if ($attempts >= 5) {
-            session()->forget(['number', 'email11', 'start_time', 'otp_attempts']);
-            return redirect()->route('forget11')
-                ->withErrors(['otp' => 'Too many failed attempts. Please request a new OTP.']);
-        }
-
-        return back()->withErrors(['otp' => 'Invalid OTP. Attempts remaining: ' . (5 - $attempts)]);
+    try {
+        Mail::to($validated['email'])->queue(new recovery11($otp));
+        toastr()->success('Recovery email has been sent');
+        return redirect()->route('forget22.show');
+    } catch (\Exception $e) {
+        \Log::error('Failed to queue recovery email: ' . $e->getMessage());
+        $this->clearResetSession();
+        toastr()->error('Failed to send recovery email. Please try again later.');
+        return back();
     }
+}
+
+public function showOtpForm()
+{
+    if (!session()->has('email11') || $this->otpExpired()) {
+        $this->clearResetSession();
+        return redirect()->route('forget11')
+            ->withErrors(['error' => 'Session expired. Please start again.']);
+    }
+
+    $endTime = Carbon::parse(session('start_time'))->addMinutes(5);
+
+    return view('auth.forget22', ['endTime' => $endTime->toISOString()]);
+}
+
+public function forget33(Request $request)
+{
+    if (!session()->has('email11') || $this->otpExpired()) {
+        $this->clearResetSession();
+        return redirect()->route('forget11')
+            ->withErrors(['error' => 'OTP expired. Please start again.']);
+    }
+
+    $otpKey = 'otp-verify:' . Str::lower(session('email11')) . '|' . $request->ip();
+
+    if (RateLimiter::tooManyAttempts($otpKey, 5)) {
+        $this->clearResetSession();
+        return redirect()->route('forget11')
+            ->withErrors(['otp' => 'Too many failed attempts. Please request a new OTP.']);
+    }
+
+    $request->validate(['otp' => 'required|numeric|digits:6']);
+
+    if (hash_equals((string) session('number'), (string) $request->otp)) {
+        RateLimiter::clear($otpKey);
+        session([
+            'otp_verified' => true,
+            'verified_at'  => Carbon::now(),
+        ]);
+        session()->forget('number');
+
+        return redirect()->route('forget33.show');
+    }
+
+    RateLimiter::hit($otpKey, 300);
+    $attempts = session('otp_attempts', 0) + 1;
+    session(['otp_attempts' => $attempts]);
+
+    if ($attempts >= 5) {
+        $this->clearResetSession();
+        return redirect()->route('forget11')
+            ->withErrors(['otp' => 'Too many failed attempts. Please request a new OTP.']);
+    }
+
+    return back()->withErrors(['otp' => 'Invalid OTP. Attempts remaining: ' . (5 - $attempts)]);
+}
+
+public function showNewPasswordForm()
+{
+    if (!$this->resetAllowed()) {
+        $this->clearResetSession();
+        return redirect()->route('forget11')
+            ->withErrors(['error' => 'Please verify the OTP first.']);
+    }
+
+    return view('auth.forget33');
+}
+
+public function forget44(Request $request)
+{
+    // OTP must have been verified in this session
+    if (!$this->resetAllowed()) {
+        $this->clearResetSession();
+        return redirect()->route('forget11')
+            ->withErrors(['error' => 'Session expired. Please start password reset again.']);
+    }
+
+    $validated = $request->validate([
+        'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+    ]);
+
+    $email = session('email11');
+
+    DB::table('users')
+        ->where('email', $email)
+        ->where('role','userone')
+        ->update(['password' => Hash::make($validated['password'])]);
+
+    try {
+        DB::table('loginfo')->insert([
+            'name'       => 'Password Reset',
+            'mobile'     => null,
+            'mail'       => $email,
+            'Device'     => 'Web',
+            'Browser'    => 'Unknown',
+            'ip'         => $request->ip(),
+            'Location'   => 'Password Reset',
+            'created_at' => now(),
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Failed to log password reset: ' . $e->getMessage());
+    }
+
+    $this->clearResetSession();
+
+    toastr()->success('Password changed successfully. Please login with your new password.');
+    return redirect()->route('login');
+}
+
+// ---- helpers (add anywhere in the class) ----
+
+private function otpExpired(): bool
+{
+    $start = session('start_time');
+    return !$start || Carbon::parse($start)->addMinutes(5)->isPast();
+}
+
+private function resetAllowed(): bool
+{
+    return session()->has('email11')
+        && session('otp_verified') === true
+        && session('verified_at')
+        && Carbon::parse(session('verified_at'))->addMinutes(10)->isFuture();
+}
+
+private function clearResetSession(): void
+{
+    session()->forget(['email11', 'number', 'start_time', 'otp_attempts', 'otp_verified', 'verified_at']);
+}
 
     public function registration()
     {
         return view('auth.registration');
     }
 
-    public function forget44(Request $request)
-    {
-        // ✅ Verify session data exists
-        if (!session()->has('email11')) {
-            return redirect()->route('forget11')
-                ->withErrors(['error' => 'Session expired. Please start password reset again.']);
-        }
-
-        $validated = $request->validate([
-            'password' => 'required|string|min:12|max:128|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-        ]);
-    
-        $pwd11 = Hash::make($validated['password']);
-        $email = session('email11');
-        
-        // ✅ Update password
-        DB::table('users')
-            ->where('email', '=', $email)
-            ->update(['password' => $pwd11]);
-
-        // ✅ FIXED: Log password change WITHOUT Auth::user() (user is not logged in!)
-        try {
-            DB::table('loginfo')->insert([
-                'name' => 'Password Reset',
-                'mobile' => null,
-                'mail' => $email,
-                'Device' => 'Web',
-                'Browser' => 'Unknown',
-                'ip' => $request->ip(),
-                'Location' => 'Password Reset',
-                'created_at' => now(),
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Failed to log password reset: ' . $e->getMessage());
-        }
-
-        // ✅ Clear all password reset sessions
-        session()->forget(['email11', 'number', 'start_time', 'otp_attempts']);
-        
-        toastr()->success('Password changed successfully. Please login with your new password.');
-        return redirect()->route('login');
-    }
+   
 /*
 
      public function customLogin(Request $request)

@@ -1,262 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="{{asset('gov.png')}}">    
-    <title> Welcome to Store Management </title>
-    <link rel="stylesheet" href="{{asset('smart.css')}}">  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Welcome to Store Management</title>
+
+    <link rel="shortcut icon" href="{{ asset('gov.png') }}">
+    <link rel="stylesheet" href="{{ asset('smart.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Include Toastr CSS and JS -->
-      
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <style>
+        :root {
+            --navy: #1a237e;
+            --navy-deep: #121a5c;
+            --ink: #1c2333;
+            --muted: #667085;
+            --paper: #f3f5f9;
+            --surface: #ffffff;
+            --line: #dde2ec;
+            --sidebar-w: 256px;
+            --topbar-h: 58px;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
             display: flex;
             min-height: 100vh;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Source Sans 3', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', sans-serif;
         }
 
+        /* ---------- Sidebar ---------- */
         .sidebar {
-            width: 250px;
+            width: var(--sidebar-w);
             flex-shrink: 0;
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            background-color: #1a237e !important;
-            color: white;
             display: flex;
             flex-direction: column;
+            background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%) !important;
+            color: #fff;
             z-index: 1030;
+            transition: left .25s ease;
         }
 
-        .content-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin-left: 250px; /* Match sidebar width */
+        .app-title {
+            padding: 22px 20px 18px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
         }
 
-        .main-content {
-             flex: 1;
-    padding-bottom: 2rem;
-          /*   flex: 1;
-            min-height: calc(100vh - 56px - 60px); Subtract navbar and footer height */
+        .app-title img {
+            max-height: 58px;
+            margin-bottom: 10px;
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                left: -250px;
-            }
-
-            .sidebar.active {
-                left: 0;
-            }
-
-            .content-wrapper {
-                margin-left: 0;
-                width: 100%;
-            }
-        }
-
-        .sidebar-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            padding: 12px 15px;
-            display: block;
-            transition: all 0.3s;
-            border-left: 3px solid transparent;
-        }
-
-        .sidebar-link:hover,
-        .sidebar-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-left: 3px solid #fff;
-        }
-
-        .sidebar-link i {
-            margin-right: 10px;
+        .app-title h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: .2px;
         }
 
         .nav-section {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 16px 12px;
+            gap: 4px;
         }
 
-        .app-title {
-            color: white;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, .78);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background .2s, color .2s;
         }
 
-        .navbar {
-            height: 56px; /* Fixed height for calculations */
+        .sidebar-link i { font-size: 1.05rem; width: 20px; text-align: center; }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
         }
 
-        
-
-        .breadcrumb-item + .breadcrumb-item::before {
-            content: ">";
+        .sidebar-link.active {
+            background: #fff;
+            color: var(--navy);
+            font-weight: 600;
         }
 
-        .table-border {
-            border: 1px solid #dee2e6;
-        }
+        .sidebar-link.logout:hover { background: rgba(245, 101, 101, .18); color: #fff; }
 
-        .user-profile .text-muted {
-            color: rgba(255, 255, 255, 0.6) !important;
-        }
-
-        .user-actions {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 10px;
-            padding-top: 10px;
-        }
-
-        .user-actions .sidebar-link {
-            padding: 8px 15px;
-        }
-
-        /* Overlay for sidebar when active on mobile */
         .sidebar-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background: rgba(15, 20, 50, .55);
             z-index: 1025;
         }
 
-        @media (max-width: 768px) {
-            .sidebar-overlay.active {
-                display: block;
-            }
+        /* ---------- Content ---------- */
+        .content-wrapper {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-w);
         }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+            height: var(--topbar-h);
+            background: var(--surface);
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 12px;
+        }
+
+        .breadcrumb { margin: 0; font-size: .95rem; }
+        .breadcrumb-item + .breadcrumb-item::before { content: ">"; }
+        .breadcrumb-item a { color: var(--navy); }
+        .breadcrumb-item.active { color: var(--ink); font-weight: 600; }
+
+        .main-content { flex: 1; padding: 0 0 2rem; }
+
+        @media (max-width: 768px) {
+            .sidebar { left: calc(var(--sidebar-w) * -1); }
+            .sidebar.active { left: 0; }
+            .sidebar-overlay.active { display: block; }
+            .content-wrapper { margin-left: 0; width: 100%; }
+            .topbar { padding: 0 12px; }
+        }
+
+        .table-border { border: 1px solid #dee2e6; }
     </style>
+
+    @stack('styles')
 </head>
 <body>
 
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <!-- Logo/Brand -->
-        <div class="p-3 app-title text-center">
-                    <img src="gov.png" alt="Government Logo" class="img-fluid mb-2" style="max-height: 60px;">
-            <h4 class="m-0">Store Management </h4>
+    <aside class="sidebar" id="sidebar">
+        <div class="app-title">
+            <img src="{{ asset('gov.png') }}" alt="Government Logo" class="img-fluid">
+            <h4>Store Management</h4>
         </div>
 
-        <!-- Navigation Menu -->
-        <div class="nav-section py-3">
-            <a href="{{route('userdash')}}" class="sidebar-link">
+        <nav class="nav-section">
+            <a href="{{ route('userdash') }}" class="sidebar-link {{ request()->routeIs('userdash') ? 'active' : '' }}">
                 <i class="bi bi-house-door"></i> Dashboard
             </a>
-            <a href="{{route('userapprovedlist')}}" class="sidebar-link">
-                <i class="bi bi-people"></i> Approved List   
+            <a href="{{ route('userapprovedlist') }}" class="sidebar-link {{ request()->routeIs('userapprovedlist') ? 'active' : '' }}">
+                <i class="bi bi-check2-square"></i> Approved List
             </a>
-            
-            <a href="{{route('userprofile')}}" class="sidebar-link">
-                <i class="bi bi-gear"></i> Profile  
+            <a href="{{ route('userprofile') }}" class="sidebar-link {{ request()->routeIs('userprofile') ? 'active' : '' }}">
+                <i class="bi bi-person-circle"></i> Profile
             </a>
-             
-             
-             
-            <a href="{{route('signout')}}" class="sidebar-link">
-                <i class="bi bi-box-arrow-right"></i> Logout 
-            </a>
-        </div>
-    </div>
 
-    <!-- Sidebar Overlay for mobile -->
+            <a href="{{ route('signout') }}" class="sidebar-link logout">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </nav>
+    </aside>
+
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Main Content Wrapper -->
+    <!-- Main -->
     <div class="content-wrapper">
-        <!-- Top Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-            <div class="container-fluid">
-                <!-- Sidebar Toggle Button -->
-                <button class="btn btn-link d-md-none" id="sidebarToggle">
-                    <i class="bi bi-list fs-5"></i>
-                </button>
+        <header class="topbar">
+            <button class="btn btn-link p-0 d-md-none" id="sidebarToggle" aria-label="Open menu">
+                <i class="bi bi-list fs-3"></i>
+            </button>
 
-                <!-- Breadcrumbs -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item">
-                            <a href="#">
-                                <i class="bi bi-house-door"></i>
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active">{{$bread11}}</li>
-                    </ol>
-                </nav>
-            </div>
-        </nav>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('userdash') }}"><i class="bi bi-house-door"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active">{{ $bread11 ?? '' }}</li>
+                </ol>
+            </nav>
+        </header>
 
-        <!-- Page Content -->
-        <div class="main-content bg-light mb-4 pb-2">
-            <div class="container-fluid p-4">
+        <main class="main-content">
+            <div class="container-fluid p-3 p-md-4">
                 @yield('content')
             </div>
-        </div>
-
-        <!-- Footer -->
-        
+        </main>
     </div>
 
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Sidebar Toggle
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const toggle  = document.getElementById('sidebarToggle');
 
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-        });
-    }
-
-    // Close sidebar when clicking on overlay
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', function() {
+        const closeSidebar = () => {
             sidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-        });
-    }
+            overlay.classList.remove('active');
+        };
 
-    // Adjust sidebar on window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            sidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
         }
+        overlay.addEventListener('click', closeSidebar);
+        window.addEventListener('resize', () => { if (window.innerWidth > 768) closeSidebar(); });
     });
-});
-</script>
+    </script>
 
+    @stack('scripts')
 </body>
 </html>

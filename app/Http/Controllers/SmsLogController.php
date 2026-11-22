@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SmsLog;
 use Illuminate\Http\Request;
 
@@ -51,4 +51,39 @@ class SmsLogController extends Controller
 
         return view('sms.logs', compact('logs', 'totals'));
     }
+
+   public function downloadPdf(Request $request)
+{
+    $request->validate([
+        'date_from' => 'required|date',
+        'date_to'   => 'required|date|after_or_equal:date_from',
+        'status'    => 'nullable|in:sent,failed',
+    ]);
+
+    $query = SmsLog::query()
+        ->whereDate('created_at', '>=', $request->date_from)
+        ->whereDate('created_at', '<=', $request->date_to);
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $logs = $query->oldest()->get();
+
+    $totals = (object) [
+        'total'  => $logs->count(),
+        'sent'   => $logs->where('status', 'sent')->count(),
+        'failed' => $logs->where('status', 'failed')->count(),
+    ];
+
+    $pdf = Pdf::loadView('sms.logs_pdf', [
+        'logs'     => $logs,
+        'totals'   => $totals,
+        'dateFrom' => $request->date_from,
+        'dateTo'   => $request->date_to,
+        'status'   => $request->status,
+    ])->setPaper('a4', 'landscape');
+
+    return $pdf->download("sms-logs-{$request->date_from}_to_{$request->date_to}.pdf");
+}
 }
