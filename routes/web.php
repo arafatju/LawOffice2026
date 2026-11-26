@@ -13,9 +13,9 @@ use App\Http\Controllers\Storeadminmonitor;
   use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\LogInfoController;
  use App\Http\Controllers\LotInfoController;
-
+use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\SmsLogController;
-
+use App\Http\Controllers\MeetingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,9 +28,12 @@ use App\Http\Controllers\SmsLogController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('auth.welcome');
 });
- 
+ Route::get('/home', function () {
+   return view('auth.login'); 
+})->name('home');
+
 Auth::routes([
     'register' => false,
     'reset' => false,
@@ -78,11 +81,23 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
  
 });
 
-
  
 
 
-
+ 
+    Route::get('/institutes', [InstituteController::class, 'index'])->name('institutes.index');
+    Route::post('/institutes', [InstituteController::class, 'store'])->name('institutes.store');
+    Route::get('/institutes/list', [InstituteController::class, 'list'])->name('institutes.list');
+    Route::delete('/institutes/{institute}', [InstituteController::class, 'destroy'])->name('institutes.destroy');
+   Route::get('/institutes/{ministry}/directorates', [InstituteController::class, 'directorates'])->name('institutes.directorates');
+ Route::get('/institutes/meetings', [InstituteController::class, 'meetings'])->name('institutes.meetings');
+  Route::get('/institutes/export', [InstituteController::class, 'export'])->name('institutes.export');
+    Route::get('/institutes/report', [InstituteController::class, 'report'])->name('institutes.report');
+ 
+      Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.index');
+    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
+    Route::get('/meetings/{meeting}/file', [MeetingController::class, 'file'])->name('meetings.file');
+   Route::get('/meetings/report', [MeetingController::class, 'report'])->name('meetings.report');   // NEW: PDF / pr
 
 
 Route::middleware(['auth', 'user-access:useradmin'])->group(function () {

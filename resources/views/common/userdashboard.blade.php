@@ -178,7 +178,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="app-title">
             <img src="{{ asset('gov.png') }}" alt="Government Logo" class="img-fluid">
-            <h4>Store Management</h4>
+            <h4>Digital Office  Management System </h4>
         </div>
 
         <nav class="nav-section">
