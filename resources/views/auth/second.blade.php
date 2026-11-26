@@ -218,7 +218,8 @@
 
   <div class="grid">
     <!-- LEFT: Digital Store Management -->
-    <a class="portal-card store" id="cardStore" href="#" data-route="store">
+    <!-- Digital Store Management -->
+<a class="portal-card store" id="cardStore" href="{{ url('/userdash') }}" data-route="store">
       <div class="card-banner"></div>
       <div class="card-body">
         <div class="icon-wrap">
@@ -237,7 +238,7 @@
     </a>
 
     <!-- RIGHT: Digital Meeting Management -->
-    <a class="portal-card meeting" id="cardMeeting" href="#" data-route="meeting">
+    <a class="portal-card meeting" id="cardMeeting" href="{{ url('/institutes') }}"data-route="meeting">
       <div class="card-banner"></div>
       <div class="card-body">
         <div class="icon-wrap">
@@ -264,22 +265,6 @@
   © ২০২৬ গণপ্রজাতন্ত্রী বাংলাদেশ সরকার | সর্বস্বত্ব সংরক্ষিত | এই সাইটটি টেকনিক্যাল সহায়তায় আইসিটি সেল, আইন ও বিচার বিভাগ দ্বারা পরিচালিত
 </div>
 
-<script>
-(function () {
-  // ============================================================
-  //  LARAVEL ROUTES — set your route URLs here.
-  //  In a Blade file you can embed routes directly:
-  //    store:   "{{ route('store.dashboard') }}",
-  //    meeting: "{{ route('meeting.dashboard') }}",
-  // ============================================================
-  const ROUTES = {
-    store:   '/store',
-    meeting: '/meeting'
-  };
 
-  document.getElementById('cardStore').href   = ROUTES.store;
-  document.getElementById('cardMeeting').href = ROUTES.meeting;
-})();
-</script>
 </body>
 </html>

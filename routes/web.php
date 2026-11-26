@@ -85,14 +85,7 @@ Route::middleware(['auth', 'user-access:userdr'])->group(function () {
 
 
  
-    Route::get('/institutes', [InstituteController::class, 'index'])->name('institutes.index');
-    Route::post('/institutes', [InstituteController::class, 'store'])->name('institutes.store');
-    Route::get('/institutes/list', [InstituteController::class, 'list'])->name('institutes.list');
-    Route::delete('/institutes/{institute}', [InstituteController::class, 'destroy'])->name('institutes.destroy');
-   Route::get('/institutes/{ministry}/directorates', [InstituteController::class, 'directorates'])->name('institutes.directorates');
- Route::get('/institutes/meetings', [InstituteController::class, 'meetings'])->name('institutes.meetings');
-  Route::get('/institutes/export', [InstituteController::class, 'export'])->name('institutes.export');
-    Route::get('/institutes/report', [InstituteController::class, 'report'])->name('institutes.report');
+   
  
       Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.index');
     Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
@@ -215,6 +208,8 @@ Route::get('/productapproved14', [Storesectionadmin::class, 'productapproved14']
 });
 
 Route::middleware(['auth', 'user-access:userone'])->group(function () {
+   Route::get('/userdash110', [Storeuser::class, 'userdash110'])->name('userdash110');
+ 
 Route::get('/userdash', [Storeuser::class, 'userdash'])->name('userdash');
     Route::get('/userapprovedlist', [Storeuser::class, 'userapprovedlist'])->name('userapprovedlist');
     Route::get('/userpending', [Storeuser::class, 'userpending'])->name('userpending');
@@ -226,5 +221,14 @@ Route::get('/products-by-category/{category}', [Storeuser::class, 'getProductsBy
 Route::get('/product-quantity/{prcode}', [Storeuser::class, 'getProductQuantity']);
 Route::post('/save-draft', [Storeuser::class, 'saveDraft']);
 Route::post('/submit-product', [Storeuser::class, 'submitProduct']);
+
+ Route::get('/institutes', [InstituteController::class, 'index'])->name('institutes.index');
+    Route::post('/institutes', [InstituteController::class, 'store'])->name('institutes.store');
+    Route::get('/institutes/list', [InstituteController::class, 'list'])->name('institutes.list');
+    Route::delete('/institutes/{institute}', [InstituteController::class, 'destroy'])->name('institutes.destroy');
+   Route::get('/institutes/{ministry}/directorates', [InstituteController::class, 'directorates'])->name('institutes.directorates');
+ Route::get('/institutes/meetings', [InstituteController::class, 'meetings'])->name('institutes.meetings');
+  Route::get('/institutes/export', [InstituteController::class, 'export'])->name('institutes.export');
+    Route::get('/institutes/report', [InstituteController::class, 'report'])->name('institutes.report');
 
     });

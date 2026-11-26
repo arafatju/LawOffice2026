@@ -120,6 +120,14 @@ public function updateRole(Request $request, $id)
         'message' => 'User role updated successfully.'
     ]);
 }
+
+
+public function userdash110(){
+    return view('auth.second');
+}
+
+
+
 public function userdash(){
     $bread11="Dashboard";
     $userid = Auth::user()->userid;
@@ -159,6 +167,8 @@ $totalQuantity = Transaction::where('userid', $userid)
         // Pass to the view that caused the error
         return view('Storeuser.userdash', compact('bread11','categories','approvedCount','pendingCount','totalQuantity', 'highestProduct'));
  }
+
+
 public function updatePassword(Request $request)
     {
         $request->validate([
